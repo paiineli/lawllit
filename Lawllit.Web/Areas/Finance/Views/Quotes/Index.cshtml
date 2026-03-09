@@ -1,0 +1,61 @@
+@model List<QuoteViewModel>
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture;
+}
+
+<main class="container-lg py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">@Localizer["Quote_Title"]</h5>
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["Btn_Refresh"]
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center text-secondary py-5">
+            <i class="bi bi-wifi-off display-6 d-block mb-3 opacity-25"></i>
+            <p class="mb-0">@Localizer["Quote_LoadError"]</p>
+            <p class="small opacity-50">@Localizer["Quote_LoadErrorHint"]</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var quote in Model)
+            {
+                var decimalFormat = "F" + quote.DecimalPlaces;
+                var changeClass = quote.PctChange >= 0 ? "text-green" : "text-red";
+                var changeIcon = quote.PctChange >= 0 ? "bi-arrow-up" : "bi-arrow-down";
+                var changeSign = quote.PctChange >= 0 ? "+" : "";
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="fs-4">@quote.FlagEmoji</span>
+                                    <span class="fw-semibold">@quote.Label</span>
+                                </div>
+                                <span class="small fw-semibold @changeClass tabular-nums">
+                                    <i class="bi @changeIcon"></i>@(changeSign + quote.PctChange.ToString("F2", culture))%
+                                </span>
+                            </div>
+                            <p class="fs-4 fw-bold mb-1 tabular-nums">
+                                @quote.BuyRate.ToString(decimalFormat, culture)
+                            </p>
+                            <div class="d-flex gap-3 small text-secondary tabular-nums">
+                                <span><i class="bi bi-arrow-up text-green"></i> @quote.DailyHigh.ToString(decimalFormat, culture)</span>
+                                <span><i class="bi bi-arrow-down text-red"></i> @quote.DailyLow.ToString(decimalFormat, culture)</span>
+                            </div>
+                            <p class="small text-secondary opacity-50 mt-2 mb-0">
+                                @string.Format(Localizer["Quote_UpdatedAt"].Value, quote.LastUpdated.ToString("HH:mm", culture))
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</main>

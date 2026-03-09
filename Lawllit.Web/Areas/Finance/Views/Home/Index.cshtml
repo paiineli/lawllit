@@ -1,0 +1,49 @@
+@{
+    ViewData["Description"] = "Controle suas receitas e despesas, acompanhe cotações de câmbio em tempo real e mantenha suas finanças organizadas com o lawllit.finance.";
+}
+
+<main class="flex-grow-1 d-flex flex-column">
+    <section class="landing-hero">
+        <div class="container-lg w-100">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-7 col-md-9">
+                    <h1 class="fw-bold landing-headline mb-3">
+                        <span id="typewriter-line1" data-text="@Localizer["Home_Line1"]"></span><br>
+                        <span class="text-green" id="typewriter-line2" data-text="@Localizer["Home_Line2"]"></span>
+                    </h1>
+                    <p class="text-secondary mb-4 landing-subtitle mx-auto">
+                        @Localizer["Home_Subtitle"]
+                    </p>
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                        <a asp-area="Finance" asp-controller="Auth" asp-action="Register" class="btn btn-primary px-4">
+                            @Localizer["Home_CreateAccount"]
+                        </a>
+                        <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="btn btn-outline-secondary px-4">
+                            @Localizer["Login_Title"]
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "WebApplication",
+            "name": "lawllit.finance",
+            "description": "Controle financeiro pessoal com acompanhamento de receitas, despesas e cotações de câmbio em tempo real.",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web",
+            "offers": {
+                "@@type": "Offer",
+                "price": "0",
+                "priceCurrency": "BRL"
+            },
+            "inLanguage": "pt-BR"
+        }
+    </script>
+    <script src="~/finance/js/home.js" asp-append-version="true"></script>
+}

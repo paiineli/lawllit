@@ -1,0 +1,251 @@
+@model DashboardViewModel
+@{
+    var culture = System.Globalization.CultureInfo.CurrentCulture;
+    var monthNames = new[]
+    {
+        Localizer["Month_1"].Value,  Localizer["Month_2"].Value,  Localizer["Month_3"].Value,
+        Localizer["Month_4"].Value,  Localizer["Month_5"].Value,  Localizer["Month_6"].Value,
+        Localizer["Month_7"].Value,  Localizer["Month_8"].Value,  Localizer["Month_9"].Value,
+        Localizer["Month_10"].Value, Localizer["Month_11"].Value, Localizer["Month_12"].Value,
+    };
+}
+
+<main class="container-lg py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">@Localizer["Nav_Dashboard"]</h5>
+        <div class="d-flex align-items-center gap-2">
+            <a asp-action="Index" asp-route-month="@Model.PreviousMonth" asp-route-year="@Model.PreviousYear"
+               class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <span class="small fw-semibold month-nav-label">
+                @monthNames[Model.Month - 1] @Model.Year
+            </span>
+            @if (Model.CanGoToNextMonth)
+            {
+                <a asp-action="Index" asp-route-month="@Model.NextMonth" asp-route-year="@Model.NextYear"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            }
+            else
+            {
+                <button class="btn btn-sm btn-outline-secondary" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-graph-up-arrow me-1"></i>@Localizer["Dash_Income"]
+                    </p>
+                    <p class="card-value text-green">
+                        @Model.TotalIncome.ToString("C", culture)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-graph-down-arrow me-1"></i>@Localizer["Dash_Expenses"]
+                    </p>
+                    <p class="card-value text-red mb-0">
+                        @Model.TotalExpenses.ToString("C", culture)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-wallet2 me-1"></i>@Localizer["Dash_Balance"]
+                    </p>
+                    <p class="card-value @(Model.Balance >= 0 ? "text-green" : "text-red") mb-0">
+                        @Model.Balance.ToString("C", culture)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+
+        <div class="col-12 col-lg-5">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-pie-chart me-1"></i>@Localizer["Dash_ExpensesByCategory"]
+                    </h6>
+                    @if (Model.ExpensesByCategory.Any())
+                    {
+                        <canvas id="pieChart" class="chart-pie"></canvas>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                            <i class="bi bi-pie-chart display-6 mb-2 opacity-25"></i>
+                            @Localizer["Dash_NoExpenses"]
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-7">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-bar-chart me-1"></i>@Localizer["Dash_IncomeVsExpenses"]
+                    </h6>
+                    <div class="chart-bar-wrap">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-5 d-flex flex-column gap-3">
+
+            <div class="card">
+                <div class="card-body d-flex flex-column">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-graph-up-arrow me-1"></i>@Localizer["Dash_Projection"]
+                    </p>
+                    @if (Model.MonthlyProjection.HasValue)
+                    {
+                        <p class="fs-5 fw-bold text-red mb-1">@Model.MonthlyProjection.Value.ToString("C", culture)</p>
+                        <p class="small text-secondary mb-0">
+                            @string.Format(Localizer["Dash_PaceWithDays"].Value, Model.DaysDone)
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                            <i class="bi bi-graph-up-arrow display-6 mb-2 opacity-25"></i>
+                            @Localizer["Dash_NoProjection"]
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body d-flex flex-column">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-calendar-event me-1"></i>@Localizer["Dash_DueSoon"]
+                    </p>
+                    @if (Model.IsCurrentMonth && Model.UpcomingExpenses > 0)
+                    {
+                        <p class="fs-5 fw-bold text-red mb-1">@Model.UpcomingExpenses.ToString("C", culture)</p>
+                        <p class="small text-secondary mb-0">@Localizer["Dash_DueSoonSub"]</p>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                            <i class="bi bi-calendar-check display-6 mb-2 opacity-25"></i>
+                            @Localizer["Dash_NoBills"]
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body d-flex flex-column">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-activity me-1"></i>@Localizer["Dash_DailyAverage"]
+                    </p>
+                    @if (Model.DailyAverage > 0)
+                    {
+                        <p class="fs-5 fw-bold text-red mb-1">@Model.DailyAverage.ToString("C", culture)@Localizer["Dash_PerDay"]</p>
+                        <p class="small text-secondary mb-0">
+                            @if (Model.IsCurrentMonth)
+                            {
+                                @string.Format(Localizer["Dash_BasedOnDays"].Value, Model.DaysDone, Model.DaysInMonth)
+                            }
+                            else
+                            {
+                                @string.Format(Localizer["Dash_AverageOverDays"].Value, Model.DaysInMonth)
+                            }
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                            <i class="bi bi-activity display-6 mb-2 opacity-25"></i>
+                            @Localizer["Dash_NoExpensesMonth"]
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12 col-lg-7">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-list-ol me-1"></i>@Localizer["Dash_ExpenseRanking"]
+                    </h6>
+                    <div class="ranking-inner flex-grow-1 d-flex flex-column">
+                        @if (Model.ExpensesByCategory.Any())
+                        {
+                            @foreach (var (category, index) in Model.ExpensesByCategory.Select((category, index) => (category, index)))
+                            {
+                                decimal barPercentage = category.Total > 0 && Model.ExpensesByCategory.First().Total > 0
+                                ? category.Total / Model.ExpensesByCategory.First().Total * 100 : 0;
+                                decimal sharePercentage = Model.RankingTotal > 0 ? category.Total / Model.RankingTotal * 100 : 0;
+                                string shareText = sharePercentage > 0 && sharePercentage < 0.1m
+                                ? "< 0,1%" : sharePercentage.ToString("F1", culture) + "%";
+                                <div class="ranking-item">
+                                    <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                        <span class="small">@category.CategoryName</span>
+                                        <span class="small tabular-nums">
+                                            <span class="text-red fw-semibold">@category.Total.ToString("C", culture)</span>
+                                            <span class="text-secondary"> · @shareText</span>
+                                        </span>
+                                    </div>
+                                    <div class="ranking-bar mb-3">
+                                        <div class="ranking-fill" data-fill-width="@barPercentage.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)"></div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                                <i class="bi bi-bar-chart display-6 mb-2 opacity-25"></i>
+                                @Localizer["Dash_NoExpensesMonth"]
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+@section Scripts {
+    <script type="application/json" id="dashboardData">
+        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new {
+            categories = Model.ExpensesByCategory.Select(c => new { label = c.CategoryName, value = (double)c.Total }),
+                                        trend = Model.MonthlyTrend.Select(t => new { month = t.Month, year = t.Year, income = (double)t.Income, expenses = (double)t.Expenses }),
+                                        incomeLabel = Localizer["Lbl_Income"].Value,
+                                        expensesLabel = Localizer["Lbl_Expense"].Value,
+                                        othersLabel = Localizer["Dash_Others"].Value,
+                                        months = monthNames
+        }))
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="~/finance/js/dashboard.js" asp-append-version="true"></script>
+}

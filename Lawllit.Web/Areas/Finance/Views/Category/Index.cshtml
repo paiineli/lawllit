@@ -1,0 +1,174 @@
+@model CategoryListViewModel
+
+<main class="container-lg py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">@Localizer["Cat_Title"]</h5>
+        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            <i class="bi bi-plus-lg"></i> @Localizer["Cat_New"]
+        </button>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <div class="filter-group">
+            <a href="@Url.Action("Index", new { search = Model.FilterSearch })"
+               class="filter-btn @(string.IsNullOrEmpty(Model.FilterType) ? "active" : "")">@Localizer["Filter_All"]</a>
+            <a href="@Url.Action("Index", new { type = "Expense", search = Model.FilterSearch })"
+               class="filter-btn @(Model.FilterType == "Expense" ? "active" : "")">@Localizer["Dash_Expenses"]</a>
+            <a href="@Url.Action("Index", new { type = "Income", search = Model.FilterSearch })"
+               class="filter-btn @(Model.FilterType == "Income" ? "active" : "")">@Localizer["Dash_Income"]</a>
+        </div>
+        <input type="search" class="form-control form-control-sm search-input ms-auto"
+               placeholder="@Localizer["Search_Placeholder"]" value="@Model.FilterSearch" data-live-search>
+        @if (!string.IsNullOrEmpty(Model.FilterType) || !string.IsNullOrEmpty(Model.FilterSearch))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-x-lg"></i> @Localizer["Btn_Clear"]
+            </a>
+        }
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>@Localizer["Lbl_Name"]</th>
+                        <th class="cat-type-col">@Localizer["Lbl_Type"]</th>
+                        <th class="col-actions"></th>
+                    </tr>
+                </thead>
+                <tbody data-search-table>
+                    @if (!Model.Categories.Any())
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center py-5 text-secondary">@Localizer["Cat_NoCategories"]</td>
+                        </tr>
+                    }
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr data-search-row>
+                            <td class="fw-medium">@category.Name</td>
+                            <td>
+                                <span class="@(category.Type == TransactionType.Income ? "badge-income" : "badge-expense")">
+                                    @(category.Type == TransactionType.Income ? Localizer["Lbl_Income"].Value : Localizer["Lbl_Expense"].Value)
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1 justify-content-end">
+                                    <button class="btn btn-sm btn-outline-secondary py-0 px-1"
+                                            data-bs-toggle="modal" data-bs-target="#editModal-@category.Id">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger py-0 px-1"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal-@category.Id">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr data-search-empty hidden>
+                        <td colspan="3" class="text-center py-5 text-secondary">@Localizer["Cat_NoCategories"]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Cat_New"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-action="Create">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small">@Localizer["Lbl_Name"] <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="Name" maxlength="100"
+                               placeholder="@Localizer["Cat_NamePlaceholder"]">
+                    </div>
+                    <div class="mb-1">
+                        <label class="form-label small">@Localizer["Lbl_Type"]</label>
+                        <select class="form-select" name="Type">
+                            <option value="Expense">@Localizer["Lbl_Expense"]</option>
+                            <option value="Income">@Localizer["Lbl_Income"]</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">@Localizer["Btn_Cancel"]</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Btn_Create"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@foreach (var category in Model.Categories)
+{
+    <div class="modal fade" id="editModal-@category.Id" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Localizer["Cat_EditTitle"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" asp-action="Edit" asp-route-id="@category.Id">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small">@Localizer["Lbl_Name"] <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="Name" maxlength="100" value="@category.Name">
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label small">@Localizer["Lbl_Type"]</label>
+                            <select class="form-select" name="Type">
+                                <option value="Expense" selected="@(category.Type == TransactionType.Expense ? "selected" : null)">@Localizer["Lbl_Expense"]</option>
+                                <option value="Income" selected="@(category.Type == TransactionType.Income ? "selected" : null)">@Localizer["Lbl_Income"]</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">@Localizer["Btn_Cancel"]</button>
+                        <button type="submit" class="btn btn-primary">@Localizer["Btn_Save"]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal-@category.Id" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">@Localizer["Cat_DeleteTitle"]</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-secondary small">
+                    <p class="mb-1">@Localizer["Cat_DeleteConfirm"]</p>
+                    <div class="mt-2 p-2 rounded bg-body-tertiary">
+                        <p class="mb-1 fw-medium text-body">@category.Name</p>
+                        <p class="mb-0">
+                            <span class="@(category.Type == TransactionType.Income ? "badge-income" : "badge-expense")">
+                                @(category.Type == TransactionType.Income ? Localizer["Lbl_Income"].Value : Localizer["Lbl_Expense"].Value)
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">@Localizer["Btn_Cancel"]</button>
+                    <form method="post" asp-action="Delete" asp-route-id="@category.Id">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">@Localizer["Btn_Delete"]</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

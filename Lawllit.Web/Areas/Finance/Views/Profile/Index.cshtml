@@ -1,0 +1,281 @@
+@model ProfileViewModel
+@{
+}
+
+<main class="container-lg py-4">
+
+    <div class="mb-4">
+        <h5 class="fw-bold mb-0">@Localizer["Prof_Title"]</h5>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="profile-avatar flex-shrink-0">@Model.Name.Substring(0, 1).ToUpper()</div>
+                <div>
+                    <p class="fw-semibold mb-0">@Model.Name</p>
+                    <p class="small text-secondary mb-1">@Model.Email</p>
+                    <p class="small text-secondary opacity-75 mb-0">
+                        @Localizer["Prof_MemberSince"] @Model.MemberSinceDisplay
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-12 col-md-3">
+            <div class="nav flex-column profile-nav">
+                <a asp-action="Index"
+                   class="nav-link @(Model.ActiveTab == "info" ? "active" : "")">
+                    <i class="bi bi-person me-2"></i>@Localizer["Prof_Nav_Info"]
+                </a>
+                <a asp-action="Index" asp-route-tab="security"
+                   class="nav-link @(Model.ActiveTab == "security" ? "active" : "")">
+                    <i class="bi bi-shield-lock me-2"></i>@Localizer["Prof_Nav_Security"]
+                </a>
+                <a asp-action="Index" asp-route-tab="appearance"
+                   class="nav-link @(Model.ActiveTab == "appearance" ? "active" : "")">
+                    <i class="bi bi-sliders me-2"></i>@Localizer["Prof_Nav_Appearance"]
+                </a>
+                <a asp-action="Index" asp-route-tab="account"
+                   class="nav-link @(Model.ActiveTab == "account" ? "active" : "")">
+                    <i class="bi bi-gear me-2"></i>@Localizer["Prof_Nav_Account"]
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9">
+
+            @if (Model.ActiveTab == "info")
+            {
+                <div class="card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Info_Title"]</p>
+                        <form method="post" asp-action="EditName">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label class="form-label small">@Localizer["Lbl_Name"]</label>
+                                <input type="text" name="Name" value="@Model.Name" class="form-control" maxlength="100" required>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Btn_Save"]</button>
+                        </form>
+                    </div>
+                </div>
+            }
+
+            @if (Model.ActiveTab == "security")
+            {
+                <div class="card mb-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Security_EmailSection"]</p>
+                        <form method="post" asp-action="EditEmail">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label class="form-label small">@Localizer["Prof_Security_EmailAddress"]</label>
+                                <input type="email" name="Email" value="@Model.Email" class="form-control" required>
+                            </div>
+                            @if (Model.HasPassword)
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label small">@Localizer["Prof_Security_ConfirmPwd"]</label>
+                                    <div class="input-group">
+                                        <input type="password" name="Password" id="emailPassword" class="form-control" placeholder="@Localizer["Prof_Security_ConfirmPwd"]" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="@Localizer["Aria_ShowPassword"]" data-toggle-pwd="emailPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Btn_Save"]</button>
+                        </form>
+                    </div>
+                </div>
+
+                @if (Model.HasPassword)
+                {
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Security_ChangePwd"]</p>
+                            <form method="post" asp-action="ChangePassword">
+                                @Html.AntiForgeryToken()
+                                <div class="mb-3">
+                                    <label class="form-label small">@Localizer["Prof_Security_CurrentPwd"]</label>
+                                    <div class="input-group">
+                                        <input type="password" name="CurrentPassword" id="currentPassword" class="form-control" placeholder="@Localizer["Prof_Security_CurrentPwd"]" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="@Localizer["Aria_ShowPassword"]" data-toggle-pwd="currentPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small">@Localizer["Prof_Security_NewPwd"]</label>
+                                    <div class="input-group">
+                                        <input type="password" name="NewPassword" id="newPassword" class="form-control" placeholder="@Localizer["Register_PasswordPlaceholder"]" minlength="6" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="@Localizer["Aria_ShowPassword"]" data-toggle-pwd="newPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small">@Localizer["Prof_Security_ConfirmNewPwd"]</label>
+                                    <div class="input-group">
+                                        <input type="password" name="ConfirmNewPassword" id="confirmNewPassword" class="form-control" placeholder="@Localizer["Prof_Security_ConfirmNewPwd"]" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="@Localizer["Aria_ShowPassword"]" data-toggle-pwd="confirmNewPassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">@Localizer["Prof_Security_ChangePwd"]</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (Model.ActiveTab == "appearance")
+            {
+                <div class="card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_Theme"]</p>
+                        <div class="row g-3" id="theme-options">
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Theme == "dark" ? "theme-card--active" : "")"
+                                        data-theme-value="dark">
+                                    <div class="theme-preview theme-preview--dark mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeDark"]</span>
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Theme == "light" ? "theme-card--active" : "")"
+                                        data-theme-value="light">
+                                    <div class="theme-preview theme-preview--light mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeLight"]</span>
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Theme == "high-contrast" ? "theme-card--active" : "")"
+                                        data-theme-value="high-contrast">
+                                    <div class="theme-preview theme-preview--high-contrast mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeHighContrast"]</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="theme-form" method="post" asp-action="SaveTheme" class="d-none">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Theme" id="theme-input" value="@Model.Theme">
+                </form>
+
+                <div class="card mt-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_FontSize"]</p>
+                        <div class="d-flex gap-2 flex-wrap" id="font-size-options">
+                            <button type="button" class="font-size-card @(Model.FontSize == "normal" ? "font-size-card--active" : "")" data-font-size-value="normal">@Localizer["Prof_Appearance_FontNormal"]</button>
+                            <button type="button" class="font-size-card @(Model.FontSize == "large" ? "font-size-card--active" : "")" data-font-size-value="large">@Localizer["Prof_Appearance_FontLarge"]</button>
+                            <button type="button" class="font-size-card @(Model.FontSize == "xlarge" ? "font-size-card--active" : "")" data-font-size-value="xlarge">@Localizer["Prof_Appearance_FontXLarge"]</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="font-size-form" method="post" asp-action="SaveFontSize" class="d-none">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="FontSize" id="font-size-input" value="@Model.FontSize">
+                </form>
+
+                <div class="card mt-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_Language"]</p>
+                        <div class="d-flex gap-2 flex-wrap" id="language-options">
+                            <button type="button" class="font-size-card @(Model.Language == "pt-BR" ? "font-size-card--active" : "")" data-language-value="pt-BR">@Localizer["Prof_Appearance_LangPT"]</button>
+                            <button type="button" class="font-size-card @(Model.Language == "en-US" ? "font-size-card--active" : "")" data-language-value="en-US">@Localizer["Prof_Appearance_LangEN"]</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="language-form" method="post" asp-action="SaveLanguage" class="d-none">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Language" id="language-input" value="@Model.Language">
+                </form>
+            }
+
+            @if (Model.ActiveTab == "account")
+            {
+                <div class="card profile-danger-card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Account_DangerZone"]</p>
+                        <p class="small text-secondary mb-3">
+                            @Localizer["Prof_Account_Warning"]
+                        </p>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                            @Localizer["Prof_Account_DeleteBtn"]
+                        </button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</main>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" asp-action="DeleteAccount">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h6 class="modal-title fw-semibold">@Localizer["Prof_Delete_Title"]</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary @(Model.HasPassword ? "mb-3" : "mb-0")">
+                        @Localizer["Prof_Delete_Confirm"]
+                    </p>
+                    @if (Model.HasPassword)
+                    {
+                        <div>
+                            <label class="form-label small">@Localizer["Prof_Delete_Password"]</label>
+                            <div class="input-group">
+                                <input type="password" name="Password" id="deletePassword" class="form-control form-control-sm" placeholder="@Localizer["Prof_Delete_Password"]" required>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="@Localizer["Aria_ShowPassword"]" data-toggle-pwd="deletePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">@Localizer["Btn_Cancel"]</button>
+                    <button type="submit" class="btn btn-sm btn-danger">@Localizer["Prof_Delete_Submit"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/finance/js/profile.js" asp-append-version="true"></script>
+}

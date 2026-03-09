@@ -1,0 +1,40 @@
+# Build output
+bin/
+obj/
+publish/
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+*.DotSettings.user
+
+# .NET local tools
+.dotnet/
+*.nupkg
+
+# Secrets and environment
+secrets.json
+appsettings.*.local.json
+appsettings.Production.json
+appsettings.Development.json
+.env
+.env.*
+!.env.example
+
+# Certificates and keys
+*.pfx
+*.p12
+*.key
+*.pem
+*.cer
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

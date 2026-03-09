@@ -1,0 +1,14 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+    Layout = "~/Areas/Finance/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 text-center">
+    <h4 class="mb-3">error</h4>
+    @if (Model.ShowRequestId)
+    {
+        <p class="text-muted small">request id: <code>@Model.RequestId</code></p>
+    }
+    <a href="/Finance" class="btn btn-outline-secondary mt-3">go home</a>
+</div>
