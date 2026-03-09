@@ -25,6 +25,7 @@ public abstract class BaseController : Controller
             new("theme",                   user.Theme),
             new("font_size",               user.FontSize),
             new("language",                user.Language),
+            new("currency",                user.Currency),
         };
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

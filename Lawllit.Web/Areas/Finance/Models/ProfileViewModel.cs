@@ -13,6 +13,7 @@ public class ProfileViewModel
     public string Theme { get; set; } = "dark";
     public string FontSize { get; set; } = "normal";
     public string Language { get; set; } = "pt-BR";
+    public string Currency { get; set; } = "BRL";
 
     public string MemberSinceDisplay
     {
@@ -41,6 +42,12 @@ public class SaveLanguageViewModel
 {
     [Required]
     public string Language { get; set; } = string.Empty;
+}
+
+public class SaveCurrencyViewModel
+{
+    [Required]
+    public string Currency { get; set; } = string.Empty;
 }
 
 public class EditNameViewModel

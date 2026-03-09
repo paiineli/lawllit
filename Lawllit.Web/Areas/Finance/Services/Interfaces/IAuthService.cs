@@ -10,5 +10,5 @@ public interface IAuthService
     Task<bool> ValidatePasswordResetTokenAsync(string token);
     Task<Result<(User User, string Token)>> BeginPasswordResetAsync(string email);
     Task<Result> ResetPasswordAsync(string token, string newPassword);
-    Task<User> GetOrCreateGoogleUserAsync(string googleId, string email, string name);
+    Task<User> GetOrCreateGoogleUserAsync(string googleId, string email, string name, string language);
 }

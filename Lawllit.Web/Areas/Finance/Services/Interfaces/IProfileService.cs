@@ -12,5 +12,6 @@ public interface IProfileService
     Task<Result<User>> SaveThemeAsync(Guid userId, string theme);
     Task<Result<User>> SaveFontSizeAsync(Guid userId, string fontSize);
     Task<Result<User>> SaveLanguageAsync(Guid userId, string language);
+    Task<Result<User>> SaveCurrencyAsync(Guid userId, string currency);
     Task<Result> DeleteAccountAsync(Guid userId, string? password);
 }

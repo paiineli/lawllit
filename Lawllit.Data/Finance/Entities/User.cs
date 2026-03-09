@@ -16,6 +16,7 @@ public class User
     public string Theme { get; set; } = "dark";
     public string FontSize { get; set; } = "normal";
     public string Language { get; set; } = "pt-BR";
+    public string Currency { get; set; } = "BRL";
 
     public ICollection<Category> Categories { get; set; } = [];
     public ICollection<Transaction> Transactions { get; set; } = [];

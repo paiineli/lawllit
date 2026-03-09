@@ -35,6 +35,7 @@ public class AuthService(IUserRepository userRepository) : IAuthService
             EmailConfirmationTokenExpiry = DateTime.UtcNow.AddHours(24),
             CreatedAt = DateTime.UtcNow,
             Language = language,
+            Currency = language == "en-US" ? "USD" : "BRL",
         };
 
         await userRepository.AddAsync(user);
@@ -87,14 +88,14 @@ public class AuthService(IUserRepository userRepository) : IAuthService
         return Result.Success();
     }
 
-    public async Task<User> GetOrCreateGoogleUserAsync(string googleId, string email, string name)
+    public async Task<User> GetOrCreateGoogleUserAsync(string googleId, string email, string name, string language)
     {
         var user = await userRepository.GetByGoogleIdAsync(googleId)
                 ?? await userRepository.GetByEmailAsync(email);
 
         if (user is null)
         {
-            user = new User { Id = Guid.NewGuid(), Name = name, Email = email, GoogleId = googleId, EmailConfirmed = true };
+            user = new User { Id = Guid.NewGuid(), Name = name, Email = email, GoogleId = googleId, EmailConfirmed = true, Language = language, Currency = language == "en-US" ? "USD" : "BRL" };
             await userRepository.AddAsync(user);
             try
             {

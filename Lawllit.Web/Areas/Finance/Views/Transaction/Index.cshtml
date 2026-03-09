@@ -1,7 +1,10 @@
 @model TransactionListViewModel
 @{
     var now = DateTime.Now;
-    var culture = System.Globalization.CultureInfo.CurrentCulture;
+    var userCurrency = User.FindFirst("currency")?.Value ?? "BRL";
+    var culture = userCurrency == "USD"
+        ? System.Globalization.CultureInfo.GetCultureInfo("en-US")
+        : System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
     var monthNames = new[]
     {
         Localizer["Month_1"].Value,  Localizer["Month_2"].Value,  Localizer["Month_3"].Value,

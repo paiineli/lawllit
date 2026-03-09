@@ -75,4 +75,29 @@
             });
         });
     }
+
+    var currencyForm = document.getElementById('currency-form');
+    if (currencyForm) {
+        var currencyToken = currencyForm.querySelector('[name="__RequestVerificationToken"]').value;
+
+        document.getElementById('currency-options').addEventListener('click', function (event) {
+            var card = event.target.closest('[data-currency-value]');
+            if (!card) return;
+
+            var currency = card.dataset.currencyValue;
+
+            document.querySelectorAll('[data-currency-value]').forEach(function (currencyCard) {
+                currencyCard.classList.remove('font-size-card--active');
+            });
+            card.classList.add('font-size-card--active');
+
+            fetch(currencyForm.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: '__RequestVerificationToken=' + encodeURIComponent(currencyToken) + '&Currency=' + encodeURIComponent(currency)
+            }).then(function () {
+                location.reload();
+            });
+        });
+    }
 })();

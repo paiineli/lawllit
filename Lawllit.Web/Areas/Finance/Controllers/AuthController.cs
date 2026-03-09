@@ -162,7 +162,8 @@ public class AuthController(IAuthService authService, IEmailService emailService
         if (googleId is null || email is null) return RedirectToAction("Login");
 
         var name = StringHelpers.ToTitleCase(authResult.Principal!.FindFirstValue(ClaimTypes.Name) ?? email);
-        var user = await authService.GetOrCreateGoogleUserAsync(googleId, email, name);
+        var language = CultureInfo.CurrentUICulture.Name;
+        var user = await authService.GetOrCreateGoogleUserAsync(googleId, email, name, language);
 
         await HttpContext.SignOutAsync("External");
         await SignInAsync(user);

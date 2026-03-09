@@ -138,7 +138,7 @@
 	<data name="Trans_RecurringHint" xml:space="preserve"><value>{0} recurring transaction(s) from the previous month available.</value></data>
 	<data name="Trans_DescriptionOptional" xml:space="preserve"><value>Description (optional)</value></data>
 	<data name="Trans_DescriptionPlaceholder" xml:space="preserve"><value>Ex: Lunch, Salary...</value></data>
-	<data name="Trans_AmountLabel" xml:space="preserve"><value>Amount (R$)</value></data>
+	<data name="Trans_AmountLabel" xml:space="preserve"><value>Amount</value></data>
 	<data name="Trans_IsRecurring" xml:space="preserve"><value>Recurring transaction</value></data>
 	<data name="Trans_Recurring" xml:space="preserve"><value>Recurring</value></data>
 	<data name="Trans_NoTransactions" xml:space="preserve"><value>No transactions found.</value></data>
@@ -191,6 +191,10 @@
 	<data name="Prof_Appearance_FontXLarge" xml:space="preserve"><value>Very large</value></data>
 	<data name="Prof_Appearance_LangPT" xml:space="preserve"><value>Portuguese (Brazil)</value></data>
 	<data name="Prof_Appearance_LangEN" xml:space="preserve"><value>English</value></data>
+	<data name="Prof_Appearance_Currency" xml:space="preserve"><value>Currency</value></data>
+	<data name="Prof_Appearance_CurrencyBRL" xml:space="preserve"><value>Brazilian Real (BRL)</value></data>
+	<data name="Prof_Appearance_CurrencyUSD" xml:space="preserve"><value>US Dollar (USD)</value></data>
+	<data name="Msg_CurrencyUpdated" xml:space="preserve"><value>Currency updated successfully.</value></data>
 	<data name="Prof_Account_DangerZone" xml:space="preserve"><value>Danger zone</value></data>
 	<data name="Prof_Account_Warning" xml:space="preserve"><value>This action is irreversible. All your transactions, categories and data will be permanently deleted.</value></data>
 	<data name="Prof_Account_DeleteBtn" xml:space="preserve"><value>Delete account</value></data>

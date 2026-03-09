@@ -5,11 +5,11 @@ const gridColor = isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
 const fontFamily = { family: 'JetBrains Mono', size: 11 };
 
 function initDashboard(data) {
-    if (data.categories.length > 0) buildPieChart(data.categories, data.othersLabel);
-    buildBarChart(data.trend, data.months, data.incomeLabel, data.expensesLabel);
+    if (data.categories.length > 0) buildPieChart(data.categories, data.othersLabel, data.currencySymbol, data.currencyLocale);
+    buildBarChart(data.trend, data.months, data.incomeLabel, data.expensesLabel, data.currencySymbol, data.currencyLocale);
 }
 
-function buildPieChart(categoryData, othersLabel) {
+function buildPieChart(categoryData, othersLabel, currencySymbol, currencyLocale) {
     const collapsed = collapseCategories(categoryData, othersLabel);
     new Chart(document.getElementById('pieChart'), {
         type: 'doughnut',
@@ -21,13 +21,13 @@ function buildPieChart(categoryData, othersLabel) {
             cutout: '60%',
             plugins: {
                 legend: { position: 'right', labels: { color: legendColor, font: fontFamily, padding: 14, boxWidth: 12 } },
-                tooltip: { callbacks: { label: ctx => ` R$ ${ctx.parsed.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` } },
+                tooltip: { callbacks: { label: ctx => ` ${currencySymbol} ${ctx.parsed.toLocaleString(currencyLocale, { minimumFractionDigits: 2 })}` } },
             },
         },
     });
 }
 
-function buildBarChart(trendData, months, incomeLabel, expensesLabel) {
+function buildBarChart(trendData, months, incomeLabel, expensesLabel, currencySymbol, currencyLocale) {
     if (!trendData || !trendData.length) return;
 
     const labels = trendData.map(trend => months[trend.month - 1].slice(0, 3) + '/' + String(trend.year).slice(-2));
@@ -64,7 +64,7 @@ function buildBarChart(trendData, months, incomeLabel, expensesLabel) {
                 legend: { labels: { color: legendColor, font: fontFamily, boxWidth: 12, padding: 12 } },
                 tooltip: {
                     callbacks: {
-                        label: ctx => ` ${ctx.dataset.label}: R$ ${ctx.parsed.y.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
+                        label: ctx => ` ${ctx.dataset.label}: ${currencySymbol} ${ctx.parsed.y.toLocaleString(currencyLocale, { minimumFractionDigits: 2 })}`,
                     },
                 },
             },
@@ -74,7 +74,7 @@ function buildBarChart(trendData, months, incomeLabel, expensesLabel) {
                     ticks: {
                         color: legendColor,
                         font: fontFamily,
-                        callback: value => 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 0 }),
+                        callback: value => currencySymbol + ' ' + value.toLocaleString(currencyLocale, { minimumFractionDigits: 0 }),
                     },
                     grid: { color: gridColor },
                 },

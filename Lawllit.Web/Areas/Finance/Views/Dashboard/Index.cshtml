@@ -1,6 +1,11 @@
 @model DashboardViewModel
 @{
-    var culture = System.Globalization.CultureInfo.CurrentCulture;
+    var userCurrency = User.FindFirst("currency")?.Value ?? "BRL";
+    var culture = userCurrency == "USD"
+        ? System.Globalization.CultureInfo.GetCultureInfo("en-US")
+        : System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+    var currencySymbol = userCurrency == "USD" ? "$" : "R$";
+    var currencyLocale = userCurrency == "USD" ? "en-US" : "pt-BR";
     var monthNames = new[]
     {
         Localizer["Month_1"].Value,  Localizer["Month_2"].Value,  Localizer["Month_3"].Value,
@@ -239,11 +244,13 @@
     <script type="application/json" id="dashboardData">
         @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new {
             categories = Model.ExpensesByCategory.Select(c => new { label = c.CategoryName, value = (double)c.Total }),
-                                        trend = Model.MonthlyTrend.Select(t => new { month = t.Month, year = t.Year, income = (double)t.Income, expenses = (double)t.Expenses }),
-                                        incomeLabel = Localizer["Lbl_Income"].Value,
-                                        expensesLabel = Localizer["Lbl_Expense"].Value,
-                                        othersLabel = Localizer["Dash_Others"].Value,
-                                        months = monthNames
+                                                                        trend = Model.MonthlyTrend.Select(t => new { month = t.Month, year = t.Year, income = (double)t.Income, expenses = (double)t.Expenses }),
+                                                                        incomeLabel = Localizer["Lbl_Income"].Value,
+                                                                        expensesLabel = Localizer["Lbl_Expense"].Value,
+                                                                        othersLabel = Localizer["Dash_Others"].Value,
+                                                                        months = monthNames,
+                                                                        currencySymbol,
+                                                                        currencyLocale
         }))
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>

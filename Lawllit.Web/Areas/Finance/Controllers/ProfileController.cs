@@ -134,6 +134,21 @@ public class ProfileController(IProfileService profileService, IStringLocalizer<
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveCurrency(SaveCurrencyViewModel form)
+    {
+        if (!ModelState.IsValid || !Constants.ValidCurrencies.Contains(form.Currency))
+            return BadRequest();
+
+        var result = await profileService.SaveCurrencyAsync(GetUserId(), form.Currency);
+        if (!result.IsSuccess)
+            return Unauthorized();
+
+        await SignInAsync(result.Value!);
+        return Ok();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteAccount(string? password)
     {
         var result = await profileService.DeleteAccountAsync(GetUserId(), password);

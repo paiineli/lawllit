@@ -23,6 +23,7 @@ public class ProfileService(IUserRepository userRepository) : IProfileService
             Theme = user.Theme,
             FontSize = user.FontSize,
             Language = user.Language,
+            Currency = user.Currency,
         };
     }
 
@@ -83,6 +84,9 @@ public class ProfileService(IUserRepository userRepository) : IProfileService
 
     public Task<Result<User>> SaveLanguageAsync(Guid userId, string language) =>
         UpdateUserAsync(userId, user => user.Language = language);
+
+    public Task<Result<User>> SaveCurrencyAsync(Guid userId, string currency) =>
+        UpdateUserAsync(userId, user => user.Currency = currency);
 
     private async Task<Result<User>> UpdateUserAsync(Guid userId, Action<User> update)
     {

@@ -218,6 +218,21 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="Language" id="language-input" value="@Model.Language">
                 </form>
+
+                <div class="card mt-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_Currency"]</p>
+                        <div class="d-flex gap-2 flex-wrap" id="currency-options">
+                            <button type="button" class="font-size-card @(Model.Currency == "BRL" ? "font-size-card--active" : "")" data-currency-value="BRL">@Localizer["Prof_Appearance_CurrencyBRL"]</button>
+                            <button type="button" class="font-size-card @(Model.Currency == "USD" ? "font-size-card--active" : "")" data-currency-value="USD">@Localizer["Prof_Appearance_CurrencyUSD"]</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="currency-form" method="post" asp-action="SaveCurrency" class="d-none">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Currency" id="currency-input" value="@Model.Currency">
+                </form>
             }
 
             @if (Model.ActiveTab == "account")
