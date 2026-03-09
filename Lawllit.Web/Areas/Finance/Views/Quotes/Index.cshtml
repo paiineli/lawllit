@@ -49,7 +49,7 @@
                                 <span><i class="bi bi-arrow-down text-red"></i> @quote.DailyLow.ToString(decimalFormat, culture)</span>
                             </div>
                             <p class="small text-secondary opacity-50 mt-2 mb-0">
-                                @string.Format(Localizer["Quote_UpdatedAt"].Value, quote.LastUpdated.ToString("HH:mm", culture))
+                                @string.Format(Localizer["Quote_UpdatedAt"].Value, quote.LastUpdated.ToString("dd/MM HH:mm", culture))
                             </p>
                         </div>
                     </div>

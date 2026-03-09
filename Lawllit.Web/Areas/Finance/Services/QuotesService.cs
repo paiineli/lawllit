@@ -71,7 +71,7 @@ public class QuotesService(
                 });
             }
 
-            cache.Set(CacheKey, quotes, TimeSpan.FromHours(1));
+            cache.Set(CacheKey, quotes, TimeSpan.FromMinutes(15));
             return (quotes, null);
         }
         catch (Exception exception)
