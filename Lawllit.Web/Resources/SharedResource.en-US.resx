@@ -1,261 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
 
-  <data name="SiteTitle" xml:space="preserve"><value>lawllit.</value></data>
-  <data name="SiteDescription" xml:space="preserve"><value>We build software. Simple as that.</value></data>
+	<data name="SiteTitle" xml:space="preserve"><value>lawllit.</value></data>
+	<data name="SiteDescription" xml:space="preserve"><value>We build software. Simple as that.</value></data>
 
-  <data name="Nav_About" xml:space="preserve"><value>about</value></data>
-  <data name="Nav_Projects" xml:space="preserve"><value>projects</value></data>
-  <data name="Nav_Team" xml:space="preserve"><value>team</value></data>
-  <data name="Nav_Contact" xml:space="preserve"><value>contact</value></data>
-  <data name="Nav_Menu" xml:space="preserve"><value>menu</value></data>
+	<data name="Nav_About" xml:space="preserve"><value>about</value></data>
+	<data name="Nav_Projects" xml:space="preserve"><value>projects</value></data>
+	<data name="Nav_Team" xml:space="preserve"><value>team</value></data>
+	<data name="Nav_Contact" xml:space="preserve"><value>contact</value></data>
+	<data name="Nav_Menu" xml:space="preserve"><value>menu</value></data>
 
-  <data name="Hero_Line1" xml:space="preserve"><value>we build software.</value></data>
-  <data name="Hero_Line2" xml:space="preserve"><value>that actually works.</value></data>
-  <data name="Hero_Sub" xml:space="preserve"><value>clean code, systems that work, no bullshit.</value></data>
-  <data name="Hero_CTA_Projects" xml:space="preserve"><value>see projects</value></data>
-  <data name="Hero_CTA_Contact" xml:space="preserve"><value>get in touch</value></data>
+	<data name="Hero_Line1" xml:space="preserve"><value>we build software.</value></data>
+	<data name="Hero_Line2" xml:space="preserve"><value>that actually works.</value></data>
+	<data name="Hero_Sub" xml:space="preserve"><value>clean code, systems that work, no bullshit.</value></data>
+	<data name="Hero_CTA_Projects" xml:space="preserve"><value>see projects</value></data>
+	<data name="Hero_CTA_Contact" xml:space="preserve"><value>get in touch</value></data>
 
-  <data name="About_Tag" xml:space="preserve"><value>// about</value></data>
-  <data name="About_P1" xml:space="preserve"><value>lawllit builds software. no buzzwords, no overengineering. just code that solves the problem.</value></data>
-  <data name="About_P2" xml:space="preserve"><value>our stack is .NET. C#, ASP.NET Core, relational databases. the basics done right, with clean architecture and solid practices.</value></data>
+	<data name="About_Tag" xml:space="preserve"><value>// about</value></data>
+	<data name="About_P1" xml:space="preserve"><value>lawllit builds software. no buzzwords, no overengineering. just code that solves the problem.</value></data>
+	<data name="About_P2" xml:space="preserve"><value>our stack is .NET. C#, ASP.NET Core, relational databases. the basics done right, with clean architecture and solid practices.</value></data>
 
-  <data name="Projects_Tag" xml:space="preserve"><value>// projects</value></data>
-  <data name="Project_LF_Live" xml:space="preserve"><value>live</value></data>
-  <data name="Project_LF_Desc" xml:space="preserve"><value>personal finance tracker built with .NET. track transactions, monitor your balance and check live exchange rates. free to try.</value></data>
-  <data name="Project_LF_CTA" xml:space="preserve"><value>open an account</value></data>
-  <data name="Project_LF_Source" xml:space="preserve"><value>source code</value></data>
+	<data name="Projects_Tag" xml:space="preserve"><value>// projects</value></data>
+	<data name="Project_LF_Live" xml:space="preserve"><value>live</value></data>
+	<data name="Project_LF_Desc" xml:space="preserve"><value>personal finance tracker built with .NET. track transactions, monitor your balance and check live exchange rates. free to try.</value></data>
+	<data name="Project_LF_CTA" xml:space="preserve"><value>open an account</value></data>
 
-  <data name="Team_Tag" xml:space="preserve"><value>// team</value></data>
-  <data name="Team_Role" xml:space="preserve"><value>founder &amp; backend developer</value></data>
-  <data name="Team_Bio" xml:space="preserve"><value>developer from sorocaba, brazil. i build healthcare systems at unimed using C# and .NET. postgrad in software architecture from facens (gpa 9.6/10), mba in progress at fgv. on the side, i build things like lawlittfinance. systems i'd actually use myself.</value></data>
+	<data name="Team_Tag" xml:space="preserve"><value>// team</value></data>
+	<data name="Team_Role" xml:space="preserve"><value>founder &amp; backend developer</value></data>
+	<data name="Team_Bio" xml:space="preserve"><value>developer from sorocaba, brazil. i build healthcare systems at unimed using C# and .NET. postgrad in software architecture from facens (gpa 9.6/10), mba in progress at fgv. on the side, i build things like lawlittfinance. systems i'd actually use myself.</value></data>
 
-  <data name="Contact_Tag" xml:space="preserve"><value>// contact</value></data>
-  <data name="Contact_Sub" xml:space="preserve"><value>i reply within 24h.</value></data>
-  <data name="Contact_Email" xml:space="preserve"><value>email</value></data>
-  <data name="Contact_LinkedIn" xml:space="preserve"><value>linkedin</value></data>
-  <data name="Contact_GitHub" xml:space="preserve"><value>github</value></data>
+	<data name="Contact_Tag" xml:space="preserve"><value>// contact</value></data>
+	<data name="Contact_Sub" xml:space="preserve"><value>we reply within 24h.</value></data>
+	<data name="Contact_Email" xml:space="preserve"><value>email</value></data>
+	<data name="Contact_LinkedIn" xml:space="preserve"><value>linkedin</value></data>
 
-  <data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
-  <data name="Nav_Transactions" xml:space="preserve"><value>Transactions</value></data>
-  <data name="Nav_Categories" xml:space="preserve"><value>Categories</value></data>
-  <data name="Nav_Quotes" xml:space="preserve"><value>Quotes</value></data>
-  <data name="Nav_Exit" xml:space="preserve"><value>Sign out</value></data>
-  <data name="Btn_Save" xml:space="preserve"><value>Save</value></data>
-  <data name="Btn_Cancel" xml:space="preserve"><value>Cancel</value></data>
-  <data name="Btn_Create" xml:space="preserve"><value>Create</value></data>
-  <data name="Btn_Delete" xml:space="preserve"><value>Delete</value></data>
-  <data name="Btn_Import" xml:space="preserve"><value>Import</value></data>
-  <data name="Btn_Refresh" xml:space="preserve"><value>Refresh</value></data>
-  <data name="Btn_Clear" xml:space="preserve"><value>Clear</value></data>
-  <data name="Filter_All" xml:space="preserve"><value>All</value></data>
-  <data name="Lbl_Income" xml:space="preserve"><value>Income</value></data>
-  <data name="Lbl_Expense" xml:space="preserve"><value>Expense</value></data>
-  <data name="Lbl_Date" xml:space="preserve"><value>Date</value></data>
-  <data name="Lbl_Description" xml:space="preserve"><value>Description</value></data>
-  <data name="Lbl_Category" xml:space="preserve"><value>Category</value></data>
-  <data name="Lbl_Type" xml:space="preserve"><value>Type</value></data>
-  <data name="Lbl_Amount" xml:space="preserve"><value>Amount</value></data>
-  <data name="Lbl_Name" xml:space="preserve"><value>Name</value></data>
-  <data name="Lbl_Email" xml:space="preserve"><value>Email</value></data>
-  <data name="Lbl_Password" xml:space="preserve"><value>Password</value></data>
-  <data name="Search_Placeholder" xml:space="preserve"><value>Search...</value></data>
-  <data name="Placeholder_Email" xml:space="preserve"><value>your@email.com</value></data>
-  <data name="Placeholder_Password" xml:space="preserve"><value>password@123</value></data>
-  <data name="Placeholder_Amount" xml:space="preserve"><value>0.00</value></data>
-  <data name="Aria_ShowPassword" xml:space="preserve"><value>Show password</value></data>
-  <data name="Auth_PersonalFinance" xml:space="preserve"><value>Personal finance management.</value></data>
-  <data name="Auth_Or" xml:space="preserve"><value>or</value></data>
-  <data name="Login_Title" xml:space="preserve"><value>Sign in</value></data>
-  <data name="Login_ForgotPassword" xml:space="preserve"><value>Forgot my password</value></data>
-  <data name="Login_WithGoogle" xml:space="preserve"><value>Sign in with Google</value></data>
-  <data name="Login_NoAccount" xml:space="preserve"><value>Don't have an account?</value></data>
-  <data name="Login_CreateAccount" xml:space="preserve"><value>Create account</value></data>
-  <data name="Register_Title" xml:space="preserve"><value>Create account</value></data>
-  <data name="Register_NamePlaceholder" xml:space="preserve"><value>Your name</value></data>
-  <data name="Register_PasswordPlaceholder" xml:space="preserve"><value>Minimum 6 characters</value></data>
-  <data name="Register_WithGoogle" xml:space="preserve"><value>Continue with Google</value></data>
-  <data name="Register_HasAccount" xml:space="preserve"><value>Already have an account?</value></data>
-  <data name="Forgot_Title" xml:space="preserve"><value>Forgot my password</value></data>
-  <data name="Forgot_Subtitle" xml:space="preserve"><value>Enter your email and we'll send you a reset link.</value></data>
-  <data name="Forgot_Submit" xml:space="preserve"><value>Send link</value></data>
-  <data name="Forgot_Remember" xml:space="preserve"><value>Remembered your password?</value></data>
-  <data name="Reset_Title" xml:space="preserve"><value>New password</value></data>
-  <data name="Reset_PasswordPlaceholder" xml:space="preserve"><value>Minimum 6 characters</value></data>
-  <data name="Reset_ConfirmPlaceholder" xml:space="preserve"><value>Repeat password</value></data>
-  <data name="Reset_Submit" xml:space="preserve"><value>Reset password</value></data>
-  <data name="Home_Subtitle" xml:space="preserve"><value>Control your income and expenses, know where your money goes, and keep your data to yourself.</value></data>
-  <data name="Home_Line1" xml:space="preserve"><value>Your finances.</value></data>
-  <data name="Home_Line2" xml:space="preserve"><value>Simple as that.</value></data>
-  <data name="Home_CreateAccount" xml:space="preserve"><value>Create account</value></data>
-  <data name="Dash_Income" xml:space="preserve"><value>Income</value></data>
-  <data name="Dash_Expenses" xml:space="preserve"><value>Expenses</value></data>
-  <data name="Dash_Balance" xml:space="preserve"><value>Monthly balance</value></data>
-  <data name="Dash_ExpensesByCategory" xml:space="preserve"><value>Expenses by category — top 5</value></data>
-  <data name="Dash_NoExpenses" xml:space="preserve"><value>No expenses this month</value></data>
-  <data name="Dash_IncomeVsExpenses" xml:space="preserve"><value>Income vs Expenses — last 6 months</value></data>
-  <data name="Dash_Projection" xml:space="preserve"><value>Monthly projection</value></data>
-  <data name="Dash_PaceWithDays" xml:space="preserve"><value>At current pace with {0} days recorded</value></data>
-  <data name="Dash_NoProjection" xml:space="preserve"><value>No projection data</value></data>
-  <data name="Dash_DueSoon" xml:space="preserve"><value>Due by end of month</value></data>
-  <data name="Dash_DueSoonSub" xml:space="preserve"><value>Expenses with future dates this month</value></data>
-  <data name="Dash_NoBills" xml:space="preserve"><value>No upcoming bills</value></data>
-  <data name="Dash_DailyAverage" xml:space="preserve"><value>Daily average</value></data>
-  <data name="Dash_PerDay" xml:space="preserve"><value>/day</value></data>
-  <data name="Dash_BasedOnDays" xml:space="preserve"><value>Based on {0} days of {1} this month</value></data>
-  <data name="Dash_AverageOverDays" xml:space="preserve"><value>Average over {0} days of the month</value></data>
-  <data name="Dash_NoExpensesMonth" xml:space="preserve"><value>No expenses this month</value></data>
-  <data name="Dash_ExpenseRanking" xml:space="preserve"><value>Expense Ranking by Category</value></data>
-  <data name="Dash_Others" xml:space="preserve"><value>Others</value></data>
-  <data name="Month_1" xml:space="preserve"><value>January</value></data>
-  <data name="Month_2" xml:space="preserve"><value>February</value></data>
-  <data name="Month_3" xml:space="preserve"><value>March</value></data>
-  <data name="Month_4" xml:space="preserve"><value>April</value></data>
-  <data name="Month_5" xml:space="preserve"><value>May</value></data>
-  <data name="Month_6" xml:space="preserve"><value>June</value></data>
-  <data name="Month_7" xml:space="preserve"><value>July</value></data>
-  <data name="Month_8" xml:space="preserve"><value>August</value></data>
-  <data name="Month_9" xml:space="preserve"><value>September</value></data>
-  <data name="Month_10" xml:space="preserve"><value>October</value></data>
-  <data name="Month_11" xml:space="preserve"><value>November</value></data>
-  <data name="Month_12" xml:space="preserve"><value>December</value></data>
-  <data name="Trans_Title" xml:space="preserve"><value>Transactions</value></data>
-  <data name="Trans_New" xml:space="preserve"><value>New transaction</value></data>
-  <data name="Trans_RecurringHint" xml:space="preserve"><value>{0} recurring transaction(s) from the previous month available.</value></data>
-  <data name="Trans_DescriptionOptional" xml:space="preserve"><value>Description (optional)</value></data>
-  <data name="Trans_DescriptionPlaceholder" xml:space="preserve"><value>Ex: Lunch, Salary...</value></data>
-  <data name="Trans_AmountLabel" xml:space="preserve"><value>Amount (R$)</value></data>
-  <data name="Trans_IsRecurring" xml:space="preserve"><value>Recurring transaction</value></data>
-  <data name="Trans_Recurring" xml:space="preserve"><value>Recurring</value></data>
-  <data name="Trans_NoTransactions" xml:space="preserve"><value>No transactions found.</value></data>
-  <data name="Trans_NoCategoryCreate" xml:space="preserve"><value>Create your first</value></data>
-  <data name="Trans_NoCategoryLink" xml:space="preserve"><value>category</value></data>
-  <data name="Trans_NoCategoryEnd" xml:space="preserve"><value>to add transactions.</value></data>
-  <data name="Trans_NoDescription" xml:space="preserve"><value>No description</value></data>
-  <data name="Trans_EditTitle" xml:space="preserve"><value>Edit transaction</value></data>
-  <data name="Trans_DeleteTitle" xml:space="preserve"><value>Confirm deletion</value></data>
-  <data name="Trans_DeleteConfirm" xml:space="preserve"><value>Are you sure you want to delete this transaction?</value></data>
-  <data name="Cat_Title" xml:space="preserve"><value>Categories</value></data>
-  <data name="Cat_New" xml:space="preserve"><value>New category</value></data>
-  <data name="Cat_NamePlaceholder" xml:space="preserve"><value>Ex: Food, Salary...</value></data>
-  <data name="Cat_NoCategories" xml:space="preserve"><value>No categories found.</value></data>
-  <data name="Cat_EditTitle" xml:space="preserve"><value>Edit category</value></data>
-  <data name="Cat_DeleteTitle" xml:space="preserve"><value>Confirm deletion</value></data>
-  <data name="Cat_DeleteConfirm" xml:space="preserve"><value>Are you sure you want to delete this category?</value></data>
-  <data name="Quote_Title" xml:space="preserve"><value>Quotes</value></data>
-  <data name="Quote_LoadError" xml:space="preserve"><value>Unable to load quotes</value></data>
-  <data name="Quote_LoadErrorHint" xml:space="preserve"><value>Check your connection and try again</value></data>
-  <data name="Quote_UpdatedAt" xml:space="preserve"><value>Updated {0}</value></data>
-  <data name="Currency_Dollar" xml:space="preserve"><value>Dollar</value></data>
-  <data name="Currency_Euro" xml:space="preserve"><value>Euro</value></data>
-  <data name="Currency_Pound" xml:space="preserve"><value>Pound</value></data>
-  <data name="Currency_Yen" xml:space="preserve"><value>Yen</value></data>
-  <data name="Currency_Bitcoin" xml:space="preserve"><value>Bitcoin</value></data>
-  <data name="Currency_Argentine" xml:space="preserve"><value>Argentine Peso</value></data>
-  <data name="Prof_Title" xml:space="preserve"><value>Profile</value></data>
-  <data name="Prof_MemberSince" xml:space="preserve"><value>Member since</value></data>
-  <data name="Prof_Nav_Info" xml:space="preserve"><value>General</value></data>
-  <data name="Prof_Nav_Security" xml:space="preserve"><value>Security</value></data>
-  <data name="Prof_Nav_Appearance" xml:space="preserve"><value>Preferences</value></data>
-  <data name="Prof_Nav_Account" xml:space="preserve"><value>Account</value></data>
-  <data name="Prof_Info_Title" xml:space="preserve"><value>Personal information</value></data>
-  <data name="Prof_Security_EmailSection" xml:space="preserve"><value>Email</value></data>
-  <data name="Prof_Security_EmailAddress" xml:space="preserve"><value>Email address</value></data>
-  <data name="Prof_Security_ConfirmPwd" xml:space="preserve"><value>Confirm password</value></data>
-  <data name="Prof_Security_ChangePwd" xml:space="preserve"><value>Change password</value></data>
-  <data name="Prof_Security_CurrentPwd" xml:space="preserve"><value>Current password</value></data>
-  <data name="Prof_Security_NewPwd" xml:space="preserve"><value>New password</value></data>
-  <data name="Prof_Security_ConfirmNewPwd" xml:space="preserve"><value>Confirm new password</value></data>
-  <data name="Prof_Appearance_Theme" xml:space="preserve"><value>Theme</value></data>
-  <data name="Prof_Appearance_FontSize" xml:space="preserve"><value>Font size</value></data>
-  <data name="Prof_Appearance_Language" xml:space="preserve"><value>Language</value></data>
-  <data name="Prof_Appearance_ThemeDark" xml:space="preserve"><value>Dark</value></data>
-  <data name="Prof_Appearance_ThemeLight" xml:space="preserve"><value>Light</value></data>
-  <data name="Prof_Appearance_ThemeHighContrast" xml:space="preserve"><value>High Contrast</value></data>
-  <data name="Prof_Appearance_FontNormal" xml:space="preserve"><value>Normal</value></data>
-  <data name="Prof_Appearance_FontLarge" xml:space="preserve"><value>Large</value></data>
-  <data name="Prof_Appearance_FontXLarge" xml:space="preserve"><value>Very large</value></data>
-  <data name="Prof_Appearance_LangPT" xml:space="preserve"><value>Portuguese (Brazil)</value></data>
-  <data name="Prof_Appearance_LangEN" xml:space="preserve"><value>English</value></data>
-  <data name="Prof_Account_DangerZone" xml:space="preserve"><value>Danger zone</value></data>
-  <data name="Prof_Account_Warning" xml:space="preserve"><value>This action is irreversible. All your transactions, categories and data will be permanently deleted.</value></data>
-  <data name="Prof_Account_DeleteBtn" xml:space="preserve"><value>Delete account</value></data>
-  <data name="Prof_Delete_Title" xml:space="preserve"><value>Delete account</value></data>
-  <data name="Prof_Delete_Confirm" xml:space="preserve"><value>Are you sure? All transactions, categories and account data will be permanently deleted and cannot be recovered.</value></data>
-  <data name="Prof_Delete_Password" xml:space="preserve"><value>Confirm password</value></data>
-  <data name="Prof_Delete_Submit" xml:space="preserve"><value>Delete permanently</value></data>
-  <data name="Msg_EmailConfirmSent" xml:space="preserve"><value>Account registered! Check your email to activate access.</value></data>
-  <data name="Msg_InvalidLink" xml:space="preserve"><value>Invalid or expired link.</value></data>
-  <data name="Msg_ForgotEmailSent" xml:space="preserve"><value>If the email is registered, you will receive instructions shortly.</value></data>
-  <data name="Msg_PasswordReset" xml:space="preserve"><value>Password reset successfully! Please sign in.</value></data>
-  <data name="Msg_WrongCredentials" xml:space="preserve"><value>Incorrect email or password.</value></data>
-  <data name="Msg_EmailNotConfirmed" xml:space="preserve"><value>Please confirm your email before signing in.</value></data>
-  <data name="Msg_NameUpdated" xml:space="preserve"><value>Name updated successfully.</value></data>
-  <data name="Msg_EmailUpdated" xml:space="preserve"><value>Email updated successfully.</value></data>
-  <data name="Msg_PasswordChanged" xml:space="preserve"><value>Password changed successfully.</value></data>
-  <data name="Msg_EmailInUse" xml:space="preserve"><value>This email is already in use.</value></data>
-  <data name="Msg_EmailSameAsCurrent" xml:space="preserve"><value>The new email is the same as the current one.</value></data>
-  <data name="Msg_WrongPassword" xml:space="preserve"><value>Incorrect password.</value></data>
-  <data name="Msg_OperationNotAllowed" xml:space="preserve"><value>Operation not allowed.</value></data>
-  <data name="Msg_CurrentPasswordWrong" xml:space="preserve"><value>Current password is incorrect.</value></data>
-  <data name="Msg_NameInvalid" xml:space="preserve"><value>Invalid name.</value></data>
-  <data name="Msg_EmailInvalid" xml:space="preserve"><value>Invalid email.</value></data>
-  <data name="Msg_DataInvalid" xml:space="preserve"><value>Invalid data.</value></data>
-  <data name="Msg_CategoryNotFound" xml:space="preserve"><value>Category not found.</value></data>
-  <data name="Msg_TransCreated" xml:space="preserve"><value>Transaction created successfully.</value></data>
-  <data name="Msg_TransUpdated" xml:space="preserve"><value>Transaction updated successfully.</value></data>
-  <data name="Msg_TransNotFound" xml:space="preserve"><value>Transaction not found.</value></data>
-  <data name="Msg_TransDeleted" xml:space="preserve"><value>Transaction deleted successfully.</value></data>
-  <data name="Msg_RecurringImported" xml:space="preserve"><value>{0} recurring transaction(s) imported successfully.</value></data>
-  <data name="Msg_CatNameRequired" xml:space="preserve"><value>Category name is required.</value></data>
-  <data name="Msg_CatAlreadyExists" xml:space="preserve"><value>A category with this name and type already exists.</value></data>
-  <data name="Msg_CatCreated" xml:space="preserve"><value>Category created successfully.</value></data>
-  <data name="Msg_CatNotFound" xml:space="preserve"><value>Category not found.</value></data>
-  <data name="Msg_CatUpdated" xml:space="preserve"><value>Category updated successfully.</value></data>
-  <data name="Msg_CatHasTransactions" xml:space="preserve"><value>Cannot delete a category with linked transactions.</value></data>
-  <data name="Msg_CatDeleted" xml:space="preserve"><value>Category deleted successfully.</value></data>
-  <data name="Msg_NotFound" xml:space="preserve"><value>Not found.</value></data>
-  <data name="Val_NameRequired" xml:space="preserve"><value>Name is required</value></data>
-  <data name="Val_NameMaxLength" xml:space="preserve"><value>Name cannot exceed 100 characters</value></data>
-  <data name="Val_EmailRequired" xml:space="preserve"><value>Email is required</value></data>
-  <data name="Val_EmailInvalid" xml:space="preserve"><value>Invalid email</value></data>
-  <data name="Val_PasswordRequired" xml:space="preserve"><value>Password is required</value></data>
-  <data name="Val_PasswordMin6" xml:space="preserve"><value>Password must be at least 6 characters</value></data>
-  <data name="Val_Min6Chars" xml:space="preserve"><value>Minimum 6 characters</value></data>
-  <data name="Val_ConfirmRequired" xml:space="preserve"><value>Confirmation is required</value></data>
-  <data name="Val_PasswordMismatch" xml:space="preserve"><value>Passwords do not match</value></data>
-  <data name="Val_DescriptionMaxLength" xml:space="preserve"><value>Description cannot exceed 200 characters</value></data>
-  <data name="Val_AmountRange" xml:space="preserve"><value>Amount must be greater than zero</value></data>
-  <data name="Val_DateRequired" xml:space="preserve"><value>Date is required</value></data>
-  <data name="Val_CategoryRequired" xml:space="preserve"><value>Category is required</value></data>
-  <data name="Val_CatNameRequired" xml:space="preserve"><value>Category name is required</value></data>
-  <data name="Val_CatNameMaxLength" xml:space="preserve"><value>Name cannot exceed 100 characters</value></data>
-  <data name="Email_Confirm_Subject" xml:space="preserve"><value>Confirm your email — lawllit.finance</value></data>
-  <data name="Email_Confirm_Heading" xml:space="preserve"><value>Confirm your email</value></data>
-  <data name="Email_Confirm_Greeting" xml:space="preserve"><value>Hello, {0}! Click the button below to activate your lawllit.finance account.</value></data>
-  <data name="Email_Confirm_ActionLabel" xml:space="preserve"><value>Confirm email</value></data>
-  <data name="Email_Confirm_Footer1" xml:space="preserve"><value>This link expires in 24 hours.</value></data>
-  <data name="Email_Confirm_Footer2" xml:space="preserve"><value>If you didn't create an account, ignore this email.</value></data>
-  <data name="Email_Reset_Subject" xml:space="preserve"><value>Password reset — lawllit.finance</value></data>
-  <data name="Email_Reset_Heading" xml:space="preserve"><value>Password reset</value></data>
-  <data name="Email_Reset_Greeting" xml:space="preserve"><value>Hello, {0}! Click the button below to reset your lawllit.finance password.</value></data>
-  <data name="Email_Reset_ActionLabel" xml:space="preserve"><value>Reset password</value></data>
-  <data name="Email_Reset_Footer1" xml:space="preserve"><value>This link expires in 1 hour.</value></data>
-  <data name="Email_Reset_Footer2" xml:space="preserve"><value>If you didn't request a password reset, ignore this email.</value></data>
+	<data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+	<data name="Nav_Transactions" xml:space="preserve"><value>Transactions</value></data>
+	<data name="Nav_Categories" xml:space="preserve"><value>Categories</value></data>
+	<data name="Nav_Quotes" xml:space="preserve"><value>Quotes</value></data>
+	<data name="Nav_Exit" xml:space="preserve"><value>Sign out</value></data>
+	<data name="Btn_Save" xml:space="preserve"><value>Save</value></data>
+	<data name="Btn_Cancel" xml:space="preserve"><value>Cancel</value></data>
+	<data name="Btn_Create" xml:space="preserve"><value>Create</value></data>
+	<data name="Btn_Delete" xml:space="preserve"><value>Delete</value></data>
+	<data name="Btn_Import" xml:space="preserve"><value>Import</value></data>
+	<data name="Btn_Refresh" xml:space="preserve"><value>Refresh</value></data>
+	<data name="Btn_Clear" xml:space="preserve"><value>Clear</value></data>
+	<data name="Filter_All" xml:space="preserve"><value>All</value></data>
+	<data name="Lbl_Income" xml:space="preserve"><value>Income</value></data>
+	<data name="Lbl_Expense" xml:space="preserve"><value>Expense</value></data>
+	<data name="Lbl_Date" xml:space="preserve"><value>Date</value></data>
+	<data name="Lbl_Description" xml:space="preserve"><value>Description</value></data>
+	<data name="Lbl_Category" xml:space="preserve"><value>Category</value></data>
+	<data name="Lbl_Type" xml:space="preserve"><value>Type</value></data>
+	<data name="Lbl_Amount" xml:space="preserve"><value>Amount</value></data>
+	<data name="Lbl_Name" xml:space="preserve"><value>Name</value></data>
+	<data name="Lbl_Email" xml:space="preserve"><value>Email</value></data>
+	<data name="Lbl_Password" xml:space="preserve"><value>Password</value></data>
+	<data name="Search_Placeholder" xml:space="preserve"><value>Search...</value></data>
+	<data name="Placeholder_Email" xml:space="preserve"><value>your@email.com</value></data>
+	<data name="Placeholder_Password" xml:space="preserve"><value>password@123</value></data>
+	<data name="Placeholder_Amount" xml:space="preserve"><value>0.00</value></data>
+	<data name="Aria_ShowPassword" xml:space="preserve"><value>Show password</value></data>
+	<data name="Auth_PersonalFinance" xml:space="preserve"><value>Personal finance management.</value></data>
+	<data name="Auth_Or" xml:space="preserve"><value>or</value></data>
+	<data name="Login_Title" xml:space="preserve"><value>Sign in</value></data>
+	<data name="Login_ForgotPassword" xml:space="preserve"><value>Forgot my password</value></data>
+	<data name="Login_WithGoogle" xml:space="preserve"><value>Sign in with Google</value></data>
+	<data name="Login_NoAccount" xml:space="preserve"><value>Don't have an account?</value></data>
+	<data name="Login_CreateAccount" xml:space="preserve"><value>Create account</value></data>
+	<data name="Register_Title" xml:space="preserve"><value>Create account</value></data>
+	<data name="Register_NamePlaceholder" xml:space="preserve"><value>Your name</value></data>
+	<data name="Register_PasswordPlaceholder" xml:space="preserve"><value>Minimum 6 characters</value></data>
+	<data name="Register_WithGoogle" xml:space="preserve"><value>Continue with Google</value></data>
+	<data name="Register_HasAccount" xml:space="preserve"><value>Already have an account?</value></data>
+	<data name="Forgot_Title" xml:space="preserve"><value>Forgot my password</value></data>
+	<data name="Forgot_Subtitle" xml:space="preserve"><value>Enter your email and we'll send you a reset link.</value></data>
+	<data name="Forgot_Submit" xml:space="preserve"><value>Send link</value></data>
+	<data name="Forgot_Remember" xml:space="preserve"><value>Remembered your password?</value></data>
+	<data name="Reset_Title" xml:space="preserve"><value>New password</value></data>
+	<data name="Reset_PasswordPlaceholder" xml:space="preserve"><value>Minimum 6 characters</value></data>
+	<data name="Reset_ConfirmPlaceholder" xml:space="preserve"><value>Repeat password</value></data>
+	<data name="Reset_Submit" xml:space="preserve"><value>Reset password</value></data>
+	<data name="Home_Subtitle" xml:space="preserve"><value>Control your income and expenses, know where your money goes, and keep your data to yourself.</value></data>
+	<data name="Home_Line1" xml:space="preserve"><value>Your finances.</value></data>
+	<data name="Home_Line2" xml:space="preserve"><value>Simple as that.</value></data>
+	<data name="Home_CreateAccount" xml:space="preserve"><value>Create account</value></data>
+	<data name="Dash_Income" xml:space="preserve"><value>Income</value></data>
+	<data name="Dash_Expenses" xml:space="preserve"><value>Expenses</value></data>
+	<data name="Dash_Balance" xml:space="preserve"><value>Monthly balance</value></data>
+	<data name="Dash_ExpensesByCategory" xml:space="preserve"><value>Expenses by category — top 5</value></data>
+	<data name="Dash_NoExpenses" xml:space="preserve"><value>No expenses this month</value></data>
+	<data name="Dash_IncomeVsExpenses" xml:space="preserve"><value>Income vs Expenses — last 6 months</value></data>
+	<data name="Dash_Projection" xml:space="preserve"><value>Monthly projection</value></data>
+	<data name="Dash_PaceWithDays" xml:space="preserve"><value>At current pace with {0} days recorded</value></data>
+	<data name="Dash_NoProjection" xml:space="preserve"><value>No projection data</value></data>
+	<data name="Dash_DueSoon" xml:space="preserve"><value>Due by end of month</value></data>
+	<data name="Dash_DueSoonSub" xml:space="preserve"><value>Expenses with future dates this month</value></data>
+	<data name="Dash_NoBills" xml:space="preserve"><value>No upcoming bills</value></data>
+	<data name="Dash_DailyAverage" xml:space="preserve"><value>Daily average</value></data>
+	<data name="Dash_PerDay" xml:space="preserve"><value>/day</value></data>
+	<data name="Dash_BasedOnDays" xml:space="preserve"><value>Based on {0} days of {1} this month</value></data>
+	<data name="Dash_AverageOverDays" xml:space="preserve"><value>Average over {0} days of the month</value></data>
+	<data name="Dash_NoExpensesMonth" xml:space="preserve"><value>No expenses this month</value></data>
+	<data name="Dash_ExpenseRanking" xml:space="preserve"><value>Expense Ranking by Category</value></data>
+	<data name="Dash_Others" xml:space="preserve"><value>Others</value></data>
+	<data name="Month_1" xml:space="preserve"><value>January</value></data>
+	<data name="Month_2" xml:space="preserve"><value>February</value></data>
+	<data name="Month_3" xml:space="preserve"><value>March</value></data>
+	<data name="Month_4" xml:space="preserve"><value>April</value></data>
+	<data name="Month_5" xml:space="preserve"><value>May</value></data>
+	<data name="Month_6" xml:space="preserve"><value>June</value></data>
+	<data name="Month_7" xml:space="preserve"><value>July</value></data>
+	<data name="Month_8" xml:space="preserve"><value>August</value></data>
+	<data name="Month_9" xml:space="preserve"><value>September</value></data>
+	<data name="Month_10" xml:space="preserve"><value>October</value></data>
+	<data name="Month_11" xml:space="preserve"><value>November</value></data>
+	<data name="Month_12" xml:space="preserve"><value>December</value></data>
+	<data name="Trans_Title" xml:space="preserve"><value>Transactions</value></data>
+	<data name="Trans_New" xml:space="preserve"><value>New transaction</value></data>
+	<data name="Trans_RecurringHint" xml:space="preserve"><value>{0} recurring transaction(s) from the previous month available.</value></data>
+	<data name="Trans_DescriptionOptional" xml:space="preserve"><value>Description (optional)</value></data>
+	<data name="Trans_DescriptionPlaceholder" xml:space="preserve"><value>Ex: Lunch, Salary...</value></data>
+	<data name="Trans_AmountLabel" xml:space="preserve"><value>Amount (R$)</value></data>
+	<data name="Trans_IsRecurring" xml:space="preserve"><value>Recurring transaction</value></data>
+	<data name="Trans_Recurring" xml:space="preserve"><value>Recurring</value></data>
+	<data name="Trans_NoTransactions" xml:space="preserve"><value>No transactions found.</value></data>
+	<data name="Trans_NoCategoryCreate" xml:space="preserve"><value>Create your first</value></data>
+	<data name="Trans_NoCategoryLink" xml:space="preserve"><value>category</value></data>
+	<data name="Trans_NoCategoryEnd" xml:space="preserve"><value>to add transactions.</value></data>
+	<data name="Trans_NoDescription" xml:space="preserve"><value>No description</value></data>
+	<data name="Trans_EditTitle" xml:space="preserve"><value>Edit transaction</value></data>
+	<data name="Trans_DeleteTitle" xml:space="preserve"><value>Confirm deletion</value></data>
+	<data name="Trans_DeleteConfirm" xml:space="preserve"><value>Are you sure you want to delete this transaction?</value></data>
+	<data name="Cat_Title" xml:space="preserve"><value>Categories</value></data>
+	<data name="Cat_New" xml:space="preserve"><value>New category</value></data>
+	<data name="Cat_NamePlaceholder" xml:space="preserve"><value>Ex: Food, Salary...</value></data>
+	<data name="Cat_NoCategories" xml:space="preserve"><value>No categories found.</value></data>
+	<data name="Cat_EditTitle" xml:space="preserve"><value>Edit category</value></data>
+	<data name="Cat_DeleteTitle" xml:space="preserve"><value>Confirm deletion</value></data>
+	<data name="Cat_DeleteConfirm" xml:space="preserve"><value>Are you sure you want to delete this category?</value></data>
+	<data name="Quote_Title" xml:space="preserve"><value>Quotes</value></data>
+	<data name="Quote_LoadError" xml:space="preserve"><value>Unable to load quotes</value></data>
+	<data name="Quote_LoadErrorHint" xml:space="preserve"><value>Check your connection and try again</value></data>
+	<data name="Quote_UpdatedAt" xml:space="preserve"><value>Updated {0}</value></data>
+	<data name="Currency_Dollar" xml:space="preserve"><value>Dollar</value></data>
+	<data name="Currency_Euro" xml:space="preserve"><value>Euro</value></data>
+	<data name="Currency_Pound" xml:space="preserve"><value>Pound</value></data>
+	<data name="Currency_Yen" xml:space="preserve"><value>Yen</value></data>
+	<data name="Currency_Bitcoin" xml:space="preserve"><value>Bitcoin</value></data>
+	<data name="Currency_Argentine" xml:space="preserve"><value>Argentine Peso</value></data>
+	<data name="Prof_Title" xml:space="preserve"><value>Profile</value></data>
+	<data name="Prof_MemberSince" xml:space="preserve"><value>Member since</value></data>
+	<data name="Prof_Nav_Info" xml:space="preserve"><value>General</value></data>
+	<data name="Prof_Nav_Security" xml:space="preserve"><value>Security</value></data>
+	<data name="Prof_Nav_Appearance" xml:space="preserve"><value>Preferences</value></data>
+	<data name="Prof_Nav_Account" xml:space="preserve"><value>Account</value></data>
+	<data name="Prof_Info_Title" xml:space="preserve"><value>Personal information</value></data>
+	<data name="Prof_Security_EmailSection" xml:space="preserve"><value>Email</value></data>
+	<data name="Prof_Security_EmailAddress" xml:space="preserve"><value>Email address</value></data>
+	<data name="Prof_Security_ConfirmPwd" xml:space="preserve"><value>Confirm password</value></data>
+	<data name="Prof_Security_ChangePwd" xml:space="preserve"><value>Change password</value></data>
+	<data name="Prof_Security_CurrentPwd" xml:space="preserve"><value>Current password</value></data>
+	<data name="Prof_Security_NewPwd" xml:space="preserve"><value>New password</value></data>
+	<data name="Prof_Security_ConfirmNewPwd" xml:space="preserve"><value>Confirm new password</value></data>
+	<data name="Prof_Appearance_Theme" xml:space="preserve"><value>Theme</value></data>
+	<data name="Prof_Appearance_FontSize" xml:space="preserve"><value>Font size</value></data>
+	<data name="Prof_Appearance_Language" xml:space="preserve"><value>Language</value></data>
+	<data name="Prof_Appearance_ThemeDark" xml:space="preserve"><value>Dark</value></data>
+	<data name="Prof_Appearance_ThemeLight" xml:space="preserve"><value>Light</value></data>
+	<data name="Prof_Appearance_ThemeHighContrast" xml:space="preserve"><value>High Contrast</value></data>
+	<data name="Prof_Appearance_FontNormal" xml:space="preserve"><value>Normal</value></data>
+	<data name="Prof_Appearance_FontLarge" xml:space="preserve"><value>Large</value></data>
+	<data name="Prof_Appearance_FontXLarge" xml:space="preserve"><value>Very large</value></data>
+	<data name="Prof_Appearance_LangPT" xml:space="preserve"><value>Portuguese (Brazil)</value></data>
+	<data name="Prof_Appearance_LangEN" xml:space="preserve"><value>English</value></data>
+	<data name="Prof_Account_DangerZone" xml:space="preserve"><value>Danger zone</value></data>
+	<data name="Prof_Account_Warning" xml:space="preserve"><value>This action is irreversible. All your transactions, categories and data will be permanently deleted.</value></data>
+	<data name="Prof_Account_DeleteBtn" xml:space="preserve"><value>Delete account</value></data>
+	<data name="Prof_Delete_Title" xml:space="preserve"><value>Delete account</value></data>
+	<data name="Prof_Delete_Confirm" xml:space="preserve"><value>Are you sure? All transactions, categories and account data will be permanently deleted and cannot be recovered.</value></data>
+	<data name="Prof_Delete_Password" xml:space="preserve"><value>Confirm password</value></data>
+	<data name="Prof_Delete_Submit" xml:space="preserve"><value>Delete permanently</value></data>
+	<data name="Msg_EmailConfirmSent" xml:space="preserve"><value>Account registered! Check your email to activate access.</value></data>
+	<data name="Msg_InvalidLink" xml:space="preserve"><value>Invalid or expired link.</value></data>
+	<data name="Msg_ForgotEmailSent" xml:space="preserve"><value>If the email is registered, you will receive instructions shortly.</value></data>
+	<data name="Msg_PasswordReset" xml:space="preserve"><value>Password reset successfully! Please sign in.</value></data>
+	<data name="Msg_WrongCredentials" xml:space="preserve"><value>Incorrect email or password.</value></data>
+	<data name="Msg_EmailNotConfirmed" xml:space="preserve"><value>Please confirm your email before signing in.</value></data>
+	<data name="Msg_NameUpdated" xml:space="preserve"><value>Name updated successfully.</value></data>
+	<data name="Msg_EmailUpdated" xml:space="preserve"><value>Email updated successfully.</value></data>
+	<data name="Msg_PasswordChanged" xml:space="preserve"><value>Password changed successfully.</value></data>
+	<data name="Msg_EmailInUse" xml:space="preserve"><value>This email is already in use.</value></data>
+	<data name="Msg_EmailSameAsCurrent" xml:space="preserve"><value>The new email is the same as the current one.</value></data>
+	<data name="Msg_WrongPassword" xml:space="preserve"><value>Incorrect password.</value></data>
+	<data name="Msg_OperationNotAllowed" xml:space="preserve"><value>Operation not allowed.</value></data>
+	<data name="Msg_CurrentPasswordWrong" xml:space="preserve"><value>Current password is incorrect.</value></data>
+	<data name="Msg_NameInvalid" xml:space="preserve"><value>Invalid name.</value></data>
+	<data name="Msg_EmailInvalid" xml:space="preserve"><value>Invalid email.</value></data>
+	<data name="Msg_DataInvalid" xml:space="preserve"><value>Invalid data.</value></data>
+	<data name="Msg_CategoryNotFound" xml:space="preserve"><value>Category not found.</value></data>
+	<data name="Msg_TransCreated" xml:space="preserve"><value>Transaction created successfully.</value></data>
+	<data name="Msg_TransUpdated" xml:space="preserve"><value>Transaction updated successfully.</value></data>
+	<data name="Msg_TransNotFound" xml:space="preserve"><value>Transaction not found.</value></data>
+	<data name="Msg_TransDeleted" xml:space="preserve"><value>Transaction deleted successfully.</value></data>
+	<data name="Msg_RecurringImported" xml:space="preserve"><value>{0} recurring transaction(s) imported successfully.</value></data>
+	<data name="Msg_CatNameRequired" xml:space="preserve"><value>Category name is required.</value></data>
+	<data name="Msg_CatAlreadyExists" xml:space="preserve"><value>A category with this name and type already exists.</value></data>
+	<data name="Msg_CatCreated" xml:space="preserve"><value>Category created successfully.</value></data>
+	<data name="Msg_CatNotFound" xml:space="preserve"><value>Category not found.</value></data>
+	<data name="Msg_CatUpdated" xml:space="preserve"><value>Category updated successfully.</value></data>
+	<data name="Msg_CatHasTransactions" xml:space="preserve"><value>Cannot delete a category with linked transactions.</value></data>
+	<data name="Msg_CatDeleted" xml:space="preserve"><value>Category deleted successfully.</value></data>
+	<data name="Msg_NotFound" xml:space="preserve"><value>Not found.</value></data>
+	<data name="Val_NameRequired" xml:space="preserve"><value>Name is required</value></data>
+	<data name="Val_NameMaxLength" xml:space="preserve"><value>Name cannot exceed 100 characters</value></data>
+	<data name="Val_EmailRequired" xml:space="preserve"><value>Email is required</value></data>
+	<data name="Val_EmailInvalid" xml:space="preserve"><value>Invalid email</value></data>
+	<data name="Val_PasswordRequired" xml:space="preserve"><value>Password is required</value></data>
+	<data name="Val_PasswordMin6" xml:space="preserve"><value>Password must be at least 6 characters</value></data>
+	<data name="Val_Min6Chars" xml:space="preserve"><value>Minimum 6 characters</value></data>
+	<data name="Val_ConfirmRequired" xml:space="preserve"><value>Confirmation is required</value></data>
+	<data name="Val_PasswordMismatch" xml:space="preserve"><value>Passwords do not match</value></data>
+	<data name="Val_DescriptionMaxLength" xml:space="preserve"><value>Description cannot exceed 200 characters</value></data>
+	<data name="Val_AmountRange" xml:space="preserve"><value>Amount must be greater than zero</value></data>
+	<data name="Val_DateRequired" xml:space="preserve"><value>Date is required</value></data>
+	<data name="Val_CategoryRequired" xml:space="preserve"><value>Category is required</value></data>
+	<data name="Val_CatNameRequired" xml:space="preserve"><value>Category name is required</value></data>
+	<data name="Val_CatNameMaxLength" xml:space="preserve"><value>Name cannot exceed 100 characters</value></data>
+	<data name="Email_Confirm_Subject" xml:space="preserve"><value>Confirm your email — lawllit.finance</value></data>
+	<data name="Email_Confirm_Heading" xml:space="preserve"><value>Confirm your email</value></data>
+	<data name="Email_Confirm_Greeting" xml:space="preserve"><value>Hello, {0}! Click the button below to activate your lawllit.finance account.</value></data>
+	<data name="Email_Confirm_ActionLabel" xml:space="preserve"><value>Confirm email</value></data>
+	<data name="Email_Confirm_Footer1" xml:space="preserve"><value>This link expires in 24 hours.</value></data>
+	<data name="Email_Confirm_Footer2" xml:space="preserve"><value>If you didn't create an account, ignore this email.</value></data>
+	<data name="Email_Reset_Subject" xml:space="preserve"><value>Password reset — lawllit.finance</value></data>
+	<data name="Email_Reset_Heading" xml:space="preserve"><value>Password reset</value></data>
+	<data name="Email_Reset_Greeting" xml:space="preserve"><value>Hello, {0}! Click the button below to reset your lawllit.finance password.</value></data>
+	<data name="Email_Reset_ActionLabel" xml:space="preserve"><value>Reset password</value></data>
+	<data name="Email_Reset_Footer1" xml:space="preserve"><value>This link expires in 1 hour.</value></data>
+	<data name="Email_Reset_Footer2" xml:space="preserve"><value>If you didn't request a password reset, ignore this email.</value></data>
 </root>
