@@ -52,9 +52,10 @@ public class QuotesService(
                 if (!data.TryGetValue(item.Key, out var currencyData)) continue;
                 if (string.IsNullOrEmpty(currencyData.Bid) || string.IsNullOrEmpty(currencyData.High) || string.IsNullOrEmpty(currencyData.Low)) continue;
 
+                var brazilTimeZone = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
                 var lastUpdated = long.TryParse(currencyData.Timestamp, out var unixSeconds)
-                    ? DateTimeOffset.FromUnixTimeSeconds(unixSeconds).LocalDateTime
-                    : DateTime.Now;
+                    ? TimeZoneInfo.ConvertTimeFromUtc(DateTimeOffset.FromUnixTimeSeconds(unixSeconds).UtcDateTime, brazilTimeZone)
+                    : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, brazilTimeZone);
 
                 decimal.TryParse(currencyData.PctChange, NumberStyles.Any, CultureInfo.InvariantCulture, out var pctChange);
 
