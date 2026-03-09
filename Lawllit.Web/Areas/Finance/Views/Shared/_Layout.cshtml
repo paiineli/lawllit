@@ -1,6 +1,7 @@
 @{
     var theme = User.FindFirst("theme")?.Value ?? "dark";
     var fontSize = User.FindFirst("font_size")?.Value ?? "normal";
+    var userCurrencyLocale = (User.FindFirst("currency")?.Value ?? "BRL") == "USD" ? "en-US" : "pt-BR";
     var currentLanguage = System.Globalization.CultureInfo.CurrentUICulture.Name;
     var bsTheme = theme == "high-contrast" ? "dark" : theme;
     var titlePart = ViewData["Title"] as string;
@@ -12,7 +13,7 @@
     var canonicalUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}";
 }
 <!DOCTYPE html>
-<html lang="@currentLanguage" data-bs-theme="@bsTheme" data-theme="@theme" @(fontSize != "normal" ? $"data-font-size=\"{fontSize}\"" : "")>
+<html lang="@currentLanguage" data-bs-theme="@bsTheme" data-theme="@theme" data-currency-locale="@userCurrencyLocale" @(fontSize != "normal" ? $"data-font-size=\"{fontSize}\"" : "")>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

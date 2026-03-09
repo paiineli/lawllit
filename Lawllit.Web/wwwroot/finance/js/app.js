@@ -45,11 +45,16 @@ document.addEventListener('show.bs.modal', function (event) {
 });
 
 document.addEventListener('submit', function (event) {
+    var currencyLocale = document.documentElement.dataset.currencyLocale || 'pt-BR';
     event.target.querySelectorAll('[data-decimal-input]').forEach(function (input) {
-        if (input.value.includes(',')) {
-            input.value = input.value.replace(/\./g, '');
+        if (currencyLocale === 'en-US') {
+            input.value = input.value.replace(/,/g, '');
         } else {
-            input.value = input.value.replace('.', ',');
+            if (input.value.includes(',')) {
+                input.value = input.value.replace(/\./g, '');
+            } else {
+                input.value = input.value.replace('.', ',');
+            }
         }
     });
 });
