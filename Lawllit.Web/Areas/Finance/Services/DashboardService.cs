@@ -20,9 +20,10 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
         int daysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
         int daysDone = isCurrentMonth ? now.Day : daysInMonth;
 
-        decimal dailyAverage = summary.TotalExpenses > 0 ? summary.TotalExpenses / daysDone : 0;
-        decimal? monthlyProjection = isCurrentMonth && summary.TotalExpenses > 0
-            ? (summary.TotalExpenses / daysDone) * daysInMonth
+        decimal pastExpenses = isCurrentMonth ? summary.TotalExpenses - upcomingExpenses : summary.TotalExpenses;
+        decimal dailyAverage = pastExpenses > 0 ? pastExpenses / daysDone : 0;
+        decimal? monthlyProjection = isCurrentMonth && pastExpenses > 0
+            ? (pastExpenses / daysDone) * daysInMonth
             : null;
 
         int previousMonth = selectedMonth == 1 ? 12 : selectedMonth - 1;
