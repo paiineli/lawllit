@@ -37,6 +37,10 @@ public class AuthController(IAuthService authService, IEmailService emailService
         }
 
         await SignInAsync(result.Value!);
+
+        if (!result.Value!.IsOnboardingCompleted)
+            return RedirectToAction("Index", "Welcome");
+
         return RedirectToAction("Index", "Dashboard");
     }
 
@@ -81,6 +85,10 @@ public class AuthController(IAuthService authService, IEmailService emailService
         }
 
         await SignInAsync(result.Value!);
+
+        if (!result.Value!.IsOnboardingCompleted)
+            return RedirectToAction("Index", "Welcome");
+
         return RedirectToAction("Index", "Dashboard");
     }
 
@@ -167,6 +175,10 @@ public class AuthController(IAuthService authService, IEmailService emailService
 
         await HttpContext.SignOutAsync("External");
         await SignInAsync(user);
+
+        if (!user.IsOnboardingCompleted)
+            return RedirectToAction("Index", "Welcome");
+
         return RedirectToAction("Index", "Dashboard");
     }
 }

@@ -648,3 +648,123 @@ body {
     border-color: var(--green) !important;
     background-color: var(--green-dim);
 }
+
+.welcome-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.welcome-card {
+    width: 100%;
+    max-width: 860px;
+}
+
+.welcome-step--hidden {
+    display: none;
+}
+
+.welcome-progress-dots {
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+}
+
+.welcome-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--bs-border-color);
+    transition: background-color .2s;
+    display: inline-block;
+}
+
+.welcome-dot--active {
+    background-color: var(--green);
+}
+
+.welcome-option-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--bs-border-color);
+    border-radius: .5rem;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+    color: var(--bs-body-color);
+    width: 100%;
+    text-align: left;
+    min-height: 72px;
+}
+
+    .welcome-option-card:hover {
+        border-color: var(--green);
+    }
+
+.welcome-option-card--active {
+    border-color: var(--green) !important;
+    background-color: var(--green-dim);
+}
+
+.welcome-font-card {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem .75rem;
+    min-height: 110px;
+}
+
+.welcome-currency-sample {
+    color: var(--bs-secondary-color);
+    font-size: .82rem;
+    margin-top: .2rem;
+    display: block;
+}
+
+.welcome-font-sample {
+    color: var(--bs-secondary-color);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.welcome-font-sample--large {
+    font-size: 26px;
+}
+
+.welcome-font-sample--xlarge {
+    font-size: 36px;
+}
+
+.welcome-brand {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--bs-body-color);
+    letter-spacing: -0.3px;
+}
+
+.welcome-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+.welcome-skip-link {
+    font-size: .72rem;
+    color: var(--bs-secondary-color) !important;
+    text-decoration: none;
+    opacity: .45;
+    transition: opacity .15s;
+}
+
+    .welcome-skip-link:hover {
+        opacity: .9;
+        text-decoration: none !important;
+    }

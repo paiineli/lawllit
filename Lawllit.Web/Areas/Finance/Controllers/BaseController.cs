@@ -19,13 +19,14 @@ public abstract class BaseController : Controller
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Name,           user.Name),
-            new(ClaimTypes.Email,          user.Email),
-            new("theme",                   user.Theme),
-            new("font_size",               user.FontSize),
-            new("language",                user.Language),
-            new("currency",                user.Currency),
+            new(ClaimTypes.NameIdentifier,       user.Id.ToString()),
+            new(ClaimTypes.Name,                 user.Name),
+            new(ClaimTypes.Email,                user.Email),
+            new("theme",                         user.Theme),
+            new("font_size",                     user.FontSize),
+            new("language",                      user.Language),
+            new("currency",                      user.Currency),
+            new("is_onboarding_completed",       user.IsOnboardingCompleted.ToString().ToLower()),
         };
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

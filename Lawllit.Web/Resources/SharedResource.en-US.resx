@@ -260,4 +260,23 @@
 	<data name="Email_Reset_ActionLabel" xml:space="preserve"><value>Reset password</value></data>
 	<data name="Email_Reset_Footer1" xml:space="preserve"><value>This link expires in 1 hour.</value></data>
 	<data name="Email_Reset_Footer2" xml:space="preserve"><value>If you didn't request a password reset, ignore this email.</value></data>
+
+	<data name="Welcome_Step1_Title" xml:space="preserve"><value>Welcome, {0}!</value></data>
+	<data name="Welcome_Step1_Subtitle" xml:space="preserve"><value>Let us set up your experience. This will only take a moment.</value></data>
+	<data name="Welcome_Step1_Heading" xml:space="preserve"><value>Which language do you prefer?</value></data>
+	<data name="Welcome_Step2_Title" xml:space="preserve"><value>Preferred currency</value></data>
+	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>We will use this to format your transaction amounts.</value></data>
+	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>Which currency do you use?</value></data>
+	<data name="Welcome_Step3_Title" xml:space="preserve"><value>Choose your theme</value></data>
+	<data name="Welcome_Step3_Subtitle" xml:space="preserve"><value>Pick the look that works best for you.</value></data>
+	<data name="Welcome_Step3_Heading" xml:space="preserve"><value>How do you want lawllit to look?</value></data>
+	<data name="Welcome_Step4_Title" xml:space="preserve"><value>Font size</value></data>
+	<data name="Welcome_Step4_Subtitle" xml:space="preserve"><value>Adjust the text size for better readability.</value></data>
+	<data name="Welcome_Step4_Heading" xml:space="preserve"><value>How do you prefer to read?</value></data>
+	<data name="Welcome_Btn_Skip" xml:space="preserve"><value>Skip setup</value></data>
+	<data name="Welcome_Btn_Next" xml:space="preserve"><value>Continue</value></data>
+	<data name="Welcome_Btn_Back" xml:space="preserve"><value>Back</value></data>
+	<data name="Welcome_Btn_Complete" xml:space="preserve"><value>Start using lawllit.finance</value></data>
+	<data name="Welcome_StepOf" xml:space="preserve"><value>Step {0} of {1}</value></data>
+	<data name="Welcome_Hint_ChangeAnytime" xml:space="preserve"><value>You can always change this in your profile.</value></data>
 </root>
