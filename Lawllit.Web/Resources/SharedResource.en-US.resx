@@ -279,4 +279,74 @@
 	<data name="Welcome_Btn_Complete" xml:space="preserve"><value>Start using lawllit.finance</value></data>
 	<data name="Welcome_StepOf" xml:space="preserve"><value>Step {0} of {1}</value></data>
 	<data name="Welcome_Hint_ChangeAnytime" xml:space="preserve"><value>You can always change this in your profile.</value></data>
+
+	<data name="Register_TermsCheckbox_Pre" xml:space="preserve"><value>I have read and agree to the</value></data>
+	<data name="Register_TermsCheckbox_Mid" xml:space="preserve"><value>and</value></data>
+	<data name="Register_TermsCheckbox_Post" xml:space="preserve"><value>of Lawllit.</value></data>
+	<data name="Register_TermsLink" xml:space="preserve"><value>Terms of Use</value></data>
+	<data name="Register_PrivacyLink" xml:space="preserve"><value>Privacy Policy</value></data>
+	<data name="Val_TermsRequired" xml:space="preserve"><value>You must accept the Terms of Use to continue.</value></data>
+	<data name="Footer_Privacy" xml:space="preserve"><value>Privacy</value></data>
+	<data name="Footer_Terms" xml:space="preserve"><value>Terms</value></data>
+	<data name="Legal_BackToLogin" xml:space="preserve"><value>Back to login</value></data>
+
+	<data name="Privacy_Title" xml:space="preserve"><value>Privacy Policy</value></data>
+	<data name="Privacy_Updated" xml:space="preserve"><value>Last updated: March 2025</value></data>
+	<data name="Privacy_Intro" xml:space="preserve"><value>Lawllit respects your privacy. This Policy describes how we collect, use, and protect the personal data of lawllit.finance users, in accordance with the Brazilian General Data Protection Law (Lei nº 13.709/2018).</value></data>
+	<data name="Privacy_S1_Title" xml:space="preserve"><value>1. Data we collect</value></data>
+	<data name="Privacy_S1_Intro" xml:space="preserve"><value>We collect only the data necessary to provide the service:</value></data>
+	<data name="Privacy_S1_Li1" xml:space="preserve"><value>Name and email address, provided at registration</value></data>
+	<data name="Privacy_S1_Li2" xml:space="preserve"><value>Google account identifier, when registration is done via Google</value></data>
+	<data name="Privacy_S1_Li3" xml:space="preserve"><value>Financial transactions you record: description, amount, type, date, and recurrence</value></data>
+	<data name="Privacy_S1_Li4" xml:space="preserve"><value>Categories you create to organize your transactions</value></data>
+	<data name="Privacy_S1_Li5" xml:space="preserve"><value>Personalization preferences: visual theme, font size, language, and currency</value></data>
+	<data name="Privacy_S1_Li6" xml:space="preserve"><value>Session token, required to keep you authenticated for up to 7 days</value></data>
+	<data name="Privacy_S2_Title" xml:space="preserve"><value>2. How we use your data</value></data>
+	<data name="Privacy_S2_Li1" xml:space="preserve"><value>To create and manage your account</value></data>
+	<data name="Privacy_S2_Li2" xml:space="preserve"><value>To display your personalized financial dashboard</value></data>
+	<data name="Privacy_S2_Li3" xml:space="preserve"><value>To send transactional emails: email confirmation and password reset</value></data>
+	<data name="Privacy_S2_Li4" xml:space="preserve"><value>To apply your interface preferences on each visit</value></data>
+	<data name="Privacy_S3_Title" xml:space="preserve"><value>3. Data sharing</value></data>
+	<data name="Privacy_S3_Body1" xml:space="preserve"><value>We do not sell, rent, or share your personal data with third parties for commercial or advertising purposes.</value></data>
+	<data name="Privacy_S3_Body2" xml:space="preserve"><value>lawllit.finance fetches exchange rate data through the public API economia.awesomeapi.com.br. This request is made server-side and does not include any of your personal data.</value></data>
+	<data name="Privacy_S4_Title" xml:space="preserve"><value>4. Data retention</value></data>
+	<data name="Privacy_S4_Body" xml:space="preserve"><value>Your data is retained while your account is active. After account deletion, your data is removed from our systems within 30 days.</value></data>
+	<data name="Privacy_S5_Title" xml:space="preserve"><value>5. Your rights (LGPD)</value></data>
+	<data name="Privacy_S5_Body_Pre" xml:space="preserve"><value>You have the right to access, correct, and delete your personal data at any time. Deletion can be done directly in the Profile section of lawllit.finance. For other privacy-related requests, contact us at</value></data>
+	<data name="Privacy_S6_Title" xml:space="preserve"><value>6. Security</value></data>
+	<data name="Privacy_S6_Body" xml:space="preserve"><value>Passwords are stored encrypted and never in plain text. We use anti-forgery tokens on all forms, industry-standard security headers, and rate limiting on authentication endpoints to protect your account.</value></data>
+	<data name="Privacy_S7_Title" xml:space="preserve"><value>7. Changes to this Policy</value></data>
+	<data name="Privacy_S7_Body" xml:space="preserve"><value>Any updates will be published on this page with an updated revision date. Continued use of the service after changes implies acceptance of the new version.</value></data>
+	<data name="Privacy_S8_Title" xml:space="preserve"><value>8. Contact</value></data>
+	<data name="Privacy_S8_Body_Pre" xml:space="preserve"><value>For questions about this Policy, contact us at</value></data>
+
+	<data name="Terms_Title" xml:space="preserve"><value>Terms of Use</value></data>
+	<data name="Terms_Updated" xml:space="preserve"><value>Last updated: March 2025</value></data>
+	<data name="Terms_S1_Title" xml:space="preserve"><value>1. Acceptance of Terms</value></data>
+	<data name="Terms_S1_Body" xml:space="preserve"><value>By creating an account on lawllit.finance, you declare that you have read, understood, and agree to these Terms of Use. If you do not agree with any of the terms described here, do not use the service.</value></data>
+	<data name="Terms_S2_Title" xml:space="preserve"><value>2. The Service</value></data>
+	<data name="Terms_S2_Body" xml:space="preserve"><value>lawllit.finance is a personal finance management application that allows you to record income and expenses, organize categories, track your balance, and view real-time exchange rates. The service is intended for individuals for personal use.</value></data>
+	<data name="Terms_S3_Title" xml:space="preserve"><value>3. Registration and Account Responsibility</value></data>
+	<data name="Terms_S3_Li1" xml:space="preserve"><value>You must provide truthful and up-to-date information at registration</value></data>
+	<data name="Terms_S3_Li2" xml:space="preserve"><value>You are responsible for the security of your password and all activities carried out under your account</value></data>
+	<data name="Terms_S3_Li3_Pre" xml:space="preserve"><value>In case of unauthorized access to your account, contact us immediately at</value></data>
+	<data name="Terms_S3_Li4" xml:space="preserve"><value>Each person may maintain only one active account in the service</value></data>
+	<data name="Terms_S4_Title" xml:space="preserve"><value>4. Acceptable Use</value></data>
+	<data name="Terms_S4_Body" xml:space="preserve"><value>lawllit.finance must be used exclusively for personal and lawful purposes. Using the service for illegal or fraudulent activities, or activities that may compromise the security or functioning of the platform, is prohibited.</value></data>
+	<data name="Terms_S5_Title" xml:space="preserve"><value>5. Your Financial Data</value></data>
+	<data name="Terms_S5_Body" xml:space="preserve"><value>All financial data you record in lawllit.finance belongs to you. Lawllit does not access, analyze, or use your transactions for any purpose beyond displaying them in your own dashboard. You may delete your account and all associated data at any time in the Profile section.</value></data>
+	<data name="Terms_S6_Title" xml:space="preserve"><value>6. Exchange Rates and Financial Disclaimer</value></data>
+	<data name="Terms_S6_Body" xml:space="preserve"><value>Exchange rates displayed on lawllit.finance are for informational purposes only and are sourced from public APIs. They do not constitute a recommendation to buy, sell, or invest in any financial asset or currency. Lawllit is not responsible for any financial decisions made based on the information displayed in this service.</value></data>
+	<data name="Terms_S7_Title" xml:space="preserve"><value>7. Service Availability</value></data>
+	<data name="Terms_S7_Body" xml:space="preserve"><value>lawllit.finance is provided without guarantee of continuous availability. The service may be interrupted for maintenance, updates, or reasons beyond our control. We are not liable for any losses resulting from temporary unavailability.</value></data>
+	<data name="Terms_S8_Title" xml:space="preserve"><value>8. Account Termination</value></data>
+	<data name="Terms_S8_Body" xml:space="preserve"><value>You may delete your account at any time directly in the Profile section of lawllit.finance. Lawllit reserves the right to suspend or terminate accounts that violate these Terms of Use, with or without prior notice.</value></data>
+	<data name="Terms_S9_Title" xml:space="preserve"><value>9. Intellectual Property</value></data>
+	<data name="Terms_S9_Body" xml:space="preserve"><value>The Lawllit brand, design, interface, and code of lawllit.finance are the property of Lawllit. The financial data you record is your property. No part of the service may be reproduced, distributed, or used commercially without express authorization.</value></data>
+	<data name="Terms_S10_Title" xml:space="preserve"><value>10. Changes to These Terms</value></data>
+	<data name="Terms_S10_Body" xml:space="preserve"><value>These Terms may be updated periodically. Any relevant changes will be communicated on this page with an updated revision date. By continuing to use the service after changes are published, you agree to the new terms.</value></data>
+	<data name="Terms_S11_Title" xml:space="preserve"><value>11. Applicable Law</value></data>
+	<data name="Terms_S11_Body" xml:space="preserve"><value>These Terms are governed by the laws of the Federative Republic of Brazil.</value></data>
+	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contact</value></data>
+	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>For questions about these Terms, contact us at</value></data>
 </root>

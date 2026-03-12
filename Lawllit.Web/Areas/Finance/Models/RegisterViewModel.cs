@@ -15,4 +15,7 @@ public class RegisterViewModel
     [Required(ErrorMessage = "Val_PasswordRequired")]
     [MinLength(6, ErrorMessage = "Val_PasswordMin6")]
     public string Password { get; set; } = string.Empty;
+
+    [Range(typeof(bool), "true", "true", ErrorMessage = "Val_TermsRequired")]
+    public bool AcceptedTerms { get; set; }
 }

@@ -279,4 +279,74 @@
 	<data name="Welcome_Btn_Complete" xml:space="preserve"><value>Começar a usar o lawllit.finance</value></data>
 	<data name="Welcome_StepOf" xml:space="preserve"><value>Etapa {0} de {1}</value></data>
 	<data name="Welcome_Hint_ChangeAnytime" xml:space="preserve"><value>Você pode alterar isso a qualquer momento no seu perfil.</value></data>
+
+	<data name="Register_TermsCheckbox_Pre" xml:space="preserve"><value>Li e concordo com os</value></data>
+	<data name="Register_TermsCheckbox_Mid" xml:space="preserve"><value>e a</value></data>
+	<data name="Register_TermsCheckbox_Post" xml:space="preserve"><value>da Lawllit.</value></data>
+	<data name="Register_TermsLink" xml:space="preserve"><value>Termos de Uso</value></data>
+	<data name="Register_PrivacyLink" xml:space="preserve"><value>Política de Privacidade</value></data>
+	<data name="Val_TermsRequired" xml:space="preserve"><value>Você deve aceitar os Termos de Uso para continuar.</value></data>
+	<data name="Footer_Privacy" xml:space="preserve"><value>Privacidade</value></data>
+	<data name="Footer_Terms" xml:space="preserve"><value>Termos</value></data>
+	<data name="Legal_BackToLogin" xml:space="preserve"><value>Voltar ao login</value></data>
+
+	<data name="Privacy_Title" xml:space="preserve"><value>Política de Privacidade</value></data>
+	<data name="Privacy_Updated" xml:space="preserve"><value>Última atualização: março de 2025</value></data>
+	<data name="Privacy_Intro" xml:space="preserve"><value>A Lawllit respeita a sua privacidade. Esta Política descreve como coletamos, usamos e protegemos os dados pessoais dos usuários do lawllit.finance, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</value></data>
+	<data name="Privacy_S1_Title" xml:space="preserve"><value>1. Dados que coletamos</value></data>
+	<data name="Privacy_S1_Intro" xml:space="preserve"><value>Coletamos apenas os dados necessários para o funcionamento do serviço:</value></data>
+	<data name="Privacy_S1_Li1" xml:space="preserve"><value>Nome e endereço de e-mail, fornecidos no cadastro</value></data>
+	<data name="Privacy_S1_Li2" xml:space="preserve"><value>Identificador da conta Google, quando o cadastro é feito via Google</value></data>
+	<data name="Privacy_S1_Li3" xml:space="preserve"><value>Transações financeiras que você registra: descrição, valor, tipo, data e recorrência</value></data>
+	<data name="Privacy_S1_Li4" xml:space="preserve"><value>Categorias que você cria para organizar suas transações</value></data>
+	<data name="Privacy_S1_Li5" xml:space="preserve"><value>Preferências de personalização: tema visual, tamanho de fonte, idioma e moeda</value></data>
+	<data name="Privacy_S1_Li6" xml:space="preserve"><value>Token de sessão, necessário para manter você autenticado por até 7 dias</value></data>
+	<data name="Privacy_S2_Title" xml:space="preserve"><value>2. Como usamos seus dados</value></data>
+	<data name="Privacy_S2_Li1" xml:space="preserve"><value>Para criar e gerenciar sua conta</value></data>
+	<data name="Privacy_S2_Li2" xml:space="preserve"><value>Para exibir seu painel financeiro personalizado</value></data>
+	<data name="Privacy_S2_Li3" xml:space="preserve"><value>Para enviar e-mails transacionais: confirmação de e-mail e redefinição de senha</value></data>
+	<data name="Privacy_S2_Li4" xml:space="preserve"><value>Para aplicar suas preferências de interface em cada acesso</value></data>
+	<data name="Privacy_S3_Title" xml:space="preserve"><value>3. Compartilhamento de dados</value></data>
+	<data name="Privacy_S3_Body1" xml:space="preserve"><value>Não vendemos, alugamos nem compartilhamos seus dados pessoais com terceiros para fins comerciais ou publicitários.</value></data>
+	<data name="Privacy_S3_Body2" xml:space="preserve"><value>O lawllit.finance consulta cotações de câmbio por meio da API pública economia.awesomeapi.com.br. Essa consulta é feita pelo servidor e não inclui nenhum dado pessoal seu.</value></data>
+	<data name="Privacy_S4_Title" xml:space="preserve"><value>4. Retenção de dados</value></data>
+	<data name="Privacy_S4_Body" xml:space="preserve"><value>Seus dados são mantidos enquanto sua conta estiver ativa. Após a exclusão da conta, os dados são removidos dos nossos sistemas em até 30 dias.</value></data>
+	<data name="Privacy_S5_Title" xml:space="preserve"><value>5. Seus direitos (LGPD)</value></data>
+	<data name="Privacy_S5_Body_Pre" xml:space="preserve"><value>Você tem direito a acessar, corrigir e excluir seus dados pessoais a qualquer momento. A exclusão pode ser feita diretamente na seção Perfil do lawllit.finance. Para demais solicitações relacionadas à privacidade, entre em contato pelo e-mail</value></data>
+	<data name="Privacy_S6_Title" xml:space="preserve"><value>6. Segurança</value></data>
+	<data name="Privacy_S6_Body" xml:space="preserve"><value>Senhas são armazenadas de forma criptografada e nunca em texto simples. Utilizamos tokens anti-falsificação em todos os formulários, cabeçalhos de segurança padrão da indústria e limitação de tentativas de acesso para proteger sua conta.</value></data>
+	<data name="Privacy_S7_Title" xml:space="preserve"><value>7. Alterações nesta Política</value></data>
+	<data name="Privacy_S7_Body" xml:space="preserve"><value>Eventuais atualizações serão publicadas nesta página com a data de revisão atualizada. O uso contínuo do serviço após as alterações implica aceitação da nova versão.</value></data>
+	<data name="Privacy_S8_Title" xml:space="preserve"><value>8. Contato</value></data>
+	<data name="Privacy_S8_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre esta Política, entre em contato pelo e-mail</value></data>
+
+	<data name="Terms_Title" xml:space="preserve"><value>Termos de Uso</value></data>
+	<data name="Terms_Updated" xml:space="preserve"><value>Última atualização: março de 2025</value></data>
+	<data name="Terms_S1_Title" xml:space="preserve"><value>1. Aceitação dos Termos</value></data>
+	<data name="Terms_S1_Body" xml:space="preserve"><value>Ao criar uma conta no lawllit.finance, você declara que leu, entendeu e concorda com estes Termos de Uso. Se você não concordar com algum dos termos aqui descritos, não utilize o serviço.</value></data>
+	<data name="Terms_S2_Title" xml:space="preserve"><value>2. O Serviço</value></data>
+	<data name="Terms_S2_Body" xml:space="preserve"><value>O lawllit.finance é uma aplicação de controle financeiro pessoal que permite registrar receitas e despesas, organizar categorias, acompanhar saldo e visualizar cotações de câmbio em tempo real. O serviço é destinado a pessoas físicas para uso pessoal.</value></data>
+	<data name="Terms_S3_Title" xml:space="preserve"><value>3. Cadastro e Responsabilidade da Conta</value></data>
+	<data name="Terms_S3_Li1" xml:space="preserve"><value>Você deve fornecer informações verdadeiras e atualizadas no cadastro</value></data>
+	<data name="Terms_S3_Li2" xml:space="preserve"><value>Você é responsável pela segurança da sua senha e por todas as atividades realizadas na sua conta</value></data>
+	<data name="Terms_S3_Li3_Pre" xml:space="preserve"><value>Em caso de acesso não autorizado à sua conta, entre em contato imediatamente pelo e-mail</value></data>
+	<data name="Terms_S3_Li4" xml:space="preserve"><value>Cada pessoa pode manter apenas uma conta ativa no serviço</value></data>
+	<data name="Terms_S4_Title" xml:space="preserve"><value>4. Uso Aceitável</value></data>
+	<data name="Terms_S4_Body" xml:space="preserve"><value>O lawllit.finance deve ser utilizado exclusivamente para fins pessoais e lícitos. É proibido usar o serviço para atividades ilegais, fraudulentas, ou que possam comprometer a segurança ou o funcionamento da plataforma.</value></data>
+	<data name="Terms_S5_Title" xml:space="preserve"><value>5. Seus Dados Financeiros</value></data>
+	<data name="Terms_S5_Body" xml:space="preserve"><value>Todos os dados financeiros que você registra no lawllit.finance pertencem a você. A Lawllit não acessa, analisa nem utiliza suas transações para qualquer finalidade além da exibição no seu próprio painel. Você pode excluir sua conta e todos os seus dados a qualquer momento na seção Perfil.</value></data>
+	<data name="Terms_S6_Title" xml:space="preserve"><value>6. Cotações de Câmbio e Isenção de Responsabilidade Financeira</value></data>
+	<data name="Terms_S6_Body" xml:space="preserve"><value>As cotações de câmbio exibidas no lawllit.finance têm caráter exclusivamente informativo e são obtidas de fontes públicas. Elas não constituem recomendação de compra, venda ou investimento em nenhum ativo financeiro ou moeda. A Lawllit não se responsabiliza por quaisquer decisões financeiras tomadas com base nas informações exibidas neste serviço.</value></data>
+	<data name="Terms_S7_Title" xml:space="preserve"><value>7. Disponibilidade do Serviço</value></data>
+	<data name="Terms_S7_Body" xml:space="preserve"><value>O lawllit.finance é oferecido sem garantia de disponibilidade contínua. O serviço pode ser interrompido para manutenção, atualizações ou por razões fora do nosso controle. Não nos responsabilizamos por eventuais perdas decorrentes de indisponibilidade temporária.</value></data>
+	<data name="Terms_S8_Title" xml:space="preserve"><value>8. Encerramento de Conta</value></data>
+	<data name="Terms_S8_Body" xml:space="preserve"><value>Você pode excluir sua conta a qualquer momento diretamente na seção Perfil do lawllit.finance. A Lawllit reserva-se o direito de suspender ou encerrar contas que violem estes Termos de Uso, com ou sem aviso prévio.</value></data>
+	<data name="Terms_S9_Title" xml:space="preserve"><value>9. Propriedade Intelectual</value></data>
+	<data name="Terms_S9_Body" xml:space="preserve"><value>A marca Lawllit, o design, a interface e o código do lawllit.finance são de propriedade da Lawllit. Os dados financeiros que você registra são de sua propriedade. Nenhuma parte do serviço pode ser reproduzida, distribuída ou utilizada comercialmente sem autorização expressa.</value></data>
+	<data name="Terms_S10_Title" xml:space="preserve"><value>10. Alterações nestes Termos</value></data>
+	<data name="Terms_S10_Body" xml:space="preserve"><value>Estes Termos podem ser atualizados periodicamente. Qualquer alteração relevante será comunicada nesta página com a data de revisão atualizada. Ao continuar utilizando o serviço após a publicação de alterações, você concorda com os novos termos.</value></data>
+	<data name="Terms_S11_Title" xml:space="preserve"><value>11. Lei Aplicável</value></data>
+	<data name="Terms_S11_Body" xml:space="preserve"><value>Estes Termos são regidos pelas leis da República Federativa do Brasil.</value></data>
+	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contato</value></data>
+	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre estes Termos, entre em contato pelo e-mail</value></data>
 </root>

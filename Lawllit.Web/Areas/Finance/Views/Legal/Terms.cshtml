@@ -1,0 +1,67 @@
+@{
+    Layout = "_AuthLayout";
+}
+
+<div class="legal-wrapper">
+    <div class="legal-content">
+
+        <div class="card">
+            <div class="card-body p-4 p-md-5">
+
+                <h4 class="fw-bold mb-1">@Localizer["Terms_Title"]</h4>
+                <p class="text-secondary small mb-4">@Localizer["Terms_Updated"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S1_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S1_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S2_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S2_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S3_Title"]</h6>
+                <ul class="small text-secondary">
+                    <li>@Localizer["Terms_S3_Li1"]</li>
+                    <li>@Localizer["Terms_S3_Li2"]</li>
+                    <li>@Localizer["Terms_S3_Li3_Pre"] <a href="mailto:support@lawllit.com" class="text-green">support@lawllit.com</a></li>
+                    <li>@Localizer["Terms_S3_Li4"]</li>
+                </ul>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S4_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S4_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S5_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S5_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S6_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S6_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S7_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S7_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S8_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S8_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S9_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S9_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S10_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S10_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S11_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Terms_S11_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Terms_S12_Title"]</h6>
+                <p class="small text-secondary">
+                    @Localizer["Terms_S12_Body_Pre"] <a href="mailto:support@lawllit.com" class="text-green">support@lawllit.com</a>.
+                </p>
+
+            </div>
+        </div>
+
+        <p class="text-center small text-secondary mt-3 mb-4">
+            <a asp-area="Finance" asp-controller="Legal" asp-action="Privacy" class="text-secondary">@Localizer["Footer_Privacy"]</a>
+            &nbsp;&middot;&nbsp;
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="text-secondary">@Localizer["Legal_BackToLogin"]</a>
+        </p>
+
+    </div>
+</div>

@@ -1,0 +1,68 @@
+@{
+    Layout = "_AuthLayout";
+}
+
+<div class="legal-wrapper">
+    <div class="legal-content">
+
+        <div class="card">
+            <div class="card-body p-4 p-md-5">
+
+                <h4 class="fw-bold mb-1">@Localizer["Privacy_Title"]</h4>
+                <p class="text-secondary small mb-4">@Localizer["Privacy_Updated"]</p>
+
+                <p class="small text-secondary">@Localizer["Privacy_Intro"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S1_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Privacy_S1_Intro"]</p>
+                <ul class="small text-secondary">
+                    <li>@Localizer["Privacy_S1_Li1"]</li>
+                    <li>@Localizer["Privacy_S1_Li2"]</li>
+                    <li>@Localizer["Privacy_S1_Li3"]</li>
+                    <li>@Localizer["Privacy_S1_Li4"]</li>
+                    <li>@Localizer["Privacy_S1_Li5"]</li>
+                    <li>@Localizer["Privacy_S1_Li6"]</li>
+                </ul>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S2_Title"]</h6>
+                <ul class="small text-secondary">
+                    <li>@Localizer["Privacy_S2_Li1"]</li>
+                    <li>@Localizer["Privacy_S2_Li2"]</li>
+                    <li>@Localizer["Privacy_S2_Li3"]</li>
+                    <li>@Localizer["Privacy_S2_Li4"]</li>
+                </ul>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S3_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Privacy_S3_Body1"]</p>
+                <p class="small text-secondary">@Localizer["Privacy_S3_Body2"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S4_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Privacy_S4_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S5_Title"]</h6>
+                <p class="small text-secondary">
+                    @Localizer["Privacy_S5_Body_Pre"] <a href="mailto:support@lawllit.com" class="text-green">support@lawllit.com</a>.
+                </p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S6_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Privacy_S6_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S7_Title"]</h6>
+                <p class="small text-secondary">@Localizer["Privacy_S7_Body"]</p>
+
+                <h6 class="fw-semibold mt-4 mb-2">@Localizer["Privacy_S8_Title"]</h6>
+                <p class="small text-secondary">
+                    @Localizer["Privacy_S8_Body_Pre"] <a href="mailto:support@lawllit.com" class="text-green">support@lawllit.com</a>.
+                </p>
+
+            </div>
+        </div>
+
+        <p class="text-center small text-secondary mt-3 mb-4">
+            <a asp-area="Finance" asp-controller="Legal" asp-action="Terms" class="text-secondary">@Localizer["Footer_Terms"]</a>
+            &nbsp;&middot;&nbsp;
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="text-secondary">@Localizer["Legal_BackToLogin"]</a>
+        </p>
+
+    </div>
+</div>

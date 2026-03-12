@@ -33,7 +33,7 @@
                         <span asp-validation-for="Email" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label asp-for="Password" class="form-label small">@Localizer["Lbl_Password"] <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input asp-for="Password" type="password" class="form-control" id="regPwd"
@@ -44,6 +44,20 @@
                             </button>
                         </div>
                         <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input asp-for="AcceptedTerms" class="form-check-input" type="checkbox" id="acceptedTerms">
+                            <label class="form-check-label small text-secondary" for="acceptedTerms">
+                                @Localizer["Register_TermsCheckbox_Pre"]
+                                <a asp-area="Finance" asp-controller="Legal" asp-action="Terms" target="_blank" class="text-green">@Localizer["Register_TermsLink"]</a>
+                                @Localizer["Register_TermsCheckbox_Mid"]
+                                <a asp-area="Finance" asp-controller="Legal" asp-action="Privacy" target="_blank" class="text-green">@Localizer["Register_PrivacyLink"]</a>
+                                @Localizer["Register_TermsCheckbox_Post"]
+                            </label>
+                        </div>
+                        <span asp-validation-for="AcceptedTerms" class="text-danger small"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">@Localizer["Register_Title"]</button>

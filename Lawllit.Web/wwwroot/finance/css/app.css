@@ -252,6 +252,19 @@ body {
     max-width: 400px;
 }
 
+.legal-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.legal-content {
+    width: 100%;
+    max-width: 720px;
+}
+
 .site-footer {
     border-top: 1px solid var(--bs-border-color);
     padding: 1.25rem 1.5rem;
@@ -291,7 +304,7 @@ body {
     align-items: center;
 }
 
-    .footer-links a {
+    .footer-links a[aria-label] {
         font-size: 1rem;
     }
 
