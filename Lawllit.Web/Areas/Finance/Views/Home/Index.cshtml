@@ -1,6 +1,3 @@
-@{
-    ViewData["Description"] = "Controle suas receitas e despesas, acompanhe cotações de câmbio em tempo real e mantenha suas finanças organizadas com o lawllit.finance.";
-}
 
 <main class="flex-grow-1 d-flex flex-column">
     <section class="landing-hero">
@@ -29,21 +26,5 @@
 </main>
 
 @section Scripts {
-    <script type="application/ld+json">
-        {
-            "@@context": "https://schema.org",
-            "@@type": "WebApplication",
-            "name": "lawllit.finance",
-            "description": "Controle financeiro pessoal com acompanhamento de receitas, despesas e cotações de câmbio em tempo real.",
-            "applicationCategory": "FinanceApplication",
-            "operatingSystem": "Web",
-            "offers": {
-                "@@type": "Offer",
-                "price": "0",
-                "priceCurrency": "BRL"
-            },
-            "inLanguage": "pt-BR"
-        }
-    </script>
     <script src="~/finance/js/home.js" asp-append-version="true"></script>
 }
