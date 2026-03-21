@@ -31,23 +31,44 @@
 
 <section id="projects">
     <span class="section-tag">@Localizer["Projects_Tag"]</span>
-    <article class="project">
-        <div class="project-header">
-            <span class="project-name">lawlitt<span class="project-name-accent">finance</span></span>
-            <span class="project-live">@Localizer["Project_LF_Live"]</span>
-        </div>
-        <p class="project-desc">@Localizer["Project_LF_Desc"]</p>
-        <div class="project-tags">
-            @foreach (var technology in Model.ProjectTechStack)
-            {
-                <span>@technology</span>
-            }
-        </div>
-        <div class="project-links">
-            <a asp-area="Finance" asp-controller="Home" asp-action="Index"
-               class="btn btn-solid">@Localizer["Project_LF_CTA"]</a>
-        </div>
-    </article>
+    <div class="projects-grid">
+        <article class="project">
+            <div class="project-header">
+                <span class="project-name">lawlitt<span class="project-name-accent">finance</span></span>
+                <span class="project-live">@Localizer["Project_LF_Live"]</span>
+            </div>
+            <p class="project-desc">@Localizer["Project_LF_Desc"]</p>
+            <div class="project-tags">
+                @foreach (var technology in Model.ProjectTechStack)
+                {
+                    <span>@technology</span>
+                }
+            </div>
+            <div class="project-links">
+                <a asp-area="Finance" asp-controller="Home" asp-action="Index"
+                   class="btn btn-solid">@Localizer["Project_LF_CTA"]</a>
+            </div>
+        </article>
+        <article class="project">
+            <div class="project-header">
+                <span class="project-name">clipin<span class="project-name-dim">.</span></span>
+                <span class="project-live">@Localizer["Project_LF_Live"]</span>
+            </div>
+            <p class="project-desc">@Localizer["Project_Clipin_Desc"]</p>
+            <div class="project-tags">
+                <span>C#</span>
+                <span>.NET</span>
+                <span>Windows</span>
+                <span>Open Source</span>
+            </div>
+            <div class="project-links">
+                <a asp-area="Clipin" asp-controller="Home" asp-action="Index" class="btn btn-solid">@Localizer["Project_Clipin_CTA"]</a>
+                <a href="https://github.com/paiineli/clipin" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+                    <i class="bi bi-github me-1" aria-hidden="true"></i>@Localizer["Project_Clipin_ViewSource"]
+                </a>
+            </div>
+        </article>
+    </div>
 </section>
 
 <section id="team">

@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+*, *::before, *::after {
+    font-family: 'JetBrains Mono', monospace;
+    box-sizing: border-box;
+}
+
+:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+:root {
+    --bg: #000;
+    --fg: #fff;
+    --dim: #888;
+    --border: rgba(255, 255, 255, 0.1);
+    --rec: #ef4444;
+    --radius: 2px;
+    --transition: 0.15s ease;
+    --nav-height: 52px;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--bg);
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; }
+
+a {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#clipin-nav {
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border) !important;
+    height: var(--nav-height);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.clipin-brand {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.clipin-brand:hover {
+    text-decoration: none;
+    color: var(--fg);
+}
+
+.clipin-brand-dot {
+    color: var(--rec);
+}
+
+.rec-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius);
+}
+
+.rec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--rec);
+    animation: blink 1.4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.15; }
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-back {
+    font-size: 0.75rem;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color var(--transition);
+    text-decoration: none;
+}
+
+.nav-back:hover {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+.lang {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang button {
+    background: none;
+    border: none;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--dim);
+    cursor: pointer;
+    padding: 0;
+    transition: color var(--transition);
+    letter-spacing: 0.5px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.lang button:hover,
+.lang button.on {
+    color: var(--fg);
+}
+
+.lang-sep {
+    color: var(--border);
+    font-size: 0.7rem;
+}
+
+.clipin-hero {
+    min-height: calc(100vh - var(--nav-height));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.selection-wrapper {
+    position: relative;
+    padding: 3.5rem 4rem;
+    text-align: center;
+    max-width: 560px;
+    width: 100%;
+}
+
+.corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.corner-tl { top: 0; left: 0;    border-top:    1px solid rgba(255,255,255,0.2); border-left:   1px solid rgba(255,255,255,0.2); }
+.corner-tr { top: 0; right: 0;   border-top:    1px solid rgba(255,255,255,0.2); border-right:  1px solid rgba(255,255,255,0.2); }
+.corner-bl { bottom: 0; left: 0;  border-bottom: 1px solid rgba(255,255,255,0.2); border-left:   1px solid rgba(255,255,255,0.2); }
+.corner-br { bottom: 0; right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); border-right:  1px solid rgba(255,255,255,0.2); }
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--dim);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.clipin-dot {
+    color: var(--rec);
+}
+
+.clipin-hero h1 {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin: 0 0 0.75rem;
+}
+
+.clipin-hero-sub {
+    font-size: 1rem;
+    color: var(--dim);
+    margin: 0 0 2.25rem;
+    line-height: 1.6;
+    opacity: 0.7;
+}
+
+.clipin-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.55rem 1.25rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    text-decoration: none;
+    border: 1px solid var(--fg);
+    letter-spacing: 0.2px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.btn-solid {
+    background: var(--fg);
+    color: var(--bg);
+}
+
+.btn-solid:hover {
+    background: transparent;
+    color: var(--fg);
+    border-color: var(--fg);
+    text-decoration: none;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--fg);
+}
+
+.btn-ghost:hover {
+    background: var(--fg);
+    color: var(--bg);
+    text-decoration: none;
+}
+
+.feature-chips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: var(--dim);
+    letter-spacing: 0.3px;
+}
+
+.chip-sep {
+    opacity: 0.3;
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 0;
+}
+
+.footer-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--dim);
+}
+
+.footer-brand {
+    color: var(--fg);
+    font-weight: 700;
+}
+
+.brand-dot {
+    opacity: 0.35;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.footer-links a {
+    color: var(--dim);
+    transition: color var(--transition);
+}
+
+.footer-links a:hover {
+    color: var(--fg);
+    text-decoration: none;
+}
