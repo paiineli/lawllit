@@ -1,4 +1,5 @@
-using Lawllit.Web.Areas.Finance.Services.Interfaces;
+using Lawllit.Api;
+using Lawllit.Api.Finance.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;

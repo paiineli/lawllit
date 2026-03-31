@@ -2,7 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 COPY Lawllit.slnx ./
-COPY Lawllit.Data/Lawllit.Data.csproj Lawllit.Data/
+COPY Lawllit.Models/Lawllit.Models.csproj Lawllit.Models/
+COPY Lawllit.Api/Lawllit.Api.csproj Lawllit.Api/
 COPY Lawllit.Web/Lawllit.Web.csproj Lawllit.Web/
 RUN dotnet restore
 

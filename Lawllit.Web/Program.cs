@@ -1,20 +1,21 @@
-using Lawllit.Data.Finance;
-using Lawllit.Data.Finance.Repositories;
-using Lawllit.Data.Finance.Repositories.Interfaces;
+using Lawllit.Api;
+using Lawllit.Api.Finance.Repositories;
+using Lawllit.Api.Finance.Repositories.Interfaces;
+using Lawllit.Api.Finance.Services;
+using Lawllit.Api.Finance.Services.Interfaces;
 using Lawllit.Web;
-using Lawllit.Web.Areas.Finance.Services;
-using Lawllit.Web.Areas.Finance.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
 builder.Services.AddLocalization();
 
@@ -27,17 +28,10 @@ builder.Services.AddControllersWithViews()
         options.DataAnnotationLocalizerProvider = (type, factory) =>
             factory.Create(typeof(SharedResource)));
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        npgsql => npgsql.EnableRetryOnFailure(
-            maxRetryCount: 3,
-            maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorCodesToAdd: null)));
+builder.Services.AddScoped<IUserRepository>(_ => new UserRepository(connectionString));
+builder.Services.AddScoped<ICategoryRepository>(_ => new CategoryRepository(connectionString));
+builder.Services.AddScoped<ITransactionRepository>(_ => new TransactionRepository(connectionString));
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();

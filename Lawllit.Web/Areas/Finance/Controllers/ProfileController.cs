@@ -1,5 +1,6 @@
-using Lawllit.Web.Areas.Finance.Models;
-using Lawllit.Web.Areas.Finance.Services.Interfaces;
+using Lawllit.Api;
+using Lawllit.Api.Finance.Services.Interfaces;
+using Lawllit.Models.Finance.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;

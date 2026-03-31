@@ -11,7 +11,7 @@ public class HomeController : Controller
         "C#",
         ".NET",
         "ASP.NET Core",
-        "Entity Framework Core",
+        "Dapper",
         "PostgreSQL"
     ];
 
@@ -20,7 +20,7 @@ public class HomeController : Controller
         "C#",
         ".NET",
         "ASP.NET Core MVC",
-        "Entity Framework Core",
+        "Dapper",
         "PostgreSQL",
         "Google OAuth 2.0",
         "Bootstrap"
@@ -31,7 +31,7 @@ public class HomeController : Controller
         "C#",
         ".NET",
         "ASP.NET Core",
-        "Entity Framework Core",
+        "Dapper",
         "PostgreSQL",
         "Oracle"
     ];
