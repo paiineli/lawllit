@@ -23,13 +23,6 @@
     <nav id="main-nav">
         <div class="nav-shell">
             <a class="brand" asp-controller="Home" asp-action="Index">lawllit<span class="brand-dot">.</span></a>
-            <form asp-controller="Home" asp-action="SetLanguage" method="post" class="lang mb-0">
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
-                <button type="submit" name="language" value="pt-BR" class="@(isPtBr ? "on" : "")">PT</button>
-                <span class="lang-sep">/</span>
-                <button type="submit" name="language" value="en-US" class="@(!isPtBr ? "on" : "")">EN</button>
-            </form>
         </div>
     </nav>
 

@@ -20,13 +20,6 @@
     var input   = document.getElementById('termInput');
     if (!win || !output || !input) return;
 
-    var L = {
-        line1: win.dataset.line1 || 'we build software.',
-        line2: win.dataset.line2 || 'that actually works.',
-        sub:   win.dataset.sub   || 'clean code, systems that work, no bullshit.',
-        live:  win.dataset.live  || 'live'
-    };
-
     // ── Helpers ────────────────────────────────────────
     function ln(html) {
         var p = document.createElement('p');
@@ -59,8 +52,8 @@
         await wait(350);
         prompt('dotnet build Lawllit.Web --configuration Release');
         await wait(500);
-        ln('&nbsp;&nbsp;' + esc(L.line1) + ' <span class="td">' + esc(L.line2) + '</span>');
-        ln('&nbsp;&nbsp;<span class="td">' + esc(L.sub) + '</span>');
+        ln('&nbsp;&nbsp;lawllit <span class="td">·</span> we build software. <span class="td">that actually works.</span>');
+        ln('&nbsp;&nbsp;<span class="td">clean code, systems that work, no bullshit.</span>');
         await wait(650);
         ln('&nbsp;&nbsp;<span class="td">Restore succeeded.</span>');
         ln('&nbsp;&nbsp;<span class="td">Build succeeded. <span class="tok">✓</span> 0 Warning(s) · 0 Error(s)</span>');
@@ -74,7 +67,7 @@
         blank();
 
         await wait(450);
-        ln('&nbsp;&nbsp;<a href="/Finance/Home/Index" class="tlink"><span class="tdot"></span>' + esc(L.live) + ' · lawllit.finance &nbsp;→</a>');
+        ln('&nbsp;&nbsp;<a href="/Finance" class="tlink"><span class="tdot"></span>live · lawllit.finance &nbsp;→</a>');
         blank();
 
         input.disabled = false;
@@ -83,10 +76,10 @@
 
     intro();
 
-    // ── Focus on click anywhere in window ─────────────
+    // ── Focus on click ─────────────────────────────────
     win.addEventListener('click', function () { input.focus(); });
 
-    // ── Sync typed text to display ────────────────────
+    // ── Sync display ───────────────────────────────────
     input.addEventListener('input', function () {
         display.textContent = input.value;
     });
@@ -109,7 +102,7 @@
         var c = cmd.toLowerCase();
 
         if (c === '') {
-            // empty — do nothing
+            // noop
         } else if (c === 'clear') {
             output.innerHTML = '';
         } else if (c === 'help' || c === '--help' || c === '-h') {
@@ -130,7 +123,6 @@
         input.focus();
     }
 
-    // ── Command matchers ───────────────────────────────
     function isFinanceCmd(c) {
         return (c.includes('dotnet') && c.includes('finance')) ||
                c === 'finance' ||
@@ -174,10 +166,10 @@
         ln('&nbsp;&nbsp;<span class="td">info: Application started.</span>');
         ln('&nbsp;&nbsp;<span class="td">info: Now listening on https://lawllit.com</span>');
         blank();
-        ln('&nbsp;&nbsp;<a href="/Finance/Home/Index" class="tlink"><span class="tdot"></span>' + esc(L.live) + ' · lawllit.finance &nbsp;→</a>');
+        ln('&nbsp;&nbsp;<a href="/Finance" class="tlink"><span class="tdot"></span>live · lawllit.finance &nbsp;→</a>');
         blank();
         await wait(1200);
-        window.location.href = '/Finance/Home/Index';
+        window.location.href = '/Finance';
     }
 
     async function cmdNuke() {

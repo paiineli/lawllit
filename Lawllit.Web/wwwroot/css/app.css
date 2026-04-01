@@ -22,9 +22,7 @@
     --nav-height: 52px;
 }
 
-html {
-    background: var(--bg);
-}
+html { background: var(--bg); }
 
 body {
     background: var(--bg);
@@ -52,9 +50,7 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
-        text-decoration: underline;
-    }
+    a:hover { text-decoration: underline; }
 
 /* ── Nav ──────────────────────────────────────────── */
 
@@ -76,7 +72,6 @@ a {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .brand {
@@ -92,37 +87,7 @@ a {
         color: var(--fg);
     }
 
-.brand-dot {
-    opacity: 0.35;
-}
-
-.lang {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-    .lang button {
-        background: none;
-        border: none;
-        font-size: 0.72rem;
-        font-weight: 700;
-        color: var(--dim);
-        cursor: pointer;
-        padding: 0;
-        transition: color var(--transition);
-        letter-spacing: 0.5px;
-    }
-
-        .lang button:hover,
-        .lang button.on {
-            color: var(--fg);
-        }
-
-.lang-sep {
-    color: var(--border);
-    font-size: 0.7rem;
-}
+.brand-dot { opacity: 0.35; }
 
 /* ── Buttons ──────────────────────────────────────── */
 
@@ -139,17 +104,6 @@ a {
     border: 1px solid var(--fg);
     letter-spacing: 0.2px;
 }
-
-.btn-solid {
-    background: var(--fg);
-    color: var(--bg);
-}
-
-    .btn-solid:hover {
-        background: transparent;
-        color: var(--fg);
-        text-decoration: none;
-    }
 
 .btn-ghost {
     background: transparent;
@@ -172,48 +126,81 @@ a {
     padding: 2rem 1.5rem;
 }
 
-/* ── Terminal Window ──────────────────────────────── */
+/* ── VS Code Terminal ─────────────────────────────── */
 
 .term-window {
     width: 100%;
     max-width: 780px;
-    background: #0d0d0d;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
     cursor: text;
 }
 
-.term-titlebar {
+.term-panel-header {
+    display: flex;
+    align-items: stretch;
+    height: 35px;
+    background: #252526;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.term-panel-label {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.04);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    position: relative;
+    padding: 0 0.85rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    white-space: nowrap;
 }
 
-.term-dots {
+.term-tab {
     display: flex;
-    gap: 6px;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.85rem;
+    font-size: 0.72rem;
+    color: var(--fg);
+    border-top: 1px solid var(--lf-accent);
+    background: #1e1e1e;
 }
 
-.term-dot-red    { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
-.term-dot-yellow { width: 12px; height: 12px; border-radius: 50%; background: #febc2e; }
-.term-dot-green  { width: 12px; height: 12px; border-radius: 50%; background: #28c840; }
-
-.term-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.68rem;
-    color: rgba(255, 255, 255, 0.28);
-    pointer-events: none;
+.term-tab-close {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.75rem;
 }
+
+.term-panel-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 0 0.4rem;
+}
+
+.term-panel-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.85rem;
+    cursor: default;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+    font-family: inherit;
+    transition: background var(--transition), color var(--transition);
+}
+
+    .term-panel-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(255, 255, 255, 0.75);
+    }
 
 .term-output {
-    padding: 1.1rem 1.4rem 0.4rem;
+    padding: 1rem 1.4rem 0.4rem;
     min-height: 240px;
     max-height: 360px;
     overflow-y: auto;
@@ -226,12 +213,12 @@ a {
 
     .term-output::-webkit-scrollbar { width: 4px; }
     .term-output::-webkit-scrollbar-track { background: transparent; }
-    .term-output::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .term-output::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
 
 .term-input-line {
     display: flex;
     align-items: center;
-    padding: 0.25rem 1.4rem 1.1rem;
+    padding: 0.25rem 1.4rem 0.75rem;
     font-size: 0.79rem;
 }
 
@@ -251,6 +238,24 @@ a {
     height: 1px;
 }
 
+.term-statusbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 22px;
+    background: var(--lf-accent);
+    padding: 0 0.75rem;
+    font-size: 0.62rem;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.term-statusbar-left,
+.term-statusbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 @keyframes blink {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0; }
@@ -268,9 +273,9 @@ a {
 
 /* ── Terminal output tokens ───────────────────────── */
 
-.tp   { color: var(--lf-accent); }
-.td   { color: var(--dim); }
-.tok  { color: var(--lf-accent); }
+.tp    { color: var(--lf-accent); }
+.td    { color: var(--dim); }
+.tok   { color: var(--lf-accent); }
 .twarn { color: #febc2e; }
 
 @keyframes dot-pulse {
@@ -299,7 +304,7 @@ a {
 /* ── Responsive ───────────────────────────────────── */
 
 @media (max-width: 600px) {
-    .term-title { display: none; }
+    .term-panel-label { display: none; }
     .landing { padding: 1rem; }
 }
 
@@ -334,9 +339,7 @@ a {
             text-decoration: none;
         }
 
-.footer-brand {
-    color: var(--fg);
-}
+.footer-brand { color: var(--fg); }
 
 .footer-links {
     display: flex;
@@ -347,6 +350,4 @@ a {
 
 /* ── Error ────────────────────────────────────────── */
 
-.error-note {
-    font-size: 0.75rem;
-}
+.error-note { font-size: 0.75rem; }
