@@ -1,101 +1,14 @@
-@model HomePageViewModel
 @{
     ViewData["Title"] = Localizer["SiteTitle"].Value;
 }
 
-<div class="hero">
-    <div class="hero-inner">
-        <h1>
-            @Localizer["Hero_Line1"]<br />
-            <span class="hero-line2">@Localizer["Hero_Line2"]</span>
-        </h1>
-        <p class="hero-sub">@Localizer["Hero_Sub"]</p>
-        <div class="hero-actions">
-            <a href="#projects" class="btn btn-solid">@Localizer["Hero_CTA_Projects"]</a>
-            <a href="#contact" class="btn btn-ghost">@Localizer["Hero_CTA_Contact"]</a>
+<div class="landing">
+    <div class="landing-inner">
+        <p class="landing-product">lawllit<span class="landing-accent">.</span>finance</p>
+        <p class="landing-sub">@Localizer["Landing_Sub"]</p>
+        <div class="landing-actions">
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Register" class="btn btn-solid">@Localizer["Home_CreateAccount"]</a>
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="btn btn-ghost">@Localizer["Login_Title"]</a>
         </div>
     </div>
 </div>
-
-<section id="about">
-    <span class="section-tag">@Localizer["About_Tag"]</span>
-    <p class="about-text">@Localizer["About_P1"]</p>
-    <p class="about-text">@Localizer["About_P2"]</p>
-    <div class="tech-list">
-        @foreach (var technology in Model.CoreTechStack)
-        {
-            <span>@technology</span>
-        }
-    </div>
-</section>
-
-<section id="projects">
-    <span class="section-tag">@Localizer["Projects_Tag"]</span>
-    <div class="projects-grid">
-        <article class="project">
-            <div class="project-header">
-                <span class="project-name">lawlitt<span class="project-name-accent">finance</span></span>
-                <span class="project-live">@Localizer["Project_LF_Live"]</span>
-            </div>
-            <p class="project-desc">@Localizer["Project_LF_Desc"]</p>
-            <div class="project-tags">
-                @foreach (var technology in Model.ProjectTechStack)
-                {
-                    <span>@technology</span>
-                }
-            </div>
-            <div class="project-links">
-                <a asp-area="Finance" asp-controller="Home" asp-action="Index"
-                   class="btn btn-solid">@Localizer["Project_LF_CTA"]</a>
-            </div>
-        </article>
-    </div>
-</section>
-
-<section id="team">
-    <span class="section-tag">@Localizer["Team_Tag"]</span>
-    <div class="team-entry">
-        <div class="team-content">
-            <h3 class="team-name">Lucas Paineli Gimenes</h3>
-            <p class="team-role">@Localizer["Team_Role"]</p>
-            <p class="team-bio">@Localizer["Team_Bio"]</p>
-            <div class="team-skills">
-                @foreach (var technology in Model.TeamTechStack)
-                {
-                    <span>@technology</span>
-                }
-            </div>
-            <a href="https://linkedin.com/in/lucaspaineli" target="_blank" rel="noopener noreferrer" class="contact-item">
-                <i class="bi bi-linkedin contact-item-icon" aria-hidden="true"></i>
-                <div class="contact-item-body">
-                    <div>@Localizer["Contact_LinkedIn"]</div>
-                    <span class="contact-item-sub">linkedin.com/in/lucaspaineli</span>
-                </div>
-                <i class="bi bi-chevron-right contact-item-chevron" aria-hidden="true"></i>
-            </a>
-        </div>
-    </div>
-</section>
-
-<section id="contact">
-    <span class="section-tag">@Localizer["Contact_Tag"]</span>
-    <p class="about-text">@Localizer["Contact_Sub"]</p>
-    <div class="contact-list">
-        <a href="mailto:support@lawllit.com" class="contact-item">
-            <i class="bi bi-envelope contact-item-icon" aria-hidden="true"></i>
-            <div class="contact-item-body">
-                <div>@Localizer["Contact_Email"]</div>
-                <span class="contact-item-sub">support@lawllit.com</span>
-            </div>
-            <i class="bi bi-chevron-right contact-item-chevron" aria-hidden="true"></i>
-        </a>
-        <a href="https://linkedin.com/company/lawllit" target="_blank" rel="noopener noreferrer" class="contact-item">
-            <i class="bi bi-linkedin contact-item-icon" aria-hidden="true"></i>
-            <div class="contact-item-body">
-                <div>@Localizer["Contact_LinkedIn"]</div>
-                <span class="contact-item-sub">linkedin.com/company/lawllit</span>
-            </div>
-            <i class="bi bi-chevron-right contact-item-chevron" aria-hidden="true"></i>
-        </a>
-    </div>
-</section>

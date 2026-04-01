@@ -350,4 +350,6 @@
 	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contato</value></data>
 	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre estes Termos, entre em contato pelo e-mail</value></data>
 
+	<data name="Landing_Sub" xml:space="preserve"><value>controle suas receitas e despesas, acompanhe seu saldo e veja cotações em tempo real.</value></data>
+
 </root>

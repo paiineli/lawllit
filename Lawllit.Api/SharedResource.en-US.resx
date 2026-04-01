@@ -350,4 +350,6 @@
 	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contact</value></data>
 	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>For questions about these Terms, contact us at</value></data>
 
+	<data name="Landing_Sub" xml:space="preserve"><value>track income and expenses, monitor your balance and check live rates.</value></data>
+
 </root>
