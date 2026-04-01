@@ -154,7 +154,7 @@ a {
 
 .landing {
     height: calc(100vh - var(--nav-height) - 50px);
-    min-height: 380px;
+    min-height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -166,30 +166,76 @@ a {
     width: 100%;
 }
 
-.landing-product {
-    font-size: clamp(2rem, 6vw, 3rem);
+.landing-brand {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: 0.5px;
+    margin: 0 0 0.5rem;
+}
+
+.landing-dot {
+    opacity: 0.4;
+}
+
+.landing-tagline {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
     font-weight: 700;
     letter-spacing: -1px;
     line-height: 1.1;
-    margin: 0 0 1.25rem;
+    margin: 0 0 2.5rem;
+}
+
+.landing-product-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: border-color var(--transition);
+}
+
+    .landing-product-card:hover {
+        border-color: var(--border-hover);
+    }
+
+.landing-product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.landing-product-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
 }
 
 .landing-accent {
     color: var(--lf-accent);
 }
 
-.landing-sub {
-    font-size: 0.88rem;
+.landing-live {
+    font-size: 0.68rem;
     color: var(--dim);
-    line-height: 1.8;
-    margin: 0 0 2.25rem;
-    max-width: 380px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.landing-actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    .landing-live::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--lf-accent);
+        display: inline-block;
+    }
+
+.landing-product-desc {
+    font-size: 0.83rem;
+    color: var(--dim);
+    line-height: 1.8;
+    margin: 0 0 1.25rem;
 }
 
 /* ── Footer ───────────────────────────────────────── */
