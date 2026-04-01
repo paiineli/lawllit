@@ -3,18 +3,51 @@
 }
 
 <div class="landing">
-    <div class="landing-inner">
-        <span class="landing-eyebrow">// lawllit</span>
-        <h1 class="landing-headline">
-            @Localizer["Hero_Line1"]<br />
-            <span class="landing-headline-dim">@Localizer["Hero_Line2"]</span>
-        </h1>
-        <p class="landing-sub">@Localizer["Hero_Sub"]</p>
-        <div class="landing-divider"></div>
-        <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="landing-badge">
-            <span class="landing-badge-dot"></span>
-            lawllit.finance — @Localizer["Project_LF_Live"]
-            <i class="bi bi-arrow-right"></i>
-        </a>
+    <div class="landing-shell">
+        <div class="landing-left">
+            <h1 class="landing-headline">
+                @Localizer["Hero_Line1"]<br />
+                <span class="landing-headline-dim">@Localizer["Hero_Line2"]</span>
+            </h1>
+            <p class="landing-sub">@Localizer["Hero_Sub"]</p>
+            <div class="landing-divider"></div>
+            <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="landing-badge">
+                <span class="landing-badge-dot"></span>
+                lawllit.finance — @Localizer["Project_LF_Live"]
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        <div class="landing-right">
+            <div class="finance-preview">
+                <div class="fp-header">
+                    <span>lawllit.finance</span>
+                    <span class="fp-status">
+                        <span class="landing-badge-dot"></span>live
+                    </span>
+                </div>
+                <div class="fp-divider"></div>
+                <div class="fp-row">
+                    <span>receita</span>
+                    <span class="fp-pos">+ R$ 4.200</span>
+                </div>
+                <div class="fp-row">
+                    <span>gastos</span>
+                    <span>R$ 1.847</span>
+                </div>
+                <div class="fp-row fp-row-highlight">
+                    <span>saldo</span>
+                    <span class="fp-pos">R$ 2.353</span>
+                </div>
+                <div class="fp-divider"></div>
+                <div class="fp-row">
+                    <span>economia</span>
+                    <span class="fp-pos">56%</span>
+                </div>
+                <div class="fp-bar">
+                    <div class="fp-bar-fill" style="width: 56%"></div>
+                </div>
+                <div class="fp-footer">jan 2025 · 3 metas ativas</div>
+            </div>
+        </div>
     </div>
 </div>
