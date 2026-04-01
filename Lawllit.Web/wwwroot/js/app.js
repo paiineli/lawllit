@@ -15,24 +15,22 @@
     var lines = document.querySelectorAll('.term-line');
     if (!lines.length) return;
 
+    var maxDelay = 0;
+
     lines.forEach(function (line) {
         var delay = parseInt(line.dataset.delay || '0', 10);
+        if (delay > maxDelay) maxDelay = delay;
         setTimeout(function () {
             line.classList.add('visible');
-        }, delay + 400);
+        }, delay + 300);
     });
 
-    // Show cursor after last line
+    // Blink cursor after last line appears
     var cursor = document.querySelector('.term-cursor');
     if (cursor) {
-        var lastDelay = 0;
-        lines.forEach(function (l) {
-            var d = parseInt(l.dataset.delay || '0', 10);
-            if (d > lastDelay) lastDelay = d;
-        });
         setTimeout(function () {
             cursor.style.opacity = '1';
             cursor.style.animation = 'blink 1.1s step-end infinite';
-        }, lastDelay + 600);
+        }, maxDelay + 500);
     }
 })();

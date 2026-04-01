@@ -3,46 +3,36 @@
 }
 
 <div class="landing">
-    <div class="landing-shell">
-        <div class="landing-left">
-            <h1 class="landing-headline">
-                @Localizer["Hero_Line1"]<br />
-                <span class="landing-headline-dim">@Localizer["Hero_Line2"]</span>
-            </h1>
-            <p class="landing-sub">@Localizer["Hero_Sub"]</p>
-            <div class="landing-divider"></div>
-            <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="landing-badge">
-                <span class="landing-badge-dot"></span>
-                lawllit.finance — @Localizer["Project_LF_Live"]
+    <div class="term-page">
+
+        <p class="term-line" data-delay="0"><span class="term-prompt">$</span> dotnet build Lawllit.Web --configuration Release</p>
+
+        <div class="term-line term-block" data-delay="500">
+            <p>lawllit <span class="term-dim">·</span> @Localizer["Hero_Line1"] <span class="term-dim">@Localizer["Hero_Line2"]</span></p>
+            <p class="term-dim">@Localizer["Hero_Sub"]</p>
+        </div>
+
+        <div class="term-line term-block term-dim" data-delay="1200">
+            <p>Restore succeeded.</p>
+            <p>Build succeeded. <span class="term-ok">✓</span> 0 Warning(s) · 0 Error(s)</p>
+        </div>
+
+        <p class="term-line term-gap" data-delay="1900"><span class="term-prompt">$</span> dotnet run --project Lawllit.Finance</p>
+
+        <div class="term-line term-block term-dim" data-delay="2400">
+            <p>info: Application started.</p>
+            <p>info: Now listening on https://lawllit.com</p>
+        </div>
+
+        <div class="term-line term-gap" data-delay="3000">
+            <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="term-cta">
+                <span class="term-cta-dot"></span>
+                @Localizer["Project_LF_Live"] · lawllit.finance
                 <i class="bi bi-arrow-right"></i>
             </a>
         </div>
-        <div class="landing-right">
-            <div class="terminal">
-                <div class="term-bar">
-                    <div class="term-dots">
-                        <span></span><span></span><span></span>
-                    </div>
-                    <span class="term-label">lawllit cli</span>
-                </div>
-                <div class="term-body">
-                    <p class="term-line" data-delay="0"><span class="term-prompt">$</span> lawllit run finance</p>
-                    <p class="term-line term-dim" data-delay="600">&gt; @Localizer["Term_Boot"]</p>
-                    <p class="term-line term-dim" data-delay="1100">&gt; @Localizer["Term_Connected"]</p>
-                    <p class="term-line term-dim" data-delay="1600">&gt; @Localizer["Term_Loading"]</p>
-                    <p class="term-line" data-delay="2200"><span class="term-ok">✓</span> @Localizer["Term_Ready"]</p>
-                    <p class="term-line term-stat" data-delay="2450">
-                        <span>@Localizer["Term_Balance"]</span><span class="term-val">R$ 2.353</span>
-                    </p>
-                    <p class="term-line term-stat" data-delay="2650">
-                        <span>@Localizer["Term_Savings"]</span><span class="term-val term-pos">56%</span>
-                    </p>
-                    <p class="term-line term-stat" data-delay="2850">
-                        <span>@Localizer["Term_Goals"]</span><span class="term-val">3</span>
-                    </p>
-                    <p class="term-line" data-delay="3200"><span class="term-prompt">$</span><span class="term-cursor"></span></p>
-                </div>
-            </div>
-        </div>
+
+        <p class="term-line term-gap" data-delay="3500"><span class="term-prompt">$</span><span class="term-cursor"></span></p>
+
     </div>
 </div>
