@@ -4,19 +4,17 @@
 
 <div class="landing">
     <div class="landing-inner">
+        <span class="landing-eyebrow">// lawllit</span>
+        <h1 class="landing-headline">
+            @Localizer["Hero_Line1"]<br />
+            <span class="landing-headline-dim">@Localizer["Hero_Line2"]</span>
+        </h1>
+        <p class="landing-sub">@Localizer["Hero_Sub"]</p>
+        <div class="landing-divider"></div>
         <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="landing-badge">
             <span class="landing-badge-dot"></span>
             lawllit.finance — @Localizer["Project_LF_Live"]
             <i class="bi bi-arrow-right"></i>
         </a>
-        <h1 class="landing-headline">
-            @Localizer["Landing_Line1"]<br />
-            <span class="landing-headline-dim">@Localizer["Landing_Line2"]</span>
-        </h1>
-        <p class="landing-sub">@Localizer["Landing_Sub"]</p>
-        <div class="landing-actions">
-            <a asp-area="Finance" asp-controller="Auth" asp-action="Register" class="btn btn-solid">@Localizer["Home_CreateAccount"]</a>
-            <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="btn btn-ghost">@Localizer["Login_Title"]</a>
-        </div>
     </div>
 </div>

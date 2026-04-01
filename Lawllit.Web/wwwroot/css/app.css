@@ -206,12 +206,47 @@ a {
     opacity: 0.25;
 }
 
+.landing-eyebrow {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--dim);
+    letter-spacing: 0.5px;
+    margin-bottom: 1.25rem;
+}
+
 .landing-sub {
     font-size: 0.88rem;
     color: var(--dim);
     line-height: 1.85;
-    margin: 0 0 2.25rem;
+    margin: 0 0 1.75rem;
     max-width: 400px;
+}
+
+.landing-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+}
+
+    .landing-stack span {
+        font-size: 0.68rem;
+        color: var(--dim);
+        border: 1px solid var(--border);
+        padding: 0.2em 0.6em;
+        border-radius: var(--radius);
+        transition: border-color var(--transition), color var(--transition);
+    }
+
+        .landing-stack span:hover {
+            border-color: var(--border-hover);
+            color: var(--fg);
+        }
+
+.landing-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 1.5rem;
 }
 
 /* ── Footer ───────────────────────────────────────── */
