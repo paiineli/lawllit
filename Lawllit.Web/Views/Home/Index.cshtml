@@ -4,15 +4,19 @@
 
 <div class="landing">
     <div class="landing-inner">
-        <p class="landing-brand">lawllit<span class="landing-dot">.</span></p>
-        <p class="landing-tagline">@Localizer["Hero_Line1"]</p>
-        <div class="landing-product-card">
-            <div class="landing-product-header">
-                <span class="landing-product-name">lawllit<span class="landing-accent">finance</span></span>
-                <span class="landing-live">@Localizer["Project_LF_Live"]</span>
-            </div>
-            <p class="landing-product-desc">@Localizer["Landing_Sub"]</p>
-            <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="btn btn-solid">@Localizer["Project_LF_CTA"]</a>
+        <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="landing-badge">
+            <span class="landing-badge-dot"></span>
+            lawllit.finance — @Localizer["Project_LF_Live"]
+            <i class="bi bi-arrow-right"></i>
+        </a>
+        <h1 class="landing-headline">
+            @Localizer["Landing_Line1"]<br />
+            <span class="landing-headline-dim">@Localizer["Landing_Line2"]</span>
+        </h1>
+        <p class="landing-sub">@Localizer["Landing_Sub"]</p>
+        <div class="landing-actions">
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Register" class="btn btn-solid">@Localizer["Home_CreateAccount"]</a>
+            <a asp-area="Finance" asp-controller="Auth" asp-action="Login" class="btn btn-ghost">@Localizer["Login_Title"]</a>
         </div>
     </div>
 </div>

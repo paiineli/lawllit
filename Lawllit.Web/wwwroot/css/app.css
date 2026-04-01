@@ -154,7 +154,7 @@ a {
 
 .landing {
     height: calc(100vh - var(--nav-height) - 50px);
-    min-height: 400px;
+    min-height: 420px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,80 +162,56 @@ a {
 }
 
 .landing-inner {
-    max-width: 480px;
+    max-width: 520px;
     width: 100%;
 }
 
-.landing-brand {
-    font-size: 0.85rem;
-    font-weight: 700;
+.landing-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
     color: var(--dim);
-    letter-spacing: 0.5px;
-    margin: 0 0 0.5rem;
-}
-
-.landing-dot {
-    opacity: 0.4;
-}
-
-.landing-tagline {
-    font-size: clamp(1.75rem, 5vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -1px;
-    line-height: 1.1;
-    margin: 0 0 2.5rem;
-}
-
-.landing-product-card {
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    transition: border-color var(--transition);
+    padding: 0.3em 0.8em;
+    border-radius: 999px;
+    margin-bottom: 1.75rem;
+    transition: border-color var(--transition), color var(--transition);
+    text-decoration: none;
 }
 
-    .landing-product-card:hover {
+    .landing-badge:hover {
         border-color: var(--border-hover);
+        color: var(--fg);
+        text-decoration: none;
     }
 
-.landing-product-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
+.landing-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lf-accent);
+    flex-shrink: 0;
 }
 
-.landing-product-name {
-    font-size: 0.95rem;
+.landing-headline {
+    font-size: clamp(2.5rem, 7vw, 3.75rem);
     font-weight: 700;
-    letter-spacing: -0.2px;
-}
-
-.landing-accent {
-    color: var(--lf-accent);
-}
-
-.landing-live {
-    font-size: 0.68rem;
-    color: var(--dim);
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-    .landing-live::before {
-        content: '';
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: var(--lf-accent);
-        display: inline-block;
-    }
-
-.landing-product-desc {
-    font-size: 0.83rem;
-    color: var(--dim);
-    line-height: 1.8;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
     margin: 0 0 1.25rem;
+}
+
+.landing-headline-dim {
+    opacity: 0.25;
+}
+
+.landing-sub {
+    font-size: 0.88rem;
+    color: var(--dim);
+    line-height: 1.85;
+    margin: 0 0 2.25rem;
+    max-width: 400px;
 }
 
 /* ── Footer ───────────────────────────────────────── */
