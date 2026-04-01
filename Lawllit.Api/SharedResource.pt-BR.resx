@@ -32,6 +32,14 @@
 	<data name="Hero_CTA_Projects" xml:space="preserve"><value>ver projetos</value></data>
 	<data name="Hero_CTA_Contact" xml:space="preserve"><value>falar conosco</value></data>
 
+	<data name="Term_Boot" xml:space="preserve"><value>iniciando módulo finance...</value></data>
+	<data name="Term_Connected" xml:space="preserve"><value>conectado ao banco de dados</value></data>
+	<data name="Term_Loading" xml:space="preserve"><value>carregando seus dados...</value></data>
+	<data name="Term_Ready" xml:space="preserve"><value>pronto</value></data>
+	<data name="Term_Balance" xml:space="preserve"><value>saldo</value></data>
+	<data name="Term_Savings" xml:space="preserve"><value>economia</value></data>
+	<data name="Term_Goals" xml:space="preserve"><value>metas</value></data>
+
 	<data name="About_Tag" xml:space="preserve"><value>// sobre</value></data>
 	<data name="About_P1" xml:space="preserve"><value>a lawllit constrói software. sem buzzwords, sem overengineering. código que resolve o problema.</value></data>
 	<data name="About_P2" xml:space="preserve"><value>nossa stack é .NET. C#, ASP.NET Core, bancos relacionais. o básico feito direito, com clean architecture e boas práticas.</value></data>
