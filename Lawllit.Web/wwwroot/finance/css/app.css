@@ -313,11 +313,6 @@ body {
     color: var(--bs-body-bg);
 }
 
-
-.auth-copyright {
-    font-size: .7rem;
-}
-
 .month-nav-label {
     min-width: 150px;
     text-align: center;
