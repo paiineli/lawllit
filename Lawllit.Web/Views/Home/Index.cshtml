@@ -3,36 +3,25 @@
 }
 
 <div class="landing">
-    <div class="term-page">
-
-        <p class="term-line" data-delay="0"><span class="term-prompt">$</span> dotnet build Lawllit.Web --configuration Release</p>
-
-        <div class="term-line term-block" data-delay="500">
-            <p>lawllit <span class="term-dim">·</span> @Localizer["Hero_Line1"] <span class="term-dim">@Localizer["Hero_Line2"]</span></p>
-            <p class="term-dim">@Localizer["Hero_Sub"]</p>
+    <div class="term-window" id="termWindow"
+         data-line1="@Localizer["Hero_Line1"]"
+         data-line2="@Localizer["Hero_Line2"]"
+         data-sub="@Localizer["Hero_Sub"]"
+         data-live="@Localizer["Project_LF_Live"]">
+        <div class="term-titlebar">
+            <div class="term-dots">
+                <span class="term-dot-red"></span>
+                <span class="term-dot-yellow"></span>
+                <span class="term-dot-green"></span>
+            </div>
+            <span class="term-title">lawllit — zsh — 80×24</span>
         </div>
-
-        <div class="term-line term-block term-dim" data-delay="1200">
-            <p>Restore succeeded.</p>
-            <p>Build succeeded. <span class="term-ok">✓</span> 0 Warning(s) · 0 Error(s)</p>
+        <div class="term-output" id="termOutput"></div>
+        <div class="term-input-line">
+            <span class="term-ps1">$&nbsp;</span>
+            <span id="termDisplay"></span><span class="term-cursor"></span>
         </div>
-
-        <p class="term-line term-gap" data-delay="1900"><span class="term-prompt">$</span> dotnet run --project Lawllit.Finance</p>
-
-        <div class="term-line term-block term-dim" data-delay="2400">
-            <p>info: Application started.</p>
-            <p>info: Now listening on https://lawllit.com</p>
-        </div>
-
-        <div class="term-line term-gap" data-delay="3000">
-            <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="term-cta">
-                <span class="term-cta-dot"></span>
-                @Localizer["Project_LF_Live"] · lawllit.finance
-                <i class="bi bi-arrow-right"></i>
-            </a>
-        </div>
-
-        <p class="term-line term-gap" data-delay="3500"><span class="term-prompt">$</span><span class="term-cursor"></span></p>
-
+        <input id="termInput" class="term-hidden-input" type="text"
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
     </div>
 </div>
