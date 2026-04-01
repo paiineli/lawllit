@@ -63,7 +63,7 @@
         prompt('dotnet run --project Lawllit.Finance');
         await wait(600);
         ln('&nbsp;&nbsp;<span class="td">info: Application started.</span>');
-        ln('&nbsp;&nbsp;<span class="td">info: Now listening on https://lawllit.com</span>');
+        ln('&nbsp;&nbsp;<span class="td">info: Now listening on https://lawllit.com/finance</span>');
         blank();
 
         await wait(450);
@@ -164,7 +164,7 @@
         ln('&nbsp;&nbsp;<span class="td">Build succeeded. <span class="tok">✓</span></span>');
         await wait(500);
         ln('&nbsp;&nbsp;<span class="td">info: Application started.</span>');
-        ln('&nbsp;&nbsp;<span class="td">info: Now listening on https://lawllit.com</span>');
+        ln('&nbsp;&nbsp;<span class="td">info: Now listening on https://lawllit.com/finance</span>');
         blank();
         ln('&nbsp;&nbsp;<a href="/Finance" class="tlink"><span class="tdot"></span>live · lawllit.finance &nbsp;→</a>');
         blank();

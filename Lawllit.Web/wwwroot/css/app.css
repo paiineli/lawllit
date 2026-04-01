@@ -126,78 +126,45 @@ a {
     padding: 2rem 1.5rem;
 }
 
-/* ── VS Code Terminal ─────────────────────────────── */
+/* ── macOS Terminal ───────────────────────────────── */
 
 .term-window {
     width: 100%;
     max-width: 780px;
-    background: #1e1e1e;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 4px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
     cursor: text;
 }
 
-.term-panel-header {
-    display: flex;
-    align-items: stretch;
-    height: 35px;
-    background: #252526;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.term-panel-label {
+.term-titlebar {
     display: flex;
     align-items: center;
-    padding: 0 0.85rem;
-    font-size: 0.62rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.35);
-    letter-spacing: 0.8px;
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
-    white-space: nowrap;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
 }
 
-.term-tab {
+.term-dots {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0 0.85rem;
-    font-size: 0.72rem;
-    color: var(--fg);
-    border-top: 1px solid var(--lf-accent);
-    background: #1e1e1e;
+    gap: 6px;
 }
 
-.term-tab-close {
-    color: rgba(255, 255, 255, 0.25);
-    font-size: 0.75rem;
-}
+.term-dot-red    { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; }
+.term-dot-yellow { width: 12px; height: 12px; border-radius: 50%; background: #febc2e; }
+.term-dot-green  { width: 12px; height: 12px; border-radius: 50%; background: #28c840; }
 
-.term-panel-actions {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    padding: 0 0.4rem;
+.term-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.28);
+    pointer-events: none;
 }
-
-.term-panel-btn {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 0.85rem;
-    cursor: default;
-    padding: 0.2rem 0.4rem;
-    border-radius: 2px;
-    font-family: inherit;
-    transition: background var(--transition), color var(--transition);
-}
-
-    .term-panel-btn:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: rgba(255, 255, 255, 0.75);
-    }
 
 .term-output {
     padding: 1rem 1.4rem 0.4rem;
@@ -218,7 +185,7 @@ a {
 .term-input-line {
     display: flex;
     align-items: center;
-    padding: 0.25rem 1.4rem 0.75rem;
+    padding: 0.25rem 1.4rem 1.1rem;
     font-size: 0.79rem;
 }
 
@@ -236,24 +203,6 @@ a {
     pointer-events: none;
     width: 1px;
     height: 1px;
-}
-
-.term-statusbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 22px;
-    background: var(--lf-accent);
-    padding: 0 0.75rem;
-    font-size: 0.62rem;
-    color: rgba(0, 0, 0, 0.75);
-}
-
-.term-statusbar-left,
-.term-statusbar-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
 }
 
 @keyframes blink {
@@ -304,7 +253,7 @@ a {
 /* ── Responsive ───────────────────────────────────── */
 
 @media (max-width: 600px) {
-    .term-panel-label { display: none; }
+    .term-title { display: none; }
     .landing { padding: 1rem; }
 }
 

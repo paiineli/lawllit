@@ -4,33 +4,18 @@
 
 <div class="landing">
     <div class="term-window" id="termWindow">
-        <div class="term-panel-header">
-            <span class="term-panel-label">TERMINAL</span>
-            <div class="term-tab">
-                <span>zsh</span>
-                <span class="term-tab-close">×</span>
+        <div class="term-titlebar">
+            <div class="term-dots">
+                <span class="term-dot-red"></span>
+                <span class="term-dot-yellow"></span>
+                <span class="term-dot-green"></span>
             </div>
-            <div class="term-panel-actions">
-                <button class="term-panel-btn" tabindex="-1">+</button>
-                <button class="term-panel-btn" tabindex="-1">⌃</button>
-                <button class="term-panel-btn" tabindex="-1">×</button>
-            </div>
+            <span class="term-title">lawllit — terminal</span>
         </div>
         <div class="term-output" id="termOutput"></div>
         <div class="term-input-line">
             <span class="term-ps1">$&nbsp;</span>
             <span id="termDisplay"></span><span class="term-cursor"></span>
-        </div>
-        <div class="term-statusbar">
-            <div class="term-statusbar-left">
-                <span>⎇ main</span>
-                <span>✓ 0</span>
-                <span>⚠ 0</span>
-            </div>
-            <div class="term-statusbar-right">
-                <span>Lawllit.Web</span>
-                <span>zsh</span>
-            </div>
         </div>
         <input id="termInput" class="term-hidden-input" type="text"
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
