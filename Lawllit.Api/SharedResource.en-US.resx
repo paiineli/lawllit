@@ -350,16 +350,4 @@
 	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contact</value></data>
 	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>For questions about these Terms, contact us at</value></data>
 
-	<data name="Project_Clipin_Desc" xml:space="preserve"><value>simple screen recorder for windows. record your screen and save it locally. no accounts, no cloud, no bullshit.</value></data>
-	<data name="Project_Clipin_CTA" xml:space="preserve"><value>see project</value></data>
-	<data name="Project_Clipin_ViewSource" xml:space="preserve"><value>view source</value></data>
-
-	<data name="Clipin_Hero_Eyebrow" xml:space="preserve"><value>recording · windows</value></data>
-	<data name="Clipin_Hero_Line2" xml:space="preserve"><value>record. save. done.</value></data>
-	<data name="Clipin_Hero_Sub" xml:space="preserve"><value>open source screen recorder for windows. record, save, done.</value></data>
-	<data name="Clipin_Download_CTA" xml:space="preserve"><value>download .exe</value></data>
-	<data name="Clipin_GitHub_CTA" xml:space="preserve"><value>view source</value></data>
-	<data name="Clipin_Chip1" xml:space="preserve"><value>screen recording</value></data>
-	<data name="Clipin_Chip2" xml:space="preserve"><value>local save</value></data>
-	<data name="Clipin_Chip4" xml:space="preserve"><value>open source</value></data>
 </root>

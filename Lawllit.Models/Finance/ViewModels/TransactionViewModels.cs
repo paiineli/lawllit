@@ -19,8 +19,6 @@ public class TransactionListViewModel
 
 public class TransactionFormViewModel
 {
-    public Guid? Id { get; set; }
-
     [StringLength(200, ErrorMessage = "Val_DescriptionMaxLength")]
     public string? Description { get; set; }
 

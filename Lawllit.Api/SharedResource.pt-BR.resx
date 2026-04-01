@@ -350,16 +350,4 @@
 	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contato</value></data>
 	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre estes Termos, entre em contato pelo e-mail</value></data>
 
-	<data name="Project_Clipin_Desc" xml:space="preserve"><value>gravador de tela simples para windows. grave e salve localmente. sem conta, sem nuvem, sem complicação.</value></data>
-	<data name="Project_Clipin_CTA" xml:space="preserve"><value>ver projeto</value></data>
-	<data name="Project_Clipin_ViewSource" xml:space="preserve"><value>ver código</value></data>
-
-	<data name="Clipin_Hero_Eyebrow" xml:space="preserve"><value>gravando · windows</value></data>
-	<data name="Clipin_Hero_Line2" xml:space="preserve"><value>grave. salve. pronto.</value></data>
-	<data name="Clipin_Hero_Sub" xml:space="preserve"><value>gravador de tela open source para windows. abra, grave, salve.</value></data>
-	<data name="Clipin_Download_CTA" xml:space="preserve"><value>baixar .exe</value></data>
-	<data name="Clipin_GitHub_CTA" xml:space="preserve"><value>ver código</value></data>
-	<data name="Clipin_Chip1" xml:space="preserve"><value>gravação de tela</value></data>
-	<data name="Clipin_Chip2" xml:space="preserve"><value>salvo local</value></data>
-	<data name="Clipin_Chip4" xml:space="preserve"><value>open source</value></data>
 </root>
