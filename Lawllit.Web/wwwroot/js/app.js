@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    // ── Smooth scroll (all pages) ──────────────────────
     document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href^="#"]');
         if (!link) return;
@@ -13,14 +12,12 @@
         window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
     });
 
-    // ── Terminal (homepage only) ───────────────────────
     var win     = document.getElementById('termWindow');
     var output  = document.getElementById('termOutput');
     var display = document.getElementById('termDisplay');
     var input   = document.getElementById('termInput');
     if (!win || !output || !input) return;
 
-    // ── Helpers ────────────────────────────────────────
     function ln(html) {
         var p = document.createElement('p');
         p.innerHTML = html;
@@ -45,7 +42,6 @@
         ln('<span class="tp">$</span> ' + esc(cmd));
     }
 
-    // ── Intro animation ────────────────────────────────
     async function intro() {
         input.disabled = true;
 
@@ -76,15 +72,12 @@
 
     intro();
 
-    // ── Focus on click ─────────────────────────────────
     win.addEventListener('click', function () { input.focus(); });
 
-    // ── Sync display ───────────────────────────────────
     input.addEventListener('input', function () {
         display.textContent = input.value;
     });
 
-    // ── Handle Enter ──────────────────────────────────
     input.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter') return;
         e.preventDefault();
@@ -94,7 +87,6 @@
         if (!input.disabled) run(cmd);
     });
 
-    // ── Command dispatcher ─────────────────────────────
     async function run(cmd) {
         input.disabled = true;
         prompt(cmd);
@@ -102,7 +94,6 @@
         var c = cmd.toLowerCase();
 
         if (c === '') {
-            // noop
         } else if (c === 'clear') {
             output.innerHTML = '';
         } else if (c === 'help' || c === '--help' || c === '-h') {
@@ -137,7 +128,6 @@
                c === 'nuke';
     }
 
-    // ── Commands ───────────────────────────────────────
     function cmdHelp() {
         blank();
         ln('&nbsp;&nbsp;available commands:');
