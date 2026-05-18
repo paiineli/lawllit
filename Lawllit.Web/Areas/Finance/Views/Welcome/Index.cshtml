@@ -1,0 +1,210 @@
+@model WelcomeViewModel
+@{
+    Layout = "~/Areas/Finance/Views/Shared/_WelcomeLayout.cshtml";
+    var stepLabelTemplate = Localizer["Welcome_StepOf"].Value;
+}
+
+<div class="welcome-wrapper">
+    <div class="card welcome-card">
+        <div class="card-body p-4 p-md-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <span class="welcome-brand">lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span></span>
+                <button type="button" class="btn btn-link welcome-skip-link p-0" data-complete-onboarding>
+                    @Localizer["Welcome_Btn_Skip"]
+                </button>
+            </div>
+
+            <div class="text-center mb-5"
+                 data-current-step="@Model.CurrentStep"
+                 data-total-steps="4"
+                 data-step-label="@stepLabelTemplate">
+                <div class="welcome-progress-dots mb-2">
+                    <span class="welcome-dot"></span>
+                    <span class="welcome-dot"></span>
+                    <span class="welcome-dot"></span>
+                    <span class="welcome-dot"></span>
+                </div>
+                <p class="small text-secondary mb-0" id="welcome-step-label"></p>
+            </div>
+
+            <div class="welcome-step" data-step="1">
+                <div class="mb-4">
+                    <h4 class="fw-bold mb-1">@string.Format(Localizer["Welcome_Step1_Title"].Value, Model.UserName)</h4>
+                    <p class="text-secondary small mb-0">@Localizer["Welcome_Step1_Subtitle"]</p>
+                </div>
+                <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Welcome_Step1_Heading"]</p>
+                <div class="row g-3" id="language-options">
+                    <div class="col-6">
+                        <button type="button"
+                                class="welcome-option-card w-100 h-100 @(Model.Language == "pt-BR" ? "welcome-option-card--active" : "")"
+                                data-language-value="pt-BR">
+                            <span class="fw-semibold">@Localizer["Prof_Appearance_LangPT"]</span>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button"
+                                class="welcome-option-card w-100 h-100 @(Model.Language == "en-US" ? "welcome-option-card--active" : "")"
+                                data-language-value="en-US">
+                            <span class="fw-semibold">@Localizer["Prof_Appearance_LangEN"]</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
+            </div>
+
+            <div class="welcome-step" data-step="2">
+                <div class="mb-4">
+                    <h4 class="fw-bold mb-1">@Localizer["Welcome_Step2_Title"]</h4>
+                    <p class="text-secondary small mb-0">@Localizer["Welcome_Step2_Subtitle"]</p>
+                </div>
+                <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Welcome_Step2_Heading"]</p>
+                <div class="row g-3" id="currency-options">
+                    <div class="col-6">
+                        <button type="button"
+                                class="welcome-option-card w-100 h-100 @(Model.Currency == "BRL" ? "welcome-option-card--active" : "")"
+                                data-currency-value="BRL">
+                            <div>
+                                <span class="fw-semibold d-block">@Localizer["Prof_Appearance_CurrencyBRL"]</span>
+                                <span class="welcome-currency-sample">R$ 1.234,56</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button"
+                                class="welcome-option-card w-100 h-100 @(Model.Currency == "USD" ? "welcome-option-card--active" : "")"
+                                data-currency-value="USD">
+                            <div>
+                                <span class="fw-semibold d-block">@Localizer["Prof_Appearance_CurrencyUSD"]</span>
+                                <span class="welcome-currency-sample">$1,234.56</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
+            </div>
+
+            <div class="welcome-step" data-step="3">
+                <div class="mb-4">
+                    <h4 class="fw-bold mb-1">@Localizer["Welcome_Step3_Title"]</h4>
+                    <p class="text-secondary small mb-0">@Localizer["Welcome_Step3_Subtitle"]</p>
+                </div>
+                <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Welcome_Step3_Heading"]</p>
+                <div class="row g-3" id="theme-options">
+                    <div class="col-4">
+                        <button type="button"
+                                class="theme-card w-100 h-100 @(Model.Theme == "dark" ? "theme-card--active" : "")"
+                                data-theme-value="dark">
+                            <div class="theme-preview theme-preview--dark mb-2">
+                                <div class="theme-preview-bar"></div>
+                                <div class="theme-preview-content">
+                                    <div class="theme-preview-line"></div>
+                                    <div class="theme-preview-line theme-preview-line--short"></div>
+                                </div>
+                            </div>
+                            <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeDark"]</span>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button"
+                                class="theme-card w-100 h-100 @(Model.Theme == "light" ? "theme-card--active" : "")"
+                                data-theme-value="light">
+                            <div class="theme-preview theme-preview--light mb-2">
+                                <div class="theme-preview-bar"></div>
+                                <div class="theme-preview-content">
+                                    <div class="theme-preview-line"></div>
+                                    <div class="theme-preview-line theme-preview-line--short"></div>
+                                </div>
+                            </div>
+                            <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeLight"]</span>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button"
+                                class="theme-card w-100 h-100 @(Model.Theme == "high-contrast" ? "theme-card--active" : "")"
+                                data-theme-value="high-contrast">
+                            <div class="theme-preview theme-preview--high-contrast mb-2">
+                                <div class="theme-preview-bar"></div>
+                                <div class="theme-preview-content">
+                                    <div class="theme-preview-line"></div>
+                                    <div class="theme-preview-line theme-preview-line--short"></div>
+                                </div>
+                            </div>
+                            <span class="small fw-semibold">@Localizer["Prof_Appearance_ThemeHighContrast"]</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
+            </div>
+
+            <div class="welcome-step" data-step="4">
+                <div class="mb-4">
+                    <h4 class="fw-bold mb-1">@Localizer["Welcome_Step4_Title"]</h4>
+                    <p class="text-secondary small mb-0">@Localizer["Welcome_Step4_Subtitle"]</p>
+                </div>
+                <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Welcome_Step4_Heading"]</p>
+                <div class="row g-3" id="font-size-options">
+                    <div class="col-4">
+                        <button type="button"
+                                class="welcome-option-card welcome-font-card w-100 h-100 @(Model.FontSize == "normal" ? "welcome-option-card--active" : "")"
+                                data-font-size-value="normal">
+                            <span class="welcome-font-sample d-block text-center">Aa</span>
+                            <span class="small fw-semibold d-block text-center mt-2">@Localizer["Prof_Appearance_FontNormal"]</span>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button"
+                                class="welcome-option-card welcome-font-card w-100 h-100 @(Model.FontSize == "large" ? "welcome-option-card--active" : "")"
+                                data-font-size-value="large">
+                            <span class="welcome-font-sample welcome-font-sample--large d-block text-center">Aa</span>
+                            <span class="small fw-semibold d-block text-center mt-2">@Localizer["Prof_Appearance_FontLarge"]</span>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button"
+                                class="welcome-option-card welcome-font-card w-100 h-100 @(Model.FontSize == "xlarge" ? "welcome-option-card--active" : "")"
+                                data-font-size-value="xlarge">
+                            <span class="welcome-font-sample welcome-font-sample--xlarge d-block text-center">Aa</span>
+                            <span class="small fw-semibold d-block text-center mt-2">@Localizer["Prof_Appearance_FontXLarge"]</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
+            </div>
+
+            <form id="language-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveLanguage" class="d-none">
+                @Html.AntiForgeryToken()
+            </form>
+            <form id="currency-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveCurrency" class="d-none">
+                @Html.AntiForgeryToken()
+            </form>
+            <form id="theme-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveTheme" class="d-none">
+                @Html.AntiForgeryToken()
+            </form>
+            <form id="font-size-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveFontSize" class="d-none">
+                @Html.AntiForgeryToken()
+            </form>
+            <form id="complete-form" method="post" asp-action="Complete" class="d-none">
+                @Html.AntiForgeryToken()
+            </form>
+
+            <div class="welcome-nav">
+                <button type="button" id="back-btn" class="btn btn-outline-secondary" data-step-back>
+                    <i class="bi bi-arrow-left me-1"></i>
+                    <span>@Localizer["Welcome_Btn_Back"]</span>
+                </button>
+                <button type="button" id="next-btn" class="btn btn-primary" data-step-next
+                        data-label-next="@Localizer["Welcome_Btn_Next"]"
+                        data-label-complete="@Localizer["Welcome_Btn_Complete"]">
+                    <span id="next-btn-label">@Localizer["Welcome_Btn_Next"]</span>
+                    <i class="bi bi-arrow-right ms-1" id="next-btn-icon"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/finance/js/welcome.js" asp-append-version="true"></script>
+}

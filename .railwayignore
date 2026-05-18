@@ -1,0 +1,5 @@
+.git
+**/*.user
+**/bin
+**/obj
+**/.vs

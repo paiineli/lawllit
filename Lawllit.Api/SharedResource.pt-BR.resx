@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+
+	<data name="SiteTitle" xml:space="preserve"><value>lawllit.</value></data>
+	<data name="SiteDescription" xml:space="preserve"><value>Desenvolvo software. Simples assim.</value></data>
+
+	<data name="Nav_About" xml:space="preserve"><value>sobre</value></data>
+	<data name="Nav_Projects" xml:space="preserve"><value>projetos</value></data>
+	<data name="Nav_Team" xml:space="preserve"><value>equipe</value></data>
+	<data name="Nav_Contact" xml:space="preserve"><value>contato</value></data>
+	<data name="Nav_Menu" xml:space="preserve"><value>menu</value></data>
+
+	<data name="Hero_Line1" xml:space="preserve"><value>desenvolvo software.</value></data>
+	<data name="Hero_Line2" xml:space="preserve"><value>de verdade.</value></data>
+	<data name="Hero_Sub" xml:space="preserve"><value>código limpo, sistemas que funcionam, sem enrolação.</value></data>
+	<data name="Hero_CTA_Projects" xml:space="preserve"><value>ver projetos</value></data>
+	<data name="Hero_CTA_Contact" xml:space="preserve"><value>falar comigo</value></data>
+
+
+<data name="About_Tag" xml:space="preserve"><value>// sobre</value></data>
+	<data name="About_P1" xml:space="preserve"><value>eu construo software. sem buzzwords, sem overengineering. código que resolve o problema.</value></data>
+	<data name="About_P2" xml:space="preserve"><value>minha stack é .NET. C#, ASP.NET Core, bancos relacionais. o básico feito direito, com clean architecture e boas práticas.</value></data>
+
+	<data name="Projects_Tag" xml:space="preserve"><value>// projetos</value></data>
+	<data name="Project_LF_Live" xml:space="preserve"><value>em produção</value></data>
+	<data name="Project_LF_Desc" xml:space="preserve"><value>controle financeiro pessoal em .NET. registre transações, acompanhe seu saldo e veja cotações em tempo real. gratuito para testar.</value></data>
+	<data name="Project_LF_CTA" xml:space="preserve"><value>criar conta</value></data>
+
+	<data name="Team_Tag" xml:space="preserve"><value>// sobre</value></data>
+	<data name="Team_Role" xml:space="preserve"><value>desenvolvedor backend</value></data>
+	<data name="Team_Bio" xml:space="preserve"><value>desenvolvedor de sorocaba, sp. trabalho na unimed desenvolvendo sistemas de saúde em C# e .NET. pós-graduado em arquitetura de software pela facens (9.6/10) e cursando mba na fgv. nos projetos pessoais, construo coisas como o lawlittfinance. sistemas que eu mesmo usaria.</value></data>
+
+	<data name="Contact_Tag" xml:space="preserve"><value>// contato</value></data>
+	<data name="Contact_Sub" xml:space="preserve"><value>respondo em até 24h.</value></data>
+	<data name="Contact_Email" xml:space="preserve"><value>e-mail</value></data>
+	<data name="Contact_LinkedIn" xml:space="preserve"><value>linkedin</value></data>
+
+	<data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+	<data name="Nav_Transactions" xml:space="preserve"><value>Transações</value></data>
+	<data name="Nav_Categories" xml:space="preserve"><value>Categorias</value></data>
+	<data name="Nav_Quotes" xml:space="preserve"><value>Cotações</value></data>
+	<data name="Nav_Exit" xml:space="preserve"><value>Sair</value></data>
+	<data name="Btn_Save" xml:space="preserve"><value>Salvar</value></data>
+	<data name="Btn_Cancel" xml:space="preserve"><value>Cancelar</value></data>
+	<data name="Btn_Create" xml:space="preserve"><value>Criar</value></data>
+	<data name="Btn_Delete" xml:space="preserve"><value>Excluir</value></data>
+	<data name="Btn_Import" xml:space="preserve"><value>Importar</value></data>
+	<data name="Btn_Refresh" xml:space="preserve"><value>Atualizar</value></data>
+	<data name="Btn_Clear" xml:space="preserve"><value>Limpar</value></data>
+	<data name="Filter_All" xml:space="preserve"><value>Todas</value></data>
+	<data name="Lbl_Income" xml:space="preserve"><value>Receita</value></data>
+	<data name="Lbl_Expense" xml:space="preserve"><value>Despesa</value></data>
+	<data name="Lbl_Date" xml:space="preserve"><value>Data</value></data>
+	<data name="Lbl_Description" xml:space="preserve"><value>Descrição</value></data>
+	<data name="Lbl_Category" xml:space="preserve"><value>Categoria</value></data>
+	<data name="Lbl_Type" xml:space="preserve"><value>Tipo</value></data>
+	<data name="Lbl_Amount" xml:space="preserve"><value>Valor</value></data>
+	<data name="Lbl_Name" xml:space="preserve"><value>Nome</value></data>
+	<data name="Lbl_Email" xml:space="preserve"><value>E-mail</value></data>
+	<data name="Lbl_Password" xml:space="preserve"><value>Senha</value></data>
+	<data name="Search_Placeholder" xml:space="preserve"><value>Buscar...</value></data>
+	<data name="Placeholder_Email" xml:space="preserve"><value>seu@email.com</value></data>
+	<data name="Placeholder_Password" xml:space="preserve"><value>senha@123</value></data>
+	<data name="Placeholder_Amount" xml:space="preserve"><value>0,00</value></data>
+	<data name="Aria_ShowPassword" xml:space="preserve"><value>Mostrar senha</value></data>
+	<data name="Auth_PersonalFinance" xml:space="preserve"><value>Gestão financeira pessoal.</value></data>
+	<data name="Auth_Or" xml:space="preserve"><value>ou</value></data>
+	<data name="Login_Title" xml:space="preserve"><value>Entrar</value></data>
+	<data name="Login_ForgotPassword" xml:space="preserve"><value>Esqueci minha senha</value></data>
+	<data name="Login_WithGoogle" xml:space="preserve"><value>Entrar com Google</value></data>
+	<data name="Login_NoAccount" xml:space="preserve"><value>Não tem conta?</value></data>
+	<data name="Login_CreateAccount" xml:space="preserve"><value>Criar conta</value></data>
+	<data name="Register_Title" xml:space="preserve"><value>Criar conta</value></data>
+	<data name="Register_NamePlaceholder" xml:space="preserve"><value>Seu nome</value></data>
+	<data name="Register_PasswordPlaceholder" xml:space="preserve"><value>Mínimo 6 caracteres</value></data>
+	<data name="Register_WithGoogle" xml:space="preserve"><value>Continuar com Google</value></data>
+	<data name="Register_HasAccount" xml:space="preserve"><value>Já tem conta?</value></data>
+	<data name="Forgot_Title" xml:space="preserve"><value>Esqueci minha senha</value></data>
+	<data name="Forgot_Subtitle" xml:space="preserve"><value>Informe seu e-mail e enviaremos um link para redefinição.</value></data>
+	<data name="Forgot_Submit" xml:space="preserve"><value>Enviar link</value></data>
+	<data name="Forgot_Remember" xml:space="preserve"><value>Lembrou a senha?</value></data>
+	<data name="Reset_Title" xml:space="preserve"><value>Nova senha</value></data>
+	<data name="Reset_PasswordPlaceholder" xml:space="preserve"><value>Mínimo 6 caracteres</value></data>
+	<data name="Reset_ConfirmPlaceholder" xml:space="preserve"><value>Repita a senha</value></data>
+	<data name="Reset_Submit" xml:space="preserve"><value>Redefinir senha</value></data>
+	<data name="Home_Subtitle" xml:space="preserve"><value>Controle suas receitas e despesas, saiba para onde seu dinheiro vai e mantenha seus dados só seus.</value></data>
+	<data name="Home_Line1" xml:space="preserve"><value>Suas finanças.</value></data>
+	<data name="Home_Line2" xml:space="preserve"><value>Simples assim.</value></data>
+	<data name="Home_CreateAccount" xml:space="preserve"><value>Criar conta</value></data>
+	<data name="Dash_Income" xml:space="preserve"><value>Receitas</value></data>
+	<data name="Dash_Expenses" xml:space="preserve"><value>Despesas</value></data>
+	<data name="Dash_Balance" xml:space="preserve"><value>Saldo do mês</value></data>
+	<data name="Dash_ExpensesByCategory" xml:space="preserve"><value>Despesas por categoria — top 5</value></data>
+	<data name="Dash_NoExpenses" xml:space="preserve"><value>Nenhuma despesa neste mês</value></data>
+	<data name="Dash_IncomeVsExpenses" xml:space="preserve"><value>Receitas vs Despesas — últimos 6 meses</value></data>
+	<data name="Dash_Projection" xml:space="preserve"><value>Projeção mensal</value></data>
+	<data name="Dash_PaceWithDays" xml:space="preserve"><value>No ritmo atual com {0} dias registrados</value></data>
+	<data name="Dash_NoProjection" xml:space="preserve"><value>Sem dados para projeção</value></data>
+	<data name="Dash_DueSoon" xml:space="preserve"><value>A pagar até o fim do mês</value></data>
+	<data name="Dash_DueSoonSub" xml:space="preserve"><value>Despesas com data futura neste mês</value></data>
+	<data name="Dash_NoBills" xml:space="preserve"><value>Nenhuma conta futura</value></data>
+	<data name="Dash_DailyAverage" xml:space="preserve"><value>Média diária</value></data>
+	<data name="Dash_PerDay" xml:space="preserve"><value>/dia</value></data>
+	<data name="Dash_BasedOnDays" xml:space="preserve"><value>Baseado em {0} dias de {1} neste mês</value></data>
+	<data name="Dash_AverageOverDays" xml:space="preserve"><value>Média sobre os {0} dias do mês</value></data>
+	<data name="Dash_NoExpensesMonth" xml:space="preserve"><value>Sem despesas neste mês</value></data>
+	<data name="Dash_ExpenseRanking" xml:space="preserve"><value>Ranking de Despesas por Categoria</value></data>
+	<data name="Dash_Others" xml:space="preserve"><value>Outros</value></data>
+	<data name="Month_1" xml:space="preserve"><value>Janeiro</value></data>
+	<data name="Month_2" xml:space="preserve"><value>Fevereiro</value></data>
+	<data name="Month_3" xml:space="preserve"><value>Março</value></data>
+	<data name="Month_4" xml:space="preserve"><value>Abril</value></data>
+	<data name="Month_5" xml:space="preserve"><value>Maio</value></data>
+	<data name="Month_6" xml:space="preserve"><value>Junho</value></data>
+	<data name="Month_7" xml:space="preserve"><value>Julho</value></data>
+	<data name="Month_8" xml:space="preserve"><value>Agosto</value></data>
+	<data name="Month_9" xml:space="preserve"><value>Setembro</value></data>
+	<data name="Month_10" xml:space="preserve"><value>Outubro</value></data>
+	<data name="Month_11" xml:space="preserve"><value>Novembro</value></data>
+	<data name="Month_12" xml:space="preserve"><value>Dezembro</value></data>
+	<data name="Trans_Title" xml:space="preserve"><value>Transações</value></data>
+	<data name="Trans_New" xml:space="preserve"><value>Nova transação</value></data>
+	<data name="Trans_RecurringHint" xml:space="preserve"><value>{0} transação(ões) recorrente(s) do mês anterior disponível(is).</value></data>
+	<data name="Trans_DescriptionOptional" xml:space="preserve"><value>Descrição (opcional)</value></data>
+	<data name="Trans_DescriptionPlaceholder" xml:space="preserve"><value>Ex: Almoço, Salário...</value></data>
+	<data name="Trans_AmountLabel" xml:space="preserve"><value>Valor</value></data>
+	<data name="Trans_IsRecurring" xml:space="preserve"><value>Transação recorrente</value></data>
+	<data name="Trans_Recurring" xml:space="preserve"><value>Recorrente</value></data>
+	<data name="Trans_NoTransactions" xml:space="preserve"><value>Nenhuma transação encontrada.</value></data>
+	<data name="Trans_NoCategoryCreate" xml:space="preserve"><value>Crie sua primeira</value></data>
+	<data name="Trans_NoCategoryLink" xml:space="preserve"><value>categoria</value></data>
+	<data name="Trans_NoCategoryEnd" xml:space="preserve"><value>para adicionar transações.</value></data>
+	<data name="Trans_NoDescription" xml:space="preserve"><value>Sem descrição</value></data>
+	<data name="Trans_EditTitle" xml:space="preserve"><value>Editar transação</value></data>
+	<data name="Trans_DeleteTitle" xml:space="preserve"><value>Confirmar exclusão</value></data>
+	<data name="Trans_DeleteConfirm" xml:space="preserve"><value>Tem certeza que deseja excluir esta transação?</value></data>
+	<data name="Cat_Title" xml:space="preserve"><value>Categorias</value></data>
+	<data name="Cat_New" xml:space="preserve"><value>Nova categoria</value></data>
+	<data name="Cat_NamePlaceholder" xml:space="preserve"><value>Ex: Alimentação, Salário...</value></data>
+	<data name="Cat_NoCategories" xml:space="preserve"><value>Nenhuma categoria encontrada.</value></data>
+	<data name="Cat_EditTitle" xml:space="preserve"><value>Editar categoria</value></data>
+	<data name="Cat_DeleteTitle" xml:space="preserve"><value>Confirmar exclusão</value></data>
+	<data name="Cat_DeleteConfirm" xml:space="preserve"><value>Tem certeza que deseja excluir esta categoria?</value></data>
+	<data name="Quote_Title" xml:space="preserve"><value>Cotações</value></data>
+	<data name="Quote_LoadError" xml:space="preserve"><value>Não foi possível carregar as cotações</value></data>
+	<data name="Quote_LoadErrorHint" xml:space="preserve"><value>Verifique sua conexão e tente novamente</value></data>
+	<data name="Quote_UpdatedAt" xml:space="preserve"><value>Atualizado {0}</value></data>
+	<data name="Currency_Dollar" xml:space="preserve"><value>Dólar</value></data>
+	<data name="Currency_Euro" xml:space="preserve"><value>Euro</value></data>
+	<data name="Currency_Pound" xml:space="preserve"><value>Libra</value></data>
+	<data name="Currency_Yen" xml:space="preserve"><value>Iene</value></data>
+	<data name="Currency_Bitcoin" xml:space="preserve"><value>Bitcoin</value></data>
+	<data name="Currency_Argentine" xml:space="preserve"><value>Peso Argentino</value></data>
+	<data name="Prof_Title" xml:space="preserve"><value>Perfil</value></data>
+	<data name="Prof_MemberSince" xml:space="preserve"><value>Membro desde</value></data>
+	<data name="Prof_Nav_Info" xml:space="preserve"><value>Geral</value></data>
+	<data name="Prof_Nav_Security" xml:space="preserve"><value>Segurança</value></data>
+	<data name="Prof_Nav_Appearance" xml:space="preserve"><value>Preferências</value></data>
+	<data name="Prof_Nav_Account" xml:space="preserve"><value>Conta</value></data>
+	<data name="Prof_Info_Title" xml:space="preserve"><value>Informações pessoais</value></data>
+	<data name="Prof_Security_EmailSection" xml:space="preserve"><value>E-mail</value></data>
+	<data name="Prof_Security_EmailAddress" xml:space="preserve"><value>Endereço de e-mail</value></data>
+	<data name="Prof_Security_ConfirmPwd" xml:space="preserve"><value>Confirmar senha</value></data>
+	<data name="Prof_Security_ChangePwd" xml:space="preserve"><value>Alterar senha</value></data>
+	<data name="Prof_Security_CurrentPwd" xml:space="preserve"><value>Senha atual</value></data>
+	<data name="Prof_Security_NewPwd" xml:space="preserve"><value>Nova senha</value></data>
+	<data name="Prof_Security_ConfirmNewPwd" xml:space="preserve"><value>Confirmar nova senha</value></data>
+	<data name="Prof_Appearance_Theme" xml:space="preserve"><value>Tema</value></data>
+	<data name="Prof_Appearance_FontSize" xml:space="preserve"><value>Tamanho da fonte</value></data>
+	<data name="Prof_Appearance_Language" xml:space="preserve"><value>Idioma</value></data>
+	<data name="Prof_Appearance_ThemeDark" xml:space="preserve"><value>Escuro</value></data>
+	<data name="Prof_Appearance_ThemeLight" xml:space="preserve"><value>Claro</value></data>
+	<data name="Prof_Appearance_ThemeHighContrast" xml:space="preserve"><value>Alto Contraste</value></data>
+	<data name="Prof_Appearance_FontNormal" xml:space="preserve"><value>Normal</value></data>
+	<data name="Prof_Appearance_FontLarge" xml:space="preserve"><value>Grande</value></data>
+	<data name="Prof_Appearance_FontXLarge" xml:space="preserve"><value>Muito grande</value></data>
+	<data name="Prof_Appearance_LangPT" xml:space="preserve"><value>Português (Brasil)</value></data>
+	<data name="Prof_Appearance_LangEN" xml:space="preserve"><value>English</value></data>
+	<data name="Prof_Appearance_Currency" xml:space="preserve"><value>Moeda</value></data>
+	<data name="Prof_Appearance_CurrencyBRL" xml:space="preserve"><value>Real (BRL)</value></data>
+	<data name="Prof_Appearance_CurrencyUSD" xml:space="preserve"><value>Dólar (USD)</value></data>
+	<data name="Msg_CurrencyUpdated" xml:space="preserve"><value>Moeda atualizada com sucesso.</value></data>
+	<data name="Prof_Account_DangerZone" xml:space="preserve"><value>Zona de perigo</value></data>
+	<data name="Prof_Account_Warning" xml:space="preserve"><value>Esta ação é irreversível. Todas as suas transações, categorias e dados serão permanentemente excluídos.</value></data>
+	<data name="Prof_Account_DeleteBtn" xml:space="preserve"><value>Excluir conta</value></data>
+	<data name="Prof_Delete_Title" xml:space="preserve"><value>Excluir conta</value></data>
+	<data name="Prof_Delete_Confirm" xml:space="preserve"><value>Tem certeza? Todas as transações, categorias e dados da conta serão excluídos permanentemente e não poderão ser recuperados.</value></data>
+	<data name="Prof_Delete_Password" xml:space="preserve"><value>Confirmar senha</value></data>
+	<data name="Prof_Delete_Submit" xml:space="preserve"><value>Excluir permanentemente</value></data>
+	<data name="Msg_EmailConfirmSent" xml:space="preserve"><value>Conta registrada! Verifique seu e-mail para ativar o acesso.</value></data>
+	<data name="Msg_InvalidLink" xml:space="preserve"><value>Link inválido ou expirado.</value></data>
+	<data name="Msg_ForgotEmailSent" xml:space="preserve"><value>Se o e-mail estiver cadastrado, você receberá as instruções em breve.</value></data>
+	<data name="Msg_PasswordReset" xml:space="preserve"><value>Senha redefinida com sucesso! Faça login.</value></data>
+	<data name="Msg_WrongCredentials" xml:space="preserve"><value>E-mail ou senha incorretos.</value></data>
+	<data name="Msg_EmailNotConfirmed" xml:space="preserve"><value>Confirme seu e-mail antes de entrar.</value></data>
+	<data name="Msg_NameUpdated" xml:space="preserve"><value>Nome atualizado com sucesso.</value></data>
+	<data name="Msg_EmailUpdated" xml:space="preserve"><value>E-mail atualizado com sucesso.</value></data>
+	<data name="Msg_PasswordChanged" xml:space="preserve"><value>Senha alterada com sucesso.</value></data>
+	<data name="Msg_EmailInUse" xml:space="preserve"><value>Este e-mail já está em uso.</value></data>
+	<data name="Msg_EmailSameAsCurrent" xml:space="preserve"><value>O novo e-mail é igual ao atual.</value></data>
+	<data name="Msg_WrongPassword" xml:space="preserve"><value>Senha incorreta.</value></data>
+	<data name="Msg_OperationNotAllowed" xml:space="preserve"><value>Operação não permitida.</value></data>
+	<data name="Msg_CurrentPasswordWrong" xml:space="preserve"><value>Senha atual incorreta.</value></data>
+	<data name="Msg_NameInvalid" xml:space="preserve"><value>Nome inválido.</value></data>
+	<data name="Msg_EmailInvalid" xml:space="preserve"><value>E-mail inválido.</value></data>
+	<data name="Msg_DataInvalid" xml:space="preserve"><value>Dados inválidos.</value></data>
+	<data name="Msg_CategoryNotFound" xml:space="preserve"><value>Categoria não encontrada.</value></data>
+	<data name="Msg_TransCreated" xml:space="preserve"><value>Transação criada com sucesso.</value></data>
+	<data name="Msg_TransUpdated" xml:space="preserve"><value>Transação atualizada com sucesso.</value></data>
+	<data name="Msg_TransNotFound" xml:space="preserve"><value>Transação não encontrada.</value></data>
+	<data name="Msg_TransDeleted" xml:space="preserve"><value>Transação excluída com sucesso.</value></data>
+	<data name="Msg_RecurringImported" xml:space="preserve"><value>{0} transação(ões) recorrente(s) importada(s) com sucesso.</value></data>
+	<data name="Msg_CatNameRequired" xml:space="preserve"><value>Nome da categoria é obrigatório.</value></data>
+	<data name="Msg_CatAlreadyExists" xml:space="preserve"><value>Já existe uma categoria com este nome e tipo.</value></data>
+	<data name="Msg_CatCreated" xml:space="preserve"><value>Categoria criada com sucesso.</value></data>
+	<data name="Msg_CatNotFound" xml:space="preserve"><value>Categoria não encontrada.</value></data>
+	<data name="Msg_CatUpdated" xml:space="preserve"><value>Categoria atualizada com sucesso.</value></data>
+	<data name="Msg_CatHasTransactions" xml:space="preserve"><value>Não é possível excluir uma categoria com transações vinculadas.</value></data>
+	<data name="Msg_CatDeleted" xml:space="preserve"><value>Categoria excluída com sucesso.</value></data>
+	<data name="Msg_NotFound" xml:space="preserve"><value>Não encontrado.</value></data>
+	<data name="Val_NameRequired" xml:space="preserve"><value>Nome é obrigatório</value></data>
+	<data name="Val_NameMaxLength" xml:space="preserve"><value>Nome não pode exceder 100 caracteres</value></data>
+	<data name="Val_EmailRequired" xml:space="preserve"><value>E-mail é obrigatório</value></data>
+	<data name="Val_EmailInvalid" xml:space="preserve"><value>E-mail inválido</value></data>
+	<data name="Val_PasswordRequired" xml:space="preserve"><value>Senha é obrigatória</value></data>
+	<data name="Val_PasswordMin6" xml:space="preserve"><value>Senha deve ter pelo menos 6 caracteres</value></data>
+	<data name="Val_Min6Chars" xml:space="preserve"><value>Mínimo 6 caracteres</value></data>
+	<data name="Val_ConfirmRequired" xml:space="preserve"><value>Confirmação é obrigatória</value></data>
+	<data name="Val_PasswordMismatch" xml:space="preserve"><value>As senhas não coincidem</value></data>
+	<data name="Val_DescriptionMaxLength" xml:space="preserve"><value>Descrição não pode exceder 200 caracteres</value></data>
+	<data name="Val_AmountRange" xml:space="preserve"><value>Valor deve ser maior que zero</value></data>
+	<data name="Val_DateRequired" xml:space="preserve"><value>Data é obrigatória</value></data>
+	<data name="Val_CategoryRequired" xml:space="preserve"><value>Categoria é obrigatória</value></data>
+	<data name="Val_CatNameRequired" xml:space="preserve"><value>Nome da categoria é obrigatório</value></data>
+	<data name="Val_CatNameMaxLength" xml:space="preserve"><value>Nome não pode exceder 100 caracteres</value></data>
+	<data name="Email_Confirm_Subject" xml:space="preserve"><value>Confirme seu e-mail — lawllit.finance</value></data>
+	<data name="Email_Confirm_Heading" xml:space="preserve"><value>Confirme seu e-mail</value></data>
+	<data name="Email_Confirm_Greeting" xml:space="preserve"><value>Olá, {0}! Clique no botão abaixo para ativar sua conta no lawllit.finance.</value></data>
+	<data name="Email_Confirm_ActionLabel" xml:space="preserve"><value>Confirmar e-mail</value></data>
+	<data name="Email_Confirm_Footer1" xml:space="preserve"><value>Este link expira em 24 horas.</value></data>
+	<data name="Email_Confirm_Footer2" xml:space="preserve"><value>Se você não criou uma conta, ignore este e-mail.</value></data>
+	<data name="Email_Reset_Subject" xml:space="preserve"><value>Redefinição de senha — lawllit.finance</value></data>
+	<data name="Email_Reset_Heading" xml:space="preserve"><value>Redefinição de senha</value></data>
+	<data name="Email_Reset_Greeting" xml:space="preserve"><value>Olá, {0}! Clique no botão abaixo para redefinir sua senha no lawllit.finance.</value></data>
+	<data name="Email_Reset_ActionLabel" xml:space="preserve"><value>Redefinir senha</value></data>
+	<data name="Email_Reset_Footer1" xml:space="preserve"><value>Este link expira em 1 hora.</value></data>
+	<data name="Email_Reset_Footer2" xml:space="preserve"><value>Se você não solicitou a redefinição, ignore este e-mail.</value></data>
+
+	<data name="Welcome_Step1_Title" xml:space="preserve"><value>Bem-vindo, {0}!</value></data>
+	<data name="Welcome_Step1_Subtitle" xml:space="preserve"><value>Vamos configurar sua experiência. Isso levará apenas um momento.</value></data>
+	<data name="Welcome_Step1_Heading" xml:space="preserve"><value>Qual idioma você prefere?</value></data>
+	<data name="Welcome_Step2_Title" xml:space="preserve"><value>Moeda preferida</value></data>
+	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>Usamos isso para formatar os valores das suas transações.</value></data>
+	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>Qual moeda você utiliza?</value></data>
+	<data name="Welcome_Step3_Title" xml:space="preserve"><value>Escolha seu tema</value></data>
+	<data name="Welcome_Step3_Subtitle" xml:space="preserve"><value>Escolha o visual que funciona melhor para você.</value></data>
+	<data name="Welcome_Step3_Heading" xml:space="preserve"><value>Como você quer que o lawllit pareça?</value></data>
+	<data name="Welcome_Step4_Title" xml:space="preserve"><value>Tamanho da fonte</value></data>
+	<data name="Welcome_Step4_Subtitle" xml:space="preserve"><value>Ajuste o tamanho do texto para melhor legibilidade.</value></data>
+	<data name="Welcome_Step4_Heading" xml:space="preserve"><value>Como você prefere ler?</value></data>
+	<data name="Welcome_Btn_Skip" xml:space="preserve"><value>Pular configuração</value></data>
+	<data name="Welcome_Btn_Next" xml:space="preserve"><value>Continuar</value></data>
+	<data name="Welcome_Btn_Back" xml:space="preserve"><value>Voltar</value></data>
+	<data name="Welcome_Btn_Complete" xml:space="preserve"><value>Começar a usar o lawllit.finance</value></data>
+	<data name="Welcome_StepOf" xml:space="preserve"><value>Etapa {0} de {1}</value></data>
+	<data name="Welcome_Hint_ChangeAnytime" xml:space="preserve"><value>Você pode alterar isso a qualquer momento no seu perfil.</value></data>
+
+	<data name="Register_TermsCheckbox_Pre" xml:space="preserve"><value>Li e concordo com os</value></data>
+	<data name="Register_TermsCheckbox_Mid" xml:space="preserve"><value>e a</value></data>
+	<data name="Register_TermsCheckbox_Post" xml:space="preserve"><value>do lawllit.finance.</value></data>
+	<data name="Register_TermsLink" xml:space="preserve"><value>Termos de Uso</value></data>
+	<data name="Register_PrivacyLink" xml:space="preserve"><value>Política de Privacidade</value></data>
+	<data name="Val_TermsRequired" xml:space="preserve"><value>Você deve aceitar os Termos de Uso para continuar.</value></data>
+	<data name="Footer_Privacy" xml:space="preserve"><value>Privacidade</value></data>
+	<data name="Footer_Terms" xml:space="preserve"><value>Termos</value></data>
+	<data name="Legal_BackToLogin" xml:space="preserve"><value>Voltar ao login</value></data>
+
+	<data name="Privacy_Title" xml:space="preserve"><value>Política de Privacidade</value></data>
+	<data name="Privacy_Updated" xml:space="preserve"><value>Última atualização: março de 2025</value></data>
+	<data name="Privacy_Intro" xml:space="preserve"><value>Este projeto respeita a sua privacidade. Esta Política descreve como são coletados, usados e protegidos os dados pessoais dos usuários do lawllit.finance, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).</value></data>
+	<data name="Privacy_S1_Title" xml:space="preserve"><value>1. Dados que coletamos</value></data>
+	<data name="Privacy_S1_Intro" xml:space="preserve"><value>Coletamos apenas os dados necessários para o funcionamento do serviço:</value></data>
+	<data name="Privacy_S1_Li1" xml:space="preserve"><value>Nome e endereço de e-mail, fornecidos no cadastro</value></data>
+	<data name="Privacy_S1_Li2" xml:space="preserve"><value>Identificador da conta Google, quando o cadastro é feito via Google</value></data>
+	<data name="Privacy_S1_Li3" xml:space="preserve"><value>Transações financeiras que você registra: descrição, valor, tipo, data e recorrência</value></data>
+	<data name="Privacy_S1_Li4" xml:space="preserve"><value>Categorias que você cria para organizar suas transações</value></data>
+	<data name="Privacy_S1_Li5" xml:space="preserve"><value>Preferências de personalização: tema visual, tamanho de fonte, idioma e moeda</value></data>
+	<data name="Privacy_S1_Li6" xml:space="preserve"><value>Token de sessão, necessário para manter você autenticado por até 7 dias</value></data>
+	<data name="Privacy_S2_Title" xml:space="preserve"><value>2. Como usamos seus dados</value></data>
+	<data name="Privacy_S2_Li1" xml:space="preserve"><value>Para criar e gerenciar sua conta</value></data>
+	<data name="Privacy_S2_Li2" xml:space="preserve"><value>Para exibir seu painel financeiro personalizado</value></data>
+	<data name="Privacy_S2_Li3" xml:space="preserve"><value>Para enviar e-mails transacionais: confirmação de e-mail e redefinição de senha</value></data>
+	<data name="Privacy_S2_Li4" xml:space="preserve"><value>Para aplicar suas preferências de interface em cada acesso</value></data>
+	<data name="Privacy_S3_Title" xml:space="preserve"><value>3. Compartilhamento de dados</value></data>
+	<data name="Privacy_S3_Body1" xml:space="preserve"><value>Não vendemos, alugamos nem compartilhamos seus dados pessoais com terceiros para fins comerciais ou publicitários.</value></data>
+	<data name="Privacy_S3_Body2" xml:space="preserve"><value>O lawllit.finance consulta cotações de câmbio por meio da API pública economia.awesomeapi.com.br. Essa consulta é feita pelo servidor e não inclui nenhum dado pessoal seu.</value></data>
+	<data name="Privacy_S4_Title" xml:space="preserve"><value>4. Retenção de dados</value></data>
+	<data name="Privacy_S4_Body" xml:space="preserve"><value>Seus dados são mantidos enquanto sua conta estiver ativa. Após a exclusão da conta, os dados são removidos dos sistemas do lawllit.finance em até 30 dias.</value></data>
+	<data name="Privacy_S5_Title" xml:space="preserve"><value>5. Seus direitos (LGPD)</value></data>
+	<data name="Privacy_S5_Body_Pre" xml:space="preserve"><value>Você tem direito a acessar, corrigir e excluir seus dados pessoais a qualquer momento. A exclusão pode ser feita diretamente na seção Perfil do lawllit.finance. Para demais solicitações relacionadas à privacidade, entre em contato pelo e-mail</value></data>
+	<data name="Privacy_S6_Title" xml:space="preserve"><value>6. Segurança</value></data>
+	<data name="Privacy_S6_Body" xml:space="preserve"><value>Senhas são armazenadas de forma criptografada e nunca em texto simples. Utilizamos tokens anti-falsificação em todos os formulários, cabeçalhos de segurança padrão da indústria e limitação de tentativas de acesso para proteger sua conta.</value></data>
+	<data name="Privacy_S7_Title" xml:space="preserve"><value>7. Alterações nesta Política</value></data>
+	<data name="Privacy_S7_Body" xml:space="preserve"><value>Eventuais atualizações serão publicadas nesta página com a data de revisão atualizada. O uso contínuo do serviço após as alterações implica aceitação da nova versão.</value></data>
+	<data name="Privacy_S8_Title" xml:space="preserve"><value>8. Contato</value></data>
+	<data name="Privacy_S8_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre esta Política, entre em contato pelo e-mail</value></data>
+
+	<data name="Terms_Title" xml:space="preserve"><value>Termos de Uso</value></data>
+	<data name="Terms_Updated" xml:space="preserve"><value>Última atualização: março de 2025</value></data>
+	<data name="Terms_S1_Title" xml:space="preserve"><value>1. Aceitação dos Termos</value></data>
+	<data name="Terms_S1_Body" xml:space="preserve"><value>Ao criar uma conta no lawllit.finance, você declara que leu, entendeu e concorda com estes Termos de Uso. Se você não concordar com algum dos termos aqui descritos, não utilize o serviço.</value></data>
+	<data name="Terms_S2_Title" xml:space="preserve"><value>2. O Serviço</value></data>
+	<data name="Terms_S2_Body" xml:space="preserve"><value>O lawllit.finance é uma aplicação de controle financeiro pessoal que permite registrar receitas e despesas, organizar categorias, acompanhar saldo e visualizar cotações de câmbio em tempo real. O serviço é destinado a pessoas físicas para uso pessoal.</value></data>
+	<data name="Terms_S3_Title" xml:space="preserve"><value>3. Cadastro e Responsabilidade da Conta</value></data>
+	<data name="Terms_S3_Li1" xml:space="preserve"><value>Você deve fornecer informações verdadeiras e atualizadas no cadastro</value></data>
+	<data name="Terms_S3_Li2" xml:space="preserve"><value>Você é responsável pela segurança da sua senha e por todas as atividades realizadas na sua conta</value></data>
+	<data name="Terms_S3_Li3_Pre" xml:space="preserve"><value>Em caso de acesso não autorizado à sua conta, entre em contato imediatamente pelo e-mail</value></data>
+	<data name="Terms_S3_Li4" xml:space="preserve"><value>Cada pessoa pode manter apenas uma conta ativa no serviço</value></data>
+	<data name="Terms_S4_Title" xml:space="preserve"><value>4. Uso Aceitável</value></data>
+	<data name="Terms_S4_Body" xml:space="preserve"><value>O lawllit.finance deve ser utilizado exclusivamente para fins pessoais e lícitos. É proibido usar o serviço para atividades ilegais, fraudulentas, ou que possam comprometer a segurança ou o funcionamento da plataforma.</value></data>
+	<data name="Terms_S5_Title" xml:space="preserve"><value>5. Seus Dados Financeiros</value></data>
+	<data name="Terms_S5_Body" xml:space="preserve"><value>Todos os dados financeiros que você registra no lawllit.finance pertencem a você. O lawllit.finance não acessa, analisa nem utiliza suas transações para qualquer finalidade além da exibição no seu próprio painel. Você pode excluir sua conta e todos os seus dados a qualquer momento na seção Perfil.</value></data>
+	<data name="Terms_S6_Title" xml:space="preserve"><value>6. Cotações de Câmbio e Isenção de Responsabilidade Financeira</value></data>
+	<data name="Terms_S6_Body" xml:space="preserve"><value>As cotações de câmbio exibidas no lawllit.finance têm caráter exclusivamente informativo e são obtidas de fontes públicas. Elas não constituem recomendação de compra, venda ou investimento em nenhum ativo financeiro ou moeda. O lawllit.finance não se responsabiliza por quaisquer decisões financeiras tomadas com base nas informações exibidas neste serviço.</value></data>
+	<data name="Terms_S7_Title" xml:space="preserve"><value>7. Disponibilidade do Serviço</value></data>
+	<data name="Terms_S7_Body" xml:space="preserve"><value>O lawllit.finance é oferecido sem garantia de disponibilidade contínua. O serviço pode ser interrompido para manutenção, atualizações ou por razões fora do nosso controle. Não nos responsabilizamos por eventuais perdas decorrentes de indisponibilidade temporária.</value></data>
+	<data name="Terms_S8_Title" xml:space="preserve"><value>8. Encerramento de Conta</value></data>
+	<data name="Terms_S8_Body" xml:space="preserve"><value>Você pode excluir sua conta a qualquer momento diretamente na seção Perfil do lawllit.finance. O lawllit.finance reserva-se o direito de suspender ou encerrar contas que violem estes Termos de Uso, com ou sem aviso prévio.</value></data>
+	<data name="Terms_S9_Title" xml:space="preserve"><value>9. Propriedade Intelectual</value></data>
+	<data name="Terms_S9_Body" xml:space="preserve"><value>A marca lawllit., o design, a interface e o código do lawllit.finance são de propriedade do desenvolvedor. Os dados financeiros que você registra são de sua propriedade. Nenhuma parte do serviço pode ser reproduzida, distribuída ou utilizada comercialmente sem autorização expressa.</value></data>
+	<data name="Terms_S10_Title" xml:space="preserve"><value>10. Alterações nestes Termos</value></data>
+	<data name="Terms_S10_Body" xml:space="preserve"><value>Estes Termos podem ser atualizados periodicamente. Qualquer alteração relevante será comunicada nesta página com a data de revisão atualizada. Ao continuar utilizando o serviço após a publicação de alterações, você concorda com os novos termos.</value></data>
+	<data name="Terms_S11_Title" xml:space="preserve"><value>11. Lei Aplicável</value></data>
+	<data name="Terms_S11_Body" xml:space="preserve"><value>Estes Termos são regidos pelas leis da República Federativa do Brasil.</value></data>
+	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contato</value></data>
+	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre estes Termos, entre em contato pelo e-mail</value></data>
+
+	<data name="Landing_Line1" xml:space="preserve"><value>suas finanças.</value></data>
+	<data name="Landing_Line2" xml:space="preserve"><value>finalmente simples.</value></data>
+	<data name="Landing_Sub" xml:space="preserve"><value>controle receitas e despesas, acompanhe seu saldo e veja cotações em tempo real.</value></data>
+
+</root>

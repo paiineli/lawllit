@@ -1,0 +1,14 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "error";
+}
+
+<section class="error-section">
+    <span class="error-tag">// error</span>
+    <p>something went wrong.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p class="error-note">request id: <code>@Model.RequestId</code></p>
+    }
+    <a href="/" class="lp-btn">go home</a>
+</section>

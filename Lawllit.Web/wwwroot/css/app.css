@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+*, *::before, *::after {
+    font-family: 'JetBrains Mono', monospace;
+    box-sizing: border-box;
+}
+
+:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+}
+
+:root {
+    --bg: #000;
+    --fg: #fff;
+    --dim: #888;
+    --green: #4ade80;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-hover: rgba(255, 255, 255, 0.3);
+    --transition: 0.15s ease;
+}
+
+html { background: var(--bg); }
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+a {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+    a:hover { text-decoration: underline; }
+
+#main-nav {
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.brand {
+    font-size: 1.05rem !important;
+    font-weight: 700;
+    color: var(--fg) !important;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+}
+
+    .brand:hover {
+        text-decoration: none;
+        color: var(--fg) !important;
+    }
+
+.brand-dot { opacity: 0.35; }
+
+.lp-main {
+    padding: 4rem 0 5rem;
+}
+
+.lp-body {
+    width: 100%;
+    max-width: 620px;
+}
+
+.lp-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.lp-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.3px;
+}
+
+.lp-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.lp-icons a {
+    color: var(--dim);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+    .lp-icons a:hover {
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+.lp-btn {
+    display: inline-block;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    color: var(--fg);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+    letter-spacing: 0.2px;
+}
+
+    .lp-btn:hover {
+        background: var(--fg);
+        color: var(--bg);
+        border-color: var(--fg);
+        text-decoration: none;
+    }
+
+.lp-btn-cta {
+    border-color: var(--fg);
+}
+
+.lp-section {
+    margin-bottom: 2.5rem;
+}
+
+.lp-section-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: 0.5px;
+    margin: 0 0 0.9rem;
+}
+
+.lp-text {
+    font-size: 0.83rem;
+    color: var(--dim);
+    line-height: 1.75;
+    margin: 0;
+}
+
+.lp-text-gap {
+    margin-top: 0.75rem;
+}
+
+.lp-edu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.lp-edu-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.84rem;
+}
+
+.lp-edu-meta {
+    font-size: 0.76rem;
+    color: var(--dim);
+}
+
+.lp-lang {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.lp-lang-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-size: 0.84rem;
+}
+
+.lp-cta {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.lp-cta .lp-text {
+    margin-bottom: 1.25rem;
+}
+
+.lp-finance-brand {
+    color: var(--fg);
+    font-weight: 600;
+}
+
+.lp-finance-dot {
+    color: var(--dim);
+}
+
+.lp-finance-text {
+    color: var(--green);
+}
+
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--dim);
+}
+
+    .footer-shell a {
+        color: var(--dim);
+        transition: color var(--transition);
+        text-decoration: none;
+    }
+
+        .footer-shell a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+.footer-brand { color: var(--fg); }
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 1rem;
+}
+
+.error-section {
+    padding: 4rem 2.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.error-tag {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--dim);
+    margin-bottom: 1.25rem;
+}
+
+.error-section p {
+    color: var(--dim);
+    margin: 0 0 1rem;
+}
+
+.error-section .lp-btn {
+    margin-top: 0.5rem;
+}
+
+.error-note { font-size: 0.75rem; }
+
+@media (max-width: 600px) {
+    .lp-main { padding: 2.5rem 0 4rem; }
+}
