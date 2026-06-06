@@ -364,6 +364,7 @@
 	<data name="SpreadsheetMerger_Hint" xml:space="preserve"><value>.xlsx and .xls · header from the first file</value></data>
 	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>merge files</value></data>
 	<data name="Merger_Loading" xml:space="preserve"><value>please wait...</value></data>
+	<data name="Merger_OverlayFile" xml:space="preserve"><value>file {0} of {1}</value></data>
 	<data name="SpreadsheetMerger_Error_MinFiles" xml:space="preserve"><value>select at least 2 files.</value></data>
 	<data name="SpreadsheetMerger_Error_InvalidFormat" xml:space="preserve"><value>only .xlsx and .xls files are supported.</value></data>
 	<data name="SpreadsheetMerger_Error_Processing" xml:space="preserve"><value>failed to process the files.</value></data>

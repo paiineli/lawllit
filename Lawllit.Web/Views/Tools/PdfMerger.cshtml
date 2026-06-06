@@ -33,13 +33,20 @@
                     {
                         <p class="tool-error">@Localizer[ViewBag.ErrorKey]</p>
                     }
-                    <button type="submit" id="merge-btn" class="lp-btn" disabled data-loading="@Localizer["Merger_Loading"]">@Localizer["PdfMerger_MergeBtn"]</button>
+                    <button type="submit" id="merge-btn" class="lp-btn" disabled>@Localizer["PdfMerger_MergeBtn"]</button>
                 </form>
             </section>
 
         </div>
     </div>
 </main>
+
+<div id="merge-overlay" class="merge-overlay" hidden>
+    <p class="merge-overlay-label">@Localizer["Merger_Loading"]</p>
+    <div class="merge-overlay-track">
+        <div class="merge-overlay-fill merge-overlay-fill--pulse"></div>
+    </div>
+</div>
 
 @section Scripts {
     <script src="~/js/app.js" asp-append-version="true"></script>

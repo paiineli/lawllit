@@ -504,6 +504,48 @@ button.lp-btn {
     margin-top: 0.75rem;
 }
 
+.merge-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 9999;
+}
+
+.merge-overlay-label {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+.merge-overlay-track {
+    width: min(320px, 80vw);
+    height: 2px;
+    background: var(--border);
+    overflow: hidden;
+}
+
+.merge-overlay-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    transition: width 0.2s ease;
+}
+
+@keyframes merge-pulse {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+.merge-overlay-fill--pulse {
+    width: 25%;
+    animation: merge-pulse 1.4s ease-in-out infinite;
+}
+
 @media (max-width: 600px) {
     .lp-main { padding: 2.5rem 0 4rem; }
 }

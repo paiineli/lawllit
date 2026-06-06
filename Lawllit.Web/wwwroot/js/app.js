@@ -7,7 +7,7 @@
     var fileList = document.getElementById('file-list');
     var mergeBtn = document.getElementById('merge-btn');
     var form = mergeBtn.closest('form');
-    var originalBtnText = mergeBtn.textContent;
+    var overlay = document.getElementById('merge-overlay');
 
     filesInput.addEventListener('change', function () {
         var files = Array.from(filesInput.files);
@@ -21,14 +21,11 @@
     });
 
     form.addEventListener('submit', function () {
-        var loadingText = mergeBtn.dataset.loading || '...';
+        overlay.hidden = false;
         mergeBtn.disabled = true;
-        mergeBtn.innerHTML =
-            '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>' +
-            loadingText;
         setTimeout(function () {
-            mergeBtn.textContent = originalBtnText;
+            overlay.hidden = true;
             mergeBtn.disabled = Array.from(filesInput.files).length < 2;
-        }, 15000);
+        }, 30000);
     });
 })();
