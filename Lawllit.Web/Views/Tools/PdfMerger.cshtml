@@ -1,0 +1,46 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["PdfMerger_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["PdfMerger_HowItWorksTag"]</p>
+                <ol class="tool-steps">
+                    <li>@Localizer["PdfMerger_Step1"]</li>
+                    <li>@Localizer["PdfMerger_Step2"]</li>
+                    <li>@Localizer["PdfMerger_Step3"]</li>
+                </ol>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["PdfMerger_UploadTag"]</p>
+                <form asp-controller="Tools" asp-action="PdfMerger" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="tool-upload-area">
+                        <input type="file" id="files-input" name="files" multiple accept=".pdf" class="visually-hidden" />
+                        <label for="files-input" class="tool-upload-label">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            <span>@Localizer["PdfMerger_ChooseFiles"]</span>
+                            <span class="lp-edu-meta">@Localizer["PdfMerger_Hint"]</span>
+                        </label>
+                    </div>
+                    <div id="file-list" class="tool-file-list" hidden></div>
+                    @if (ViewBag.ErrorKey != null)
+                    {
+                        <p class="tool-error">@Localizer[ViewBag.ErrorKey]</p>
+                    }
+                    <button type="submit" id="merge-btn" class="lp-btn" disabled data-loading="@Localizer["Merger_Loading"]">@Localizer["PdfMerger_MergeBtn"]</button>
+                </form>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/app.js" asp-append-version="true"></script>
+}

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lawllit.Web.Areas.Finance.Controllers;
 
 [Area("Finance")]
-public class HomeController : BaseController
+public class HomeController : Controller
 {
     public IActionResult Index()
     {

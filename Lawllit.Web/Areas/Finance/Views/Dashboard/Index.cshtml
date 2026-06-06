@@ -204,10 +204,11 @@
                     <div class="ranking-inner flex-grow-1 d-flex flex-column">
                         @if (Model.ExpensesByCategory.Any())
                         {
+                            var maxExpenseTotal = Model.ExpensesByCategory.First().Total;
                             @foreach (var (category, index) in Model.ExpensesByCategory.Select((category, index) => (category, index)))
                             {
-                                decimal barPercentage = category.Total > 0 && Model.ExpensesByCategory.First().Total > 0
-                                ? category.Total / Model.ExpensesByCategory.First().Total * 100 : 0;
+                                decimal barPercentage = category.Total > 0 && maxExpenseTotal > 0
+                                ? category.Total / maxExpenseTotal * 100 : 0;
                                 decimal sharePercentage = Model.RankingTotal > 0 ? category.Total / Model.RankingTotal * 100 : 0;
                                 string shareText = sharePercentage > 0 && sharePercentage < 0.1m
                                 ? "< 0,1%" : sharePercentage.ToString("F1", culture) + "%";

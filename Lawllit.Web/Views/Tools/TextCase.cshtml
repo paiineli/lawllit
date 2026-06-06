@@ -1,0 +1,40 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["TextCase_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["TextCase_InputTag"]</p>
+                <textarea id="tc-input" class="tool-textarea" placeholder="@Localizer["TextCase_Placeholder"]"></textarea>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-case="upper">UPPER</button>
+                    <button class="lp-btn" data-case="lower">lower</button>
+                    <button class="lp-btn" data-case="title">Title Case</button>
+                    <button class="lp-btn" data-case="sentence">Sentence case</button>
+                    <button class="lp-btn" data-case="camel">camelCase</button>
+                    <button class="lp-btn" data-case="pascal">PascalCase</button>
+                    <button class="lp-btn" data-case="snake">snake_case</button>
+                    <button class="lp-btn" data-case="kebab">kebab-case</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["TextCase_OutputTag"]</p>
+                <textarea id="tc-output" class="tool-textarea" readonly></textarea>
+                <div class="tool-actions">
+                    <button id="tc-copy" class="lp-btn">@Localizer["TextCase_CopyBtn"]</button>
+                    <button id="tc-clear" class="lp-btn">@Localizer["TextCase_ClearBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/text-case.js" asp-append-version="true"></script>
+}

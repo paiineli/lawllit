@@ -20,37 +20,6 @@
 	<data name="SiteTitle" xml:space="preserve"><value>lawllit.</value></data>
 	<data name="SiteDescription" xml:space="preserve"><value>Desenvolvo software. Simples assim.</value></data>
 
-	<data name="Nav_About" xml:space="preserve"><value>sobre</value></data>
-	<data name="Nav_Projects" xml:space="preserve"><value>projetos</value></data>
-	<data name="Nav_Team" xml:space="preserve"><value>equipe</value></data>
-	<data name="Nav_Contact" xml:space="preserve"><value>contato</value></data>
-	<data name="Nav_Menu" xml:space="preserve"><value>menu</value></data>
-
-	<data name="Hero_Line1" xml:space="preserve"><value>desenvolvo software.</value></data>
-	<data name="Hero_Line2" xml:space="preserve"><value>de verdade.</value></data>
-	<data name="Hero_Sub" xml:space="preserve"><value>código limpo, sistemas que funcionam, sem enrolação.</value></data>
-	<data name="Hero_CTA_Projects" xml:space="preserve"><value>ver projetos</value></data>
-	<data name="Hero_CTA_Contact" xml:space="preserve"><value>falar comigo</value></data>
-
-
-<data name="About_Tag" xml:space="preserve"><value>// sobre</value></data>
-	<data name="About_P1" xml:space="preserve"><value>eu construo software. sem buzzwords, sem overengineering. código que resolve o problema.</value></data>
-	<data name="About_P2" xml:space="preserve"><value>minha stack é .NET. C#, ASP.NET Core, bancos relacionais. o básico feito direito, com clean architecture e boas práticas.</value></data>
-
-	<data name="Projects_Tag" xml:space="preserve"><value>// projetos</value></data>
-	<data name="Project_LF_Live" xml:space="preserve"><value>em produção</value></data>
-	<data name="Project_LF_Desc" xml:space="preserve"><value>controle financeiro pessoal em .NET. registre transações, acompanhe seu saldo e veja cotações em tempo real. gratuito para testar.</value></data>
-	<data name="Project_LF_CTA" xml:space="preserve"><value>criar conta</value></data>
-
-	<data name="Team_Tag" xml:space="preserve"><value>// sobre</value></data>
-	<data name="Team_Role" xml:space="preserve"><value>desenvolvedor backend</value></data>
-	<data name="Team_Bio" xml:space="preserve"><value>desenvolvedor de sorocaba, sp. trabalho na unimed desenvolvendo sistemas de saúde em C# e .NET. pós-graduado em arquitetura de software pela facens (9.6/10) e cursando mba na fgv. nos projetos pessoais, construo coisas como o lawlittfinance. sistemas que eu mesmo usaria.</value></data>
-
-	<data name="Contact_Tag" xml:space="preserve"><value>// contato</value></data>
-	<data name="Contact_Sub" xml:space="preserve"><value>respondo em até 24h.</value></data>
-	<data name="Contact_Email" xml:space="preserve"><value>e-mail</value></data>
-	<data name="Contact_LinkedIn" xml:space="preserve"><value>linkedin</value></data>
-
 	<data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
 	<data name="Nav_Transactions" xml:space="preserve"><value>Transações</value></data>
 	<data name="Nav_Categories" xml:space="preserve"><value>Categorias</value></data>
@@ -351,8 +320,91 @@
 	<data name="Terms_S12_Title" xml:space="preserve"><value>12. Contato</value></data>
 	<data name="Terms_S12_Body_Pre" xml:space="preserve"><value>Para dúvidas sobre estes Termos, entre em contato pelo e-mail</value></data>
 
-	<data name="Landing_Line1" xml:space="preserve"><value>suas finanças.</value></data>
-	<data name="Landing_Line2" xml:space="preserve"><value>finalmente simples.</value></data>
 	<data name="Landing_Sub" xml:space="preserve"><value>Suas finanças. Simples assim.</value></data>
+
+<data name="Home_EducationTag" xml:space="preserve"><value>// formação</value></data>
+	<data name="Home_Edu1_Title" xml:space="preserve"><value>MBA Executivo, Gestão de Negócios</value></data>
+	<data name="Home_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – Mai 2026</value></data>
+	<data name="Home_Edu2_Title" xml:space="preserve"><value>Pós-Graduação, Arquitetura de Software</value></data>
+	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Fev 2023 – Mai 2025 · Nota 9.6/10</value></data>
+	<data name="Home_Edu3_Title" xml:space="preserve"><value>Tecnólogo, Análise e Desenvolvimento de Sistemas</value></data>
+	<data name="Home_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Fev 2021 – Dez 2022</value></data>
+	<data name="Home_LanguagesTag" xml:space="preserve"><value>// idiomas</value></data>
+	<data name="Home_Lang1_Name" xml:space="preserve"><value>Português</value></data>
+	<data name="Home_Lang1_Level" xml:space="preserve"><value>Nativo</value></data>
+	<data name="Home_Lang2_Name" xml:space="preserve"><value>Inglês</value></data>
+	<data name="Home_Lang2_Level" xml:space="preserve"><value>Avançado</value></data>
+	<data name="Home_Lang2_LevelDetail" xml:space="preserve"><value>Semi-Intensive Program, OHLA Schools, Miami, FL</value></data>
+	<data name="Home_SummaryTag" xml:space="preserve"><value>// resumo</value></data>
+	<data name="Home_Summary_P1" xml:space="preserve"><value>Desenvolvedor de software com 6 anos na área, sendo os últimos 2+ construindo e mantendo sistemas em produção com C# e .NET.</value></data>
+	<data name="Home_Summary_P2" xml:space="preserve"><value>No dia a dia: desenvolvimento back-end com ASP.NET Core e .NET Framework, integração de APIs REST, Oracle Database (SQL/PL/SQL) e trabalho full-stack quando necessário (HTML5, CSS3, JavaScript, Bootstrap, Razor). Controle de versão e fluxos de CI via Azure DevOps (Git).</value></data>
+	<data name="Home_Summary_P3" xml:space="preserve"><value>Trabalhei por anos em ambientes onde indisponibilidade não é uma opção, o que moldou minha abordagem de qualidade de código, design de sistemas e resolução de problemas em produção. Gosto de construir coisas que funcionam bem sob pressão.</value></data>
+	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projetos</value></data>
+	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>Desenvolvi o </value></data>
+	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> como projeto pessoal — um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>
+	<data name="Home_Finance_CTA" xml:space="preserve"><value>experimentar o lawllit.finance →</value></data>
+
+	<data name="Nav_Tools" xml:space="preserve"><value>ferramentas</value></data>
+	<data name="Nav_Tools_SpreadsheetMerger" xml:space="preserve"><value>unificador de planilhas</value></data>
+
+	<data name="Tools_Title" xml:space="preserve"><value>ferramentas.</value></data>
+	<data name="Tools_Subtitle" xml:space="preserve"><value>ferramentas pequenas para resolver problemas reais.</value></data>
+	<data name="Tools_SectionTag" xml:space="preserve"><value>// ferramentas</value></data>
+	<data name="Tool_SpreadsheetMerger_Name" xml:space="preserve"><value>unificador de planilhas</value></data>
+	<data name="Tool_SpreadsheetMerger_Desc" xml:space="preserve"><value>una múltiplos arquivos .xlsx e .xls sem perder dados.</value></data>
+
+	<data name="SpreadsheetMerger_Title" xml:space="preserve"><value>unificador de planilhas</value></data>
+	<data name="SpreadsheetMerger_HowItWorksTag" xml:space="preserve"><value>// como funciona</value></data>
+	<data name="SpreadsheetMerger_Step1" xml:space="preserve"><value>envie seus arquivos .xlsx ou .xls</value></data>
+	<data name="SpreadsheetMerger_Step2" xml:space="preserve"><value>o cabeçalho é lido do primeiro arquivo</value></data>
+	<data name="SpreadsheetMerger_Step3" xml:space="preserve"><value>as linhas de todos os arquivos são unificadas em sequência</value></data>
+	<data name="SpreadsheetMerger_Step4" xml:space="preserve"><value>baixe o arquivo .xlsx unificado</value></data>
+	<data name="SpreadsheetMerger_UploadTag" xml:space="preserve"><value>// enviar</value></data>
+	<data name="SpreadsheetMerger_ChooseFiles" xml:space="preserve"><value>escolher arquivos</value></data>
+	<data name="SpreadsheetMerger_Hint" xml:space="preserve"><value>.xlsx e .xls · cabeçalho do primeiro arquivo</value></data>
+	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>unificar arquivos</value></data>
+	<data name="Merger_Loading" xml:space="preserve"><value>aguarde...</value></data>
+	<data name="SpreadsheetMerger_Error_MinFiles" xml:space="preserve"><value>selecione pelo menos 2 arquivos.</value></data>
+	<data name="SpreadsheetMerger_Error_InvalidFormat" xml:space="preserve"><value>apenas arquivos .xlsx e .xls são suportados.</value></data>
+	<data name="SpreadsheetMerger_Error_Processing" xml:space="preserve"><value>falha ao processar os arquivos.</value></data>
+
+	<data name="Nav_Tools_PdfMerger" xml:space="preserve"><value>unificador de pdf</value></data>
+	<data name="Tool_PdfMerger_Name" xml:space="preserve"><value>unificador de pdf</value></data>
+	<data name="Tool_PdfMerger_Desc" xml:space="preserve"><value>junte múltiplos arquivos .pdf em um só, preservando todas as páginas.</value></data>
+	<data name="PdfMerger_Title" xml:space="preserve"><value>unificador de pdf</value></data>
+	<data name="PdfMerger_HowItWorksTag" xml:space="preserve"><value>// como funciona</value></data>
+	<data name="PdfMerger_Step1" xml:space="preserve"><value>envie seus arquivos pdf</value></data>
+	<data name="PdfMerger_Step2" xml:space="preserve"><value>as páginas são mescladas na ordem dos arquivos</value></data>
+	<data name="PdfMerger_Step3" xml:space="preserve"><value>baixe o pdf unificado</value></data>
+	<data name="PdfMerger_UploadTag" xml:space="preserve"><value>// enviar</value></data>
+	<data name="PdfMerger_ChooseFiles" xml:space="preserve"><value>escolher arquivos</value></data>
+	<data name="PdfMerger_Hint" xml:space="preserve"><value>.pdf · páginas mescladas na ordem de envio</value></data>
+	<data name="PdfMerger_MergeBtn" xml:space="preserve"><value>mesclar arquivos</value></data>
+	<data name="PdfMerger_Error_MinFiles" xml:space="preserve"><value>selecione pelo menos 2 arquivos.</value></data>
+	<data name="PdfMerger_Error_InvalidFormat" xml:space="preserve"><value>apenas arquivos .pdf são suportados.</value></data>
+	<data name="PdfMerger_Error_Processing" xml:space="preserve"><value>falha ao processar os arquivos.</value></data>
+
+	<data name="Nav_Tools_Base64" xml:space="preserve"><value>base64</value></data>
+	<data name="Tool_Base64_Name" xml:space="preserve"><value>base64</value></data>
+	<data name="Tool_Base64_Desc" xml:space="preserve"><value>codifique e decodifique texto no formato base64.</value></data>
+	<data name="Base64_Title" xml:space="preserve"><value>base64</value></data>
+	<data name="Base64_InputTag" xml:space="preserve"><value>// entrada</value></data>
+	<data name="Base64_Placeholder" xml:space="preserve"><value>cole seu texto aqui...</value></data>
+	<data name="Base64_EncodeBtn" xml:space="preserve"><value>codificar</value></data>
+	<data name="Base64_DecodeBtn" xml:space="preserve"><value>decodificar</value></data>
+	<data name="Base64_OutputTag" xml:space="preserve"><value>// saída</value></data>
+	<data name="Base64_CopyBtn" xml:space="preserve"><value>copiar</value></data>
+	<data name="Base64_ClearBtn" xml:space="preserve"><value>limpar</value></data>
+	<data name="Base64_Error_InvalidBase64" xml:space="preserve"><value>entrada base64 inválida.</value></data>
+
+	<data name="Nav_Tools_TextCase" xml:space="preserve"><value>text case</value></data>
+	<data name="Tool_TextCase_Name" xml:space="preserve"><value>text case</value></data>
+	<data name="Tool_TextCase_Desc" xml:space="preserve"><value>converta texto entre maiúsculas, camelCase, snake_case e mais.</value></data>
+	<data name="TextCase_Title" xml:space="preserve"><value>text case</value></data>
+	<data name="TextCase_InputTag" xml:space="preserve"><value>// entrada</value></data>
+	<data name="TextCase_Placeholder" xml:space="preserve"><value>cole seu texto aqui...</value></data>
+	<data name="TextCase_OutputTag" xml:space="preserve"><value>// saída</value></data>
+	<data name="TextCase_CopyBtn" xml:space="preserve"><value>copiar</value></data>
+	<data name="TextCase_ClearBtn" xml:space="preserve"><value>limpar</value></data>
 
 </root>

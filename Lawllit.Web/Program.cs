@@ -53,13 +53,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie("External", options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-    })
-    .AddGoogle(options =>
-    {
-        options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
-        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
-        options.SignInScheme = "External";
     });
+
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+
+if (!string.IsNullOrEmpty(googleClientId) && !string.IsNullOrEmpty(googleClientSecret))
+{
+    builder.Services.AddAuthentication()
+        .AddGoogle(options =>
+        {
+            options.ClientId = googleClientId;
+            options.ClientSecret = googleClientSecret;
+            options.SignInScheme = "External";
+        });
+}
 
 builder.Services.AddAuthorization();
 builder.Services.AddMemoryCache();
@@ -84,6 +92,8 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
+System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
 var app = builder.Build();
 
 app.UseForwardedHeaders();
@@ -92,7 +102,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler(errorApp =>
     {
-        errorApp.Run(async context =>
+        errorApp.Run(context =>
         {
             var feature = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
             var originalPath = feature?.Path ?? "";
@@ -100,7 +110,7 @@ if (!app.Environment.IsDevelopment())
                 ? "/Finance/Error"
                 : "/Home/Error";
             context.Response.Redirect(errorPath);
-            await Task.CompletedTask;
+            return Task.CompletedTask;
         });
     });
     app.UseHsts();

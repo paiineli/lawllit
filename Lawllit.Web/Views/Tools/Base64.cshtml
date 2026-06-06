@@ -1,0 +1,35 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["Base64_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["Base64_InputTag"]</p>
+                <textarea id="b64-input" class="tool-textarea" placeholder="@Localizer["Base64_Placeholder"]"></textarea>
+                <div class="tool-actions">
+                    <button id="b64-encode" class="lp-btn">@Localizer["Base64_EncodeBtn"]</button>
+                    <button id="b64-decode" class="lp-btn">@Localizer["Base64_DecodeBtn"]</button>
+                    <button id="b64-clear" class="lp-btn">@Localizer["Base64_ClearBtn"]</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["Base64_OutputTag"]</p>
+                <textarea id="b64-output" class="tool-textarea" readonly></textarea>
+                <p id="b64-error" class="tool-error" hidden>@Localizer["Base64_Error_InvalidBase64"]</p>
+                <div class="tool-actions">
+                    <button id="b64-copy" class="lp-btn">@Localizer["Base64_CopyBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/base64.js" asp-append-version="true"></script>
+}
