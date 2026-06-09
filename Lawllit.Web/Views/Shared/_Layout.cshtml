@@ -38,7 +38,7 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNavContent">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                         <a class="nav-link nav-link-finance" asp-area="Finance" asp-controller="Home" asp-action="Index">finance</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -55,8 +55,8 @@
                 <form asp-controller="Home" asp-action="SetLanguage" method="post" class="lang-switcher ms-3 mb-0">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
-                    <button type="submit" name="language" value="en-US" class="lang-btn @(currentLanguage == "en-US" ? "lang-btn-active" : "")" aria-label="English"><span class="fi fi-us"></span></button>
                     <button type="submit" name="language" value="pt-BR" class="lang-btn @(currentLanguage == "pt-BR" ? "lang-btn-active" : "")" aria-label="Português"><span class="fi fi-br"></span></button>
+                    <button type="submit" name="language" value="en-US" class="lang-btn @(currentLanguage == "en-US" ? "lang-btn-active" : "")" aria-label="English"><span class="fi fi-us"></span></button>
                 </form>
             </div>
         </div>

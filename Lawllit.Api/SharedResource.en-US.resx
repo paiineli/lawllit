@@ -329,16 +329,20 @@
 	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Feb 2023 – May 2025 · GPA 9.6/10</value></data>
 	<data name="Home_Edu3_Title" xml:space="preserve"><value>Associate Degree, Systems Analysis and Development</value></data>
 	<data name="Home_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Feb 2021 – Dec 2022</value></data>
+	<data name="Home_CertificationsTag" xml:space="preserve"><value>// certifications</value></data>
+	<data name="Home_Cert1_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
+	<data name="Home_Cert1_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
+	<data name="Home_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
+	<data name="Home_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · Apr 2026</value></data>
 	<data name="Home_LanguagesTag" xml:space="preserve"><value>// languages</value></data>
 	<data name="Home_Lang1_Name" xml:space="preserve"><value>Portuguese</value></data>
 	<data name="Home_Lang1_Level" xml:space="preserve"><value>Native</value></data>
 	<data name="Home_Lang2_Name" xml:space="preserve"><value>English</value></data>
 	<data name="Home_Lang2_Level" xml:space="preserve"><value>Advanced</value></data>
-	<data name="Home_Lang2_LevelDetail" xml:space="preserve"><value>Semi-Intensive Program, OHLA Schools, Miami, FL</value></data>
 	<data name="Home_SummaryTag" xml:space="preserve"><value>// summary</value></data>
-	<data name="Home_Summary_P1" xml:space="preserve"><value>Software Developer with 6 years in tech, the last 2+ building and maintaining production systems with C# and .NET.</value></data>
-	<data name="Home_Summary_P2" xml:space="preserve"><value>Day-to-day: back-end development with ASP.NET Core and .NET Framework, REST API integration, Oracle Database (SQL/PL/SQL), and full-stack work when needed (HTML5, CSS3, JavaScript, Bootstrap, Razor). Version control and CI workflows via Azure DevOps (Git).</value></data>
-	<data name="Home_Summary_P3" xml:space="preserve"><value>I've spent years working in environments where downtime isn't really an option, which shaped how I approach code quality, system design, and problem-solving in production. I enjoy building things that actually work well under pressure.</value></data>
+	<data name="Home_Summary_P1" xml:space="preserve"><value>Fullstack .NET Developer with 6 years in technology, working with C#, ASP.NET Core, .NET Framework and Oracle Database in healthcare web systems that need to run all the time.</value></data>
+	<data name="Home_Summary_P2" xml:space="preserve"><value>Day-to-day I work across the full stack: data modeling and optimization in Oracle with SQL and PL/SQL, building and consuming REST APIs, and front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor. I apply Clean Architecture, SOLID and Design Patterns, participate in code reviews, and version control via Git and Azure DevOps.</value></data>
+	<data name="Home_Summary_P3" xml:space="preserve"><value>I use AI seriously at work — GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projects</value></data>
 	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>I built </value></data>
 	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> as a side project, a personal finance app to track income, expenses, and live exchange rates. Free to try.</value></data>

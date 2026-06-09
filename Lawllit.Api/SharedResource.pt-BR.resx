@@ -326,19 +326,23 @@
 	<data name="Home_Edu1_Title" xml:space="preserve"><value>MBA Executivo, Gestão de Negócios</value></data>
 	<data name="Home_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – Mai 2026</value></data>
 	<data name="Home_Edu2_Title" xml:space="preserve"><value>Pós-Graduação, Arquitetura de Software</value></data>
-	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Fev 2023 – Mai 2025 · Nota 9.6/10</value></data>
+	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Fev 2023 – Mai 2025 · Nota 9,6/10</value></data>
 	<data name="Home_Edu3_Title" xml:space="preserve"><value>Tecnólogo, Análise e Desenvolvimento de Sistemas</value></data>
 	<data name="Home_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Fev 2021 – Dez 2022</value></data>
+	<data name="Home_CertificationsTag" xml:space="preserve"><value>// certificações</value></data>
+	<data name="Home_Cert1_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
+	<data name="Home_Cert1_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
+	<data name="Home_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
+	<data name="Home_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · Abr 2026</value></data>
 	<data name="Home_LanguagesTag" xml:space="preserve"><value>// idiomas</value></data>
 	<data name="Home_Lang1_Name" xml:space="preserve"><value>Português</value></data>
 	<data name="Home_Lang1_Level" xml:space="preserve"><value>Nativo</value></data>
 	<data name="Home_Lang2_Name" xml:space="preserve"><value>Inglês</value></data>
 	<data name="Home_Lang2_Level" xml:space="preserve"><value>Avançado</value></data>
-	<data name="Home_Lang2_LevelDetail" xml:space="preserve"><value>Semi-Intensive Program, OHLA Schools, Miami, FL</value></data>
 	<data name="Home_SummaryTag" xml:space="preserve"><value>// resumo</value></data>
-	<data name="Home_Summary_P1" xml:space="preserve"><value>Desenvolvedor de software com 6 anos na área, sendo os últimos 2+ construindo e mantendo sistemas em produção com C# e .NET.</value></data>
-	<data name="Home_Summary_P2" xml:space="preserve"><value>No dia a dia: desenvolvimento back-end com ASP.NET Core e .NET Framework, integração de APIs REST, Oracle Database (SQL/PL/SQL) e trabalho full-stack quando necessário (HTML5, CSS3, JavaScript, Bootstrap, Razor). Controle de versão e fluxos de CI via Azure DevOps (Git).</value></data>
-	<data name="Home_Summary_P3" xml:space="preserve"><value>Trabalhei por anos em ambientes onde indisponibilidade não é uma opção, o que moldou minha abordagem de qualidade de código, design de sistemas e resolução de problemas em produção. Gosto de construir coisas que funcionam bem sob pressão.</value></data>
+	<data name="Home_Summary_P1" xml:space="preserve"><value>Desenvolvedor Fullstack .NET com 6 anos em tecnologia, atuando com C#, ASP.NET Core, .NET Framework e Oracle Database em sistemas web de saúde que precisam funcionar o tempo todo.</value></data>
+	<data name="Home_Summary_P2" xml:space="preserve"><value>No dia a dia trabalho em toda a stack: modelagem e otimização de dados em Oracle com SQL e PL/SQL, construção e consumo de APIs REST, e desenvolvimento de interfaces com HTML5, CSS3, JavaScript, Bootstrap e Razor. Aplico Clean Architecture, SOLID e Design Patterns, participo de code reviews e faço versionamento com Git e Azure DevOps.</value></data>
+	<data name="Home_Summary_P3" xml:space="preserve"><value>Uso IA de verdade no trabalho — GitHub Copilot, Claude e Cursor fazem parte do meu fluxo diário para escrever, revisar e depurar código mais rápido. Não como substituição de raciocínio, mas como ferramenta que acelera entrega sem abrir mão da qualidade.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projetos</value></data>
 	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>Desenvolvi o </value></data>
 	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> como projeto pessoal — um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucas Paineli Gimenes - Resume</title>
+<!--
+  HOW TO GENERATE THE PDF (selectable text, ATS-safe):
+  1. Open in Chrome.
+  2. Ctrl+P.
+  3. Destination: Save as PDF. Size: A4. Headers and footers: off.
+  To edit, only change the text inside <body>.
+-->
+<style>
+  * { box-sizing: border-box; }
+  html { background: #e9e9e9; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 12mm auto;
+    padding: 11mm 15mm;
+    background: #fff;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.15);
+  }
+  header { text-align: center; margin-bottom: 12pt; }
+  h1 { font-size: 19pt; font-weight: bold; margin: 0 0 3pt; }
+  .title-line { font-size: 9.5pt; margin: 0 0 4pt; }
+  .contact-line { font-size: 9pt; }
+  section { margin-top: 11pt; }
+  h2 {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0 0 6pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #000;
+  }
+  p { margin: 0 0 6pt; }
+  .skill-row { margin-bottom: 3pt; }
+  .skill-label { font-weight: bold; }
+  .job { margin-bottom: 9pt; page-break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; }
+  .job-title { font-weight: bold; }
+  .job-dates { font-size: 9.5pt; white-space: nowrap; padding-left: 10pt; }
+  .job-intro { margin: 1pt 0 3pt; }
+  ul { margin: 0 0 3pt; padding-left: 16pt; }
+  li { margin-bottom: 2pt; }
+  .stack { font-size: 9pt; color: #333; margin: 2pt 0 0; }
+  .line { margin-bottom: 3pt; }
+  @page { size: A4; margin: 11mm 15mm; }
+  @media print {
+    html { background: #fff; }
+    .sheet { width: auto; min-height: auto; margin: 0; padding: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <h1>Lucas Paineli Gimenes</h1>
+    <p class="title-line">Fullstack .NET Developer | C#, ASP.NET Core, Oracle | REST APIs &middot; Clean Architecture &middot; AI in the workflow</p>
+    <p class="contact-line">painelilucas@gmail.com | linkedin.com/in/lucaspaineli | github.com/paiineli</p>
+  </header>
+
+  <section>
+    <h2>About</h2>
+    <p>Fullstack .NET Developer with 6 years in technology, working with C#, ASP.NET Core, .NET Framework and Oracle Database in healthcare web systems that need to run all the time.</p>
+    <p>Day-to-day I work across the full stack: data modeling and optimization in Oracle with SQL and PL/SQL, building and consuming REST APIs, and front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor. I apply Clean Architecture, SOLID and Design Patterns, participate in code reviews, and version control via Git and Azure DevOps.</p>
+    <p>I use AI seriously at work. GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</p>
+    <p>I hold a Specialization in Software Architecture from Facens (GPA 9.6/10) and an Executive MBA in Business Management from FGV. I'm looking for a mid-level or software engineer position in .NET, preferably at companies with larger data volumes and systems with critical availability requirements.</p>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job-head">
+        <span class="job-title">Web Programmer Analyst Jr &mdash; Unimed Sorocaba</span>
+        <span class="job-dates">Oct 2024 &ndash; Present</span>
+      </div>
+      <p class="job-intro">I develop and maintain healthcare web systems in C# and .NET, working daily across the full stack from the data layer to the front-end.</p>
+      <ul>
+        <li>Back-end development in C# with ASP.NET Core and .NET Framework, applying Clean Architecture, SOLID and Design Patterns.</li>
+        <li>Building and consuming REST APIs integrated with clinical and operational workflows.</li>
+        <li>Writing and optimizing queries, stored procedures, triggers and PL/SQL functions on Oracle Database.</li>
+        <li>Front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor.</li>
+        <li>Participating in code reviews with the team.</li>
+        <li>Using GitHub Copilot, Claude and Cursor in the daily workflow to speed up and review code.</li>
+        <li>Version control with Git, TFS and Azure DevOps.</li>
+      </ul>
+      <p class="stack">Stack: C# &middot; ASP.NET Core &middot; .NET Framework &middot; Oracle Database &middot; SQL/PL/SQL &middot; REST APIs &middot; HTML5 &middot; CSS3 &middot; JavaScript &middot; Bootstrap &middot; Razor &middot; Azure DevOps &middot; Git &middot; TFS</p>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <span class="job-title">PACS Systems Analyst &mdash; Unimed Sorocaba</span>
+        <span class="job-dates">Feb 2023 &ndash; Sep 2024</span>
+      </div>
+      <p class="job-intro">Administration of hospital PACS, RIS and HIS systems, focused on Oracle database and advanced technical support in production.</p>
+      <ul>
+        <li>Wrote and optimized SQL and PL/SQL scripts for process automation and data extraction.</li>
+        <li>Worked on query performance in high-volume data environments.</li>
+        <li>Acted as N3 escalation point for complex integration and performance failures.</li>
+        <li>Assisted in the administration of Linux and Windows servers, including recovery routines.</li>
+        <li>Accompanied the team and vendors during upgrades and patch deployments.</li>
+      </ul>
+      <p class="stack">Stack: Oracle Database &middot; SQL/PL/SQL &middot; Linux &middot; Windows Server</p>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <span class="job-title">PACS Technical Support Assistant &mdash; Unimed Sorocaba</span>
+        <span class="job-dates">Jun 2021 &ndash; Jan 2023</span>
+      </div>
+      <p class="job-intro">N2 and N3 technical support for over 300 healthcare professionals in a high-availability environment.</p>
+      <ul>
+        <li>Diagnosed and resolved incidents related to medical image viewing, storage and transmission.</li>
+        <li>Configured and maintained workstations and imaging modalities, including CT, MRI and X-Ray.</li>
+        <li>Assisted in the administration of Linux and Windows servers.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <span class="job-title">IT Intern &mdash; Instituto de Diagnósticos de Sorocaba</span>
+        <span class="job-dates">Oct 2020 &ndash; Jun 2021</span>
+      </div>
+      <p class="job-intro">N1 and N2 technical support, installation and maintenance of internal systems, basic Windows Server and Active Directory administration.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="line">Executive MBA in Business Management &mdash; Fundação Getulio Vargas (FGV) | Jan 2025 &ndash; May 2026</div>
+    <div class="line">Specialization in Software Architecture &mdash; Centro Universitário Facens | Feb 2023 &ndash; May 2025 | GPA: 9.6/10</div>
+    <div class="line">Associate Degree in Systems Analysis and Development &mdash; UNIP</div>
+  </section>
+
+  <section>
+    <h2>Certifications</h2>
+    <div class="line">Foundational C# with Microsoft &mdash; Microsoft / freeCodeCamp | Mar 2026</div>
+    <div class="line">English Semi Intensive Program (Advanced 2) &mdash; OHLA Schools, Miami | Apr 2026</div>
+  </section>
+
+  <section>
+    <h2>Languages</h2>
+    <div class="line">Portuguese &mdash; native &nbsp;|&nbsp; English &mdash; advanced</div>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <p>C#, ASP.NET Core, .NET Framework, Oracle Database, SQL, PL/SQL, REST APIs, Clean Architecture, SOLID, Design Patterns, Clean Code, Entity Framework, Azure DevOps, Git, JavaScript, HTML5, CSS3, Bootstrap, Razor, SQL Server, Azure SQL, Scrum, Code Review, Linux, Windows Server, TFS</p>
+  </section>
+
+</div>
+<script>
+  if (location.search.includes('print=1')) {
+    window.addEventListener('load', function () { setTimeout(window.print, 300); });
+  }
+</script>
+</body>
+</html>
