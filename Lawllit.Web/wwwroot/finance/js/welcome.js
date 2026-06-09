@@ -59,108 +59,20 @@
 
     showStep(currentStep);
 
-    var languageForm = document.getElementById('language-form');
-    if (languageForm) {
-        var languageToken = languageForm.querySelector('[name="__RequestVerificationToken"]').value;
-
-        document.getElementById('language-options').addEventListener('click', function (event) {
-            var card = event.target.closest('[data-language-value]');
-            if (!card) return;
-
-            var language = card.dataset.languageValue;
-
-            document.querySelectorAll('[data-language-value]').forEach(function (languageCard) {
-                languageCard.classList.remove('welcome-option-card--active');
-            });
-            card.classList.add('welcome-option-card--active');
-
-            fetch(languageForm.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: '__RequestVerificationToken=' + encodeURIComponent(languageToken) + '&Language=' + encodeURIComponent(language)
-            }).then(function () {
-                window.location.href = '/Finance/Welcome?step=1';
-            });
-        });
+    function applyTheme(value) {
+        document.documentElement.setAttribute('data-bs-theme', value === 'high-contrast' ? 'dark' : value);
+        document.documentElement.setAttribute('data-theme', value);
     }
 
-    var currencyForm = document.getElementById('currency-form');
-    if (currencyForm) {
-        var currencyToken = currencyForm.querySelector('[name="__RequestVerificationToken"]').value;
-
-        document.getElementById('currency-options').addEventListener('click', function (event) {
-            var card = event.target.closest('[data-currency-value]');
-            if (!card) return;
-
-            var currency = card.dataset.currencyValue;
-
-            document.querySelectorAll('[data-currency-value]').forEach(function (currencyCard) {
-                currencyCard.classList.remove('welcome-option-card--active');
-            });
-            card.classList.add('welcome-option-card--active');
-
-            fetch(currencyForm.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: '__RequestVerificationToken=' + encodeURIComponent(currencyToken) + '&Currency=' + encodeURIComponent(currency)
-            });
-        });
+    function applyFontSize(value) {
+        if (value === 'normal') document.documentElement.removeAttribute('data-font-size');
+        else document.documentElement.setAttribute('data-font-size', value);
     }
 
-    var themeForm = document.getElementById('theme-form');
-    if (themeForm) {
-        var themeToken = themeForm.querySelector('[name="__RequestVerificationToken"]').value;
-
-        document.getElementById('theme-options').addEventListener('click', function (event) {
-            var card = event.target.closest('[data-theme-value]');
-            if (!card) return;
-
-            var theme = card.dataset.themeValue;
-
-            document.querySelectorAll('.theme-card').forEach(function (themeCard) {
-                themeCard.classList.remove('theme-card--active');
-            });
-            card.classList.add('theme-card--active');
-
-            document.documentElement.setAttribute('data-bs-theme', theme === 'high-contrast' ? 'dark' : theme);
-            document.documentElement.setAttribute('data-theme', theme);
-
-            fetch(themeForm.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: '__RequestVerificationToken=' + encodeURIComponent(themeToken) + '&Theme=' + encodeURIComponent(theme)
-            });
-        });
-    }
-
-    var fontSizeForm = document.getElementById('font-size-form');
-    if (fontSizeForm) {
-        var fontSizeToken = fontSizeForm.querySelector('[name="__RequestVerificationToken"]').value;
-
-        document.getElementById('font-size-options').addEventListener('click', function (event) {
-            var card = event.target.closest('[data-font-size-value]');
-            if (!card) return;
-
-            var fontSize = card.dataset.fontSizeValue;
-
-            document.querySelectorAll('[data-font-size-value]').forEach(function (sizeCard) {
-                sizeCard.classList.remove('welcome-option-card--active');
-            });
-            card.classList.add('welcome-option-card--active');
-
-            if (fontSize === 'normal') {
-                document.documentElement.removeAttribute('data-font-size');
-            } else {
-                document.documentElement.setAttribute('data-font-size', fontSize);
-            }
-
-            fetch(fontSizeForm.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: '__RequestVerificationToken=' + encodeURIComponent(fontSizeToken) + '&FontSize=' + encodeURIComponent(fontSize)
-            });
-        });
-    }
+    bindPreference({ containerId: 'language-options', attr: 'language-value', datasetKey: 'languageValue', activeClass: 'welcome-option-card--active', key: 'language', afterSave: function () { window.location.href = '/Finance/Welcome?step=1'; } });
+    bindPreference({ containerId: 'currency-options', attr: 'currency-value', datasetKey: 'currencyValue', activeClass: 'welcome-option-card--active', key: 'currency' });
+    bindPreference({ containerId: 'theme-options', attr: 'theme-value', datasetKey: 'themeValue', activeClass: 'theme-card--active', key: 'theme', onSelect: applyTheme });
+    bindPreference({ containerId: 'font-size-options', attr: 'font-size-value', datasetKey: 'fontSizeValue', activeClass: 'welcome-option-card--active', key: 'fontSize', onSelect: applyFontSize });
 
     if (nextButton) {
         nextButton.addEventListener('click', function () {

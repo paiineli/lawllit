@@ -172,16 +172,7 @@
                 <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
             </div>
 
-            <form id="language-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveLanguage" class="d-none">
-                @Html.AntiForgeryToken()
-            </form>
-            <form id="currency-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveCurrency" class="d-none">
-                @Html.AntiForgeryToken()
-            </form>
-            <form id="theme-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveTheme" class="d-none">
-                @Html.AntiForgeryToken()
-            </form>
-            <form id="font-size-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SaveFontSize" class="d-none">
+            <form id="pref-form" method="post" asp-area="Finance" asp-controller="Profile" asp-action="SavePreference" class="d-none">
                 @Html.AntiForgeryToken()
             </form>
             <form id="complete-form" method="post" asp-action="Complete" class="d-none">

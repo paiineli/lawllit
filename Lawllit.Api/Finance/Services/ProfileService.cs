@@ -76,19 +76,7 @@ public class ProfileService(IUserRepository userRepository) : IProfileService
         return Result.Success();
     }
 
-    public Task<Result<User>> SaveThemeAsync(Guid userId, string theme) =>
-        UpdateUserFieldAsync(userId, user => user.Theme = theme);
-
-    public Task<Result<User>> SaveFontSizeAsync(Guid userId, string fontSize) =>
-        UpdateUserFieldAsync(userId, user => user.FontSize = fontSize);
-
-    public Task<Result<User>> SaveLanguageAsync(Guid userId, string language) =>
-        UpdateUserFieldAsync(userId, user => user.Language = language);
-
-    public Task<Result<User>> SaveCurrencyAsync(Guid userId, string currency) =>
-        UpdateUserFieldAsync(userId, user => user.Currency = currency);
-
-    private async Task<Result<User>> UpdateUserFieldAsync(Guid userId, Action<User> applyUpdate)
+    public async Task<Result<User>> UpdatePreferenceAsync(Guid userId, Action<User> applyUpdate)
     {
         var user = await userRepository.GetByIdAsync(userId);
         if (user is null)

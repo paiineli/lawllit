@@ -30,10 +30,6 @@
                         </label>
                     </div>
                     <div id="file-list" class="tool-file-list" hidden></div>
-                    @if (ViewBag.ErrorKey != null)
-                    {
-                        <p class="tool-error">@Localizer[ViewBag.ErrorKey]</p>
-                    }
                     <button type="submit" id="merge-btn" class="lp-btn" disabled>@Localizer["SpreadsheetMerger_MergeBtn"]</button>
                 </form>
             </section>

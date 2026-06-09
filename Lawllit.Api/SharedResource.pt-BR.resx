@@ -342,10 +342,10 @@
 	<data name="Home_SummaryTag" xml:space="preserve"><value>// resumo</value></data>
 	<data name="Home_Summary_P1" xml:space="preserve"><value>Desenvolvedor Fullstack .NET com 6 anos em tecnologia, atuando com C#, ASP.NET Core, .NET Framework e Oracle Database em sistemas web de saúde que precisam funcionar o tempo todo.</value></data>
 	<data name="Home_Summary_P2" xml:space="preserve"><value>No dia a dia trabalho em toda a stack: modelagem e otimização de dados em Oracle com SQL e PL/SQL, construção e consumo de APIs REST, e desenvolvimento de interfaces com HTML5, CSS3, JavaScript, Bootstrap e Razor. Aplico Clean Architecture, SOLID e Design Patterns, participo de code reviews e faço versionamento com Git e Azure DevOps.</value></data>
-	<data name="Home_Summary_P3" xml:space="preserve"><value>Uso IA de verdade no trabalho — GitHub Copilot, Claude e Cursor fazem parte do meu fluxo diário para escrever, revisar e depurar código mais rápido. Não como substituição de raciocínio, mas como ferramenta que acelera entrega sem abrir mão da qualidade.</value></data>
+	<data name="Home_Summary_P3" xml:space="preserve"><value>Uso IA de verdade no trabalho: GitHub Copilot, Claude e Cursor fazem parte do meu fluxo diário para escrever, revisar e depurar código mais rápido. Não como substituição de raciocínio, mas como ferramenta que acelera entrega sem abrir mão da qualidade.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projetos</value></data>
 	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>Desenvolvi o </value></data>
-	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> como projeto pessoal — um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>
+	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> como projeto pessoal, um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>
 	<data name="Home_Finance_CTA" xml:space="preserve"><value>experimentar o lawllit.finance →</value></data>
 
 	<data name="Nav_Tools" xml:space="preserve"><value>ferramentas</value></data>
@@ -369,9 +369,6 @@
 	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>unificar arquivos</value></data>
 	<data name="Merger_Loading" xml:space="preserve"><value>aguarde...</value></data>
 	<data name="Merger_OverlayFile" xml:space="preserve"><value>arquivo {0} de {1}</value></data>
-	<data name="SpreadsheetMerger_Error_MinFiles" xml:space="preserve"><value>selecione pelo menos 2 arquivos.</value></data>
-	<data name="SpreadsheetMerger_Error_InvalidFormat" xml:space="preserve"><value>apenas arquivos .xlsx e .xls são suportados.</value></data>
-	<data name="SpreadsheetMerger_Error_Processing" xml:space="preserve"><value>falha ao processar os arquivos.</value></data>
 
 	<data name="Nav_Tools_PdfMerger" xml:space="preserve"><value>unificador de pdf</value></data>
 	<data name="Tool_PdfMerger_Name" xml:space="preserve"><value>unificador de pdf</value></data>

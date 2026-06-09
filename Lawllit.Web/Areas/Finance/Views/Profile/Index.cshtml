@@ -181,11 +181,6 @@
                     </div>
                 </div>
 
-                <form id="theme-form" method="post" asp-action="SaveTheme" class="d-none">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="Theme" id="theme-input" value="@Model.Theme">
-                </form>
-
                 <div class="card mt-3">
                     <div class="card-body p-4">
                         <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_FontSize"]</p>
@@ -197,11 +192,6 @@
                     </div>
                 </div>
 
-                <form id="font-size-form" method="post" asp-action="SaveFontSize" class="d-none">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="FontSize" id="font-size-input" value="@Model.FontSize">
-                </form>
-
                 <div class="card mt-3">
                     <div class="card-body p-4">
                         <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Prof_Appearance_Language"]</p>
@@ -211,11 +201,6 @@
                         </div>
                     </div>
                 </div>
-
-                <form id="language-form" method="post" asp-action="SaveLanguage" class="d-none">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="Language" id="language-input" value="@Model.Language">
-                </form>
 
                 <div class="card mt-3">
                     <div class="card-body p-4">
@@ -227,9 +212,8 @@
                     </div>
                 </div>
 
-                <form id="currency-form" method="post" asp-action="SaveCurrency" class="d-none">
+                <form id="pref-form" method="post" asp-action="SavePreference" class="d-none">
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="Currency" id="currency-input" value="@Model.Currency">
                 </form>
             }
 

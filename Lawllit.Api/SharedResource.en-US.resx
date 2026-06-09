@@ -342,7 +342,7 @@
 	<data name="Home_SummaryTag" xml:space="preserve"><value>// summary</value></data>
 	<data name="Home_Summary_P1" xml:space="preserve"><value>Fullstack .NET Developer with 6 years in technology, working with C#, ASP.NET Core, .NET Framework and Oracle Database in healthcare web systems that need to run all the time.</value></data>
 	<data name="Home_Summary_P2" xml:space="preserve"><value>Day-to-day I work across the full stack: data modeling and optimization in Oracle with SQL and PL/SQL, building and consuming REST APIs, and front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor. I apply Clean Architecture, SOLID and Design Patterns, participate in code reviews, and version control via Git and Azure DevOps.</value></data>
-	<data name="Home_Summary_P3" xml:space="preserve"><value>I use AI seriously at work — GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</value></data>
+	<data name="Home_Summary_P3" xml:space="preserve"><value>I use AI seriously at work: GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projects</value></data>
 	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>I built </value></data>
 	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> as a side project, a personal finance app to track income, expenses, and live exchange rates. Free to try.</value></data>
@@ -369,9 +369,6 @@
 	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>merge files</value></data>
 	<data name="Merger_Loading" xml:space="preserve"><value>please wait...</value></data>
 	<data name="Merger_OverlayFile" xml:space="preserve"><value>file {0} of {1}</value></data>
-	<data name="SpreadsheetMerger_Error_MinFiles" xml:space="preserve"><value>select at least 2 files.</value></data>
-	<data name="SpreadsheetMerger_Error_InvalidFormat" xml:space="preserve"><value>only .xlsx and .xls files are supported.</value></data>
-	<data name="SpreadsheetMerger_Error_Processing" xml:space="preserve"><value>failed to process the files.</value></data>
 
 	<data name="Nav_Tools_PdfMerger" xml:space="preserve"><value>pdf merger</value></data>
 	<data name="Tool_PdfMerger_Name" xml:space="preserve"><value>pdf merger</value></data>

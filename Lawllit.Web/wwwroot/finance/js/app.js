@@ -84,3 +84,35 @@ function filterCategoriesByType(typeSelect) {
         if (firstVisibleOption) categorySelect.value = firstVisibleOption.value;
     }
 }
+
+function bindPreference(config) {
+    var container = document.getElementById(config.containerId);
+    var form = document.getElementById('pref-form');
+    if (!container || !form) return;
+
+    var token = form.querySelector('[name="__RequestVerificationToken"]').value;
+
+    container.addEventListener('click', function (event) {
+        var card = event.target.closest('[data-' + config.attr + ']');
+        if (!card) return;
+
+        var value = card.dataset[config.datasetKey];
+
+        container.querySelectorAll('[data-' + config.attr + ']').forEach(function (option) {
+            option.classList.remove(config.activeClass);
+        });
+        card.classList.add(config.activeClass);
+
+        if (config.onSelect) config.onSelect(value);
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: '__RequestVerificationToken=' + encodeURIComponent(token)
+                + '&key=' + encodeURIComponent(config.key)
+                + '&value=' + encodeURIComponent(value)
+        }).then(function () {
+            if (config.afterSave) config.afterSave();
+        });
+    });
+}

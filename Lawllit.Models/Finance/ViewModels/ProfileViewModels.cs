@@ -55,27 +55,3 @@ public class ChangePasswordViewModel
     [Compare(nameof(NewPassword), ErrorMessage = "Val_PasswordMismatch")]
     public string ConfirmNewPassword { get; set; } = string.Empty;
 }
-
-public class SaveThemeViewModel
-{
-    [Required]
-    public string Theme { get; set; } = string.Empty;
-}
-
-public class SaveFontSizeViewModel
-{
-    [Required]
-    public string FontSize { get; set; } = string.Empty;
-}
-
-public class SaveLanguageViewModel
-{
-    [Required]
-    public string Language { get; set; } = string.Empty;
-}
-
-public class SaveCurrencyViewModel
-{
-    [Required]
-    public string Currency { get; set; } = string.Empty;
-}

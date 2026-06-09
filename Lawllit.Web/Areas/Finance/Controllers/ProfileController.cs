@@ -1,5 +1,6 @@
 using Lawllit.Api;
 using Lawllit.Api.Finance.Services.Interfaces;
+using Lawllit.Models.Finance;
 using Lawllit.Models.Finance.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -88,59 +89,22 @@ public class ProfileController(IProfileService profileService, IStringLocalizer<
         return RedirectToAction("Index", new { tab = "security" });
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveTheme(SaveThemeViewModel form)
+    private static readonly Dictionary<string, (string[] ValidValues, Action<User, string> Apply)> Preferences = new()
     {
-        if (!ModelState.IsValid || !Constants.ValidThemes.Contains(form.Theme))
-            return BadRequest();
-
-        var result = await profileService.SaveThemeAsync(GetUserId(), form.Theme);
-        if (!result.IsSuccess)
-            return Unauthorized();
-
-        await SignInAsync(result.Value!);
-        return Ok();
-    }
+        ["theme"]    = (Constants.ValidThemes,     static (user, value) => user.Theme = value),
+        ["fontSize"] = (Constants.ValidFontSizes,  static (user, value) => user.FontSize = value),
+        ["language"] = (Constants.ValidLanguages,  static (user, value) => user.Language = value),
+        ["currency"] = (Constants.ValidCurrencies, static (user, value) => user.Currency = value),
+    };
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveFontSize(SaveFontSizeViewModel form)
+    public async Task<IActionResult> SavePreference(string key, string value)
     {
-        if (!ModelState.IsValid || !Constants.ValidFontSizes.Contains(form.FontSize))
+        if (key is null || !Preferences.TryGetValue(key, out var preference) || !preference.ValidValues.Contains(value))
             return BadRequest();
 
-        var result = await profileService.SaveFontSizeAsync(GetUserId(), form.FontSize);
-        if (!result.IsSuccess)
-            return Unauthorized();
-
-        await SignInAsync(result.Value!);
-        return Ok();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveLanguage(SaveLanguageViewModel form)
-    {
-        if (!ModelState.IsValid || !Constants.ValidLanguages.Contains(form.Language))
-            return BadRequest();
-
-        var result = await profileService.SaveLanguageAsync(GetUserId(), form.Language);
-        if (!result.IsSuccess)
-            return Unauthorized();
-
-        await SignInAsync(result.Value!);
-        return Ok();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveCurrency(SaveCurrencyViewModel form)
-    {
-        if (!ModelState.IsValid || !Constants.ValidCurrencies.Contains(form.Currency))
-            return BadRequest();
-
-        var result = await profileService.SaveCurrencyAsync(GetUserId(), form.Currency);
+        var result = await profileService.UpdatePreferenceAsync(GetUserId(), user => preference.Apply(user, value));
         if (!result.IsSuccess)
             return Unauthorized();
 

@@ -12,17 +12,19 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
 
     private sealed record MonthTotals(decimal TotalIncome, decimal TotalExpenses);
 
+    private const string TransactionWithCategorySelect = """
+        SELECT
+            t."Id", t."Description", t."Amount", t."Type", t."Date",
+            t."IsRecurring", t."CreatedAt", t."UserId", t."CategoryId",
+            c."Id", c."Name", c."Type", c."UserId"
+        FROM "Transactions" t
+        INNER JOIN "Categories" c ON t."CategoryId" = c."Id"
+        """;
+
     public async Task<List<Transaction>> GetFilteredAsync(Guid userId, string? type, int? month, int? year, string? search = null)
     {
-        var sql = new StringBuilder("""
-            SELECT
-                t."Id", t."Description", t."Amount", t."Type", t."Date",
-                t."IsRecurring", t."CreatedAt", t."UserId", t."CategoryId",
-                c."Id", c."Name", c."Type", c."UserId"
-            FROM "Transactions" t
-            INNER JOIN "Categories" c ON t."CategoryId" = c."Id"
-            WHERE t."UserId" = @UserId
-            """);
+        var sql = new StringBuilder(TransactionWithCategorySelect);
+        sql.Append(""" WHERE t."UserId" = @UserId""");
 
         var parameters = new DynamicParameters();
         parameters.Add("UserId", userId);
@@ -65,13 +67,8 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
 
     public async Task<Transaction?> GetByIdAsync(Guid userId, Guid id)
     {
-        const string sql = """
-            SELECT
-                t."Id", t."Description", t."Amount", t."Type", t."Date",
-                t."IsRecurring", t."CreatedAt", t."UserId", t."CategoryId",
-                c."Id", c."Name", c."Type", c."UserId"
-            FROM "Transactions" t
-            INNER JOIN "Categories" c ON t."CategoryId" = c."Id"
+        var sql = $"""
+            {TransactionWithCategorySelect}
             WHERE t."UserId" = @UserId
               AND t."Id"     = @Id
             """;
@@ -139,7 +136,7 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
 
     public async Task<int> GetPendingRecurringCountAsync(Guid userId, int month, int year)
     {
-        const string hasCurrentSql = """
+        const string recurringCountSql = """
             SELECT COUNT(1)
             FROM "Transactions"
             WHERE "UserId"                         = @UserId
@@ -149,35 +146,21 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
             """;
 
         using var connection = CreateConnection();
-        var hasCurrentRecurring = await connection.ExecuteScalarAsync<int>(hasCurrentSql, new { UserId = userId, Month = month, Year = year }) > 0;
+        var hasCurrentRecurring = await connection.ExecuteScalarAsync<int>(recurringCountSql, new { UserId = userId, Month = month, Year = year }) > 0;
 
         if (hasCurrentRecurring) return 0;
 
         var previousMonthDate = new DateTime(year, month, 1).AddMonths(-1);
 
-        const string previousCountSql = """
-            SELECT COUNT(1)
-            FROM "Transactions"
-            WHERE "UserId"                         = @UserId
-              AND "IsRecurring"                    = TRUE
-              AND EXTRACT(MONTH FROM "Date")       = @Month
-              AND EXTRACT(YEAR  FROM "Date")       = @Year
-            """;
-
-        return await connection.ExecuteScalarAsync<int>(previousCountSql, new { UserId = userId, Month = previousMonthDate.Month, Year = previousMonthDate.Year });
+        return await connection.ExecuteScalarAsync<int>(recurringCountSql, new { UserId = userId, Month = previousMonthDate.Month, Year = previousMonthDate.Year });
     }
 
     public async Task<List<Transaction>> GetRecurringForImportAsync(Guid userId, int month, int year)
     {
         var previousMonthDate = new DateTime(year, month, 1).AddMonths(-1);
 
-        const string sql = """
-            SELECT
-                t."Id", t."Description", t."Amount", t."Type", t."Date",
-                t."IsRecurring", t."CreatedAt", t."UserId", t."CategoryId",
-                c."Id", c."Name", c."Type", c."UserId"
-            FROM "Transactions" t
-            INNER JOIN "Categories" c ON t."CategoryId" = c."Id"
+        var sql = $"""
+            {TransactionWithCategorySelect}
             WHERE t."UserId"                         = @UserId
               AND t."IsRecurring"                    = TRUE
               AND EXTRACT(MONTH FROM t."Date")       = @Month
