@@ -29,17 +29,17 @@
 
     encodeBtn.addEventListener('click', function () {
         errorEl.hidden = true;
-        outputEl.value = encode(inputEl.value);
+        outputEl.value = inputEl.value.split('\n').map(encode).join('\n');
     });
 
     decodeBtn.addEventListener('click', function () {
-        var result = decode(inputEl.value);
-        if (result === null) {
+        var decoded = inputEl.value.split('\n').map(decode);
+        if (decoded.some(function (line) { return line === null; })) {
             errorEl.hidden = false;
             outputEl.value = '';
         } else {
             errorEl.hidden = true;
-            outputEl.value = result;
+            outputEl.value = decoded.join('\n');
         }
     });
 

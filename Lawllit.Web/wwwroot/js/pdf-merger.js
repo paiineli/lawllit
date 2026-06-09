@@ -29,46 +29,47 @@
         if (files.length < 2) return;
 
         var template = overlayLabel.dataset.template || '{0} / {1}';
-        var allRows = [];
         var minDuration = 1500;
         var startTime = Date.now();
 
         overlay.hidden = false;
         setProgress(0, files.length, template);
 
-        function processFile(index) {
-            if (index >= files.length) {
-                download(allRows);
+        merge(files, template)
+            .then(function () {
                 var elapsed = Date.now() - startTime;
                 setTimeout(function () { overlay.hidden = true; }, Math.max(0, minDuration - elapsed));
-                return;
-            }
+            })
+            .catch(function () { overlay.hidden = true; });
+    });
 
-            setProgress(index + 1, files.length, template);
+    async function merge(files, template) {
+        var output = await PDFLib.PDFDocument.create();
 
-            var reader = new FileReader();
-            reader.onload = function (evt) {
-                var wb = XLSX.read(new Uint8Array(evt.target.result), { type: 'array' });
-                var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, defval: '' });
-                allRows = index === 0 ? rows : allRows.concat(rows.slice(1));
-                processFile(index + 1);
-            };
-            reader.onerror = function () { processFile(index + 1); };
-            reader.readAsArrayBuffer(files[index]);
+        for (var i = 0; i < files.length; i++) {
+            setProgress(i + 1, files.length, template);
+            var bytes = await files[i].arrayBuffer();
+            var input = await PDFLib.PDFDocument.load(bytes);
+            var pages = await output.copyPages(input, input.getPageIndices());
+            pages.forEach(function (page) { output.addPage(page); });
         }
 
-        processFile(0);
-    });
+        download(await output.save());
+    }
 
     function setProgress(current, total, template) {
         overlayProgress.style.width = Math.round(current / total * 100) + '%';
         overlayLabel.textContent = template.replace('{0}', current).replace('{1}', total);
     }
 
-    function download(rows) {
-        var ws = XLSX.utils.aoa_to_sheet(rows);
-        var wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Merged');
-        XLSX.writeFile(wb, 'merged.xlsx');
+    function download(bytes) {
+        var url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'merged.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 })();

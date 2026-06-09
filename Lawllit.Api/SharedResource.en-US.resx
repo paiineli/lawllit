@@ -367,7 +367,6 @@
 	<data name="SpreadsheetMerger_ChooseFiles" xml:space="preserve"><value>choose files</value></data>
 	<data name="SpreadsheetMerger_Hint" xml:space="preserve"><value>.xlsx and .xls · header from the first file</value></data>
 	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>merge files</value></data>
-	<data name="Merger_Loading" xml:space="preserve"><value>please wait...</value></data>
 	<data name="Merger_OverlayFile" xml:space="preserve"><value>file {0} of {1}</value></data>
 
 	<data name="Nav_Tools_PdfMerger" xml:space="preserve"><value>pdf merger</value></data>
@@ -382,9 +381,6 @@
 	<data name="PdfMerger_ChooseFiles" xml:space="preserve"><value>choose files</value></data>
 	<data name="PdfMerger_Hint" xml:space="preserve"><value>.pdf · pages merged in upload order</value></data>
 	<data name="PdfMerger_MergeBtn" xml:space="preserve"><value>merge files</value></data>
-	<data name="PdfMerger_Error_MinFiles" xml:space="preserve"><value>select at least 2 files.</value></data>
-	<data name="PdfMerger_Error_InvalidFormat" xml:space="preserve"><value>only .pdf files are supported.</value></data>
-	<data name="PdfMerger_Error_Processing" xml:space="preserve"><value>failed to process the files.</value></data>
 
 	<data name="Nav_Tools_Base64" xml:space="preserve"><value>base64</value></data>
 	<data name="Tool_Base64_Name" xml:space="preserve"><value>base64</value></data>

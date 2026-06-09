@@ -536,16 +536,6 @@ button.lp-btn {
     transition: width 0.2s ease;
 }
 
-@keyframes merge-pulse {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(400%); }
-}
-
-.merge-overlay-fill--pulse {
-    width: 25%;
-    animation: merge-pulse 1.4s ease-in-out infinite;
-}
-
 @media (max-width: 600px) {
     .lp-main { padding: 2.5rem 0 4rem; }
 }

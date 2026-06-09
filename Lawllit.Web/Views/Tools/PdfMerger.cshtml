@@ -29,10 +29,6 @@
                         </label>
                     </div>
                     <div id="file-list" class="tool-file-list" hidden></div>
-                    @if (ViewBag.ErrorKey != null)
-                    {
-                        <p class="tool-error">@Localizer[ViewBag.ErrorKey]</p>
-                    }
                     <button type="submit" id="merge-btn" class="lp-btn" disabled>@Localizer["PdfMerger_MergeBtn"]</button>
                 </form>
             </section>
@@ -42,12 +38,13 @@
 </main>
 
 <div id="merge-overlay" class="merge-overlay" hidden>
-    <p class="merge-overlay-label">@Localizer["Merger_Loading"]</p>
+    <p id="overlay-label" class="merge-overlay-label" data-template="@Localizer["Merger_OverlayFile"]"></p>
     <div class="merge-overlay-track">
-        <div class="merge-overlay-fill merge-overlay-fill--pulse"></div>
+        <div id="overlay-progress" class="merge-overlay-fill"></div>
     </div>
 </div>
 
 @section Scripts {
-    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="~/js/pdf-merger.js" asp-append-version="true"></script>
 }
