@@ -504,6 +504,97 @@ button.lp-btn {
     margin-top: 0.75rem;
 }
 
+.tool-input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    padding: 0.6rem 0.75rem;
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+    .tool-input:focus {
+        border-color: var(--border-hover);
+        outline: 2px solid var(--fg);
+        outline-offset: 2px;
+    }
+
+    .tool-input::placeholder { color: var(--dim); }
+
+.tool-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.tool-option {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--dim);
+    cursor: pointer;
+    margin: 0;
+}
+
+    .tool-option input {
+        accent-color: var(--fg);
+        cursor: pointer;
+    }
+
+.tool-result {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+}
+
+.tool-result-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+}
+
+    .tool-result-row:last-child {
+        border-bottom: none;
+    }
+
+.tool-result-label {
+    flex: 0 0 7rem;
+    color: var(--dim);
+}
+
+.tool-result-value {
+    color: var(--fg);
+    word-break: break-word;
+}
+
+.tool-qr {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+.tool-qr-code {
+    background: #fff;
+    padding: 0.75rem;
+    line-height: 0;
+}
+
+    .tool-qr-code canvas,
+    .tool-qr-code img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
 .merge-overlay {
     position: fixed;
     inset: 0;

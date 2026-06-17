@@ -1,0 +1,39 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["CpfCnpj_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["CpfCnpj_InputTag"]</p>
+                <textarea id="doc-input" class="tool-textarea" placeholder="@Localizer["CpfCnpj_Placeholder"]"></textarea>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-doc="validate">@Localizer["CpfCnpj_ValidateBtn"]</button>
+                    <button class="lp-btn" data-doc="format">@Localizer["CpfCnpj_FormatBtn"]</button>
+                    <button class="lp-btn" data-doc="clean">@Localizer["CpfCnpj_CleanBtn"]</button>
+                    <button class="lp-btn" data-doc="generate-cpf">@Localizer["CpfCnpj_GenerateCpfBtn"]</button>
+                    <button class="lp-btn" data-doc="generate-cnpj">@Localizer["CpfCnpj_GenerateCnpjBtn"]</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["CpfCnpj_OutputTag"]</p>
+                <textarea id="doc-output" class="tool-textarea" readonly
+                          data-valid="@Localizer["CpfCnpj_Valid"]"
+                          data-invalid="@Localizer["CpfCnpj_Invalid"]"></textarea>
+                <div class="tool-actions">
+                    <button id="doc-copy" class="lp-btn">@Localizer["CpfCnpj_CopyBtn"]</button>
+                    <button id="doc-clear" class="lp-btn">@Localizer["CpfCnpj_ClearBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/cpf-cnpj.js" asp-append-version="true"></script>
+}

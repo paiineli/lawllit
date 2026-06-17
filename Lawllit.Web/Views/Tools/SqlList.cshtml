@@ -1,0 +1,45 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["SqlList_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["SqlList_InputTag"]</p>
+                <textarea id="sql-input" class="tool-textarea" placeholder="@Localizer["SqlList_Placeholder"]"></textarea>
+                <div class="tool-options">
+                    <label class="tool-option">
+                        <input type="checkbox" id="sql-dedupe" />
+                        <span>@Localizer["SqlList_OptDedupe"]</span>
+                    </label>
+                    <label class="tool-option">
+                        <input type="checkbox" id="sql-parens" checked />
+                        <span>@Localizer["SqlList_OptParens"]</span>
+                    </label>
+                </div>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-quote="single">'x','y'</button>
+                    <button class="lp-btn" data-quote="double">"x","y"</button>
+                    <button class="lp-btn" data-quote="none">x,y</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["SqlList_OutputTag"]</p>
+                <textarea id="sql-output" class="tool-textarea" readonly></textarea>
+                <div class="tool-actions">
+                    <button id="sql-copy" class="lp-btn">@Localizer["SqlList_CopyBtn"]</button>
+                    <button id="sql-clear" class="lp-btn">@Localizer["SqlList_ClearBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/sql-list.js" asp-append-version="true"></script>
+}

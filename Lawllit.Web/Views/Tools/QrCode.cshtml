@@ -1,0 +1,36 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["QrCode_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["QrCode_InputTag"]</p>
+                <textarea id="qr-input" class="tool-textarea" placeholder="@Localizer["QrCode_Placeholder"]"></textarea>
+                <div class="tool-actions">
+                    <button id="qr-generate" class="lp-btn">@Localizer["QrCode_GenerateBtn"]</button>
+                    <button id="qr-clear" class="lp-btn">@Localizer["QrCode_ClearBtn"]</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["QrCode_OutputTag"]</p>
+                <div class="tool-qr" hidden>
+                    <div id="qr-canvas" class="tool-qr-code"></div>
+                </div>
+                <div class="tool-actions">
+                    <button id="qr-download" class="lp-btn" disabled>@Localizer["QrCode_DownloadBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="~/js/qr-code.js" asp-append-version="true"></script>
+}

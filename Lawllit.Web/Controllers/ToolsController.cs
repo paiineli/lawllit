@@ -13,4 +13,12 @@ public class ToolsController : Controller
     public IActionResult Base64() => View();
 
     public IActionResult TextCase() => View();
+
+    public IActionResult SqlList() => View();
+
+    public IActionResult CpfCnpj() => View();
+
+    public IActionResult CepLookup() => View();
+
+    public IActionResult QrCode() => View();
 }

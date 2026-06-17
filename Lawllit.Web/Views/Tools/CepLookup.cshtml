@@ -1,0 +1,64 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["CepLookup_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["CepLookup_InputTag"]</p>
+                <input type="text" id="cep-input" class="tool-input" inputmode="numeric" maxlength="9" placeholder="@Localizer["CepLookup_Placeholder"]" />
+                <div class="tool-actions">
+                    <button id="cep-lookup" class="lp-btn">@Localizer["CepLookup_LookupBtn"]</button>
+                </div>
+                <p id="cep-error" class="tool-error" hidden
+                   data-invalid="@Localizer["CepLookup_Error_Invalid"]"
+                   data-notfound="@Localizer["CepLookup_Error_NotFound"]"></p>
+            </section>
+
+            <section id="cep-result" class="lp-section" hidden>
+                <p class="lp-section-title">@Localizer["CepLookup_ResultTag"]</p>
+                <div class="tool-result">
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_Cep"]</span>
+                        <span class="tool-result-value" id="cep-cep"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_Street"]</span>
+                        <span class="tool-result-value" id="cep-logradouro"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_Complement"]</span>
+                        <span class="tool-result-value" id="cep-complemento"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_Neighborhood"]</span>
+                        <span class="tool-result-value" id="cep-bairro"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_City"]</span>
+                        <span class="tool-result-value" id="cep-localidade"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_State"]</span>
+                        <span class="tool-result-value" id="cep-uf"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CepLookup_Ddd"]</span>
+                        <span class="tool-result-value" id="cep-ddd"></span>
+                    </div>
+                </div>
+                <div class="tool-actions">
+                    <button id="cep-copy" class="lp-btn">@Localizer["CepLookup_CopyBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/cep-lookup.js" asp-append-version="true"></script>
+}
