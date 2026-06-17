@@ -349,11 +349,12 @@
 	<data name="Home_Finance_CTA" xml:space="preserve"><value>experimentar o lawllit.finance →</value></data>
 
 	<data name="Nav_Tools" xml:space="preserve"><value>ferramentas</value></data>
-	<data name="Nav_Tools_SpreadsheetMerger" xml:space="preserve"><value>unificador de planilhas</value></data>
 
 	<data name="Tools_Title" xml:space="preserve"><value>ferramentas.</value></data>
 	<data name="Tools_Subtitle" xml:space="preserve"><value>ferramentas pequenas para resolver problemas reais.</value></data>
-	<data name="Tools_SectionTag" xml:space="preserve"><value>// ferramentas</value></data>
+	<data name="Tools_Cat_Files" xml:space="preserve"><value>// arquivos</value></data>
+	<data name="Tools_Cat_TextCode" xml:space="preserve"><value>// texto &amp; código</value></data>
+	<data name="Tools_Cat_DataBrazil" xml:space="preserve"><value>// dados &amp; brasil</value></data>
 	<data name="Tool_SpreadsheetMerger_Name" xml:space="preserve"><value>unificador de planilhas</value></data>
 	<data name="Tool_SpreadsheetMerger_Desc" xml:space="preserve"><value>una múltiplos arquivos .xlsx e .xls sem perder dados.</value></data>
 
@@ -369,7 +370,6 @@
 	<data name="SpreadsheetMerger_MergeBtn" xml:space="preserve"><value>unificar arquivos</value></data>
 	<data name="Merger_OverlayFile" xml:space="preserve"><value>arquivo {0} de {1}</value></data>
 
-	<data name="Nav_Tools_PdfMerger" xml:space="preserve"><value>unificador de pdf</value></data>
 	<data name="Tool_PdfMerger_Name" xml:space="preserve"><value>unificador de pdf</value></data>
 	<data name="Tool_PdfMerger_Desc" xml:space="preserve"><value>junte múltiplos arquivos .pdf em um só, preservando todas as páginas.</value></data>
 	<data name="PdfMerger_Title" xml:space="preserve"><value>unificador de pdf</value></data>
@@ -382,7 +382,6 @@
 	<data name="PdfMerger_Hint" xml:space="preserve"><value>.pdf · páginas mescladas na ordem de envio</value></data>
 	<data name="PdfMerger_MergeBtn" xml:space="preserve"><value>mesclar arquivos</value></data>
 
-	<data name="Nav_Tools_Base64" xml:space="preserve"><value>base64</value></data>
 	<data name="Tool_Base64_Name" xml:space="preserve"><value>base64</value></data>
 	<data name="Tool_Base64_Desc" xml:space="preserve"><value>codifique e decodifique texto no formato base64.</value></data>
 	<data name="Base64_Title" xml:space="preserve"><value>base64</value></data>
@@ -395,7 +394,6 @@
 	<data name="Base64_ClearBtn" xml:space="preserve"><value>limpar</value></data>
 	<data name="Base64_Error_InvalidBase64" xml:space="preserve"><value>entrada base64 inválida.</value></data>
 
-	<data name="Nav_Tools_TextCase" xml:space="preserve"><value>text case</value></data>
 	<data name="Tool_TextCase_Name" xml:space="preserve"><value>text case</value></data>
 	<data name="Tool_TextCase_Desc" xml:space="preserve"><value>converta texto entre maiúsculas, camelCase, snake_case e mais.</value></data>
 	<data name="TextCase_Title" xml:space="preserve"><value>text case</value></data>
@@ -405,7 +403,6 @@
 	<data name="TextCase_CopyBtn" xml:space="preserve"><value>copiar</value></data>
 	<data name="TextCase_ClearBtn" xml:space="preserve"><value>limpar</value></data>
 
-	<data name="Nav_Tools_SqlList" xml:space="preserve"><value>lista para sql</value></data>
 	<data name="Tool_SqlList_Name" xml:space="preserve"><value>lista para sql</value></data>
 	<data name="Tool_SqlList_Desc" xml:space="preserve"><value>transforme uma lista de valores em uma cláusula in do sql, array ou csv.</value></data>
 	<data name="SqlList_Title" xml:space="preserve"><value>lista para sql</value></data>
@@ -417,7 +414,6 @@
 	<data name="SqlList_CopyBtn" xml:space="preserve"><value>copiar</value></data>
 	<data name="SqlList_ClearBtn" xml:space="preserve"><value>limpar</value></data>
 
-	<data name="Nav_Tools_CpfCnpj" xml:space="preserve"><value>cpf / cnpj</value></data>
 	<data name="Tool_CpfCnpj_Name" xml:space="preserve"><value>cpf / cnpj</value></data>
 	<data name="Tool_CpfCnpj_Desc" xml:space="preserve"><value>valide e gere números de cpf e cnpj, com ou sem máscara.</value></data>
 	<data name="CpfCnpj_Title" xml:space="preserve"><value>cpf / cnpj</value></data>
@@ -434,7 +430,6 @@
 	<data name="CpfCnpj_CopyBtn" xml:space="preserve"><value>copiar</value></data>
 	<data name="CpfCnpj_ClearBtn" xml:space="preserve"><value>limpar</value></data>
 
-	<data name="Nav_Tools_CepLookup" xml:space="preserve"><value>consulta de cep</value></data>
 	<data name="Tool_CepLookup_Name" xml:space="preserve"><value>consulta de cep</value></data>
 	<data name="Tool_CepLookup_Desc" xml:space="preserve"><value>consulte endereços a partir do cep usando a base dos correios.</value></data>
 	<data name="CepLookup_Title" xml:space="preserve"><value>consulta de cep</value></data>
@@ -453,7 +448,6 @@
 	<data name="CepLookup_Error_Invalid" xml:space="preserve"><value>cep inválido. informe 8 dígitos.</value></data>
 	<data name="CepLookup_Error_NotFound" xml:space="preserve"><value>cep não encontrado.</value></data>
 
-	<data name="Nav_Tools_QrCode" xml:space="preserve"><value>qr code</value></data>
 	<data name="Tool_QrCode_Name" xml:space="preserve"><value>qr code</value></data>
 	<data name="Tool_QrCode_Desc" xml:space="preserve"><value>gere um qr code a partir de qualquer texto ou link e baixe em png.</value></data>
 	<data name="QrCode_Title" xml:space="preserve"><value>qr code</value></data>
