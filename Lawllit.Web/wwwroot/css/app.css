@@ -258,41 +258,6 @@ a {
         text-decoration: none;
     }
 
-.dropdown-menu {
-    background: rgba(8, 8, 8, 0.97);
-    border: 1px solid var(--border);
-    border-radius: 0;
-    padding: 0.25rem 0;
-    min-width: 14rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-}
-
-.dropdown-divider {
-    border-color: var(--border);
-    margin: 0.25rem 0;
-}
-
-.dropdown-item {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--dim);
-    padding: 0.45rem 1rem;
-    transition: background var(--transition), color var(--transition);
-}
-
-    .dropdown-item:hover,
-    .dropdown-item:focus {
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--fg);
-    }
-
-@media (min-width: 992px) {
-    .navbar .dropdown:hover .dropdown-menu {
-        display: block;
-    }
-}
-
 .nav-link-finance { color: var(--green) !important; }
 
 .nav-link-finance:hover {
@@ -618,6 +583,42 @@ button.lp-btn {
         max-width: 100%;
         height: auto;
     }
+
+.tool-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+}
+
+.tool-field-label {
+    font-size: 0.72rem;
+    color: var(--dim);
+}
+
+.tool-range {
+    width: 100%;
+    accent-color: var(--fg);
+    cursor: pointer;
+}
+
+.tool-preview-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+
+.tool-strength {
+    font-size: 0.76rem;
+    margin: 0.6rem 0 0;
+    color: var(--dim);
+}
+
+.tool-strength-weak { color: #f87171; }
+.tool-strength-medium { color: #fbbf24; }
+.tool-strength-strong { color: #4ade80; }
 
 .merge-overlay {
     position: fixed;

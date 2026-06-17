@@ -353,8 +353,9 @@
 	<data name="Tools_Title" xml:space="preserve"><value>tools.</value></data>
 	<data name="Tools_Subtitle" xml:space="preserve"><value>small tools built to solve real problems.</value></data>
 	<data name="Tools_Cat_Files" xml:space="preserve"><value>// files</value></data>
-	<data name="Tools_Cat_TextCode" xml:space="preserve"><value>// text &amp; code</value></data>
+	<data name="Tools_Cat_TextCode" xml:space="preserve"><value>// text</value></data>
 	<data name="Tools_Cat_DataBrazil" xml:space="preserve"><value>// data &amp; brazil</value></data>
+	<data name="Tools_Cat_Utilities" xml:space="preserve"><value>// utilities</value></data>
 	<data name="Tool_SpreadsheetMerger_Name" xml:space="preserve"><value>spreadsheet merger</value></data>
 	<data name="Tool_SpreadsheetMerger_Desc" xml:space="preserve"><value>merge multiple .xlsx and .xls files into one without losing data.</value></data>
 
@@ -457,5 +458,48 @@
 	<data name="QrCode_OutputTag" xml:space="preserve"><value>// output</value></data>
 	<data name="QrCode_DownloadBtn" xml:space="preserve"><value>download png</value></data>
 	<data name="QrCode_ClearBtn" xml:space="preserve"><value>clear</value></data>
+
+	<data name="Tool_ImageCompressor_Name" xml:space="preserve"><value>compress image</value></data>
+	<data name="Tool_ImageCompressor_Desc" xml:space="preserve"><value>shrink .jpg and .png images to fit email and upload limits.</value></data>
+	<data name="ImageCompressor_Title" xml:space="preserve"><value>compress image</value></data>
+	<data name="ImageCompressor_UploadTag" xml:space="preserve"><value>// upload</value></data>
+	<data name="ImageCompressor_ChooseFile" xml:space="preserve"><value>choose image</value></data>
+	<data name="ImageCompressor_Hint" xml:space="preserve"><value>.jpg, .png · processed in your browser</value></data>
+	<data name="ImageCompressor_LevelTag" xml:space="preserve"><value>// compression level</value></data>
+	<data name="ImageCompressor_LevelHigh" xml:space="preserve"><value>high quality</value></data>
+	<data name="ImageCompressor_LevelBalanced" xml:space="preserve"><value>balanced</value></data>
+	<data name="ImageCompressor_LevelSmall" xml:space="preserve"><value>smallest file</value></data>
+	<data name="ImageCompressor_ResultTag" xml:space="preserve"><value>// result</value></data>
+	<data name="ImageCompressor_Original" xml:space="preserve"><value>original</value></data>
+	<data name="ImageCompressor_Compressed" xml:space="preserve"><value>compressed</value></data>
+	<data name="ImageCompressor_Reduction" xml:space="preserve"><value>reduction</value></data>
+	<data name="ImageCompressor_DownloadBtn" xml:space="preserve"><value>download</value></data>
+
+	<data name="Tool_CharCounter_Name" xml:space="preserve"><value>text counter</value></data>
+	<data name="Tool_CharCounter_Desc" xml:space="preserve"><value>count characters, words and lines in real time.</value></data>
+	<data name="CharCounter_Title" xml:space="preserve"><value>text counter</value></data>
+	<data name="CharCounter_InputTag" xml:space="preserve"><value>// text</value></data>
+	<data name="CharCounter_Placeholder" xml:space="preserve"><value>type or paste your text...</value></data>
+	<data name="CharCounter_StatsTag" xml:space="preserve"><value>// count</value></data>
+	<data name="CharCounter_Chars" xml:space="preserve"><value>characters</value></data>
+	<data name="CharCounter_Words" xml:space="preserve"><value>words</value></data>
+	<data name="CharCounter_ClearBtn" xml:space="preserve"><value>clear</value></data>
+
+	<data name="Tool_PasswordGenerator_Name" xml:space="preserve"><value>password generator</value></data>
+	<data name="Tool_PasswordGenerator_Desc" xml:space="preserve"><value>create strong random passwords, generated in your browser.</value></data>
+	<data name="PasswordGenerator_Title" xml:space="preserve"><value>password generator</value></data>
+	<data name="PasswordGenerator_OptionsTag" xml:space="preserve"><value>// options</value></data>
+	<data name="PasswordGenerator_LengthLabel" xml:space="preserve"><value>length</value></data>
+	<data name="PasswordGenerator_Upper" xml:space="preserve"><value>uppercase (A-Z)</value></data>
+	<data name="PasswordGenerator_Lower" xml:space="preserve"><value>lowercase (a-z)</value></data>
+	<data name="PasswordGenerator_Numbers" xml:space="preserve"><value>numbers (0-9)</value></data>
+	<data name="PasswordGenerator_Symbols" xml:space="preserve"><value>symbols (!@#...)</value></data>
+	<data name="PasswordGenerator_GenerateBtn" xml:space="preserve"><value>generate</value></data>
+	<data name="PasswordGenerator_CopyBtn" xml:space="preserve"><value>copy</value></data>
+	<data name="PasswordGenerator_OutputTag" xml:space="preserve"><value>// password</value></data>
+	<data name="PasswordGenerator_StrengthLabel" xml:space="preserve"><value>strength</value></data>
+	<data name="PasswordGenerator_Strength_Weak" xml:space="preserve"><value>weak</value></data>
+	<data name="PasswordGenerator_Strength_Medium" xml:space="preserve"><value>medium</value></data>
+	<data name="PasswordGenerator_Strength_Strong" xml:space="preserve"><value>strong</value></data>
 
 </root>

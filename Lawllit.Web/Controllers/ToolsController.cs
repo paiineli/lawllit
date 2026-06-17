@@ -21,4 +21,10 @@ public class ToolsController : Controller
     public IActionResult CepLookup() => View();
 
     public IActionResult QrCode() => View();
+
+    public IActionResult ImageCompressor() => View();
+
+    public IActionResult CharCounter() => View();
+
+    public IActionResult PasswordGenerator() => View();
 }

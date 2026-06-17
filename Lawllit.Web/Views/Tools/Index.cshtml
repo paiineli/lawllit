@@ -20,6 +20,11 @@
                         <span class="tool-card-name">@Localizer["Tool_PdfMerger_Name"]</span>
                         <span class="tool-card-desc">@Localizer["Tool_PdfMerger_Desc"]</span>
                     </a>
+                    <a class="tool-card" asp-controller="Tools" asp-action="ImageCompressor">
+                        <i class="bi bi-file-earmark-image tool-card-icon"></i>
+                        <span class="tool-card-name">@Localizer["Tool_ImageCompressor_Name"]</span>
+                        <span class="tool-card-desc">@Localizer["Tool_ImageCompressor_Desc"]</span>
+                    </a>
                 </div>
             </section>
 
@@ -41,6 +46,11 @@
                         <span class="tool-card-name">@Localizer["Tool_SqlList_Name"]</span>
                         <span class="tool-card-desc">@Localizer["Tool_SqlList_Desc"]</span>
                     </a>
+                    <a class="tool-card" asp-controller="Tools" asp-action="CharCounter">
+                        <i class="bi bi-body-text tool-card-icon"></i>
+                        <span class="tool-card-name">@Localizer["Tool_CharCounter_Name"]</span>
+                        <span class="tool-card-desc">@Localizer["Tool_CharCounter_Desc"]</span>
+                    </a>
                 </div>
             </section>
 
@@ -61,6 +71,17 @@
                         <i class="bi bi-qr-code tool-card-icon"></i>
                         <span class="tool-card-name">@Localizer["Tool_QrCode_Name"]</span>
                         <span class="tool-card-desc">@Localizer["Tool_QrCode_Desc"]</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["Tools_Cat_Utilities"]</p>
+                <div class="tools-grid">
+                    <a class="tool-card" asp-controller="Tools" asp-action="PasswordGenerator">
+                        <i class="bi bi-shield-lock tool-card-icon"></i>
+                        <span class="tool-card-name">@Localizer["Tool_PasswordGenerator_Name"]</span>
+                        <span class="tool-card-desc">@Localizer["Tool_PasswordGenerator_Desc"]</span>
                     </a>
                 </div>
             </section>

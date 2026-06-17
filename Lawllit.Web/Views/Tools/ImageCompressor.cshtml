@@ -1,0 +1,59 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["ImageCompressor_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["ImageCompressor_UploadTag"]</p>
+                <div class="tool-upload-area">
+                    <input type="file" id="img-input" accept="image/png,image/jpeg" class="visually-hidden" />
+                    <label for="img-input" class="tool-upload-label">
+                        <i class="bi bi-file-earmark-image"></i>
+                        <span>@Localizer["ImageCompressor_ChooseFile"]</span>
+                        <span class="lp-edu-meta">@Localizer["ImageCompressor_Hint"]</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["ImageCompressor_LevelTag"]</p>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-level="high" disabled>@Localizer["ImageCompressor_LevelHigh"]</button>
+                    <button class="lp-btn" data-level="balanced" disabled>@Localizer["ImageCompressor_LevelBalanced"]</button>
+                    <button class="lp-btn" data-level="smallest" disabled>@Localizer["ImageCompressor_LevelSmall"]</button>
+                </div>
+            </section>
+
+            <section id="img-result" class="lp-section" hidden>
+                <p class="lp-section-title">@Localizer["ImageCompressor_ResultTag"]</p>
+                <img id="img-preview" class="tool-preview-img" alt="" />
+                <div class="tool-result">
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["ImageCompressor_Original"]</span>
+                        <span class="tool-result-value" id="img-original"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["ImageCompressor_Compressed"]</span>
+                        <span class="tool-result-value" id="img-compressed"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["ImageCompressor_Reduction"]</span>
+                        <span class="tool-result-value" id="img-reduction"></span>
+                    </div>
+                </div>
+                <div class="tool-actions">
+                    <button id="img-download" class="lp-btn">@Localizer["ImageCompressor_DownloadBtn"]</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/image-compressor.js" asp-append-version="true"></script>
+}

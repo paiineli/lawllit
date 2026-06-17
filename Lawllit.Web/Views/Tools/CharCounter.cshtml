@@ -1,0 +1,38 @@
+<main class="lp-main">
+    <div class="container-lg d-flex justify-content-center">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Tools" asp-action="Index">@Localizer["Tools_Title"]</a></p>
+                <h1 class="lp-name">@Localizer["CharCounter_Title"]</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["CharCounter_InputTag"]</p>
+                <textarea id="cc-input" class="tool-textarea" placeholder="@Localizer["CharCounter_Placeholder"]"></textarea>
+                <div class="tool-actions">
+                    <button id="cc-clear" class="lp-btn">@Localizer["CharCounter_ClearBtn"]</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">@Localizer["CharCounter_StatsTag"]</p>
+                <div class="tool-result">
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CharCounter_Chars"]</span>
+                        <span class="tool-result-value" id="cc-chars">0</span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">@Localizer["CharCounter_Words"]</span>
+                        <span class="tool-result-value" id="cc-words">0</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/char-counter.js" asp-append-version="true"></script>
+}
