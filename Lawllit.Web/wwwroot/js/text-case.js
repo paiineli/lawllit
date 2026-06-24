@@ -18,10 +18,10 @@
     var transforms = {
         upper: function (s) { return s.toUpperCase(); },
         lower: function (s) { return s.toLowerCase(); },
-        title: function (s) { return toWords(s).replace(/\b\w/g, function (c) { return c.toUpperCase(); }); },
+        title: function (s) { return toWords(s).toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); }); },
         sentence: function (s) { var t = toWords(s).toLowerCase(); return t.charAt(0).toUpperCase() + t.slice(1); },
         camel: function (s) { return toWords(s).toLowerCase().replace(/ (\w)/g, function (_, c) { return c.toUpperCase(); }); },
-        pascal: function (s) { return toWords(s).replace(/(?:^| )(\w)/g, function (_, c) { return c.toUpperCase(); }); },
+        pascal: function (s) { return toWords(s).toLowerCase().replace(/(?:^| )(\w)/g, function (_, c) { return c.toUpperCase(); }); },
         snake: function (s) { return toWords(s).toLowerCase().replace(/ /g, '_'); },
         kebab: function (s) { return toWords(s).toLowerCase().replace(/ /g, '-'); },
     };
@@ -29,7 +29,7 @@
     document.querySelectorAll('[data-case]').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var fn = transforms[btn.dataset.case];
-            if (fn) outputEl.value = fn(inputEl.value);
+            if (fn) outputEl.value = inputEl.value.split('\n').map(fn).join('\n');
         });
     });
 
