@@ -323,17 +323,21 @@
 	<data name="Landing_Sub" xml:space="preserve"><value>Suas finanças. Simples assim.</value></data>
 
 <data name="Home_EducationTag" xml:space="preserve"><value>// formação</value></data>
-	<data name="Home_Edu1_Title" xml:space="preserve"><value>MBA Executivo, Gestão de Negócios</value></data>
-	<data name="Home_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – Mai 2026</value></data>
+	<data name="Home_Edu1_Title" xml:space="preserve"><value>MBA Executivo, Gestão Empresarial</value></data>
+	<data name="Home_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – Mai 2026 · Nota 9,22/10</value></data>
 	<data name="Home_Edu2_Title" xml:space="preserve"><value>Pós-Graduação, Arquitetura de Software</value></data>
 	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Fev 2023 – Mai 2025 · Nota 9,6/10</value></data>
 	<data name="Home_Edu3_Title" xml:space="preserve"><value>Tecnólogo, Análise e Desenvolvimento de Sistemas</value></data>
 	<data name="Home_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Fev 2021 – Dez 2022</value></data>
 	<data name="Home_CertificationsTag" xml:space="preserve"><value>// certificações</value></data>
-	<data name="Home_Cert1_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
-	<data name="Home_Cert1_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
+	<data name="Home_Cert1_Title" xml:space="preserve"><value>Imersão Digital – Trilha Especialista em IA</value></data>
+	<data name="Home_Cert1_Meta" xml:space="preserve"><value>Santander Open Academy · Jul 2026</value></data>
 	<data name="Home_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
-	<data name="Home_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · Abr 2026</value></data>
+	<data name="Home_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · Mai 2026</value></data>
+	<data name="Home_Cert3_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
+	<data name="Home_Cert3_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
+	<data name="Home_Cert4_Title" xml:space="preserve"><value>Introdução à Ciência de Dados</value></data>
+	<data name="Home_Cert4_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Ago 2022</value></data>
 	<data name="Home_LanguagesTag" xml:space="preserve"><value>// idiomas</value></data>
 	<data name="Home_Lang1_Name" xml:space="preserve"><value>Português</value></data>
 	<data name="Home_Lang1_Level" xml:space="preserve"><value>Nativo</value></data>
