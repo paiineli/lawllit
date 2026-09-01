@@ -12,6 +12,14 @@
         Localizer["Month_7"].Value,  Localizer["Month_8"].Value,  Localizer["Month_9"].Value,
         Localizer["Month_10"].Value, Localizer["Month_11"].Value, Localizer["Month_12"].Value,
     };
+    // O select de tipo e os grupos do select de categoria seguem sempre esta mesma ordem.
+    var transactionTypes = new[] { TransactionType.Expense, TransactionType.Income, TransactionType.Investment };
+    var typeGroupLabels = new Dictionary<TransactionType, string>
+    {
+        [TransactionType.Expense] = Localizer["Dash_Expenses"].Value,
+        [TransactionType.Income] = Localizer["Dash_Income"].Value,
+        [TransactionType.Investment] = Localizer["Dash_Investments"].Value,
+    };
 }
 
 <main class="container-lg py-4">
@@ -57,6 +65,8 @@
                class="filter-btn @(Model.FilterType == "Income" ? "active" : "")">@Localizer["Dash_Income"]</a>
             <a href="@Url.Action("Index", new { type = "Expense", month = Model.FilterMonth, year = Model.FilterYear, search = Model.FilterSearch })"
                class="filter-btn @(Model.FilterType == "Expense" ? "active" : "")">@Localizer["Dash_Expenses"]</a>
+            <a href="@Url.Action("Index", new { type = "Investment", month = Model.FilterMonth, year = Model.FilterYear, search = Model.FilterSearch })"
+               class="filter-btn @(Model.FilterType == "Investment" ? "active" : "")">@Localizer["Dash_Investments"]</a>
         </div>
 
         <input type="search" class="form-control form-control-sm search-input ms-auto"
@@ -91,7 +101,11 @@
     {
         <div class="d-flex justify-content-end mb-2 small">
             <span class="text-green me-3">+@Model.TotalIncome.ToString("C", culture)</span>
-            <span class="text-red">-@Model.TotalExpenses.ToString("C", culture)</span>
+            <span class="text-red @(Model.TotalInvestments > 0 ? "me-3" : "")">-@Model.TotalExpenses.ToString("C", culture)</span>
+            @if (Model.TotalInvestments > 0)
+            {
+                <span class="text-blue">-@Model.TotalInvestments.ToString("C", culture)</span>
+            }
         </div>
     }
 
@@ -139,12 +153,12 @@
                             </td>
                             <td><span class="badge bg-secondary bg-opacity-25 text-body">@transaction.Category?.Name</span></td>
                             <td>
-                                <span class="@(transaction.Type == TransactionType.Income ? "badge-income" : "badge-expense")">
-                                    @(transaction.Type == TransactionType.Income ? Localizer["Lbl_Income"].Value : Localizer["Lbl_Expense"].Value)
+                                <span class="@transaction.Type.BadgeClass()">
+                                    @Localizer[transaction.Type.LabelKey()]
                                 </span>
                             </td>
-                            <td class="text-end fw-semibold tabular-nums @(transaction.Type == TransactionType.Income ? "text-green" : "text-red")">
-                                @(transaction.Type == TransactionType.Income ? "+" : "-")@transaction.Amount.ToString("C", culture)
+                            <td class="text-end fw-semibold tabular-nums @transaction.Type.TextClass()">
+                                @transaction.Type.AmountSign()@transaction.Amount.ToString("C", culture)
                             </td>
                             <td>
                                 <div class="d-flex gap-1 justify-content-end">
@@ -192,8 +206,10 @@
                         <div class="col-6">
                             <label class="form-label small">@Localizer["Lbl_Type"]</label>
                             <select class="form-select" name="Type" data-filter-type id="createType">
-                                <option value="Expense">@Localizer["Lbl_Expense"]</option>
-                                <option value="Income">@Localizer["Lbl_Income"]</option>
+                                @foreach (var type in transactionTypes)
+                                {
+                                    <option value="@type">@Localizer[type.LabelKey()]</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -204,23 +220,18 @@
                     <div class="mb-3">
                         <label class="form-label small">@Localizer["Lbl_Category"] <span class="text-danger">*</span></label>
                         <select class="form-select" name="CategoryId" data-filter-category id="createCategoryId">
-                            @if (Model.Categories.Any(c => c.Type == TransactionType.Expense))
+                            @foreach (var type in transactionTypes)
                             {
-                                <optgroup label="@Localizer["Dash_Expenses"]" data-group-type="Expense">
-                                    @foreach (var category in Model.Categories.Where(c => c.Type == TransactionType.Expense))
-                                    {
-                                        <option value="@category.Id">@category.Name</option>
-                                    }
-                                </optgroup>
-                            }
-                            @if (Model.Categories.Any(c => c.Type == TransactionType.Income))
-                            {
-                                <optgroup label="@Localizer["Dash_Income"]" data-group-type="Income">
-                                    @foreach (var category in Model.Categories.Where(c => c.Type == TransactionType.Income))
-                                    {
-                                        <option value="@category.Id">@category.Name</option>
-                                    }
-                                </optgroup>
+                                var typeCategories = Model.Categories.Where(c => c.Type == type).ToList();
+                                if (typeCategories.Count > 0)
+                                {
+                                    <optgroup label="@typeGroupLabels[type]" data-group-type="@type">
+                                        @foreach (var category in typeCategories)
+                                        {
+                                            <option value="@category.Id">@category.Name</option>
+                                        }
+                                    </optgroup>
+                                }
                             }
                         </select>
                     </div>
@@ -264,8 +275,10 @@
                             <div class="col-6">
                                 <label class="form-label small">@Localizer["Lbl_Type"]</label>
                                 <select class="form-select" name="Type" data-filter-type>
-                                    <option value="Expense" selected="@(transaction.Type == TransactionType.Expense ? "selected" : null)">@Localizer["Lbl_Expense"]</option>
-                                    <option value="Income" selected="@(transaction.Type == TransactionType.Income ? "selected" : null)">@Localizer["Lbl_Income"]</option>
+                                    @foreach (var type in transactionTypes)
+                                    {
+                                        <option value="@type" selected="@(transaction.Type == type ? "selected" : null)">@Localizer[type.LabelKey()]</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -277,23 +290,18 @@
                         <div class="mb-3">
                             <label class="form-label small">@Localizer["Lbl_Category"] <span class="text-danger">*</span></label>
                             <select class="form-select" name="CategoryId" data-filter-category>
-                                @if (Model.Categories.Any(c => c.Type == TransactionType.Expense))
+                                @foreach (var type in transactionTypes)
                                 {
-                                    <optgroup label="@Localizer["Dash_Expenses"]" data-group-type="Expense">
-                                        @foreach (var category in Model.Categories.Where(c => c.Type == TransactionType.Expense))
-                                        {
-                                            <option value="@category.Id" selected="@(category.Id == transaction.CategoryId ? "selected" : null)">@category.Name</option>
-                                        }
-                                    </optgroup>
-                                }
-                                @if (Model.Categories.Any(c => c.Type == TransactionType.Income))
-                                {
-                                    <optgroup label="@Localizer["Dash_Income"]" data-group-type="Income">
-                                        @foreach (var category in Model.Categories.Where(c => c.Type == TransactionType.Income))
-                                        {
-                                            <option value="@category.Id" selected="@(category.Id == transaction.CategoryId ? "selected" : null)">@category.Name</option>
-                                        }
-                                    </optgroup>
+                                    var typeCategories = Model.Categories.Where(c => c.Type == type).ToList();
+                                    if (typeCategories.Count > 0)
+                                    {
+                                        <optgroup label="@typeGroupLabels[type]" data-group-type="@type">
+                                            @foreach (var category in typeCategories)
+                                            {
+                                                <option value="@category.Id" selected="@(category.Id == transaction.CategoryId ? "selected" : null)">@category.Name</option>
+                                            }
+                                        </optgroup>
+                                    }
                                 }
                             </select>
                         </div>
@@ -323,7 +331,7 @@
                     <p class="mb-1">@Localizer["Trans_DeleteConfirm"]</p>
                     <div class="mt-2 p-2 rounded bg-body-tertiary">
                         <p class="mb-0 fw-medium text-body">@(transaction.Description ?? Localizer["Trans_NoDescription"].Value)</p>
-                        <p class="mb-0 @(transaction.Type == TransactionType.Income ? "text-green" : "text-red")">@(transaction.Type == TransactionType.Income ? "+" : "-")@transaction.Amount.ToString("C", culture)</p>
+                        <p class="mb-0 @transaction.Type.TextClass()">@transaction.Type.AmountSign()@transaction.Amount.ToString("C", culture)</p>
                     </div>
                 </div>
                 <div class="modal-footer">

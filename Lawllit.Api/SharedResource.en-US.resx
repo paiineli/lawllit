@@ -35,6 +35,7 @@
 	<data name="Filter_All" xml:space="preserve"><value>All</value></data>
 	<data name="Lbl_Income" xml:space="preserve"><value>Income</value></data>
 	<data name="Lbl_Expense" xml:space="preserve"><value>Expense</value></data>
+	<data name="Lbl_Investment" xml:space="preserve"><value>Investment</value></data>
 	<data name="Lbl_Date" xml:space="preserve"><value>Date</value></data>
 	<data name="Lbl_Description" xml:space="preserve"><value>Description</value></data>
 	<data name="Lbl_Category" xml:space="preserve"><value>Category</value></data>
@@ -74,10 +75,11 @@
 	<data name="Home_CreateAccount" xml:space="preserve"><value>Create account</value></data>
 	<data name="Dash_Income" xml:space="preserve"><value>Income</value></data>
 	<data name="Dash_Expenses" xml:space="preserve"><value>Expenses</value></data>
+	<data name="Dash_Investments" xml:space="preserve"><value>Investments</value></data>
 	<data name="Dash_Balance" xml:space="preserve"><value>Monthly balance</value></data>
 	<data name="Dash_ExpensesByCategory" xml:space="preserve"><value>Expenses by category — top 5</value></data>
 	<data name="Dash_NoExpenses" xml:space="preserve"><value>No expenses this month</value></data>
-	<data name="Dash_IncomeVsExpenses" xml:space="preserve"><value>Income vs Expenses — last 6 months</value></data>
+	<data name="Dash_IncomeVsExpenses" xml:space="preserve"><value>Income, Expenses and Investments — last 6 months</value></data>
 	<data name="Dash_Projection" xml:space="preserve"><value>Monthly projection</value></data>
 	<data name="Dash_PaceWithDays" xml:space="preserve"><value>At current pace with {0} days recorded</value></data>
 	<data name="Dash_NoProjection" xml:space="preserve"><value>No projection data</value></data>

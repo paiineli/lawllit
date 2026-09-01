@@ -17,6 +17,8 @@
                class="filter-btn @(Model.FilterType == "Expense" ? "active" : "")">@Localizer["Dash_Expenses"]</a>
             <a href="@Url.Action("Index", new { type = "Income", search = Model.FilterSearch })"
                class="filter-btn @(Model.FilterType == "Income" ? "active" : "")">@Localizer["Dash_Income"]</a>
+            <a href="@Url.Action("Index", new { type = "Investment", search = Model.FilterSearch })"
+               class="filter-btn @(Model.FilterType == "Investment" ? "active" : "")">@Localizer["Dash_Investments"]</a>
         </div>
         <input type="search" class="form-control form-control-sm search-input ms-auto"
                placeholder="@Localizer["Search_Placeholder"]" value="@Model.FilterSearch" data-live-search>
@@ -50,8 +52,8 @@
                         <tr data-search-row>
                             <td class="fw-medium">@category.Name</td>
                             <td>
-                                <span class="@(category.Type == TransactionType.Income ? "badge-income" : "badge-expense")">
-                                    @(category.Type == TransactionType.Income ? Localizer["Lbl_Income"].Value : Localizer["Lbl_Expense"].Value)
+                                <span class="@category.Type.BadgeClass()">
+                                    @Localizer[category.Type.LabelKey()]
                                 </span>
                             </td>
                             <td>
@@ -98,6 +100,7 @@
                         <select class="form-select" name="Type">
                             <option value="Expense">@Localizer["Lbl_Expense"]</option>
                             <option value="Income">@Localizer["Lbl_Income"]</option>
+                            <option value="Investment">@Localizer["Lbl_Investment"]</option>
                         </select>
                     </div>
                 </div>
@@ -131,6 +134,7 @@
                             <select class="form-select" name="Type">
                                 <option value="Expense" selected="@(category.Type == TransactionType.Expense ? "selected" : null)">@Localizer["Lbl_Expense"]</option>
                                 <option value="Income" selected="@(category.Type == TransactionType.Income ? "selected" : null)">@Localizer["Lbl_Income"]</option>
+                                <option value="Investment" selected="@(category.Type == TransactionType.Investment ? "selected" : null)">@Localizer["Lbl_Investment"]</option>
                             </select>
                         </div>
                     </div>
@@ -155,8 +159,8 @@
                     <div class="mt-2 p-2 rounded bg-body-tertiary">
                         <p class="mb-1 fw-medium text-body">@category.Name</p>
                         <p class="mb-0">
-                            <span class="@(category.Type == TransactionType.Income ? "badge-income" : "badge-expense")">
-                                @(category.Type == TransactionType.Income ? Localizer["Lbl_Income"].Value : Localizer["Lbl_Expense"].Value)
+                            <span class="@category.Type.BadgeClass()">
+                                @Localizer[category.Type.LabelKey()]
                             </span>
                         </p>
                     </div>

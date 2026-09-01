@@ -27,6 +27,7 @@ public class TransactionService(ITransactionRepository transactionRepository, IC
             FilterYear = selectedYear,
             TotalIncome = transactions.Where(t => t.Type == TransactionType.Income).Sum(t => t.Amount),
             TotalExpenses = transactions.Where(t => t.Type == TransactionType.Expense).Sum(t => t.Amount),
+            TotalInvestments = transactions.Where(t => t.Type == TransactionType.Investment).Sum(t => t.Amount),
             PendingRecurringCount = pendingRecurringCount,
         };
     }

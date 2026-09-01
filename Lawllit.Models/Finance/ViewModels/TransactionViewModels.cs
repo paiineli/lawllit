@@ -12,6 +12,7 @@ public class TransactionListViewModel
     public int FilterYear { get; set; }
     public decimal TotalIncome { get; set; }
     public decimal TotalExpenses { get; set; }
+    public decimal TotalInvestments { get; set; }
     public int PendingRecurringCount { get; set; }
 
     public bool HasActiveFilters => !string.IsNullOrEmpty(FilterType) || !string.IsNullOrEmpty(FilterSearch);

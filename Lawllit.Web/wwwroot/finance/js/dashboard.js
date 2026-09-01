@@ -6,7 +6,7 @@ const fontFamily = { family: 'JetBrains Mono', size: 11 };
 
 function initDashboard(data) {
     if (data.categories.length > 0) buildPieChart(data.categories, data.othersLabel, data.currencySymbol, data.currencyLocale);
-    buildBarChart(data.trend, data.months, data.incomeLabel, data.expensesLabel, data.currencySymbol, data.currencyLocale);
+    buildBarChart(data);
 }
 
 function buildPieChart(categoryData, othersLabel, currencySymbol, currencyLocale) {
@@ -27,35 +27,33 @@ function buildPieChart(categoryData, othersLabel, currencySymbol, currencyLocale
     });
 }
 
-function buildBarChart(trendData, months, incomeLabel, expensesLabel, currencySymbol, currencyLocale) {
+function buildBarChart(data) {
+    const trendData = data.trend;
     if (!trendData || !trendData.length) return;
 
-    const labels = trendData.map(trend => months[trend.month - 1].slice(0, 3) + '/' + String(trend.year).slice(-2));
-    const incomes = trendData.map(trend => trend.income);
-    const expenses = trendData.map(trend => trend.expenses);
+    const currencySymbol = data.currencySymbol;
+    const currencyLocale = data.currencyLocale;
+    const labels = trendData.map(trend => data.months[trend.month - 1].slice(0, 3) + '/' + String(trend.year).slice(-2));
+
+    // Verde receita, vermelho despesa, azul investimento, mesmas cores dos cards do topo.
+    const series = [
+        { label: data.incomeLabel, key: 'income', fill: 'rgba(74, 222, 128, 0.7)', border: '#4ade80' },
+        { label: data.expensesLabel, key: 'expenses', fill: 'rgba(248, 113, 113, 0.7)', border: '#f87171' },
+        { label: data.investmentsLabel, key: 'investments', fill: 'rgba(96, 165, 250, 0.7)', border: '#60a5fa' },
+    ];
 
     new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: {
             labels,
-            datasets: [
-                {
-                    label: incomeLabel,
-                    data: incomes,
-                    backgroundColor: 'rgba(74, 222, 128, 0.7)',
-                    borderColor: '#4ade80',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                },
-                {
-                    label: expensesLabel,
-                    data: expenses,
-                    backgroundColor: 'rgba(248, 113, 113, 0.7)',
-                    borderColor: '#f87171',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                },
-            ],
+            datasets: series.map(serie => ({
+                label: serie.label,
+                data: trendData.map(trend => trend[serie.key]),
+                backgroundColor: serie.fill,
+                borderColor: serie.border,
+                borderWidth: 1,
+                borderRadius: 4,
+            })),
         },
         options: {
             responsive: true,

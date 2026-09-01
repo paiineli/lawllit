@@ -6,6 +6,7 @@ public class DashboardViewModel
     public int Year { get; set; }
     public decimal TotalIncome { get; set; }
     public decimal TotalExpenses { get; set; }
+    public decimal TotalInvestments { get; set; }
     public decimal Balance { get; set; }
     public decimal UpcomingExpenses { get; set; }
     public List<CategorySummary> ExpensesByCategory { get; set; } = [];

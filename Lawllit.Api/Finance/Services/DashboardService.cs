@@ -37,6 +37,7 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
             Year = selectedYear,
             TotalIncome = summary.TotalIncome,
             TotalExpenses = summary.TotalExpenses,
+            TotalInvestments = summary.TotalInvestments,
             Balance = summary.Balance,
             ExpensesByCategory = summary.ExpensesByCategory,
             MonthlyTrend = monthlyTrend,

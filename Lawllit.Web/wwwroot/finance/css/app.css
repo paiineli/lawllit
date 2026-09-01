@@ -17,6 +17,8 @@ body {
     --green-dim: rgba(74, 222, 128, 0.20);
     --red: #f87171;
     --red-dim: rgba(248, 113, 113, 0.12);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96, 165, 250, 0.16);
     --bs-body-bg: #000;
     --bs-body-color: #e5e7eb;
     --bs-card-bg: #111111;
@@ -140,6 +142,10 @@ body {
     color: var(--red) !important;
 }
 
+.text-blue {
+    color: var(--blue) !important;
+}
+
 .form-control:focus,
 .form-select:focus {
     border-color: var(--green) !important;
@@ -191,6 +197,17 @@ body {
     background-color: var(--red-dim);
     color: var(--red);
     border: 1px solid rgba(248, 113, 113, .25);
+    font-weight: 500;
+}
+
+.badge-investment {
+    display: inline-block;
+    padding: .25em .55em;
+    font-size: .75rem;
+    border-radius: .35rem;
+    background-color: var(--blue-dim);
+    color: var(--blue);
+    border: 1px solid rgba(96, 165, 250, .30);
     font-weight: 500;
 }
 
@@ -458,6 +475,8 @@ body {
     --bs-emphasis-color: #000000;
     --bs-danger: #ef4444;
     --bs-danger-rgb: 239, 68, 68;
+    --blue: #2563eb;
+    --blue-dim: rgba(37, 99, 235, 0.12);
 }
 
     [data-theme="light"] .navbar {
@@ -511,6 +530,8 @@ body {
     --green-dim: rgba(0, 255, 106, 0.20);
     --red: #ff4d4d;
     --red-dim: rgba(255, 77, 77, 0.15);
+    --blue: #4dc4ff;
+    --blue-dim: rgba(77, 196, 255, 0.20);
     --bs-success: #00ff6a;
     --bs-success-rgb: 0, 255, 106;
 }

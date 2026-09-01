@@ -10,7 +10,7 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
 {
     private NpgsqlConnection CreateConnection() => new(connectionString);
 
-    private sealed record MonthTotals(decimal TotalIncome, decimal TotalExpenses);
+    private sealed record MonthTotals(decimal TotalIncome, decimal TotalExpenses, decimal TotalInvestments);
 
     private const string TransactionWithCategorySelect = """
         SELECT
@@ -88,7 +88,8 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
         const string totalsSql = """
             SELECT
                 COALESCE(SUM(CASE WHEN "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS TotalIncome,
-                COALESCE(SUM(CASE WHEN "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS TotalExpenses
+                COALESCE(SUM(CASE WHEN "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS TotalExpenses,
+                COALESCE(SUM(CASE WHEN "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS TotalInvestments
             FROM "Transactions"
             WHERE "UserId"                          = @UserId
               AND EXTRACT(MONTH FROM "Date")        = @Month
@@ -113,7 +114,10 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
         var totals = await connection.QueryFirstAsync<MonthTotals>(totalsSql, queryParams);
         var byCategory = (await connection.QueryAsync<CategorySummary>(categoryBreakdownSql, queryParams)).ToList();
 
-        return new MonthlySummary(month, year, totals.TotalIncome, totals.TotalExpenses, totals.TotalIncome - totals.TotalExpenses, byCategory);
+        // Investimento sai do caixa do mês igual a uma despesa, então abate do saldo disponível.
+        var balance = totals.TotalIncome - totals.TotalExpenses - totals.TotalInvestments;
+
+        return new MonthlySummary(month, year, totals.TotalIncome, totals.TotalExpenses, totals.TotalInvestments, balance, byCategory);
     }
 
     public async Task<decimal> GetUpcomingExpensesAsync(Guid userId, int month, int year)
@@ -199,7 +203,8 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
                 EXTRACT(MONTH FROM "Date")::int AS Month,
                 EXTRACT(YEAR  FROM "Date")::int AS Year,
                 COALESCE(SUM(CASE WHEN "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS Income,
-                COALESCE(SUM(CASE WHEN "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS Expenses
+                COALESCE(SUM(CASE WHEN "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS Expenses,
+                COALESCE(SUM(CASE WHEN "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS Investments
             FROM "Transactions"
             WHERE "UserId"   = @UserId
               AND "Date"    >= @StartDate
@@ -214,7 +219,7 @@ public class TransactionRepository(string connectionString) : ITransactionReposi
         return months
             .Select(m => rawData.TryGetValue((m.Month, m.Year), out var trend)
                 ? trend
-                : new MonthlyTrend(m.Month, m.Year, 0, 0))
+                : new MonthlyTrend(m.Month, m.Year, 0, 0, 0))
             .ToList();
     }
 

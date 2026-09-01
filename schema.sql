@@ -33,7 +33,7 @@ CREATE UNIQUE INDEX "IX_Users_GoogleId" ON "Users" ("GoogleId") WHERE "GoogleId"
 CREATE TABLE "Categories" (
     "Id"        UUID            NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     "Name"      VARCHAR(100)    NOT NULL,
-    "Type"      INTEGER         NOT NULL,   -- 0 = Income, 1 = Expense
+    "Type"      INTEGER         NOT NULL,   -- 0 = Income, 1 = Expense, 2 = Investment
     "UserId"    UUID            NOT NULL REFERENCES "Users" ("Id") ON DELETE CASCADE
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE "Transactions" (
     "Id"            UUID            NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
     "Description"   VARCHAR(200),
     "Amount"        NUMERIC(18, 2)  NOT NULL,
-    "Type"          INTEGER         NOT NULL,   -- 0 = Income, 1 = Expense
+    "Type"          INTEGER         NOT NULL,   -- 0 = Income, 1 = Expense, 2 = Investment
     "Date"          TIMESTAMPTZ     NOT NULL,
     "IsRecurring"   BOOLEAN         NOT NULL DEFAULT FALSE,
     "CreatedAt"     TIMESTAMPTZ     NOT NULL DEFAULT NOW(),

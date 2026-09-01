@@ -44,19 +44,19 @@
     </div>
 
     <div class="row g-3 mb-3">
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-6 col-xl-3">
             <div class="card h-100">
                 <div class="card-body">
                     <p class="small text-secondary text-uppercase mb-2">
                         <i class="bi bi-graph-up-arrow me-1"></i>@Localizer["Dash_Income"]
                     </p>
-                    <p class="card-value text-green">
+                    <p class="card-value text-green mb-0">
                         @Model.TotalIncome.ToString("C", culture)
                     </p>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-6 col-xl-3">
             <div class="card h-100">
                 <div class="card-body">
                     <p class="small text-secondary text-uppercase mb-2">
@@ -68,7 +68,19 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-piggy-bank me-1"></i>@Localizer["Dash_Investments"]
+                    </p>
+                    <p class="card-value text-blue mb-0">
+                        @Model.TotalInvestments.ToString("C", culture)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
             <div class="card h-100">
                 <div class="card-body">
                     <p class="small text-secondary text-uppercase mb-2">
@@ -245,9 +257,10 @@
     <script type="application/json" id="dashboardData">
         @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new {
             categories = Model.ExpensesByCategory.Select(c => new { label = c.CategoryName, value = (double)c.Total }),
-                                                                        trend = Model.MonthlyTrend.Select(t => new { month = t.Month, year = t.Year, income = (double)t.Income, expenses = (double)t.Expenses }),
+                                                                        trend = Model.MonthlyTrend.Select(t => new { month = t.Month, year = t.Year, income = (double)t.Income, expenses = (double)t.Expenses, investments = (double)t.Investments }),
                                                                         incomeLabel = Localizer["Lbl_Income"].Value,
                                                                         expensesLabel = Localizer["Lbl_Expense"].Value,
+                                                                        investmentsLabel = Localizer["Lbl_Investment"].Value,
                                                                         othersLabel = Localizer["Dash_Others"].Value,
                                                                         months = monthNames,
                                                                         currencySymbol,
