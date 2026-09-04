@@ -1,0 +1,43 @@
+@model PaginationViewMOD
+@{
+    if (Model.TotalPages <= 1) { return; }
+
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "Index";
+
+    // Janela de no máximo cinco páginas em volta da atual, para o rodapé não crescer sem fim.
+    const int windowSize = 5;
+    var firstPage = Math.Max(1, Model.CurrentPage - windowSize / 2);
+    var lastPage = Math.Min(Model.TotalPages, firstPage + windowSize - 1);
+    firstPage = Math.Max(1, lastPage - windowSize + 1);
+
+    string PageUrl(int pageNumber)
+    {
+        var routeValues = new Dictionary<string, object?>(Model.RouteValues) { ["page"] = pageNumber };
+        return Url.Action(currentAction, routeValues)!;
+    }
+}
+
+<nav class="d-flex justify-content-center mt-3">
+    <ul class="pagination pagination-sm mb-0">
+
+        <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : "")">
+            <a class="page-link" href="@PageUrl(Model.CurrentPage - 1)" aria-label="@Localizer["Page_Previous"]">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        </li>
+
+        @for (var pageNumber = firstPage; pageNumber <= lastPage; pageNumber++)
+        {
+            <li class="page-item @(pageNumber == Model.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@PageUrl(pageNumber)">@pageNumber</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" href="@PageUrl(Model.CurrentPage + 1)" aria-label="@Localizer["Page_Next"]">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+
+    </ul>
+</nav>

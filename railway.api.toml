@@ -1,0 +1,12 @@
+# Config do serviço da API na Railway.
+# No painel do serviço, aponte Settings > Config as code para este arquivo.
+# A API não deve ter domínio público, o Site fala com ela pela rede privada.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Lawllit.Api/Dockerfile"
+watchPatterns = ["Lawllit.Api/**", "Lawllit.Model/**", "Directory.*.props", "NuGet.config", "global.json"]
+
+[deploy]
+healthcheckPath = "/health"
+restartPolicyType = "ON_FAILURE"

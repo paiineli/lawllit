@@ -1,24 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Lawllit.Api</RootNamespace>
+    <UserSecretsId>lawllit-api-8f3c1a52-4d6b-4c1e-9a77-2b5e0d9c4471</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="BCrypt.Net-Next" />
+    <PackageReference Include="Dapper" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Npgsql" />
+    <PackageReference Include="Scalar.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
-    <PackageReference Include="Dapper" Version="2.1.66" />
-    <PackageReference Include="Npgsql" Version="9.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Lawllit.Models\Lawllit.Models.csproj" />
+    <ProjectReference Include="..\Lawllit.Model\Lawllit.Model.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,20 @@
+<Project>
+
+  <!-- Central Package Management. A versão de cada pacote é declarada uma única vez aqui
+       e os .csproj referenciam só o nome, sem Version. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="BCrypt.Net-Next" Version="4.2.1" />
+    <PackageVersion Include="Dapper" Version="2.1.79" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.Extensions.Localization.Abstractions" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageVersion Include="Npgsql" Version="10.0.3" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.17.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,23 +1,33 @@
-# Build output
-bin/
-obj/
-publish/
-
-# Claude Code
-.claude/
-
-# IDE
+## Visual Studio / IDE
 .vs/
 .idea/
 *.user
 *.suo
+*.userosscache
+*.sln.docstates
+*.slnLaunch.user
 *.DotSettings.user
 
-# .NET local tools
-.dotnet/
-*.nupkg
+## Claude Code
+.claude/
 
-# Secrets and environment
+## Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+## NuGet
+*.nupkg
+.dotnet/
+
+## Publicação
+*.publishsettings
+*.pubxml.user
+PublishProfiles/*.user
+
+## Segredos e ambiente
 secrets.json
 appsettings.*.local.json
 appsettings.Production.json
@@ -26,18 +36,21 @@ appsettings.Development.json
 .env.*
 !.env.example
 
-# Certificates and keys
+## Certificados e chaves
 *.pfx
 *.p12
 *.key
 *.pem
 *.cer
 
-# Logs
+## Logs, cache e temporários
 logs/
 *.log
+*.cache
+*.tmp
+*.bak
 
-# OS
+## OS
 .DS_Store
 Thumbs.db
 desktop.ini

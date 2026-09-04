@@ -1,37 +1,39 @@
-using Lawllit.Api.Finance.Repositories.Interfaces;
-using Lawllit.Api.Finance.Services.Interfaces;
-using Lawllit.Models.Finance.ViewModels;
+using Lawllit.Api.Finance.Repositories;
+using Lawllit.Model.Finance.Contracts;
 
 namespace Lawllit.Api.Finance.Services;
 
-public class DashboardService(ITransactionRepository transactionRepository) : IDashboardService
+public sealed class DashboardService(ITransactionREP transactionRepository) : IDashboardService
 {
-    public async Task<DashboardViewModel> BuildDashboardAsync(Guid userId, int? requestedMonth, int? requestedYear)
+    private const int TrendMonthCount = 6;
+
+    public async Task<DashboardMOD> BuildAsync(Guid userId, int? requestedMonth, int? requestedYear, CancellationToken cancellationToken)
     {
         var now = DateTime.Now;
         var selectedMonth = requestedMonth ?? now.Month;
         var selectedYear = requestedYear ?? now.Year;
 
-        var summary = await transactionRepository.GetSummaryAsync(userId, selectedMonth, selectedYear);
-        var monthlyTrend = await transactionRepository.GetMonthlyTrendAsync(userId, selectedMonth, selectedYear);
-        var upcomingExpenses = await transactionRepository.GetUpcomingExpensesAsync(userId, selectedMonth, selectedYear);
+        var summary = await transactionRepository.GetSummaryAsync(userId, selectedMonth, selectedYear, cancellationToken);
+        var monthlyTrend = await transactionRepository.GetMonthlyTrendAsync(userId, selectedMonth, selectedYear, TrendMonthCount, cancellationToken);
+        var upcomingExpenses = await transactionRepository.GetUpcomingExpensesAsync(userId, selectedMonth, selectedYear, cancellationToken);
 
-        bool isCurrentMonth = selectedMonth == now.Month && selectedYear == now.Year;
-        int daysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
-        int daysDone = isCurrentMonth ? now.Day : daysInMonth;
+        var isCurrentMonth = selectedMonth == now.Month && selectedYear == now.Year;
+        var daysInMonth = DateTime.DaysInMonth(selectedYear, selectedMonth);
+        var daysDone = isCurrentMonth ? now.Day : daysInMonth;
 
-        decimal pastExpenses = isCurrentMonth ? summary.TotalExpenses - upcomingExpenses : summary.TotalExpenses;
-        decimal dailyAverage = pastExpenses > 0 ? pastExpenses / daysDone : 0;
-        decimal? monthlyProjection = isCurrentMonth && pastExpenses > 0
-            ? (pastExpenses / daysDone) * daysInMonth
-            : null;
+        // No mês corrente a média diária só conta o que já venceu, senão despesa
+        // agendada para o fim do mês inflaria a média e a projeção.
+        var pastExpenses = isCurrentMonth ? summary.TotalExpenses - upcomingExpenses : summary.TotalExpenses;
+        var dailyAverage = pastExpenses > 0 ? pastExpenses / daysDone : 0;
 
-        int previousMonth = selectedMonth == 1 ? 12 : selectedMonth - 1;
-        int previousYear = selectedMonth == 1 ? selectedYear - 1 : selectedYear;
-        int nextMonth = selectedMonth == 12 ? 1 : selectedMonth + 1;
-        int nextYear = selectedMonth == 12 ? selectedYear + 1 : selectedYear;
+        var monthlyProjection = isCurrentMonth && pastExpenses > 0
+            ? pastExpenses / daysDone * daysInMonth
+            : (decimal?)null;
 
-        return new DashboardViewModel
+        var previousMonthDate = new DateTime(selectedYear, selectedMonth, 1).AddMonths(-1);
+        var nextMonthDate = new DateTime(selectedYear, selectedMonth, 1).AddMonths(1);
+
+        return new DashboardMOD
         {
             Month = selectedMonth,
             Year = selectedYear,
@@ -47,11 +49,20 @@ public class DashboardService(ITransactionRepository transactionRepository) : ID
             DaysDone = daysDone,
             DailyAverage = dailyAverage,
             MonthlyProjection = monthlyProjection,
-            PreviousMonth = previousMonth,
-            PreviousYear = previousYear,
-            NextMonth = nextMonth,
-            NextYear = nextYear,
+            PreviousMonth = previousMonthDate.Month,
+            PreviousYear = previousMonthDate.Year,
+            NextMonth = nextMonthDate.Month,
+            NextYear = nextMonthDate.Year,
             CanGoToNextMonth = !isCurrentMonth,
         };
     }
 }
+
+#region Interfaces
+
+public interface IDashboardService
+{
+    Task<DashboardMOD> BuildAsync(Guid userId, int? requestedMonth, int? requestedYear, CancellationToken cancellationToken);
+}
+
+#endregion

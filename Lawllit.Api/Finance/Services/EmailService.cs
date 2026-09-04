@@ -1,7 +1,6 @@
-using Lawllit.Api.Finance.Services.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Lawllit.Model.Common;
+using Lawllit.Model.Finance;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
@@ -9,89 +8,94 @@ using System.Text.Json;
 
 namespace Lawllit.Api.Finance.Services;
 
-public class EmailService(
-    IConfiguration config,
+public sealed class EmailService(
+    IConfiguration configuration,
     ILogger<EmailService> logger,
     IStringLocalizerFactory localizerFactory,
     IHttpClientFactory httpClientFactory) : IEmailService
 {
-    public async Task SendConfirmationEmailAsync(string toEmail, string toName, string confirmationUrl, string language)
+    private const string BrevoEndpoint = "https://api.brevo.com/v3/smtp/email";
+
+    public Task SendConfirmationEmailAsync(UserMOD user, string confirmationUrl, CancellationToken cancellationToken)
     {
-        var localizer = CreateLocalizer(language);
-        var subject = localizer["Email_Confirm_Subject"].Value;
+        var localizer = CreateLocalizer(user.Language);
+
         var body = BuildEmailBody(
             heading: localizer["Email_Confirm_Heading"].Value,
-            greeting: string.Format(localizer["Email_Confirm_Greeting"].Value, toName),
+            greeting: string.Format(localizer["Email_Confirm_Greeting"].Value, user.Name),
             actionUrl: confirmationUrl,
             actionLabel: localizer["Email_Confirm_ActionLabel"].Value,
             footerLine1: localizer["Email_Confirm_Footer1"].Value,
             footerLine2: localizer["Email_Confirm_Footer2"].Value,
-            language: language
-        );
+            language: user.Language);
 
-        await SendEmailAsync(toEmail, subject, body);
+        return SendAsync(user.Email, localizer["Email_Confirm_Subject"].Value, body, cancellationToken);
     }
 
-    public async Task SendPasswordResetEmailAsync(string toEmail, string toName, string resetUrl, string language)
+    public Task SendPasswordResetEmailAsync(UserMOD user, string resetUrl, CancellationToken cancellationToken)
     {
-        var localizer = CreateLocalizer(language);
-        var subject = localizer["Email_Reset_Subject"].Value;
+        var localizer = CreateLocalizer(user.Language);
+
         var body = BuildEmailBody(
             heading: localizer["Email_Reset_Heading"].Value,
-            greeting: string.Format(localizer["Email_Reset_Greeting"].Value, toName),
+            greeting: string.Format(localizer["Email_Reset_Greeting"].Value, user.Name),
             actionUrl: resetUrl,
             actionLabel: localizer["Email_Reset_ActionLabel"].Value,
             footerLine1: localizer["Email_Reset_Footer1"].Value,
             footerLine2: localizer["Email_Reset_Footer2"].Value,
-            language: language
-        );
+            language: user.Language);
 
-        await SendEmailAsync(toEmail, subject, body);
+        return SendAsync(user.Email, localizer["Email_Reset_Subject"].Value, body, cancellationToken);
     }
 
+    // O e-mail sai no idioma do destinatário, não no da requisição que disparou o envio.
     private IStringLocalizer CreateLocalizer(string language)
     {
         CultureInfo.CurrentUICulture = new CultureInfo(language);
         return localizerFactory.Create(typeof(SharedResource));
     }
 
-    private async Task SendEmailAsync(string toEmail, string subject, string htmlBody)
+    private async Task SendAsync(string toEmail, string subject, string htmlBody, CancellationToken cancellationToken)
     {
-        var fromRaw = config["Email:From"]!;
-        var fromName = fromRaw.Contains('<') ? fromRaw[..fromRaw.LastIndexOf('<')].Trim() : fromRaw;
-        var fromEmail = fromRaw.Contains('<') ? fromRaw[(fromRaw.LastIndexOf('<') + 1)..].TrimEnd('>').Trim() : fromRaw;
+        var senderRaw = configuration["Email:From"]
+            ?? throw new InvalidOperationException("Email__From não configurado no ambiente.");
+
+        var hasDisplayName = senderRaw.Contains('<');
+        var senderName = hasDisplayName ? senderRaw[..senderRaw.LastIndexOf('<')].Trim() : senderRaw;
+        var senderEmail = hasDisplayName ? senderRaw[(senderRaw.LastIndexOf('<') + 1)..].TrimEnd('>').Trim() : senderRaw;
 
         var payload = JsonSerializer.Serialize(new
         {
-            sender = new { name = fromName, email = fromEmail },
+            sender = new { name = senderName, email = senderEmail },
             to = new[] { new { email = toEmail } },
             subject,
-            htmlContent = htmlBody
+            htmlContent = htmlBody,
         });
 
-        try
-        {
-            using var client = httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Add("api-key", config["Email:BrevoApiKey"]!);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        using var httpClient = httpClientFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Add("api-key", configuration["Email:BrevoApiKey"]
+            ?? throw new InvalidOperationException("Email__BrevoApiKey não configurada no ambiente."));
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            using var content = new StringContent(payload, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("https://api.brevo.com/v3/smtp/email", content);
+        using var content = new StringContent(payload, Encoding.UTF8, "application/json");
+        using var response = await httpClient.PostAsync(BrevoEndpoint, content, cancellationToken);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new InvalidOperationException($"Brevo API error {(int)response.StatusCode}: {error}");
-            }
-        }
-        catch (Exception exception)
-        {
-            logger.LogError(exception, "Failed to send email to {Email} with subject {Subject}", toEmail, subject);
-            throw;
-        }
+        if (response.IsSuccessStatusCode) return;
+
+        var errorBody = await response.Content.ReadAsStringAsync(cancellationToken);
+        logger.LogError("Brevo recusou o envio para {Email}. Status {Status}. Corpo {Body}", toEmail, (int)response.StatusCode, errorBody);
+
+        throw new InvalidOperationException($"Brevo respondeu {(int)response.StatusCode} ao enviar o e-mail.");
     }
 
-    private static string BuildEmailBody(string heading, string greeting, string actionUrl, string actionLabel, string footerLine1, string footerLine2, string language)
+    private static string BuildEmailBody(
+        string heading,
+        string greeting,
+        string actionUrl,
+        string actionLabel,
+        string footerLine1,
+        string footerLine2,
+        string language)
         => $"""
             <!DOCTYPE html>
             <html lang="{language}">
@@ -142,3 +146,13 @@ public class EmailService(
             </html>
             """;
 }
+
+#region Interfaces
+
+public interface IEmailService
+{
+    Task SendConfirmationEmailAsync(UserMOD user, string confirmationUrl, CancellationToken cancellationToken);
+    Task SendPasswordResetEmailAsync(UserMOD user, string resetUrl, CancellationToken cancellationToken);
+}
+
+#endregion

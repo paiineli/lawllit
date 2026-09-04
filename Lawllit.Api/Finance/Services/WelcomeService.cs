@@ -1,21 +1,23 @@
-using Lawllit.Api.Finance.Repositories.Interfaces;
-using Lawllit.Api.Finance.Services.Interfaces;
-using Lawllit.Models.Finance;
-using Lawllit.Models.Finance.ViewModels;
+using Lawllit.Api.Finance.Repositories;
+using Lawllit.Model.Common;
+using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contracts;
 
 namespace Lawllit.Api.Finance.Services;
 
-public class WelcomeService(IUserRepository userRepository) : IWelcomeService
+public sealed class WelcomeService(IUserREP userRepository) : IWelcomeService
 {
-    public async Task<WelcomeViewModel?> GetWelcomeViewModelAsync(Guid userId, int step)
-    {
-        var user = await userRepository.GetByIdAsync(userId);
-        if (user is null)
-            return null;
+    private const int FirstStep = 1;
+    private const int LastStep = 4;
 
-        return new WelcomeViewModel
+    public async Task<WelcomeMOD?> GetAsync(Guid userId, int step, CancellationToken cancellationToken)
+    {
+        var user = await userRepository.GetByIdAsync(userId, cancellationToken);
+        if (user is null) return null;
+
+        return new WelcomeMOD
         {
-            CurrentStep = Math.Clamp(step, 1, 4),
+            CurrentStep = Math.Clamp(step, FirstStep, LastStep),
             UserName = user.Name,
             Language = user.Language,
             Currency = user.Currency,
@@ -24,14 +26,25 @@ public class WelcomeService(IUserRepository userRepository) : IWelcomeService
         };
     }
 
-    public async Task<Result<User>> CompleteOnboardingAsync(Guid userId)
+    public async Task<Result<UserMOD>> CompleteAsync(Guid userId, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByIdAsync(userId);
+        var user = await userRepository.GetByIdAsync(userId, cancellationToken);
         if (user is null)
-            return Result<User>.Failure("Msg_OperationNotAllowed");
+            return Result<UserMOD>.Failure("Msg_OperationNotAllowed");
 
         user.IsOnboardingCompleted = true;
-        await userRepository.UpdateAsync(user);
-        return Result<User>.Success(user);
+        await userRepository.UpdateAsync(user, cancellationToken);
+
+        return Result<UserMOD>.Success(user);
     }
 }
+
+#region Interfaces
+
+public interface IWelcomeService
+{
+    Task<WelcomeMOD?> GetAsync(Guid userId, int step, CancellationToken cancellationToken);
+    Task<Result<UserMOD>> CompleteAsync(Guid userId, CancellationToken cancellationToken);
+}
+
+#endregion

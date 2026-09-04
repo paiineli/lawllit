@@ -1,73 +1,77 @@
-using Lawllit.Api.Finance.Repositories.Interfaces;
-using Lawllit.Api.Finance.Services.Interfaces;
-using Lawllit.Models.Finance;
-using Lawllit.Models.Finance.ViewModels;
+using Lawllit.Api.Finance.Repositories;
+using Lawllit.Model.Common;
+using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contracts;
 
 namespace Lawllit.Api.Finance.Services;
 
-public class CategoryService(ICategoryRepository categoryRepository) : ICategoryService
+public sealed class CategoryService(ICategoryREP categoryRepository) : ICategoryService
 {
-    public async Task<CategoryListViewModel> GetListViewModelAsync(Guid userId, string? type, string? search)
+    public Task<List<CategoryMOD>> GetFilteredAsync(Guid userId, CategoryFilterMOD filter, CancellationToken cancellationToken)
+        => categoryRepository.GetFilteredAsync(userId, filter, cancellationToken);
+
+    public Task<CategoryMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken)
+        => categoryRepository.GetByIdAsync(userId, id, cancellationToken);
+
+    public async Task<Result> CreateAsync(Guid userId, CategorySaveMOD category, CancellationToken cancellationToken)
     {
-        var categories = await categoryRepository.GetAllByUserAsync(userId);
+        var name = category.Name.Trim();
 
-        if (!string.IsNullOrWhiteSpace(type) && Enum.TryParse<TransactionType>(type, out var parsedType))
-            categories = categories.Where(category => category.Type == parsedType).ToList();
-
-        if (!string.IsNullOrWhiteSpace(search))
-            categories = categories
-                .Where(category => category.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-        return new CategoryListViewModel
-        {
-            Categories = categories,
-            FilterType = type,
-            FilterSearch = search,
-        };
-    }
-
-    public async Task<Result> CreateAsync(Guid userId, CategoryFormViewModel form)
-    {
-        if (await categoryRepository.ExistsAsync(userId, form.Name, form.Type))
+        if (await categoryRepository.ExistsAsync(userId, name, category.Type, excludeId: null, cancellationToken))
             return Result.Failure("Msg_CatAlreadyExists");
 
-        await categoryRepository.AddAsync(new Category
+        await categoryRepository.AddAsync(new CategoryMOD
         {
             Id = Guid.NewGuid(),
-            Name = form.Name.Trim(),
-            Type = form.Type,
+            Name = name,
+            Type = category.Type,
             UserId = userId,
-        });
+        }, cancellationToken);
 
         return Result.Success();
     }
 
-    public async Task<Result> EditAsync(Guid userId, Guid id, CategoryFormViewModel form)
+    public async Task<Result> EditAsync(Guid userId, CategorySaveMOD category, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(userId, id);
-        if (category is null)
+        var existing = await categoryRepository.GetByIdAsync(userId, category.Id, cancellationToken);
+        if (existing is null)
             return Result.Failure("Msg_CatNotFound");
 
-        if (await categoryRepository.ExistsAsync(userId, form.Name, form.Type, excludeId: id))
+        var name = category.Name.Trim();
+
+        if (await categoryRepository.ExistsAsync(userId, name, category.Type, excludeId: category.Id, cancellationToken))
             return Result.Failure("Msg_CatAlreadyExists");
 
-        category.Name = form.Name.Trim();
-        category.Type = form.Type;
-        await categoryRepository.UpdateAsync(category);
+        existing.Name = name;
+        existing.Type = category.Type;
+        await categoryRepository.UpdateAsync(existing, cancellationToken);
+
         return Result.Success();
     }
 
-    public async Task<Result> DeleteAsync(Guid userId, Guid id)
+    public async Task<Result> DeleteAsync(Guid userId, Guid id, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(userId, id);
+        var category = await categoryRepository.GetByIdAsync(userId, id, cancellationToken);
         if (category is null)
             return Result.Failure("Msg_CatNotFound");
 
-        if (await categoryRepository.HasTransactionsAsync(userId, id))
+        if (await categoryRepository.HasTransactionsAsync(userId, id, cancellationToken))
             return Result.Failure("Msg_CatHasTransactions");
 
-        await categoryRepository.DeleteAsync(id);
+        await categoryRepository.DeleteAsync(userId, id, cancellationToken);
         return Result.Success();
     }
 }
+
+#region Interfaces
+
+public interface ICategoryService
+{
+    Task<List<CategoryMOD>> GetFilteredAsync(Guid userId, CategoryFilterMOD filter, CancellationToken cancellationToken);
+    Task<CategoryMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken);
+    Task<Result> CreateAsync(Guid userId, CategorySaveMOD category, CancellationToken cancellationToken);
+    Task<Result> EditAsync(Guid userId, CategorySaveMOD category, CancellationToken cancellationToken);
+    Task<Result> DeleteAsync(Guid userId, Guid id, CancellationToken cancellationToken);
+}
+
+#endregion

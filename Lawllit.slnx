@@ -1,5 +1,6 @@
 <Solution>
-  <Project Path="Lawllit.Models/Lawllit.Models.csproj" />
+  <Project Path="Lawllit.Model/Lawllit.Model.csproj" />
   <Project Path="Lawllit.Api/Lawllit.Api.csproj" />
-  <Project Path="Lawllit.Web/Lawllit.Web.csproj" />
+  <Project Path="Lawllit.Repository/Lawllit.Repository.csproj" />
+  <Project Path="Lawllit.Site/Lawllit.Site.csproj" />
 </Solution>

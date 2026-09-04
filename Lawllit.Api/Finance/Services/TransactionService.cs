@@ -1,113 +1,129 @@
-using Lawllit.Api.Finance.Repositories.Interfaces;
-using Lawllit.Api.Finance.Services.Interfaces;
-using Lawllit.Models.Finance;
-using Lawllit.Models.Finance.ViewModels;
+using Lawllit.Api.Finance.Repositories;
+using Lawllit.Model.Common;
+using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contracts;
 
 namespace Lawllit.Api.Finance.Services;
 
-public class TransactionService(ITransactionRepository transactionRepository, ICategoryRepository categoryRepository) : ITransactionService
+public sealed class TransactionService(
+    ITransactionREP transactionRepository,
+    ICategoryREP categoryRepository) : ITransactionService
 {
-    public async Task<TransactionListViewModel> GetListViewModelAsync(Guid userId, string? type, int? month, int? year, string? search)
+    public async Task<TransactionPageMOD> GetPageAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken)
     {
         var now = DateTime.Now;
-        var selectedMonth = month ?? now.Month;
-        var selectedYear = year ?? now.Year;
+        filter.Month ??= now.Month;
+        filter.Year ??= now.Year;
 
-        var transactions = await transactionRepository.GetFilteredAsync(userId, type, selectedMonth, selectedYear, search);
-        var categories = await categoryRepository.GetAllByUserAsync(userId);
-        var pendingRecurringCount = await transactionRepository.GetPendingRecurringCountAsync(userId, selectedMonth, selectedYear);
+        var page = await transactionRepository.GetPageAsync(userId, filter, cancellationToken);
+        var totals = await transactionRepository.GetFilteredTotalsAsync(userId, filter, cancellationToken);
+        var pendingRecurringCount = await transactionRepository.GetPendingRecurringCountAsync(userId, filter.Month.Value, filter.Year.Value, cancellationToken);
 
-        return new TransactionListViewModel
+        return new TransactionPageMOD
         {
-            Transactions = transactions,
-            Categories = categories,
-            FilterType = type,
-            FilterSearch = search,
-            FilterMonth = selectedMonth,
-            FilterYear = selectedYear,
-            TotalIncome = transactions.Where(t => t.Type == TransactionType.Income).Sum(t => t.Amount),
-            TotalExpenses = transactions.Where(t => t.Type == TransactionType.Expense).Sum(t => t.Amount),
-            TotalInvestments = transactions.Where(t => t.Type == TransactionType.Investment).Sum(t => t.Amount),
+            Page = page,
+            Month = filter.Month.Value,
+            Year = filter.Year.Value,
+            TotalIncome = totals.Income,
+            TotalExpenses = totals.Expenses,
+            TotalInvestments = totals.Investments,
             PendingRecurringCount = pendingRecurringCount,
         };
     }
 
-    public async Task<Result> CreateAsync(Guid userId, TransactionFormViewModel form)
+    public Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken)
+        => transactionRepository.GetByIdAsync(userId, id, cancellationToken);
+
+    public async Task<Result> CreateAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByIdAsync(userId, form.CategoryId);
+        var category = await categoryRepository.GetByIdAsync(userId, transaction.CategoryId, cancellationToken);
         if (category is null)
             return Result.Failure("Msg_CategoryNotFound");
 
-        await transactionRepository.AddAsync(new Transaction
+        await transactionRepository.AddAsync(new TransactionMOD
         {
             Id = Guid.NewGuid(),
-            Description = form.Description?.Trim() ?? "",
-            Amount = form.Amount,
-            Type = form.Type,
-            Date = DateTime.SpecifyKind(form.Date.Date, DateTimeKind.Utc),
+            Description = transaction.Description?.Trim() ?? string.Empty,
+            Amount = transaction.Amount,
+            Type = transaction.Type,
+            Date = DateTime.SpecifyKind(transaction.Date.Date, DateTimeKind.Utc),
             UserId = userId,
-            CategoryId = form.CategoryId,
-            IsRecurring = form.IsRecurring,
+            CategoryId = transaction.CategoryId,
+            IsRecurring = transaction.IsRecurring,
             CreatedAt = DateTime.UtcNow,
-        });
+        }, cancellationToken);
 
         return Result.Success();
     }
 
-    public async Task<Result> EditAsync(Guid userId, Guid id, TransactionFormViewModel form)
+    public async Task<Result> EditAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken)
     {
-        var transaction = await transactionRepository.GetByIdAsync(userId, id);
-        if (transaction is null)
+        var existing = await transactionRepository.GetByIdAsync(userId, transaction.Id, cancellationToken);
+        if (existing is null)
             return Result.Failure("Msg_TransNotFound");
 
-        var category = await categoryRepository.GetByIdAsync(userId, form.CategoryId);
+        var category = await categoryRepository.GetByIdAsync(userId, transaction.CategoryId, cancellationToken);
         if (category is null)
             return Result.Failure("Msg_CategoryNotFound");
 
-        transaction.Description = form.Description?.Trim() ?? "";
-        transaction.Amount = form.Amount;
-        transaction.Type = form.Type;
-        transaction.Date = DateTime.SpecifyKind(form.Date.Date, DateTimeKind.Utc);
-        transaction.CategoryId = form.CategoryId;
-        transaction.IsRecurring = form.IsRecurring;
+        existing.Description = transaction.Description?.Trim() ?? string.Empty;
+        existing.Amount = transaction.Amount;
+        existing.Type = transaction.Type;
+        existing.Date = DateTime.SpecifyKind(transaction.Date.Date, DateTimeKind.Utc);
+        existing.CategoryId = transaction.CategoryId;
+        existing.IsRecurring = transaction.IsRecurring;
 
-        await transactionRepository.UpdateAsync(transaction);
+        await transactionRepository.UpdateAsync(existing, cancellationToken);
         return Result.Success();
     }
 
-    public async Task<Result> DeleteAsync(Guid userId, Guid id)
+    public async Task<Result> DeleteAsync(Guid userId, Guid id, CancellationToken cancellationToken)
     {
-        var transaction = await transactionRepository.GetByIdAsync(userId, id);
+        var transaction = await transactionRepository.GetByIdAsync(userId, id, cancellationToken);
         if (transaction is null)
             return Result.Failure("Msg_TransNotFound");
 
-        await transactionRepository.DeleteAsync(transaction.Id);
+        await transactionRepository.DeleteAsync(userId, transaction.Id, cancellationToken);
         return Result.Success();
     }
 
-    public async Task<int> ImportRecurringTransactionsAsync(Guid userId, int month, int year)
+    public async Task<ImportRecurringResultMOD> ImportRecurringAsync(Guid userId, ImportRecurringMOD import, CancellationToken cancellationToken)
     {
-        var previousTransactions = await transactionRepository.GetRecurringForImportAsync(userId, month, year);
+        var previousTransactions = await transactionRepository.GetRecurringForImportAsync(userId, import.Month, import.Year, cancellationToken);
 
         foreach (var previousTransaction in previousTransactions)
         {
-            var dayOfMonth = Math.Min(previousTransaction.Date.Day, DateTime.DaysInMonth(year, month));
-            var newDate = DateTime.SpecifyKind(new DateTime(year, month, dayOfMonth), DateTimeKind.Utc);
+            // Dia 31 virando fevereiro cai no último dia válido do mês de destino.
+            var dayOfMonth = Math.Min(previousTransaction.Date.Day, DateTime.DaysInMonth(import.Year, import.Month));
 
-            await transactionRepository.AddAsync(new Transaction
+            await transactionRepository.AddAsync(new TransactionMOD
             {
                 Id = Guid.NewGuid(),
                 Description = previousTransaction.Description,
                 Amount = previousTransaction.Amount,
                 Type = previousTransaction.Type,
-                Date = newDate,
+                Date = DateTime.SpecifyKind(new DateTime(import.Year, import.Month, dayOfMonth), DateTimeKind.Utc),
                 UserId = userId,
                 CategoryId = previousTransaction.CategoryId,
                 IsRecurring = true,
                 CreatedAt = DateTime.UtcNow,
-            });
+            }, cancellationToken);
         }
 
-        return previousTransactions.Count;
+        return new ImportRecurringResultMOD { ImportedCount = previousTransactions.Count };
     }
 }
+
+#region Interfaces
+
+public interface ITransactionService
+{
+    Task<TransactionPageMOD> GetPageAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
+    Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken);
+    Task<Result> CreateAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken);
+    Task<Result> EditAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken);
+    Task<Result> DeleteAsync(Guid userId, Guid id, CancellationToken cancellationToken);
+    Task<ImportRecurringResultMOD> ImportRecurringAsync(Guid userId, ImportRecurringMOD import, CancellationToken cancellationToken);
+}
+
+#endregion

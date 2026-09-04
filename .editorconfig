@@ -1,0 +1,95 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.{yml,yaml,json,toml}]
+indent_size = 2
+
+[*.{md,sql}]
+indent_size = 4
+trim_trailing_whitespace = false
+
+[*.{css,js,cshtml,html}]
+indent_size = 4
+
+[*.{csproj,props,targets,config,resx}]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+
+# Organização de using
+dotnet_sort_system_directives_first = false
+dotnet_separate_import_directive_groups = false
+csharp_using_directive_placement = outside_namespace:error
+
+# Estilo da linguagem
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_prefer_braces = when_multiline:suggestion
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_throw_expression = true:suggestion
+
+dotnet_style_prefer_collection_expression = true:suggestion
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
+
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+csharp_style_prefer_not_pattern = true:suggestion
+
+# this. nunca, o projeto usa construtor primário e nome de parâmetro direto.
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+
+# Nomenclatura
+dotnet_naming_rule.interfaces_prefixed_with_i.severity = error
+dotnet_naming_rule.interfaces_prefixed_with_i.symbols = interface_symbol
+dotnet_naming_rule.interfaces_prefixed_with_i.style = prefix_i_pascal
+dotnet_naming_symbols.interface_symbol.applicable_kinds = interface
+dotnet_naming_style.prefix_i_pascal.required_prefix = I
+dotnet_naming_style.prefix_i_pascal.capitalization = pascal_case
+
+dotnet_naming_rule.types_are_pascal_case.severity = error
+dotnet_naming_rule.types_are_pascal_case.symbols = type_symbol
+dotnet_naming_rule.types_are_pascal_case.style = pascal
+dotnet_naming_symbols.type_symbol.applicable_kinds = class,struct,enum,delegate
+dotnet_naming_style.pascal.capitalization = pascal_case
+
+dotnet_naming_rule.members_are_pascal_case.severity = error
+dotnet_naming_rule.members_are_pascal_case.symbols = member_symbol
+dotnet_naming_rule.members_are_pascal_case.style = pascal
+dotnet_naming_symbols.member_symbol.applicable_kinds = property,method,event
+dotnet_naming_symbols.member_symbol.applicable_accessibilities = public,protected,internal
+
+dotnet_naming_rule.privates_are_camel_case.severity = suggestion
+dotnet_naming_rule.privates_are_camel_case.symbols = private_field_symbol
+dotnet_naming_rule.privates_are_camel_case.style = camel
+dotnet_naming_symbols.private_field_symbol.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbol.applicable_accessibilities = private
+dotnet_naming_style.camel.capitalization = camel_case
+
+# Analisadores que valem como erro
+# Método assíncrono sem await, sinal de assinatura errada.
+dotnet_diagnostic.CS1998.severity = error
+# Chamada assíncrona sem await, o pior tipo de bug silencioso.
+dotnet_diagnostic.CS4014.severity = error
+# Comparação de string com cultura implícita.
+dotnet_diagnostic.CA1310.severity = warning

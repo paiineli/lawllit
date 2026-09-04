@@ -1,0 +1,12 @@
+# Config do serviço do Site na Railway.
+# No painel do serviço, aponte Settings > Config as code para este arquivo.
+# Este é o único serviço com domínio público.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Lawllit.Site/Dockerfile"
+watchPatterns = ["Lawllit.Site/**", "Lawllit.Repository/**", "Lawllit.Model/**", "Directory.*.props", "NuGet.config", "global.json"]
+
+[deploy]
+healthcheckPath = "/health"
+restartPolicyType = "ON_FAILURE"
