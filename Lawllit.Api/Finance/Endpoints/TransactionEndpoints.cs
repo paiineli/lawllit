@@ -16,6 +16,10 @@ public static class TransactionEndpoints
             .WithSummary("Retorna a página de transações do mês com os totais do filtro aplicado")
             .WithTags("Transactions");
 
+        builder.MapPost("/export", GetAllFilteredAsync)
+            .WithSummary("Retorna todas as transações do filtro, sem paginação, para exportação")
+            .WithTags("Transactions");
+
         builder.MapGet("/{id:guid}", GetByIdAsync)
             .WithSummary("Retorna uma transação do usuário")
             .WithTags("Transactions");
@@ -45,6 +49,13 @@ public static class TransactionEndpoints
         ITransactionService transactionService,
         CancellationToken cancellationToken)
         => TypedResults.Ok(await transactionService.GetPageAsync(user.GetUserId(), filter, cancellationToken));
+
+    private static async Task<Ok<List<TransactionMOD>>> GetAllFilteredAsync(
+        TransactionFilterMOD filter,
+        ClaimsPrincipal user,
+        ITransactionService transactionService,
+        CancellationToken cancellationToken)
+        => TypedResults.Ok(await transactionService.GetAllFilteredAsync(user.GetUserId(), filter, cancellationToken));
 
     private static async Task<Results<Ok<TransactionMOD>, NotFound>> GetByIdAsync(
         Guid id,

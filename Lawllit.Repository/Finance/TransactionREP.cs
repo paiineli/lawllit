@@ -26,6 +26,12 @@ public sealed class TransactionREP : ITransactionREP
         return result.Value!;
     }
 
+    public async Task<List<TransactionMOD>> GetAllFilteredAsync(TransactionFilterMOD filter, CancellationToken cancellationToken)
+    {
+        var result = await httpClient.SendAsync<List<TransactionMOD>>(HttpMethod.Post, "api/transactions/export", filter, cancellationToken);
+        return result.Value!;
+    }
+
     public Task<TransactionMOD?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         => httpClient.GetOrDefaultAsync<TransactionMOD>($"api/transactions/{id}", cancellationToken);
 
@@ -56,6 +62,11 @@ public interface ITransactionREP
     /// quantidade de recorrentes pendentes de importação.
     /// </summary>
     Task<TransactionPageMOD> GetPageAsync(TransactionFilterMOD filter, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retorna todas as transações do filtro, sem paginação, para gerar a exportação.
+    /// </summary>
+    Task<List<TransactionMOD>> GetAllFilteredAsync(TransactionFilterMOD filter, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retorna uma transação do usuário autenticado, ou nulo quando não existe.

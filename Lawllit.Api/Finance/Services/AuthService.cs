@@ -43,7 +43,7 @@ public sealed class AuthService(
             EmailConfirmationTokenExpiry = DateTime.UtcNow.AddHours(24),
             CreatedAt = DateTime.UtcNow,
             Language = register.Language,
-            Currency = register.Language == "en-US" ? "USD" : Constants.DefaultCurrency,
+            Currency = Constants.DefaultCurrency,
         };
 
         await userRepository.AddAsync(user, cancellationToken);
@@ -130,7 +130,7 @@ public sealed class AuthService(
                 GoogleId = googleUser.GoogleId,
                 EmailConfirmed = true,
                 Language = googleUser.Language,
-                Currency = googleUser.Language == "en-US" ? "USD" : Constants.DefaultCurrency,
+                Currency = Constants.DefaultCurrency,
                 CreatedAt = DateTime.UtcNow,
             };
 

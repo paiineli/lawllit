@@ -238,9 +238,9 @@
 	<data name="Welcome_Step1_Title" xml:space="preserve"><value>Welcome, {0}!</value></data>
 	<data name="Welcome_Step1_Subtitle" xml:space="preserve"><value>Let us set up your experience. This will only take a moment.</value></data>
 	<data name="Welcome_Step1_Heading" xml:space="preserve"><value>Which language do you prefer?</value></data>
-	<data name="Welcome_Step2_Title" xml:space="preserve"><value>Preferred currency</value></data>
-	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>We will use this to format your transaction amounts.</value></data>
-	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>Which currency do you use?</value></data>
+	<data name="Welcome_Step2_Title" xml:space="preserve"><value>How it works</value></data>
+	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>Three things to know before you start.</value></data>
+	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>The basics of lawllit.finance</value></data>
 	<data name="Welcome_Step3_Title" xml:space="preserve"><value>Choose your theme</value></data>
 	<data name="Welcome_Step3_Subtitle" xml:space="preserve"><value>Pick the look that works best for you.</value></data>
 	<data name="Welcome_Step3_Heading" xml:space="preserve"><value>How do you want lawllit to look?</value></data>
@@ -509,5 +509,30 @@
 	<data name="PasswordGenerator_Strength_Weak" xml:space="preserve"><value>weak</value></data>
 	<data name="PasswordGenerator_Strength_Medium" xml:space="preserve"><value>medium</value></data>
 	<data name="PasswordGenerator_Strength_Strong" xml:space="preserve"><value>strong</value></data>
+
+	<data name="Btn_Export" xml:space="preserve"><value>Export</value></data>
+	<data name="Lbl_Yes" xml:space="preserve"><value>Yes</value></data>
+	<data name="Lbl_No" xml:space="preserve"><value>No</value></data>
+	<data name="Dash_Period_Month" xml:space="preserve"><value>Month</value></data>
+	<data name="Dash_Period_Year" xml:space="preserve"><value>Year</value></data>
+	<data name="Dash_VsPreviousMonth" xml:space="preserve"><value>vs. previous month</value></data>
+	<data name="Dash_VsPreviousYear" xml:space="preserve"><value>vs. previous year</value></data>
+	<data name="Dash_SavingsRateSub" xml:space="preserve"><value>of what came in you did not spend</value></data>
+	<data name="Dash_Committed" xml:space="preserve"><value>Fixed and variable</value></data>
+	<data name="Dash_Fixed" xml:space="preserve"><value>Fixed, marked as recurring</value></data>
+	<data name="Dash_Variable" xml:space="preserve"><value>Variable</value></data>
+	<data name="Dash_CommittedSub" xml:space="preserve"><value>Fixed spending commits {0}% of what comes in.</value></data>
+	<data name="Dash_Invested" xml:space="preserve"><value>Total invested</value></data>
+	<data name="Dash_InvestedSub" xml:space="preserve"><value>Everything you put in across {0} months.</value></data>
+	<data name="Dash_InvestedAverage" xml:space="preserve"><value>Averaging {0} per month with a contribution.</value></data>
+	<data name="Dash_NoInvestments" xml:space="preserve"><value>No contributions recorded yet</value></data>
+	<data name="Dash_Reference" xml:space="preserve"><value>{0}-month average: {1}</value></data>
+	<data name="Dash_NoReference" xml:space="preserve"><value>No history to compare against</value></data>
+	<data name="Dash_MonthlyAverage" xml:space="preserve"><value>Monthly average for the year</value></data>
+	<data name="Dash_MonthlyAverageSub" xml:space="preserve"><value>Yearly expenses divided by twelve months.</value></data>
+	<data name="Welcome_Step2_Bullet1" xml:space="preserve"><value>You record income, expenses and investments.</value></data>
+	<data name="Welcome_Step2_Bullet2" xml:space="preserve"><value>The dashboard closes the month and compares it to earlier ones.</value></data>
+	<data name="Welcome_Step2_Bullet3" xml:space="preserve"><value>A bill marked as recurring repeats every month.</value></data>
+	<data name="Welcome_Step2_Currency" xml:space="preserve"><value>Amounts are in Brazilian real.</value></data>
 
 </root>

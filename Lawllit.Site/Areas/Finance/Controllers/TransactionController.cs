@@ -1,11 +1,15 @@
 using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
+using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contracts;
 using Lawllit.Repository.Finance;
+using Lawllit.Site.Common;
 using Lawllit.Site.Models.Finance;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using System.Globalization;
+using System.Text;
 
 namespace Lawllit.Site.Areas.Finance.Controllers;
 
@@ -52,6 +56,63 @@ public class TransactionController(
             TotalInvestments = transactionPage.TotalInvestments,
             PendingRecurringCount = transactionPage.PendingRecurringCount,
         });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Export(
+        TransactionTypeEnum? type,
+        int? month,
+        int? year,
+        string? search,
+        CancellationToken cancellationToken)
+    {
+        var filter = new TransactionFilterMOD { Type = type, Month = month, Year = year, Search = search };
+        var transactions = await transactionRepository.GetAllFilteredAsync(filter, cancellationToken);
+
+        var fileName = $"lawllit-{year ?? DateTime.Now.Year}-{(month ?? DateTime.Now.Month):00}.csv";
+
+        return File(BuildCsv(transactions), "text/csv", fileName);
+    }
+
+    // Ponto e vírgula como separador e vírgula decimal, que é o que o Excel em pt-BR
+    // espera. Com vírgula de separador ele joga tudo numa coluna só. O BOM na frente
+    // evita acento quebrado ao abrir o arquivo no Excel.
+    private byte[] BuildCsv(List<TransactionMOD> transactions)
+    {
+        var culture = CultureInfo.GetCultureInfo("pt-BR");
+        var csv = new StringBuilder();
+
+        csv.Append('﻿');
+        csv.AppendLine(string.Join(';',
+            localizer["Lbl_Date"].Value,
+            localizer["Lbl_Description"].Value,
+            localizer["Lbl_Category"].Value,
+            localizer["Lbl_Type"].Value,
+            localizer["Trans_IsRecurring"].Value,
+            localizer["Lbl_Amount"].Value));
+
+        foreach (var transaction in transactions)
+        {
+            csv.AppendLine(string.Join(';',
+                transaction.Date.ToString("dd/MM/yyyy", culture),
+                Escape(transaction.Description),
+                Escape(transaction.Category?.Name ?? string.Empty),
+                localizer[transaction.Type.LabelKey()].Value,
+                transaction.IsRecurring ? localizer["Lbl_Yes"].Value : localizer["Lbl_No"].Value,
+                transaction.Amount.ToString("F2", culture)));
+        }
+
+        return Encoding.UTF8.GetBytes(csv.ToString());
+    }
+
+    // Campo com ponto e vírgula, aspas ou quebra de linha vira campo entre aspas,
+    // e aspas interna dobra, conforme o RFC do CSV.
+    private static string Escape(string value)
+    {
+        if (!value.Contains(';') && !value.Contains('"') && !value.Contains('\n'))
+            return value;
+
+        return $"\"{value.Replace("\"", "\"\"")}\"";
     }
 
     [HttpPost]

@@ -238,9 +238,9 @@
 	<data name="Welcome_Step1_Title" xml:space="preserve"><value>Bem-vindo, {0}!</value></data>
 	<data name="Welcome_Step1_Subtitle" xml:space="preserve"><value>Vamos configurar sua experiência. Isso levará apenas um momento.</value></data>
 	<data name="Welcome_Step1_Heading" xml:space="preserve"><value>Qual idioma você prefere?</value></data>
-	<data name="Welcome_Step2_Title" xml:space="preserve"><value>Moeda preferida</value></data>
-	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>Usamos isso para formatar os valores das suas transações.</value></data>
-	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>Qual moeda você utiliza?</value></data>
+	<data name="Welcome_Step2_Title" xml:space="preserve"><value>Como funciona</value></data>
+	<data name="Welcome_Step2_Subtitle" xml:space="preserve"><value>Três coisas para você saber antes de começar.</value></data>
+	<data name="Welcome_Step2_Heading" xml:space="preserve"><value>O básico do lawllit.finance</value></data>
 	<data name="Welcome_Step3_Title" xml:space="preserve"><value>Escolha seu tema</value></data>
 	<data name="Welcome_Step3_Subtitle" xml:space="preserve"><value>Escolha o visual que funciona melhor para você.</value></data>
 	<data name="Welcome_Step3_Heading" xml:space="preserve"><value>Como você quer que o lawllit pareça?</value></data>
@@ -509,5 +509,30 @@
 	<data name="PasswordGenerator_Strength_Weak" xml:space="preserve"><value>fraca</value></data>
 	<data name="PasswordGenerator_Strength_Medium" xml:space="preserve"><value>média</value></data>
 	<data name="PasswordGenerator_Strength_Strong" xml:space="preserve"><value>forte</value></data>
+
+	<data name="Btn_Export" xml:space="preserve"><value>Exportar</value></data>
+	<data name="Lbl_Yes" xml:space="preserve"><value>Sim</value></data>
+	<data name="Lbl_No" xml:space="preserve"><value>Não</value></data>
+	<data name="Dash_Period_Month" xml:space="preserve"><value>Mês</value></data>
+	<data name="Dash_Period_Year" xml:space="preserve"><value>Ano</value></data>
+	<data name="Dash_VsPreviousMonth" xml:space="preserve"><value>contra o mês anterior</value></data>
+	<data name="Dash_VsPreviousYear" xml:space="preserve"><value>contra o ano anterior</value></data>
+	<data name="Dash_SavingsRateSub" xml:space="preserve"><value>do que entrou você não gastou</value></data>
+	<data name="Dash_Committed" xml:space="preserve"><value>Fixo e variável</value></data>
+	<data name="Dash_Fixed" xml:space="preserve"><value>Fixo, marcado como recorrente</value></data>
+	<data name="Dash_Variable" xml:space="preserve"><value>Variável</value></data>
+	<data name="Dash_CommittedSub" xml:space="preserve"><value>O gasto fixo compromete {0}% do que entra.</value></data>
+	<data name="Dash_Invested" xml:space="preserve"><value>Total investido</value></data>
+	<data name="Dash_InvestedSub" xml:space="preserve"><value>Somando tudo que você aportou em {0} meses.</value></data>
+	<data name="Dash_InvestedAverage" xml:space="preserve"><value>Média de {0} por mês com aporte.</value></data>
+	<data name="Dash_NoInvestments" xml:space="preserve"><value>Nenhum aporte lançado ainda</value></data>
+	<data name="Dash_Reference" xml:space="preserve"><value>Média de {0} meses: {1}</value></data>
+	<data name="Dash_NoReference" xml:space="preserve"><value>Sem histórico para comparar</value></data>
+	<data name="Dash_MonthlyAverage" xml:space="preserve"><value>Média mensal do ano</value></data>
+	<data name="Dash_MonthlyAverageSub" xml:space="preserve"><value>Despesa do ano dividida por doze meses.</value></data>
+	<data name="Welcome_Step2_Bullet1" xml:space="preserve"><value>Você lança receita, despesa e investimento.</value></data>
+	<data name="Welcome_Step2_Bullet2" xml:space="preserve"><value>O painel fecha o mês e compara com os anteriores.</value></data>
+	<data name="Welcome_Step2_Bullet3" xml:space="preserve"><value>Conta marcada como recorrente se repete todo mês.</value></data>
+	<data name="Welcome_Step2_Currency" xml:space="preserve"><value>Os valores são em real.</value></data>
 
 </root>

@@ -1,10 +1,9 @@
 @model TransactionListViewMOD
 @{
     var now = DateTime.Now;
-    var userCurrency = User.FindFirst("currency")?.Value ?? "BRL";
-    var culture = userCurrency == "USD"
-        ? System.Globalization.CultureInfo.GetCultureInfo("en-US")
-        : System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+
+    // O app é em real, então a formatação é sempre pt-BR, independente do idioma da interface.
+    var culture = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
     var monthNames = new[]
     {
         Localizer["Month_1"].Value,  Localizer["Month_2"].Value,  Localizer["Month_3"].Value,
@@ -26,12 +25,22 @@
 
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
         <h5 class="fw-bold mb-0">@Localizer["Trans_Title"]</h5>
-        @if (Model.Categories.Any())
-        {
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                <i class="bi bi-plus-lg"></i> @Localizer["Trans_New"]
-            </button>
-        }
+        <div class="d-flex align-items-center gap-2">
+            @if (Model.Transactions.Any())
+            {
+                <a asp-action="Export" asp-route-type="@Model.FilterType" asp-route-month="@Model.FilterMonth"
+                   asp-route-year="@Model.FilterYear" asp-route-search="@Model.FilterSearch"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-download"></i> @Localizer["Btn_Export"]
+                </a>
+            }
+            @if (Model.Categories.Any())
+            {
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <i class="bi bi-plus-lg"></i> @Localizer["Trans_New"]
+                </button>
+            }
+        </div>
     </div>
 
     <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
@@ -51,7 +60,7 @@
                 }
             </select>
             <select name="year" class="form-select form-select-sm select-auto" data-auto-submit>
-                @for (int y = now.Year; y >= now.Year - 4; y--)
+                @for (int y = now.Year + 1; y >= now.Year - 4; y--)
                 {
                     <option value="@y" selected="@(y == Model.FilterYear ? "selected" : null)">@y</option>
                 }

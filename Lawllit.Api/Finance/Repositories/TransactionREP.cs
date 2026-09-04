@@ -9,7 +9,8 @@ namespace Lawllit.Api.Finance.Repositories;
 
 public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory) : ITransactionREP
 {
-    private sealed record MonthTotals(decimal TotalIncome, decimal TotalExpenses, decimal TotalInvestments);
+    // O Dapper mapeia por nome de coluna, então um record nomeado em vez de tupla.
+    private sealed record FilteredTotals(decimal Income, decimal Expenses, decimal Investments);
 
     private const string SelectWithCategory = """
         SELECT
@@ -20,8 +21,8 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
         WHERE t."CategoryId" = c."Id"
         """;
 
-    // O mesmo filtro alimenta a página, a contagem e os totais do rodapé.
-    // Montado num lugar só para os três nunca divergirem.
+    // O mesmo filtro alimenta a página, a contagem, os totais do rodapé e a exportação.
+    // Montado num lugar só para os quatro nunca divergirem.
     private static (string Where, DynamicParameters Parameters) BuildFilter(Guid userId, TransactionFilterMOD filter)
     {
         var where = """
@@ -110,25 +111,46 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
         };
     }
 
+    public async Task<List<TransactionMOD>> GetAllFilteredAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken)
+    {
+        var (where, parameters) = BuildFilter(userId, filter);
+
+        var sql = $"""
+            {SelectWithCategory}
+            {where}
+            ORDER BY t."Date" ASC, t."CreatedAt" ASC
+            """;
+
+        using var connection = connectionFactory(ConnectionKeys.Lawllit);
+
+        var transactions = await connection.QueryAsync<TransactionMOD, CategoryMOD, TransactionMOD>(
+            new CommandDefinition(sql, parameters, cancellationToken: cancellationToken),
+            (transaction, category) => { transaction.Category = category; return transaction; },
+            splitOn: "Id");
+
+        return transactions.AsList();
+    }
+
     public async Task<(decimal Income, decimal Expenses, decimal Investments)> GetFilteredTotalsAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken)
     {
         var (where, parameters) = BuildFilter(userId, filter);
 
         var sql = $"""
             SELECT
-                COALESCE(SUM(CASE WHEN t."Type" = 0 THEN t."Amount" ELSE 0 END), 0) AS TotalIncome,
-                COALESCE(SUM(CASE WHEN t."Type" = 1 THEN t."Amount" ELSE 0 END), 0) AS TotalExpenses,
-                COALESCE(SUM(CASE WHEN t."Type" = 2 THEN t."Amount" ELSE 0 END), 0) AS TotalInvestments
+                COALESCE(SUM(CASE WHEN t."Type" = 0 THEN t."Amount" ELSE 0 END), 0) AS Income,
+                COALESCE(SUM(CASE WHEN t."Type" = 1 THEN t."Amount" ELSE 0 END), 0) AS Expenses,
+                COALESCE(SUM(CASE WHEN t."Type" = 2 THEN t."Amount" ELSE 0 END), 0) AS Investments
             FROM "Transactions" t
             WHERE 1 = 1
             {where}
             """;
 
         using var connection = connectionFactory(ConnectionKeys.Lawllit);
-        var totals = await connection.QueryFirstAsync<MonthTotals>(
+
+        var totals = await connection.QueryFirstAsync<FilteredTotals>(
             new CommandDefinition(sql, parameters, cancellationToken: cancellationToken));
 
-        return (totals.TotalIncome, totals.TotalExpenses, totals.TotalInvestments);
+        return (totals.Income, totals.Expenses, totals.Investments);
     }
 
     public async Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken)
@@ -148,72 +170,118 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
         return transactions.FirstOrDefault();
     }
 
-    public async Task<MonthlySummaryMOD> GetSummaryAsync(Guid userId, int month, int year, CancellationToken cancellationToken)
+    // Os intervalos são contíguos, o anterior encosta no atual, então um único range
+    // no WHERE cobre os dois períodos e o índice IX_Transactions_Date continua servindo.
+    // Filtrar por EXTRACT(MONTH) descartaria o índice e varreria a tabela.
+    public async Task<PeriodTotalsMOD> GetPeriodTotalsAsync(
+        Guid userId,
+        DateTime from,
+        DateTime to,
+        DateTime previousFrom,
+        CancellationToken cancellationToken)
     {
-        const string totalsSql = """
+        const string sql = """
             SELECT
-                COALESCE(SUM(CASE WHEN "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS TotalIncome,
-                COALESCE(SUM(CASE WHEN "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS TotalExpenses,
-                COALESCE(SUM(CASE WHEN "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS TotalInvestments
+                COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS TotalIncome,
+                COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS TotalExpenses,
+                COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS TotalInvestments,
+                COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 1 AND "IsRecurring" THEN "Amount" ELSE 0 END), 0) AS RecurringExpenses,
+                COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS PreviousIncome,
+                COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS PreviousExpenses,
+                COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS PreviousInvestments
             FROM "Transactions"
-            WHERE "UserId"                   = @UserId
-              AND EXTRACT(MONTH FROM "Date") = @Month
-              AND EXTRACT(YEAR  FROM "Date") = @Year
+            WHERE "UserId" = @UserId
+              AND "Date"  >= @PreviousFrom
+              AND "Date"   < @To
             """;
-
-        const string categoryBreakdownSql = """
-            SELECT c."Name" AS CategoryName, SUM(t."Amount") AS Total
-            FROM "Transactions" t, "Categories" c
-            WHERE t."CategoryId"               = c."Id"
-              AND t."UserId"                   = @UserId
-              AND t."Type"                     = 1
-              AND EXTRACT(MONTH FROM t."Date") = @Month
-              AND EXTRACT(YEAR  FROM t."Date") = @Year
-            GROUP BY c."Name"
-            ORDER BY Total DESC
-            """;
-
-        var parameters = new { UserId = userId, Month = month, Year = year };
 
         using var connection = connectionFactory(ConnectionKeys.Lawllit);
 
-        var totals = await connection.QueryFirstAsync<MonthTotals>(
-            new CommandDefinition(totalsSql, parameters, cancellationToken: cancellationToken));
-
-        var byCategory = await connection.QueryAsync<CategorySummaryMOD>(
-            new CommandDefinition(categoryBreakdownSql, parameters, cancellationToken: cancellationToken));
-
-        // Investimento sai do caixa do mês igual a uma despesa, então abate do saldo disponível.
-        var balance = totals.TotalIncome - totals.TotalExpenses - totals.TotalInvestments;
-
-        return new MonthlySummaryMOD(
-            month,
-            year,
-            totals.TotalIncome,
-            totals.TotalExpenses,
-            totals.TotalInvestments,
-            balance,
-            byCategory.AsList());
+        return await connection.QueryFirstAsync<PeriodTotalsMOD>(new CommandDefinition(
+            sql,
+            new { UserId = userId, From = from, To = to, PreviousFrom = previousFrom },
+            cancellationToken: cancellationToken));
     }
 
-    public async Task<decimal> GetUpcomingExpensesAsync(Guid userId, int month, int year, CancellationToken cancellationToken)
+    // Traz o gasto do período e a média histórica da mesma categoria de uma vez. O HAVING
+    // descarta categoria que só teve gasto no histórico, para não virar fatia zerada no gráfico.
+    public async Task<List<CategorySpendMOD>> GetCategorySpendAsync(
+        Guid userId,
+        DateTime from,
+        DateTime to,
+        DateTime referenceFrom,
+        int referenceMonths,
+        CancellationToken cancellationToken)
+    {
+        const string sql = """
+            SELECT
+                c."Name" AS CategoryName,
+                COALESCE(SUM(CASE WHEN t."Date" >= @From THEN t."Amount" ELSE 0 END), 0) AS Total,
+                COALESCE(
+                    SUM(CASE WHEN t."Date" < @From THEN t."Amount" ELSE 0 END)
+                        / NULLIF(@ReferenceMonths, 0),
+                    0) AS ReferenceAverage
+            FROM "Transactions" t, "Categories" c
+            WHERE t."CategoryId" = c."Id"
+              AND t."UserId"     = @UserId
+              AND t."Type"       = 1
+              AND t."Date"      >= @ReferenceFrom
+              AND t."Date"       < @To
+            GROUP BY c."Name"
+            HAVING COALESCE(SUM(CASE WHEN t."Date" >= @From THEN t."Amount" ELSE 0 END), 0) > 0
+            ORDER BY Total DESC
+            """;
+
+        using var connection = connectionFactory(ConnectionKeys.Lawllit);
+
+        var rows = await connection.QueryAsync<CategorySpendMOD>(new CommandDefinition(
+            sql,
+            new { UserId = userId, From = from, To = to, ReferenceFrom = referenceFrom, ReferenceMonths = referenceMonths },
+            cancellationToken: cancellationToken));
+
+        return rows.AsList();
+    }
+
+    // Única consulta do projeto sem recorte de período. Responde quanto já foi aportado
+    // até o fim do período em tela, e em quantos meses distintos isso aconteceu.
+    public async Task<InvestedTotalMOD> GetInvestedTotalAsync(Guid userId, DateTime upTo, CancellationToken cancellationToken)
+    {
+        const string sql = """
+            SELECT
+                COALESCE(SUM("Amount"), 0)                             AS Total,
+                COUNT(DISTINCT DATE_TRUNC('month', "Date"))::int       AS MonthCount
+            FROM "Transactions"
+            WHERE "UserId" = @UserId
+              AND "Type"   = 2
+              AND "Date"   < @UpTo
+            """;
+
+        using var connection = connectionFactory(ConnectionKeys.Lawllit);
+
+        return await connection.QueryFirstAsync<InvestedTotalMOD>(new CommandDefinition(
+            sql,
+            new { UserId = userId, UpTo = upTo },
+            cancellationToken: cancellationToken));
+    }
+
+    public async Task<decimal> GetUpcomingExpensesAsync(Guid userId, DateTime from, DateTime to, CancellationToken cancellationToken)
     {
         var today = DateTime.SpecifyKind(DateTime.Today, DateTimeKind.Utc);
 
         const string sql = """
             SELECT COALESCE(SUM("Amount"), 0)
             FROM "Transactions"
-            WHERE "UserId"                   = @UserId
-              AND "Type"                     = 1
-              AND EXTRACT(MONTH FROM "Date") = @Month
-              AND EXTRACT(YEAR  FROM "Date") = @Year
-              AND "Date"                     > @Today
+            WHERE "UserId" = @UserId
+              AND "Type"   = 1
+              AND "Date"  >= @From
+              AND "Date"   < @To
+              AND "Date"   > @Today
             """;
 
         using var connection = connectionFactory(ConnectionKeys.Lawllit);
         return await connection.ExecuteScalarAsync<decimal>(new CommandDefinition(
             sql,
-            new { UserId = userId, Month = month, Year = year, Today = today },
+            new { UserId = userId, From = from, To = to, Today = today },
             cancellationToken: cancellationToken));
     }
 
@@ -285,7 +353,7 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
         months.Reverse();
 
         var startDate = new DateTime(months[0].Year, months[0].Month, 1, 0, 0, 0, DateTimeKind.Utc);
-        var endDate = new DateTime(toYear, toMonth, DateTime.DaysInMonth(toYear, toMonth), 23, 59, 59, DateTimeKind.Utc);
+        var endDate = new DateTime(toYear, toMonth, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1);
 
         const string sql = """
             SELECT
@@ -297,7 +365,7 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
             FROM "Transactions"
             WHERE "UserId" = @UserId
               AND "Date"  >= @StartDate
-              AND "Date"  <= @EndDate
+              AND "Date"   < @EndDate
             GROUP BY EXTRACT(YEAR FROM "Date"), EXTRACT(MONTH FROM "Date")
             """;
 
@@ -399,10 +467,13 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
 public interface ITransactionREP
 {
     Task<PagedResult<TransactionMOD>> GetPageAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
+    Task<List<TransactionMOD>> GetAllFilteredAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
     Task<(decimal Income, decimal Expenses, decimal Investments)> GetFilteredTotalsAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
     Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken);
-    Task<MonthlySummaryMOD> GetSummaryAsync(Guid userId, int month, int year, CancellationToken cancellationToken);
-    Task<decimal> GetUpcomingExpensesAsync(Guid userId, int month, int year, CancellationToken cancellationToken);
+    Task<PeriodTotalsMOD> GetPeriodTotalsAsync(Guid userId, DateTime from, DateTime to, DateTime previousFrom, CancellationToken cancellationToken);
+    Task<List<CategorySpendMOD>> GetCategorySpendAsync(Guid userId, DateTime from, DateTime to, DateTime referenceFrom, int referenceMonths, CancellationToken cancellationToken);
+    Task<InvestedTotalMOD> GetInvestedTotalAsync(Guid userId, DateTime upTo, CancellationToken cancellationToken);
+    Task<decimal> GetUpcomingExpensesAsync(Guid userId, DateTime from, DateTime to, CancellationToken cancellationToken);
     Task<int> GetPendingRecurringCountAsync(Guid userId, int month, int year, CancellationToken cancellationToken);
     Task<List<TransactionMOD>> GetRecurringForImportAsync(Guid userId, int month, int year, CancellationToken cancellationToken);
     Task<List<MonthlyTrendMOD>> GetMonthlyTrendAsync(Guid userId, int toMonth, int toYear, int monthCount, CancellationToken cancellationToken);

@@ -78,7 +78,6 @@
     }
 
     bindPreference({ containerId: 'language-options', attr: 'language-value', datasetKey: 'languageValue', activeClass: 'welcome-option-card--active', key: 'language', afterSave: function () { goToStep(1); } });
-    bindPreference({ containerId: 'currency-options', attr: 'currency-value', datasetKey: 'currencyValue', activeClass: 'welcome-option-card--active', key: 'currency' });
     bindPreference({ containerId: 'theme-options', attr: 'theme-value', datasetKey: 'themeValue', activeClass: 'theme-card--active', key: 'theme', onSelect: applyTheme });
     bindPreference({ containerId: 'font-size-options', attr: 'font-size-value', datasetKey: 'fontSizeValue', activeClass: 'welcome-option-card--active', key: 'fontSize', onSelect: applyFontSize });
 

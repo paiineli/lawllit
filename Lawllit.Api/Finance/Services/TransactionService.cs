@@ -34,6 +34,10 @@ public sealed class TransactionService(
     public Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken)
         => transactionRepository.GetByIdAsync(userId, id, cancellationToken);
 
+    // Sem paginação, porque quem exporta quer o período inteiro num arquivo só.
+    public Task<List<TransactionMOD>> GetAllFilteredAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken)
+        => transactionRepository.GetAllFilteredAsync(userId, filter, cancellationToken);
+
     public async Task<Result> CreateAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken)
     {
         var category = await categoryRepository.GetByIdAsync(userId, transaction.CategoryId, cancellationToken);
@@ -120,6 +124,7 @@ public interface ITransactionService
 {
     Task<TransactionPageMOD> GetPageAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
     Task<TransactionMOD?> GetByIdAsync(Guid userId, Guid id, CancellationToken cancellationToken);
+    Task<List<TransactionMOD>> GetAllFilteredAsync(Guid userId, TransactionFilterMOD filter, CancellationToken cancellationToken);
     Task<Result> CreateAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken);
     Task<Result> EditAsync(Guid userId, TransactionSaveMOD transaction, CancellationToken cancellationToken);
     Task<Result> DeleteAsync(Guid userId, Guid id, CancellationToken cancellationToken);

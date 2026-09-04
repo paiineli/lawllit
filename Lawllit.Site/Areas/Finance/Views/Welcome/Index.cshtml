@@ -60,29 +60,23 @@
                     <p class="text-secondary small mb-0">@Localizer["Welcome_Step2_Subtitle"]</p>
                 </div>
                 <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">@Localizer["Welcome_Step2_Heading"]</p>
-                <div class="row g-3" id="currency-options">
-                    <div class="col-6">
-                        <button type="button"
-                                class="welcome-option-card w-100 h-100 @(Model.Currency == "BRL" ? "welcome-option-card--active" : "")"
-                                data-currency-value="BRL">
-                            <div>
-                                <span class="fw-semibold d-block">@Localizer["Prof_Appearance_CurrencyBRL"]</span>
-                                <span class="welcome-currency-sample">R$ 1.234,56</span>
-                            </div>
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button type="button"
-                                class="welcome-option-card w-100 h-100 @(Model.Currency == "USD" ? "welcome-option-card--active" : "")"
-                                data-currency-value="USD">
-                            <div>
-                                <span class="fw-semibold d-block">@Localizer["Prof_Appearance_CurrencyUSD"]</span>
-                                <span class="welcome-currency-sample">$1,234.56</span>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                <p class="small text-secondary mt-3 mb-0">@Localizer["Welcome_Hint_ChangeAnytime"]</p>
+                <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                    <li class="d-flex gap-2">
+                        <i class="bi bi-arrow-left-right text-green mt-1"></i>
+                        <span>@Localizer["Welcome_Step2_Bullet1"]</span>
+                    </li>
+                    <li class="d-flex gap-2">
+                        <i class="bi bi-bar-chart text-green mt-1"></i>
+                        <span>@Localizer["Welcome_Step2_Bullet2"]</span>
+                    </li>
+                    <li class="d-flex gap-2">
+                        <i class="bi bi-arrow-repeat text-green mt-1"></i>
+                        <span>@Localizer["Welcome_Step2_Bullet3"]</span>
+                    </li>
+                </ul>
+                <p class="small text-secondary mt-4 mb-0">
+                    @Localizer["Welcome_Step2_Currency"] <span class="welcome-currency-sample">R$ 1.234,56</span>
+                </p>
             </div>
 
             <div class="welcome-step" data-step="3">

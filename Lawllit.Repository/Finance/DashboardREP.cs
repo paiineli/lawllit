@@ -1,3 +1,4 @@
+using Lawllit.Model.Common.Enums;
 using Lawllit.Model.Finance.Contracts;
 using Lawllit.Repository.Common;
 using Microsoft.AspNetCore.WebUtilities;
@@ -19,9 +20,9 @@ public sealed class DashboardREP : IDashboardREP
 
     #region Methods
 
-    public async Task<DashboardMOD> BuildAsync(int? month, int? year, CancellationToken cancellationToken)
+    public async Task<DashboardMOD> BuildAsync(DashboardPeriodEnum period, int? month, int? year, CancellationToken cancellationToken)
     {
-        var query = new Dictionary<string, string?>();
+        var query = new Dictionary<string, string?> { ["period"] = period.ToString() };
 
         if (month.HasValue) query["month"] = month.Value.ToString();
         if (year.HasValue) query["year"] = year.Value.ToString();
@@ -29,7 +30,7 @@ public sealed class DashboardREP : IDashboardREP
         var url = QueryHelpers.AddQueryString("api/dashboard", query);
 
         return await httpClient.GetOrDefaultAsync<DashboardMOD>(url, cancellationToken)
-            ?? throw new InvalidOperationException("A API não devolveu o painel do mês.");
+            ?? throw new InvalidOperationException("A API não devolveu o painel do período.");
     }
 
     #endregion
@@ -40,9 +41,10 @@ public sealed class DashboardREP : IDashboardREP
 public interface IDashboardREP
 {
     /// <summary>
-    /// Monta o painel do mês informado, ou do mês corrente quando mês e ano vêm nulos.
+    /// Monta o painel do período informado. No modo mês, mês e ano nulos caem no mês
+    /// corrente. No modo ano, o mês é ignorado.
     /// </summary>
-    Task<DashboardMOD> BuildAsync(int? month, int? year, CancellationToken cancellationToken);
+    Task<DashboardMOD> BuildAsync(DashboardPeriodEnum period, int? month, int? year, CancellationToken cancellationToken);
 }
 
 #endregion
