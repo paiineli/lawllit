@@ -2,7 +2,6 @@ using Lawllit.Model.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 
 namespace Lawllit.Repository.Common;
 
@@ -12,11 +11,14 @@ public sealed class TokenHttpHandler(
     IHttpContextAccessor httpContextAccessor,
     IConfiguration configuration) : DelegatingHandler
 {
+    // A ausência da chave já derruba a aplicação na subida, pelo DependencyContainer,
+    // então aqui ela é sempre válida e não precisa de checagem por requisição.
+    private readonly string apiKey = configuration["Api:Key"]!;
+
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         request.Headers.Remove(Constants.ApiKeyHeader);
-        request.Headers.Add(Constants.ApiKeyHeader, configuration["Api:Key"]
-            ?? throw new InvalidOperationException("Api__Key não configurada no ambiente."));
+        request.Headers.Add(Constants.ApiKeyHeader, apiKey);
 
         var apiToken = httpContextAccessor.HttpContext?.User.FindFirst(Constants.ApiTokenClaim)?.Value;
 

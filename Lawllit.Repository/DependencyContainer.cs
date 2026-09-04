@@ -9,8 +9,13 @@ public static class DependencyContainer
 {
     public static IServiceCollection AddLawllitRepository(this IServiceCollection services, IConfiguration configuration)
     {
+        // As duas são conferidas aqui, na subida, e não na primeira requisição.
+        // Sem isso a falta da chave só aparecia como erro 500 no login.
         var apiUrl = configuration["Api:Url"]
             ?? throw new InvalidOperationException("Api__Url não configurada no ambiente.");
+
+        if (string.IsNullOrWhiteSpace(configuration["Api:Key"]))
+            throw new InvalidOperationException("Api__Key não configurada no ambiente. Deve ter o mesmo valor da API.");
 
         services.AddHttpContextAccessor();
         services.AddTransient<TokenHttpHandler>();
