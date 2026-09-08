@@ -117,54 +117,69 @@ public class TransactionController(
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(TransactionFormViewMOD transactionForm, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create(
+        TransactionFormViewMOD transactionForm,
+        [Bind(Prefix = "filter")] TransactionFilterRouteViewMOD filter,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return RedirectWithError("Msg_DataInvalid");
+            return RedirectWithError("Msg_DataInvalid", filter);
 
         var result = await transactionRepository.CreateAsync(ToSaveMOD(transactionForm), cancellationToken);
 
         return result.IsSuccess
-            ? RedirectWithSuccess("Msg_TransCreated")
-            : RedirectWithError(result.ErrorKey!);
+            ? RedirectWithSuccess("Msg_TransCreated", filter)
+            : RedirectWithError(result.ErrorKey!, filter);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, TransactionFormViewMOD transactionForm, CancellationToken cancellationToken)
+    public async Task<IActionResult> Edit(
+        Guid id,
+        TransactionFormViewMOD transactionForm,
+        [Bind(Prefix = "filter")] TransactionFilterRouteViewMOD filter,
+        CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return RedirectWithError("Msg_DataInvalid");
+            return RedirectWithError("Msg_DataInvalid", filter);
 
         transactionForm.Id = id;
         var result = await transactionRepository.EditAsync(ToSaveMOD(transactionForm), cancellationToken);
 
         return result.IsSuccess
-            ? RedirectWithSuccess("Msg_TransUpdated")
-            : RedirectWithError(result.ErrorKey!);
+            ? RedirectWithSuccess("Msg_TransUpdated", filter)
+            : RedirectWithError(result.ErrorKey!, filter);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(
+        Guid id,
+        [Bind(Prefix = "filter")] TransactionFilterRouteViewMOD filter,
+        CancellationToken cancellationToken)
     {
         var result = await transactionRepository.DeleteAsync(id, cancellationToken);
 
         return result.IsSuccess
-            ? RedirectWithSuccess("Msg_TransDeleted")
-            : RedirectWithError(result.ErrorKey!);
+            ? RedirectWithSuccess("Msg_TransDeleted", filter)
+            : RedirectWithError(result.ErrorKey!, filter);
     }
 
+    // Importa a recorrência no mês que está sendo visto, que é o mesmo período do aviso de
+    // pendência exibido na tela, e não no mês corrente do calendário.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ImportRecurring(int month, int year, CancellationToken cancellationToken)
+    public async Task<IActionResult> ImportRecurring(
+        [Bind(Prefix = "filter")] TransactionFilterRouteViewMOD filter,
+        CancellationToken cancellationToken)
     {
+        var now = DateTime.Now;
         var importedCount = await transactionRepository.ImportRecurringAsync(
-            new ImportRecurringMOD { Month = month, Year = year },
+            new ImportRecurringMOD { Month = filter.Month ?? now.Month, Year = filter.Year ?? now.Year },
             cancellationToken);
 
         TempData["Success"] = string.Format(localizer["Msg_RecurringImported"].Value, importedCount);
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", filter.ToRouteValues());
     }
 
     private static TransactionSaveMOD ToSaveMOD(TransactionFormViewMOD form) => new()
@@ -178,15 +193,15 @@ public class TransactionController(
         IsRecurring = form.IsRecurring,
     };
 
-    private IActionResult RedirectWithSuccess(string messageKey)
+    private IActionResult RedirectWithSuccess(string messageKey, TransactionFilterRouteViewMOD filter)
     {
         TempData["Success"] = localizer[messageKey].Value;
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", filter.ToRouteValues());
     }
 
-    private IActionResult RedirectWithError(string messageKey)
+    private IActionResult RedirectWithError(string messageKey, TransactionFilterRouteViewMOD filter)
     {
         TempData["Error"] = localizer[messageKey].Value;
-        return RedirectToAction("Index");
+        return RedirectToAction("Index", filter.ToRouteValues());
     }
 }

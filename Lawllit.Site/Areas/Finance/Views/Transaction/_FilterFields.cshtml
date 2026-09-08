@@ -1,0 +1,19 @@
+@model TransactionFilterRouteViewMOD
+
+@* Repete o filtro da listagem em cada post da tela, para o redirect voltar no mesmo mês, tipo,
+   busca e página. O prefixo "filter" evita colisão com o campo Type do próprio formulário. *@
+
+@if (Model.Type.HasValue)
+{
+    <input type="hidden" name="filter.type" value="@Model.Type">
+}
+<input type="hidden" name="filter.month" value="@Model.Month">
+<input type="hidden" name="filter.year" value="@Model.Year">
+@if (!string.IsNullOrWhiteSpace(Model.Search))
+{
+    <input type="hidden" name="filter.search" value="@Model.Search">
+}
+@if (Model.Page > 1)
+{
+    <input type="hidden" name="filter.page" value="@Model.Page">
+}

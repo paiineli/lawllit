@@ -21,6 +21,36 @@ public sealed class TransactionListViewMOD
     public List<TransactionMOD> Transactions => Page.Items;
 
     public bool HasActiveFilters => FilterType.HasValue || !string.IsNullOrEmpty(FilterSearch);
+
+    public TransactionFilterRouteViewMOD FilterRoute => new()
+    {
+        Type = FilterType,
+        Month = FilterMonth,
+        Year = FilterYear,
+        Search = FilterSearch,
+        Page = Page.CurrentPage,
+    };
+}
+
+// O filtro em tela viaja junto no post e volta na querystring do redirect. Sem isso a gravação
+// cai num Index sem filtro, a API assume o mês atual e o usuário perde o mês que estava olhando.
+public sealed class TransactionFilterRouteViewMOD
+{
+    public TransactionTypeEnum? Type { get; set; }
+    public int? Month { get; set; }
+    public int? Year { get; set; }
+    public string? Search { get; set; }
+    public int? Page { get; set; }
+
+    // Valor nulo não entra na URL, então filtro vazio continua gerando link limpo.
+    public Dictionary<string, object?> ToRouteValues() => new()
+    {
+        ["type"] = Type,
+        ["month"] = Month,
+        ["year"] = Year,
+        ["search"] = string.IsNullOrWhiteSpace(Search) ? null : Search,
+        ["page"] = Page > 1 ? Page : null,
+    };
 }
 
 public sealed class TransactionFormViewMOD
