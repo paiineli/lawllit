@@ -21,6 +21,7 @@ public sealed record PeriodTotalsMOD(
     decimal TotalExpenses,
     decimal TotalInvestments,
     decimal RecurringExpenses,
+    decimal RecurringInvestments,
     decimal PreviousIncome,
     decimal PreviousExpenses,
     decimal PreviousInvestments

@@ -186,6 +186,7 @@ public sealed class TransactionREP(Func<string, IDbConnection> connectionFactory
                 COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS TotalExpenses,
                 COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS TotalInvestments,
                 COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 1 AND "IsRecurring" THEN "Amount" ELSE 0 END), 0) AS RecurringExpenses,
+                COALESCE(SUM(CASE WHEN "Date" >= @From         AND "Date" < @To   AND "Type" = 2 AND "IsRecurring" THEN "Amount" ELSE 0 END), 0) AS RecurringInvestments,
                 COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 0 THEN "Amount" ELSE 0 END), 0) AS PreviousIncome,
                 COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 1 THEN "Amount" ELSE 0 END), 0) AS PreviousExpenses,
                 COALESCE(SUM(CASE WHEN "Date" >= @PreviousFrom AND "Date" < @From AND "Type" = 2 THEN "Amount" ELSE 0 END), 0) AS PreviousInvestments

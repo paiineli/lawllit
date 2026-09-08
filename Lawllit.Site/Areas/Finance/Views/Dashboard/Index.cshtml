@@ -142,33 +142,43 @@
                     <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
                         <i class="bi bi-pin-angle me-1"></i>@Localizer["Dash_Committed"]
                     </h6>
-                    @if (Model.TotalExpenses > 0)
+                    @if (Model.TotalOutflow > 0)
                     {
-                        var recurringShare = Model.RecurringExpenses / Model.TotalExpenses * 100;
-                        <div class="d-flex justify-content-between align-items-baseline mb-1 small">
-                            <span>@Localizer["Dash_Fixed"]</span>
-                            <span class="tabular-nums">
-                                <span class="fw-semibold">@Model.RecurringExpenses.ToString("C", culture)</span>
-                                <span class="text-secondary"> · @recurringShare.ToString("F0", culture)%</span>
-                            </span>
-                        </div>
-                        <div class="ranking-bar mb-3">
-                            <div class="ranking-fill" data-fill-width="@recurringShare.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)"></div>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-baseline mb-1 small">
-                            <span>@Localizer["Dash_Variable"]</span>
-                            <span class="tabular-nums">
-                                <span class="fw-semibold">@Model.VariableExpenses.ToString("C", culture)</span>
-                                <span class="text-secondary"> · @((100 - recurringShare).ToString("F0", culture))%</span>
-                            </span>
-                        </div>
-                        <div class="ranking-bar mb-3">
-                            <div class="ranking-fill" data-fill-width="@((100 - recurringShare).ToString("F0", System.Globalization.CultureInfo.InvariantCulture))"></div>
-                        </div>
+                        // Custo em vermelho e aporte em azul, a mesma leitura de cor do resto do app.
+                        // Linha zerada não entra, senão quase todo mês sobraria um "aporte variável"
+                        // de R$ 0,00 ocupando espaço no card.
+                        var outflowRows = new[]
+                        {
+                            (Label: Localizer["Dash_Fixed"].Value,                 Amount: Model.RecurringExpenses,    Color: "var(--red)"),
+                            (Label: Localizer["Dash_Variable"].Value,              Amount: Model.VariableExpenses,     Color: "var(--red)"),
+                            (Label: Localizer["Dash_FixedContribution"].Value,     Amount: Model.RecurringInvestments, Color: "var(--blue)"),
+                            (Label: Localizer["Dash_VariableContribution"].Value,  Amount: Model.VariableInvestments,  Color: "var(--blue)"),
+                        }.Where(row => row.Amount > 0);
+
+                        foreach (var row in outflowRows)
+                        {
+                            var share = Model.OutflowShare(row.Amount);
+                            <div class="d-flex justify-content-between align-items-baseline mb-1 small">
+                                <span>@row.Label</span>
+                                <span class="tabular-nums">
+                                    <span class="fw-semibold">@row.Amount.ToString("C", culture)</span>
+                                    <span class="text-secondary"> · @share.ToString("F0", culture)%</span>
+                                </span>
+                            </div>
+                            <div class="ranking-bar mb-3">
+                                <div class="ranking-fill"
+                                     data-fill-width="@share.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)"
+                                     data-fill-color="@row.Color"></div>
+                            </div>
+                        }
+
                         @if (Model.CommittedShare.HasValue)
                         {
+                            var committedKey = Model.RecurringInvestments > 0
+                                ? "Dash_CommittedSubWithContribution"
+                                : "Dash_CommittedSub";
                             <p class="small text-secondary mb-0 mt-auto">
-                                @string.Format(Localizer["Dash_CommittedSub"].Value, Model.CommittedShare.Value.ToString("F0", culture))
+                                @string.Format(Localizer[committedKey].Value, Model.CommittedShare.Value.ToString("F0", culture))
                             </p>
                         }
                     }
@@ -176,7 +186,7 @@
                     {
                         <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
                             <i class="bi bi-pin-angle display-6 mb-2 opacity-25"></i>
-                            @Localizer["Dash_NoExpensesMonth"]
+                            @Localizer["Dash_NoOutflowMonth"]
                         </div>
                     }
                 </div>

@@ -93,6 +93,7 @@
 	<data name="Dash_BasedOnDays" xml:space="preserve"><value>Baseado em {0} dias de {1} neste mês</value></data>
 	<data name="Dash_AverageOverDays" xml:space="preserve"><value>Média sobre os {0} dias do mês</value></data>
 	<data name="Dash_NoExpensesMonth" xml:space="preserve"><value>Sem despesas neste mês</value></data>
+	<data name="Dash_NoOutflowMonth" xml:space="preserve"><value>Sem despesas nem aportes neste mês</value></data>
 	<data name="Dash_ExpenseRanking" xml:space="preserve"><value>Ranking de Despesas por Categoria</value></data>
 	<data name="Dash_Others" xml:space="preserve"><value>Outros</value></data>
 	<data name="Month_1" xml:space="preserve"><value>Janeiro</value></data>
@@ -519,9 +520,12 @@
 	<data name="Dash_VsPreviousYear" xml:space="preserve"><value>contra o ano anterior</value></data>
 	<data name="Dash_SavingsRateSub" xml:space="preserve"><value>do que entrou você não gastou</value></data>
 	<data name="Dash_Committed" xml:space="preserve"><value>Fixo e variável</value></data>
-	<data name="Dash_Fixed" xml:space="preserve"><value>Fixo, marcado como recorrente</value></data>
-	<data name="Dash_Variable" xml:space="preserve"><value>Variável</value></data>
-	<data name="Dash_CommittedSub" xml:space="preserve"><value>O gasto fixo compromete {0}% do que entra.</value></data>
+	<data name="Dash_Fixed" xml:space="preserve"><value>Custo fixo, marcado como recorrente</value></data>
+	<data name="Dash_Variable" xml:space="preserve"><value>Custo variável</value></data>
+	<data name="Dash_FixedContribution" xml:space="preserve"><value>Aporte fixo, marcado como recorrente</value></data>
+	<data name="Dash_VariableContribution" xml:space="preserve"><value>Aporte variável</value></data>
+	<data name="Dash_CommittedSub" xml:space="preserve"><value>O custo fixo compromete {0}% do que entra.</value></data>
+	<data name="Dash_CommittedSubWithContribution" xml:space="preserve"><value>Custo fixo e aporte fixo comprometem {0}% do que entra.</value></data>
 	<data name="Dash_Invested" xml:space="preserve"><value>Total investido</value></data>
 	<data name="Dash_InvestedSub" xml:space="preserve"><value>Somando tudo que você aportou em {0} meses.</value></data>
 	<data name="Dash_InvestedAverage" xml:space="preserve"><value>Média de {0} por mês com aporte.</value></data>

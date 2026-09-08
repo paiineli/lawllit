@@ -62,6 +62,7 @@ public sealed class DashboardService(ITransactionREP transactionRepository) : ID
             TotalInvestments = totals.TotalInvestments,
             Balance = totals.Balance,
             RecurringExpenses = totals.RecurringExpenses,
+            RecurringInvestments = totals.RecurringInvestments,
             PreviousIncome = totals.PreviousIncome,
             PreviousExpenses = totals.PreviousExpenses,
             PreviousInvestments = totals.PreviousInvestments,
@@ -100,8 +101,10 @@ public sealed class DashboardService(ITransactionREP transactionRepository) : ID
         if (dashboard.TotalIncome > 0)
             dashboard.SavingsRate = (dashboard.TotalIncome - dashboard.TotalExpenses) / dashboard.TotalIncome * 100;
 
+        // Aporte marcado como recorrente é compromisso do mês igual a uma despesa fixa, o
+        // recorrente já é importado mês a mês. Aporte esporádico fica fora, é escolha do mês.
         if (dashboard.TotalIncome > 0)
-            dashboard.CommittedShare = dashboard.RecurringExpenses / dashboard.TotalIncome * 100;
+            dashboard.CommittedShare = dashboard.RecurringCommitment / dashboard.TotalIncome * 100;
     }
 
     private static void ApplyPace(

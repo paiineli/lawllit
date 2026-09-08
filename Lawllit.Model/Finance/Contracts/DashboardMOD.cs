@@ -33,8 +33,10 @@ public sealed class DashboardMOD
     // gasto, então a conta ignora o investimento, diferente do saldo em caixa.
     public decimal? SavingsRate { get; set; }
 
-    // Despesa marcada como recorrente é o compromisso do período, o resto é escolha.
+    // O que está marcado como recorrente é o compromisso do período, o resto é escolha.
+    // Vale para despesa e para aporte, os dois voltam sozinhos todo mês pela importação.
     public decimal RecurringExpenses { get; set; }
+    public decimal RecurringInvestments { get; set; }
     public decimal? CommittedShare { get; set; }
 
     // Total aportado até o fim do período, sem recorte de mês, e em quantos meses.
@@ -52,6 +54,17 @@ public sealed class DashboardMOD
     public bool CanGoToNext { get; set; }
 
     public decimal VariableExpenses => TotalExpenses - RecurringExpenses;
+    public decimal VariableInvestments => TotalInvestments - RecurringInvestments;
+
+    // Aporte sai do caixa igual a despesa, então a decomposição do mês olha a saída inteira.
+    // Custo e aporte ficam em linhas separadas, senão a mesma barra somaria gasto com dinheiro
+    // guardado e o card diria que o mês foi caro quando na verdade o mês foi de poupança.
+    public decimal TotalOutflow => TotalExpenses + TotalInvestments;
+
+    // Só o pedaço recorrente compromete a renda. Aporte extra é decisão daquele mês.
+    public decimal RecurringCommitment => RecurringExpenses + RecurringInvestments;
+
+    public decimal OutflowShare(decimal value) => TotalOutflow > 0 ? value / TotalOutflow * 100 : 0;
 
     public decimal RankingTotal => ExpensesByCategory.Sum(category => category.Total);
 

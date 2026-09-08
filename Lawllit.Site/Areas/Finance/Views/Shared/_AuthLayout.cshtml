@@ -1,8 +1,13 @@
 @{
+    // Login e cadastro chegam sem claim e caem no escuro, que é o visual da entrada. Termos e
+    // privacidade também abrem por dentro do app, com o usuário logado, e aí seguem o tema dele.
+    var theme = User.FindFirst("theme")?.Value ?? "dark";
+    var fontSize = User.FindFirst("font_size")?.Value ?? "normal";
     var currentLanguage = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    var bsTheme = theme == "high-contrast" ? "dark" : theme;
 }
 <!DOCTYPE html>
-<html lang="@currentLanguage" data-bs-theme="dark">
+<html lang="@currentLanguage" data-bs-theme="@bsTheme" data-theme="@theme" @(fontSize != "normal" ? $"data-font-size=\"{fontSize}\"" : "")>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

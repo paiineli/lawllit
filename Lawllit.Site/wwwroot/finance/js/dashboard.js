@@ -89,9 +89,15 @@ function collapseCategories(data, othersLabel, max = 5) {
 }
 
 function initRankingBars() {
-    document.querySelectorAll('.ranking-fill[data-fill-width]').forEach(function (element, index) {
+    var paletteIndex = 0;
+
+    document.querySelectorAll('.ranking-fill[data-fill-width]').forEach(function (element) {
         element.style.width = element.dataset.fillWidth + '%';
-        element.style.backgroundColor = chartColors[index % chartColors.length];
+
+        // Barra com cor própria, como custo e aporte, não consome slot da paleta. Assim o
+        // ranking de categoria mantém a mesma cor da fatia dela no gráfico de rosca, em vez
+        // de escorregar de cor cada vez que outro card ganha ou perde uma barra.
+        element.style.backgroundColor = element.dataset.fillColor || chartColors[paletteIndex++ % chartColors.length];
     });
 }
 
