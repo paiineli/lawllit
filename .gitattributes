@@ -45,6 +45,17 @@
 #*.gif   binary
 
 ###############################################################################
+# behavior for font files
+#
+# O "* text=auto" no topo decidiria por detecção de conteúdo. Declarar explícito
+# evita que uma conversão de fim de linha corrompa a fonte no checkout.
+###############################################################################
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.otf   binary
+
+###############################################################################
 # diff behavior for common document formats
 # 
 # Convert binary document formats to text before diffing them. This feature

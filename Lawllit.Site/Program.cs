@@ -46,7 +46,24 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStaticFiles();
+app.UseResponseCompression();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = context =>
+    {
+        // O asp-append-version manda o hash do arquivo na query, e fonte nova entra com
+        // nome novo, então nesses dois casos o navegador pode guardar por um ano sem
+        // risco de servir versão velha. O resto fica em uma hora, para troca de imagem
+        // ou de currículo aparecer rápido.
+        var isFingerprinted = context.Context.Request.Query.ContainsKey("v")
+            || context.Context.Request.Path.StartsWithSegments("/fonts");
+
+        context.Context.Response.Headers.CacheControl = isFingerprinted
+            ? "public,max-age=31536000,immutable"
+            : "public,max-age=3600";
+    }
+});
 
 app.Use(async (context, next) =>
 {
@@ -73,6 +90,12 @@ app.UseRequestLocalization(localizationOptions);
 app.UseAuthorization();
 
 app.MapGet("/health", () => TypedResults.Ok(new { status = "ok" })).AllowAnonymous();
+
+app.MapGet("/robots.txt", (HttpRequest request) =>
+    TypedResults.Text(SeoContent.Robots(request), "text/plain")).AllowAnonymous();
+
+app.MapGet("/sitemap.xml", (HttpRequest request) =>
+    TypedResults.Text(SeoContent.Sitemap(request), "application/xml")).AllowAnonymous();
 
 app.MapControllerRoute(
     name: "areas",

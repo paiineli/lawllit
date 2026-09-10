@@ -2,6 +2,8 @@ using Lawllit.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 using System.Threading.RateLimiting;
 
 namespace Lawllit.Site;
@@ -32,6 +34,8 @@ public static class DependencyContainer
 
         services.AddAuthorization();
 
+        AddCompression(services);
+
         services.AddRateLimiter(options =>
         {
             options.AddFixedWindowLimiter(AuthRateLimiterPolicy, limiterOptions =>
@@ -53,6 +57,27 @@ public static class DependencyContainer
         });
 
         return services;
+    }
+
+    private static void AddCompression(IServiceCollection services)
+    {
+        services.AddResponseCompression(options =>
+        {
+            // A Railway encerra o TLS na borda e o Kestrel recebe HTTP, mas o
+            // UseForwardedHeaders reescreve o esquema para https antes daqui, então sem
+            // isto a compressão ficaria desligada justamente em produção.
+            options.EnableForHttps = true;
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+        });
+
+        // Nível rápido, e não o máximo. Em HTML e CSS a diferença de tamanho entre os
+        // dois é de poucos por cento, e o custo de CPU por requisição é bem maior.
+        services.Configure<BrotliCompressionProviderOptions>(
+            options => options.Level = CompressionLevel.Fastest);
+
+        services.Configure<GzipCompressionProviderOptions>(
+            options => options.Level = CompressionLevel.Fastest);
     }
 
     // Sem credencial configurada o app sobe sem o botão do Google, o que mantém o
