@@ -71,13 +71,15 @@ public static class DependencyContainer
             options.Providers.Add<GzipCompressionProvider>();
         });
 
-        // Nível rápido, e não o máximo. Em HTML e CSS a diferença de tamanho entre os
-        // dois é de poucos por cento, e o custo de CPU por requisição é bem maior.
+        // Optimal, e não Fastest nem SmallestSize. Medido no bootstrap.min.css, que é o
+        // maior arquivo do site com 232 KB: o nível rápido deixava o arquivo maior do
+        // que o CDN entregava, e o máximo custa quase meio segundo de CPU por
+        // requisição, o que não se paga.
         services.Configure<BrotliCompressionProviderOptions>(
-            options => options.Level = CompressionLevel.Fastest);
+            options => options.Level = CompressionLevel.Optimal);
 
         services.Configure<GzipCompressionProviderOptions>(
-            options => options.Level = CompressionLevel.Fastest);
+            options => options.Level = CompressionLevel.Optimal);
     }
 
     // Sem credencial configurada o app sobe sem o botão do Google, o que mantém o

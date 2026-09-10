@@ -1,0 +1,79 @@
+/* Bootstrap Icons 1.11.3, reduzido aos 48 ícones que o projeto usa.
+ * Licença MIT, https://github.com/twbs/icons/blob/main/LICENSE
+ *
+ * ARQUIVO GERADO, não edite à mão. Ao adicionar um ícone novo no projeto, refaça a
+ * lista com um grep por "bi-" em Lawllit.Site e rode o subset.mjs de novo.
+ *
+ * O original trazia 130 KB de fonte e 98 KB de CSS, para cerca de 2000 ícones, e o
+ * CSS vinha de CDN bloqueando a renderização. font-display aqui é swap, e não o
+ * block do original, que o Lighthouse penaliza.
+ */
+
+@font-face {
+    font-display: swap;
+    font-family: "bootstrap-icons";
+    src: url("../fonts/bootstrap-icons-subset.woff2") format("woff2");
+}
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bi-activity::before { content: "\f66b"; }
+.bi-arrow-clockwise::before { content: "\f116"; }
+.bi-arrow-down::before { content: "\f128"; }
+.bi-arrow-left::before { content: "\f12f"; }
+.bi-arrow-left-right::before { content: "\f12b"; }
+.bi-arrow-repeat::before { content: "\f130"; }
+.bi-arrow-right::before { content: "\f138"; }
+.bi-arrow-up::before { content: "\f148"; }
+.bi-bar-chart::before { content: "\f17e"; }
+.bi-body-text::before { content: "\f683"; }
+.bi-box-arrow-right::before { content: "\f1c3"; }
+.bi-calendar-check::before { content: "\f1e2"; }
+.bi-calendar-event::before { content: "\f1e8"; }
+.bi-calendar3::before { content: "\f214"; }
+.bi-chevron-left::before { content: "\f284"; }
+.bi-chevron-right::before { content: "\f285"; }
+.bi-code-slash::before { content: "\f2c6"; }
+.bi-database::before { content: "\f8c4"; }
+.bi-download::before { content: "\f30a"; }
+.bi-envelope::before { content: "\f32f"; }
+.bi-eye::before { content: "\f341"; }
+.bi-eye-slash::before { content: "\f340"; }
+.bi-file-earmark-image::before { content: "\f36d"; }
+.bi-file-earmark-pdf::before { content: "\f63e"; }
+.bi-file-earmark-spreadsheet::before { content: "\f389"; }
+.bi-fonts::before { content: "\f3da"; }
+.bi-gear::before { content: "\f3e5"; }
+.bi-geo-alt::before { content: "\f3e8"; }
+.bi-github::before { content: "\f3ed"; }
+.bi-graph-down-arrow::before { content: "\f672"; }
+.bi-graph-up-arrow::before { content: "\f673"; }
+.bi-linkedin::before { content: "\f472"; }
+.bi-list-ol::before { content: "\f475"; }
+.bi-pencil::before { content: "\f4cb"; }
+.bi-person::before { content: "\f4e1"; }
+.bi-person-vcard::before { content: "\f8c9"; }
+.bi-pie-chart::before { content: "\f4e9"; }
+.bi-piggy-bank::before { content: "\f64a"; }
+.bi-pin-angle::before { content: "\f4eb"; }
+.bi-plus-lg::before { content: "\f64d"; }
+.bi-qr-code::before { content: "\f6ae"; }
+.bi-safe::before { content: "\f65a"; }
+.bi-shield-lock::before { content: "\f538"; }
+.bi-sliders::before { content: "\f56b"; }
+.bi-trash::before { content: "\f5de"; }
+.bi-wallet2::before { content: "\f615"; }
+.bi-wifi-off::before { content: "\f61b"; }
+.bi-x-lg::before { content: "\f659"; }

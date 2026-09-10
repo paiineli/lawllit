@@ -677,3 +677,12 @@ button.lp-btn {
 @media (max-width: 600px) {
     .lp-main { padding: 2.5rem 0 4rem; }
 }
+
+/* Substitui a classe .fi do flag-icons. Mesma proporção 4:3 dimensionada pela
+   fonte, para o botão de idioma não mudar de tamanho. */
+.flag {
+    display: inline-block;
+    width: 1.3333em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
