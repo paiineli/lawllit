@@ -13,6 +13,7 @@ public static class SeoContent
     private static readonly string[] IndexablePaths =
     [
         "/",
+        "/Curriculum",
         "/Tools",
         "/Tools/SpreadsheetMerger",
         "/Tools/PdfMerger",

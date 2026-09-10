@@ -328,30 +328,30 @@
 	<data name="Landing_Sub" xml:space="preserve"><value>Your finances. Simple as that.</value></data>
 
 <data name="Home_EducationTag" xml:space="preserve"><value>// education</value></data>
-	<data name="Home_Edu1_Title" xml:space="preserve"><value>Executive MBA, Business Management</value></data>
-	<data name="Home_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – May 2026 · GPA 9.22/10</value></data>
-	<data name="Home_Edu2_Title" xml:space="preserve"><value>Postgraduate Specialization, Software Architecture</value></data>
-	<data name="Home_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Feb 2023 – May 2025 · GPA 9.6/10</value></data>
-	<data name="Home_Edu3_Title" xml:space="preserve"><value>Associate Degree, Systems Analysis and Development</value></data>
-	<data name="Home_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Feb 2021 – Dec 2022</value></data>
+	<data name="Cv_Edu1_Title" xml:space="preserve"><value>Executive MBA, Business Management</value></data>
+	<data name="Cv_Edu1_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Jan 2025 – May 2026 · GPA 9.22/10</value></data>
+	<data name="Cv_Edu2_Title" xml:space="preserve"><value>Postgraduate Specialization, Software Architecture</value></data>
+	<data name="Cv_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Feb 2023 – May 2025 · GPA 9.6/10</value></data>
+	<data name="Cv_Edu3_Title" xml:space="preserve"><value>Associate Degree, Systems Analysis and Development</value></data>
+	<data name="Cv_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Feb 2021 – Dec 2022</value></data>
 	<data name="Home_CertificationsTag" xml:space="preserve"><value>// certifications</value></data>
-	<data name="Home_Cert1_Title" xml:space="preserve"><value>Digital Immersion – AI Specialist Track</value></data>
-	<data name="Home_Cert1_Meta" xml:space="preserve"><value>Santander Open Academy · Jul 2026</value></data>
-	<data name="Home_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
-	<data name="Home_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · May 2026</value></data>
-	<data name="Home_Cert3_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
-	<data name="Home_Cert3_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
-	<data name="Home_Cert4_Title" xml:space="preserve"><value>Introduction to Data Science</value></data>
-	<data name="Home_Cert4_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Aug 2022</value></data>
+	<data name="Cv_Cert1_Title" xml:space="preserve"><value>Digital Immersion – AI Specialist Track</value></data>
+	<data name="Cv_Cert1_Meta" xml:space="preserve"><value>Santander Open Academy · Jul 2026</value></data>
+	<data name="Cv_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
+	<data name="Cv_Cert2_Meta" xml:space="preserve"><value>OHLA Schools, Miami · May 2026</value></data>
+	<data name="Cv_Cert3_Title" xml:space="preserve"><value>Foundational C# with Microsoft</value></data>
+	<data name="Cv_Cert3_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
+	<data name="Cv_Cert4_Title" xml:space="preserve"><value>Introduction to Data Science</value></data>
+	<data name="Cv_Cert4_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Aug 2022</value></data>
 	<data name="Home_LanguagesTag" xml:space="preserve"><value>// languages</value></data>
-	<data name="Home_Lang1_Name" xml:space="preserve"><value>Portuguese</value></data>
-	<data name="Home_Lang1_Level" xml:space="preserve"><value>Native</value></data>
-	<data name="Home_Lang2_Name" xml:space="preserve"><value>English</value></data>
-	<data name="Home_Lang2_Level" xml:space="preserve"><value>Advanced</value></data>
+	<data name="Cv_Lang1_Name" xml:space="preserve"><value>Portuguese</value></data>
+	<data name="Cv_Lang1_Level" xml:space="preserve"><value>Native</value></data>
+	<data name="Cv_Lang2_Name" xml:space="preserve"><value>English</value></data>
+	<data name="Cv_Lang2_Level" xml:space="preserve"><value>Advanced</value></data>
 	<data name="Home_SummaryTag" xml:space="preserve"><value>// summary</value></data>
-	<data name="Home_Summary_P1" xml:space="preserve"><value>Fullstack .NET Developer with 6 years in technology, working with C#, ASP.NET Core, .NET Framework and Oracle Database in healthcare web systems that need to run all the time.</value></data>
-	<data name="Home_Summary_P2" xml:space="preserve"><value>Day-to-day I work across the full stack: data modeling and optimization in Oracle with SQL and PL/SQL, building and consuming REST APIs, and front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor. I apply Clean Architecture, SOLID and Design Patterns, participate in code reviews, and version control via Git and Azure DevOps.</value></data>
-	<data name="Home_Summary_P3" xml:space="preserve"><value>I use AI seriously at work: GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</value></data>
+	<data name="Cv_About_P1" xml:space="preserve"><value>Fullstack .NET Developer with 6 years in technology, working with C#, ASP.NET Core, .NET Framework and Oracle Database in healthcare web systems that need to run all the time.</value></data>
+	<data name="Cv_About_P2" xml:space="preserve"><value>Day-to-day I work across the full stack: data modeling and optimization in Oracle with SQL and PL/SQL, building and consuming REST APIs, and front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor. I apply Clean Architecture, SOLID and Design Patterns, participate in code reviews, and version control via Git and Azure DevOps.</value></data>
+	<data name="Cv_About_P3" xml:space="preserve"><value>I use AI seriously at work: GitHub Copilot, Claude and Cursor are part of my daily flow for writing, reviewing and debugging code faster. Not as a replacement for thinking, but as a tool that speeds up delivery without compromising quality.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projects</value></data>
 	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>I built </value></data>
 	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> as a side project, a personal finance app to track income, expenses, and live exchange rates. Free to try.</value></data>
@@ -538,5 +538,48 @@
 	<data name="Welcome_Step2_Bullet2" xml:space="preserve"><value>The dashboard closes the month and compares it to earlier ones.</value></data>
 	<data name="Welcome_Step2_Bullet3" xml:space="preserve"><value>A bill marked as recurring repeats every month.</value></data>
 	<data name="Welcome_Step2_Currency" xml:space="preserve"><value>Amounts are in Brazilian real.</value></data>
+	<data name="Cv_Headline" xml:space="preserve"><value>Fullstack .NET Developer | C#, ASP.NET Core, Oracle | REST APIs · Clean Architecture · AI in the workflow</value></data>
+	<data name="Cv_Section_About" xml:space="preserve"><value>About</value></data>
+	<data name="Cv_Section_Experience" xml:space="preserve"><value>Experience</value></data>
+	<data name="Cv_Section_Education" xml:space="preserve"><value>Education</value></data>
+	<data name="Cv_Section_Certifications" xml:space="preserve"><value>Certifications</value></data>
+	<data name="Cv_Section_Languages" xml:space="preserve"><value>Languages</value></data>
+	<data name="Cv_Section_Skills" xml:space="preserve"><value>Skills</value></data>
+	<data name="Cv_StackLabel" xml:space="preserve"><value>Stack:</value></data>
+	<data name="Cv_Print" xml:space="preserve"><value>Print</value></data>
+	<data name="Cv_About_P4" xml:space="preserve"><value>I hold a Specialization in Software Architecture from Facens (GPA 9.6/10) and an Executive MBA in Business Management from FGV (GPA 9.22/10). I'm looking for a mid-level or software engineer position in .NET, preferably at companies with larger data volumes and systems with critical availability requirements.</value></data>
+	<data name="Cv_Skills" xml:space="preserve"><value>C#, ASP.NET Core, .NET Framework, Oracle Database, SQL, PL/SQL, REST APIs, Clean Architecture, SOLID, Design Patterns, Clean Code, Entity Framework, Azure DevOps, Git, JavaScript, HTML5, CSS3, Bootstrap, Razor, SQL Server, Azure SQL, Scrum, Code Review, Linux, Windows Server, TFS</value></data>
+	<data name="Cv_Job1_Title" xml:space="preserve"><value>Web Programmer Analyst Jr</value></data>
+	<data name="Cv_Job1_Period" xml:space="preserve"><value>Oct 2024 – Present</value></data>
+	<data name="Cv_Job1_Intro" xml:space="preserve"><value>I develop and maintain healthcare web systems in C# and .NET, working daily across the full stack from the data layer to the front-end.</value></data>
+	<data name="Cv_Job1_Bullet1" xml:space="preserve"><value>Back-end development in C# with ASP.NET Core and .NET Framework, applying Clean Architecture, SOLID and Design Patterns.</value></data>
+	<data name="Cv_Job1_Bullet2" xml:space="preserve"><value>Building and consuming REST APIs integrated with clinical and operational workflows.</value></data>
+	<data name="Cv_Job1_Bullet3" xml:space="preserve"><value>Writing and optimizing queries, stored procedures, triggers and PL/SQL functions on Oracle Database.</value></data>
+	<data name="Cv_Job1_Bullet4" xml:space="preserve"><value>Front-end development with HTML5, CSS3, JavaScript, Bootstrap and Razor.</value></data>
+	<data name="Cv_Job1_Bullet5" xml:space="preserve"><value>Participating in code reviews with the team.</value></data>
+	<data name="Cv_Job1_Bullet6" xml:space="preserve"><value>Using GitHub Copilot, Claude and Cursor in the daily workflow to speed up and review code.</value></data>
+	<data name="Cv_Job1_Bullet7" xml:space="preserve"><value>Version control with Git, TFS and Azure DevOps.</value></data>
+	<data name="Cv_Job2_Title" xml:space="preserve"><value>PACS Systems Analyst</value></data>
+	<data name="Cv_Job2_Period" xml:space="preserve"><value>Feb 2023 – Sep 2024</value></data>
+	<data name="Cv_Job2_Intro" xml:space="preserve"><value>Administration of hospital PACS, RIS and HIS systems, focused on Oracle database and advanced technical support in production.</value></data>
+	<data name="Cv_Job2_Bullet1" xml:space="preserve"><value>Wrote and optimized SQL and PL/SQL scripts for process automation and data extraction.</value></data>
+	<data name="Cv_Job2_Bullet2" xml:space="preserve"><value>Worked on query performance in high-volume data environments.</value></data>
+	<data name="Cv_Job2_Bullet3" xml:space="preserve"><value>Acted as N3 escalation point for complex integration and performance failures.</value></data>
+	<data name="Cv_Job2_Bullet4" xml:space="preserve"><value>Assisted in the administration of Linux and Windows servers, including recovery routines.</value></data>
+	<data name="Cv_Job2_Bullet5" xml:space="preserve"><value>Accompanied the team and vendors during upgrades and patch deployments.</value></data>
+	<data name="Cv_Job3_Title" xml:space="preserve"><value>PACS Technical Support Assistant</value></data>
+	<data name="Cv_Job3_Period" xml:space="preserve"><value>Jun 2021 – Jan 2023</value></data>
+	<data name="Cv_Job3_Intro" xml:space="preserve"><value>N2 and N3 technical support for over 300 healthcare professionals in a high-availability environment.</value></data>
+	<data name="Cv_Job3_Bullet1" xml:space="preserve"><value>Diagnosed and resolved incidents related to medical image viewing, storage and transmission.</value></data>
+	<data name="Cv_Job3_Bullet2" xml:space="preserve"><value>Configured and maintained workstations and imaging modalities, including CT, MRI and X-Ray.</value></data>
+	<data name="Cv_Job3_Bullet3" xml:space="preserve"><value>Assisted in the administration of Linux and Windows servers.</value></data>
+	<data name="Cv_Job4_Title" xml:space="preserve"><value>IT Intern</value></data>
+	<data name="Cv_Job4_Period" xml:space="preserve"><value>Oct 2020 – Jun 2021</value></data>
+	<data name="Cv_Job4_Intro" xml:space="preserve"><value>N1 and N2 technical support, installation and maintenance of internal systems, basic Windows Server and Active Directory administration.</value></data>
+
+	<data name="Cv_Job1_Stack" xml:space="preserve"><value>C# · ASP.NET Core · .NET Framework · Oracle Database · SQL/PL/SQL · REST APIs · HTML5 · CSS3 · JavaScript · Bootstrap · Razor · Azure DevOps · Git · TFS</value></data>
+	<data name="Cv_Job2_Stack" xml:space="preserve"><value>Oracle Database · SQL/PL/SQL · Linux · Windows Server</value></data>
+
+	<data name="Cv_DocumentTitle" xml:space="preserve"><value>Resume</value></data>
 
 </root>

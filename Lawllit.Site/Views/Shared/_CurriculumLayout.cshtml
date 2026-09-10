@@ -1,0 +1,27 @@
+@{
+    // O currículo é um documento, não uma página do site, então não carrega o Bootstrap
+    // nem o app.css. Fonte de sistema, sem webfont, porque ele existe para ser impresso
+    // ou salvo em PDF e o leitor de triagem lê o texto, não o desenho.
+    var currentLanguage = System.Globalization.CultureInfo.CurrentUICulture.Name;
+}
+<!DOCTYPE html>
+<html lang="@currentLanguage">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Curriculum.Name · @Localizer["Cv_DocumentTitle"]</title>
+    <meta name="description" content="@Localizer["Cv_Headline"]" />
+    <link rel="canonical" href="@SeoUrls.Canonical(Context.Request)" />
+    @foreach (var language in Constants.ValidLanguages)
+    {
+        <link rel="alternate" hreflang="@language" href="@SeoUrls.ForCulture(Context.Request, language)" />
+    }
+    <link rel="alternate" hreflang="x-default" href="@SeoUrls.ForCulture(Context.Request, Constants.DefaultLanguage)" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>" />
+    <link rel="stylesheet" href="~/css/curriculum.css" asp-append-version="true" />
+</head>
+<body>
+    @RenderBody()
+    <script src="~/js/curriculum.js" asp-append-version="true" defer></script>
+</body>
+</html>

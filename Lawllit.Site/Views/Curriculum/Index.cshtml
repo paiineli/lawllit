@@ -1,0 +1,89 @@
+@{
+    Layout = "_CurriculumLayout";
+}
+
+<div class="sheet">
+
+    <div class="cv-actions">
+        <button type="button" class="cv-print" id="cv-print">@Localizer["Cv_Print"]</button>
+    </div>
+
+    <header>
+        <h1>@Curriculum.Name</h1>
+        <p class="title-line">@Localizer["Cv_Headline"]</p>
+        <p class="contact-line">@Curriculum.Email | @Curriculum.LinkedIn | @Curriculum.GitHub</p>
+    </header>
+
+    <section>
+        <h2>@Localizer["Cv_Section_About"]</h2>
+        @for (var paragraph = 1; paragraph <= Curriculum.AboutParagraphs; paragraph++)
+        {
+            <p>@Localizer[$"Cv_About_P{paragraph}"]</p>
+        }
+    </section>
+
+    <section>
+        <h2>@Localizer["Cv_Section_Experience"]</h2>
+        @foreach (var job in Curriculum.Jobs)
+        {
+            <div class="job">
+                <div class="job-head">
+                    <span class="job-title">@Localizer[job.TitleKey] &mdash; @job.Organization</span>
+                    <span class="job-dates">@Localizer[job.PeriodKey]</span>
+                </div>
+                <p class="job-intro">@Localizer[job.IntroKey]</p>
+
+                @if (job.Bullets > 0)
+                {
+                    <ul>
+                        @for (var bullet = 1; bullet <= job.Bullets; bullet++)
+                        {
+                            <li>@Localizer[job.BulletKey(bullet)]</li>
+                        }
+                    </ul>
+                }
+
+                @if (job.HasStack)
+                {
+                    <p class="stack">@Localizer["Cv_StackLabel"] @Localizer[job.StackKey]</p>
+                }
+            </div>
+        }
+    </section>
+
+    <section>
+        <h2>@Localizer["Cv_Section_Education"]</h2>
+        @for (var item = 1; item <= Curriculum.Educations; item++)
+        {
+            <div class="line">@Localizer[$"Cv_Edu{item}_Title"] &mdash; @Localizer[$"Cv_Edu{item}_Meta"]</div>
+        }
+    </section>
+
+    <section>
+        <h2>@Localizer["Cv_Section_Certifications"]</h2>
+        @for (var item = 1; item <= Curriculum.Certifications; item++)
+        {
+            <div class="line">@Localizer[$"Cv_Cert{item}_Title"] &mdash; @Localizer[$"Cv_Cert{item}_Meta"]</div>
+        }
+    </section>
+
+    <section>
+        <h2>@Localizer["Cv_Section_Languages"]</h2>
+        <div class="line">
+            @for (var item = 1; item <= Curriculum.Languages; item++)
+            {
+                @if (item > 1)
+                {
+                    <span class="line-sep">|</span>
+                }
+                <span>@Localizer[$"Cv_Lang{item}_Name"] &mdash; @Localizer[$"Cv_Lang{item}_Level"]</span>
+            }
+        </div>
+    </section>
+
+    <section>
+        <h2>@Localizer["Cv_Section_Skills"]</h2>
+        <p>@Localizer["Cv_Skills"]</p>
+    </section>
+
+</div>
