@@ -1,91 +1,195 @@
 @{
     ViewData["Title"] = "lawllit.";
+
+    // As competências vêm do resx como lista separada por vírgula, e não como chave por
+    // item, porque são 26 e a tradução inverte a ordem de "APIs REST". As em destaque
+    // ficam numa chave própria, para não depender de casar texto entre os dois idiomas.
+    var skillRows = new[] { "Lang", "Data", "Practice", "Tooling" };
 }
 
-<main class="lp-main">
-    <div class="container-lg d-flex justify-content-center">
-        <div class="lp-body">
+<main class="home-main">
+    <div class="shell">
+        <div class="home">
 
-            <header class="lp-header">
-                <h1 class="lp-name">Lucas Paineli Gimenes</h1>
-                <div class="lp-icons">
-                    <a href="mailto:painelilucas@gmail.com" aria-label="Email"><i class="bi bi-envelope"></i></a>
-                    <a href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                    <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="bi bi-github"></i></a>
-                </div>
-                <div class="d-flex flex-wrap gap-2 justify-content-center">
-                    <a asp-controller="Curriculum" asp-action="Index" asp-route-culture="pt-BR" asp-route-print="1" target="_blank" class="lp-btn">currículo pt-br</a>
-                    <a asp-controller="Curriculum" asp-action="Index" asp-route-culture="en-US" asp-route-print="1" target="_blank" class="lp-btn">resume en-us</a>
-                </div>
-            </header>
+            <section class="home-section hero">
+                <h1>@Curriculum.Name</h1>
+                <p class="hero-role">@Localizer["Cv_Headline"]</p>
+                <p class="hero-pitch">@Localizer["Cv_About_P1"]</p>
 
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Home_EducationTag"]</p>
-                <div class="lp-edu">
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Edu1_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Edu1_Meta"]</span>
-                    </div>
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Edu2_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Edu2_Meta"]</span>
-                    </div>
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Edu3_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Edu3_Meta"]</span>
+                <div class="hero-actions">
+                    <a class="lp-btn lp-btn-solid" asp-controller="Home" asp-action="Index" asp-fragment="contact">@Localizer["Home_Contact_CTA"]</a>
+                    <a class="lp-btn" asp-controller="Curriculum" asp-action="Index" asp-route-culture="pt-BR" asp-route-print="1" target="_blank">currículo pt-br</a>
+                    <a class="lp-btn" asp-controller="Curriculum" asp-action="Index" asp-route-culture="en-US" asp-route-print="1" target="_blank">resume en-us</a>
+
+                    <div class="socials">
+                        <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                        <a href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="mailto:@Curriculum.Email" aria-label="@Localizer["Home_Contact_Email"]"><i class="bi bi-envelope"></i></a>
                     </div>
                 </div>
             </section>
 
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Home_CertificationsTag"]</p>
-                <div class="lp-edu">
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Cert1_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Cert1_Meta"]</span>
+            <section class="home-section">
+                <p class="slab">@Localizer["Home_SkillsTag"]</p>
+                <div class="skill-rows">
+                    @foreach (var row in skillRows)
+                    {
+                        <div class="skill-row">
+                            <span class="skill-label">@Localizer[$"Home_Skills_{row}_Label"]</span>
+                            <div class="tags">
+                                @foreach (var skill in Localizer[$"Home_Skills_{row}_Core"].Value.Split(", "))
+                                {
+                                    <span class="tag tag-core">@skill</span>
+                                }
+                                @foreach (var skill in Localizer[$"Home_Skills_{row}_Rest"].Value.Split(", "))
+                                {
+                                    <span class="tag">@skill</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">@Localizer["Home_ProjectsTag"]</p>
+                <div class="projects">
+                    <a class="project project-lead" asp-area="Finance" asp-controller="Home" asp-action="Index">
+                        <div class="project-top">
+                            <span class="project-name">lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span></span>
+                            <span class="project-state">@Localizer["Home_Project_Live"]</span>
+                        </div>
+                        <p class="project-desc">@Localizer["Home_Finance_Card_Desc"]</p>
+                        <p class="project-stack">.NET 10 · Minimal API · Dapper · PostgreSQL · JWT · Google OAuth · Chart.js · Docker · Railway</p>
+                    </a>
+
+                    <a class="project" asp-controller="Tools" asp-action="Index">
+                        <div class="project-top">
+                            <span class="project-name">@Localizer["Tools_Title"]</span>
+                            <span class="project-state">@string.Format(Localizer["Home_Project_ToolsLive"].Value, SiteTools.Count)</span>
+                        </div>
+                        <p class="project-desc">@Localizer["Tools_Subtitle"]</p>
+                        <div class="project-list">
+                            @foreach (var tool in SiteTools.All)
+                            {
+                                <span>@Localizer[tool.NameKey]</span>
+                            }
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">@Localizer["Home_ExperienceTag"]</p>
+                <div class="jobs">
+                    @foreach (var job in Curriculum.Jobs)
+                    {
+                        <div class="job">
+                            <div class="job-head">
+                                <div>
+                                    <div class="job-title">@Localizer[job.TitleKey]</div>
+                                    <div class="job-org">@job.Organization</div>
+                                </div>
+                                <div class="job-when">@Localizer[job.PeriodKey]</div>
+                            </div>
+                            <p class="job-intro">@Localizer[job.IntroKey]</p>
+
+                            @if (job.Bullets > 0)
+                            {
+                                <ul class="job-bullets">
+                                    @for (var bullet = 1; bullet <= job.Bullets; bullet++)
+                                    {
+                                        <li>@Localizer[job.BulletKey(bullet)]</li>
+                                    }
+                                </ul>
+                            }
+
+                            @if (job.HasStack)
+                            {
+                                <p class="job-stack"><span>@Localizer["Cv_StackLabel"]</span> @Localizer[job.StackKey]</p>
+                            }
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">@Localizer["Home_AboutTag"]</p>
+                @* O primeiro parágrafo abre a página, então aqui a seção começa no segundo. *@
+                @for (var paragraph = 2; paragraph <= Curriculum.AboutParagraphs; paragraph++)
+                {
+                    <p class="prose">@Localizer[$"Cv_About_P{paragraph}"]</p>
+                }
+            </section>
+
+            <section class="home-section">
+                <p class="slab">@Localizer["Home_EducationTag"]</p>
+                <div class="creds">
+                    <div>
+                        <p class="cred-head">@Localizer["Home_Cred_Academic"]</p>
+                        <div class="cred-list">
+                            @for (var item = 1; item <= Curriculum.Educations; item++)
+                            {
+                                <div class="cred-item">
+                                    <b>@Localizer[$"Cv_Edu{item}_Title"]</b>
+                                    <span>@Localizer[$"Cv_Edu{item}_Meta"]</span>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Cert2_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Cert2_Meta"]</span>
+                    <div>
+                        <p class="cred-head">@Localizer["Home_Cred_Certifications"]</p>
+                        <div class="cred-list">
+                            @for (var item = 1; item <= Curriculum.Certifications; item++)
+                            {
+                                <div class="cred-item">
+                                    <b>@Localizer[$"Cv_Cert{item}_Title"]</b>
+                                    <span>@Localizer[$"Cv_Cert{item}_Meta"]</span>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Cert3_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Cert3_Meta"]</span>
-                    </div>
-                    <div class="lp-edu-item">
-                        <span>@Localizer["Cv_Cert4_Title"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Cert4_Meta"]</span>
+                    <div>
+                        <p class="cred-head">@Localizer["Home_Cred_Languages"]</p>
+                        <div class="cred-list">
+                            @for (var item = 1; item <= Curriculum.Languages; item++)
+                            {
+                                <div class="cred-item">
+                                    <b>@Localizer[$"Cv_Lang{item}_Name"]</b>
+                                    <span>@Localizer[$"Cv_Lang{item}_Level"]</span>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Home_LanguagesTag"]</p>
-                <div class="lp-lang">
-                    <div class="lp-lang-item">
-                        <span>@Localizer["Cv_Lang1_Name"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Lang1_Level"]</span>
+            <section class="home-section" id="contact">
+                <p class="slab">@Localizer["Home_ContactTag"]</p>
+                @* O formulário entra na etapa 3, quando o endpoint e o Turnstile existirem.
+                   Até lá a seção entrega os canais diretos, que é o que já funciona. *@
+                <div class="contact">
+                    <div class="direct">
+                        <div class="direct-item">
+                            <span>@Localizer["Home_Contact_Email"]</span>
+                            <a href="mailto:@Curriculum.Email">@Curriculum.Email</a>
+                        </div>
+                        <div class="direct-item">
+                            <span>linkedin</span>
+                            <a href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer">@Curriculum.LinkedIn</a>
+                        </div>
                     </div>
-                    <div class="lp-lang-item">
-                        <span>@Localizer["Cv_Lang2_Name"]</span>
-                        <span class="lp-edu-meta">@Localizer["Cv_Lang2_Level"]</span>
+                    <div class="direct">
+                        <div class="direct-item">
+                            <span>github</span>
+                            <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer">@Curriculum.GitHub</a>
+                        </div>
+                        <div class="direct-item">
+                            <span>@Localizer["Home_Contact_Location"]</span>
+                            <p>Sorocaba, São Paulo</p>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Home_SummaryTag"]</p>
-                <p class="lp-text">@Localizer["Cv_About_P1"]</p>
-                <p class="lp-text lp-text-gap">@Localizer["Cv_About_P2"]</p>
-                <p class="lp-text lp-text-gap">@Localizer["Cv_About_P3"]</p>
-            </section>
-
-            <section class="lp-section lp-cta">
-                <p class="lp-section-title">@Localizer["Home_ProjectsTag"]</p>
-                <p class="lp-text">
-                    @Localizer["Home_Finance_Desc_Pre"]<span class="lp-finance-brand">lawllit<span class="lp-finance-dot">.</span><span class="lp-finance-text">finance</span></span>@Localizer["Home_Finance_Desc_Post"]
-                </p>
-                <a asp-area="Finance" asp-controller="Home" asp-action="Index" class="lp-btn lp-btn-cta">@Localizer["Home_Finance_CTA"]</a>
             </section>
 
         </div>

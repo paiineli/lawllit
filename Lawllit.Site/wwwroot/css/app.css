@@ -1,8 +1,13 @@
-/* JetBrains Mono auto hospedada, em vez de buscar na Google a cada visita. É a fonte
-   variável, então um arquivo só cobre os pesos de 400 a 700. O unicode-range faz o
-   navegador baixar o latin-ext apenas quando a página tiver algum caractere daquela
-   faixa, então quem só lê português e inglês baixa somente o latin.
-   Licença SIL OFL 1.1, o texto está em wwwroot/fonts/OFL.txt. */
+/* CSS do site público. Não depende do Bootstrap: as vinte e poucas classes de layout
+   que o site usava dele estão escritas aqui, o que tirou 232 KB do caminho crítico.
+   O app financeiro continua com Bootstrap, ele usa o framework de verdade. */
+
+/* ============================================================
+   FONTE
+   Auto hospedada, um arquivo variável cobre 400 a 700. O unicode-range faz o
+   navegador baixar o latin-ext só quando a página tem caractere daquela faixa.
+   Licença SIL OFL 1.1, o texto está em wwwroot/fonts/OFL.txt.
+   ============================================================ */
 @font-face {
     font-family: 'JetBrains Mono';
     font-style: normal;
@@ -21,28 +26,33 @@
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* ============================================================
+   TOKENS E BASE
+   ============================================================ */
+:root {
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --bg: #000;
+    --fg: #fff;
+    /* Cinza com leve viés de verde, herança de terminal de fósforo. Dá cerca de 8:1
+       sobre o preto, contra 5,9:1 do cinza neutro que estava aqui antes. */
+    --dim: #9aa39d;
+    --faint: #6b736d;
+    --green: #4ade80;
+    --red: #f87171;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    --transition: 0.15s ease;
+    --shell-padding: 24px;
+}
+
 *, *::before, *::after {
     font-family: var(--font-mono);
     box-sizing: border-box;
 }
 
-:focus-visible {
-    outline: 2px solid var(--fg);
-    outline-offset: 2px;
+html {
+    background: var(--bg);
 }
-
-:root {
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --bg: #000;
-    --fg: #fff;
-    --dim: #9aa39d;
-    --green: #4ade80;
-    --border: rgba(255, 255, 255, 0.1);
-    --border-hover: rgba(255, 255, 255, 0.3);
-    --transition: 0.15s ease;
-}
-
-html { background: var(--bg); }
 
 body {
     background: var(--bg);
@@ -53,6 +63,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Grão sobre a página inteira, fixo, para não rolar com o conteúdo. */
 body::before {
     content: '';
     position: fixed;
@@ -70,29 +81,691 @@ a {
     text-decoration: none;
 }
 
-    a:hover { text-decoration: underline; }
+    a:hover {
+        text-decoration: underline;
+    }
 
+:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ============================================================
+   LAYOUT
+   .shell substitui o trio container-lg + d-flex + justify-content-center que vinha
+   do Bootstrap. .visually-hidden também era dele, e é usada nos input de arquivo
+   das ferramentas, que ficam escondidos atrás do rótulo clicável.
+   ============================================================ */
+.shell {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-inline: var(--shell-padding);
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
 #main-nav {
-    background: rgba(0, 0, 0, 0.85) !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-shell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-block: 13px;
+    padding-inline: var(--shell-padding);
 }
 
 .brand {
-    font-size: 1.05rem !important;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: var(--fg) !important;
-    text-decoration: none;
+    color: var(--fg);
     letter-spacing: -0.3px;
 }
 
     .brand:hover {
         text-decoration: none;
-        color: var(--fg) !important;
+        color: var(--fg);
     }
 
-.brand-dot { opacity: 0.35; }
+.brand-dot {
+    color: var(--faint);
+}
 
+.nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    color: var(--dim);
+    margin-left: auto;
+    padding: 6px;
+    cursor: pointer;
+    line-height: 0;
+}
+
+    .nav-toggle:hover {
+        color: var(--fg);
+    }
+
+    .nav-toggle svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+    }
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    font-size: 0.78rem;
+    color: var(--dim);
+    padding: 0.4rem 0.75rem;
+    transition: color var(--transition);
+}
+
+    .nav-link:hover {
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+.nav-link-finance {
+    color: var(--green);
+}
+
+    .nav-link-finance:hover {
+        color: var(--green);
+        opacity: 0.8;
+    }
+
+.nav-pipe {
+    color: var(--border-strong);
+    font-size: 0.78rem;
+    user-select: none;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin: 0;
+    padding-left: 0.5rem;
+}
+
+.lang-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.3rem;
+    opacity: 0.3;
+    transition: opacity var(--transition);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+    .lang-btn:hover,
+    .lang-btn-active {
+        opacity: 1;
+    }
+
+/* Substitui a classe .fi do flag-icons. Mesma proporção 4:3 dimensionada pela
+   fonte, para o botão de idioma não mudar de tamanho. */
+.flag {
+    display: inline-block;
+    width: 1.3333em;
+    height: 1em;
+    vertical-align: -0.125em;
+}
+
+@media (max-width: 860px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        background: rgba(0, 0, 0, 0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 10px var(--shell-padding) 16px;
+        margin-left: 0;
+    }
+
+        .nav-menu.is-open {
+            display: flex;
+        }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .nav-pipe {
+        display: none;
+    }
+
+    .lang-switcher {
+        padding-left: 0.75rem;
+        padding-top: 6px;
+    }
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+/* Brilho verde discreto no topo, para o preto chapado não abrir a página seca. Fica
+   como background-image, e não como pseudo-elemento, para não entrar na disputa de
+   camada com o grão que está no body. Só a home tem, as ferramentas seguem chapadas. */
+.home-main {
+    background-image: radial-gradient(760px 380px at 50% -8%, rgba(74, 222, 128, 0.07), transparent 72%);
+    background-repeat: no-repeat;
+    background-size: 100% 620px;
+    background-position: top center;
+}
+
+.home {
+    width: 100%;
+    max-width: 880px;
+}
+
+.home-section {
+    padding-block: 46px;
+}
+
+    .home-section + .home-section {
+        border-top: 1px solid var(--border);
+    }
+
+.slab {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 20px;
+}
+
+.prose {
+    font-size: 0.875rem;
+    color: var(--dim);
+    max-width: 68ch;
+    margin: 0;
+}
+
+    .prose + .prose {
+        margin-top: 14px;
+    }
+
+/* ---------- topo ---------- */
+.hero {
+    padding-block: 64px 48px;
+}
+
+    .hero h1 {
+        font-size: clamp(1.75rem, 5.4vw, 2.75rem);
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        margin: 0;
+        text-wrap: balance;
+    }
+
+.hero-role {
+    font-size: 0.8rem;
+    color: var(--fg);
+    font-weight: 500;
+    margin: 16px 0 0;
+    max-width: 62ch;
+}
+
+    .hero-role span {
+        color: var(--faint);
+    }
+
+.hero-pitch {
+    font-size: 0.875rem;
+    color: var(--dim);
+    margin: 12px 0 0;
+    max-width: 64ch;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.socials {
+    display: flex;
+    gap: 14px;
+    margin-left: 6px;
+    font-size: 0.95rem;
+}
+
+    .socials a {
+        color: var(--faint);
+        display: flex;
+        align-items: center;
+        transition: color var(--transition);
+    }
+
+        .socials a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+    .socials svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        display: block;
+    }
+
+/* ---------- competências ---------- */
+.skill-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 14px;
+}
+
+.skill-label {
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    padding-top: 4px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    font-size: 0.72rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 3px 9px;
+}
+
+    .tag-core {
+        color: var(--fg);
+        border-color: var(--border-strong);
+    }
+
+/* ---------- projetos ---------- */
+.projects {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 14px;
+}
+
+.project {
+    border: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--fg);
+    transition: border-color var(--transition), background var(--transition);
+}
+
+    .project:hover {
+        border-color: var(--border-strong);
+        background: rgba(255, 255, 255, 0.02);
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+/* O finance é o único bloco com preenchimento e borda de cor. É o produto, então é
+   o único que se levanta da página. */
+.project-lead {
+    border-color: rgba(74, 222, 128, 0.28);
+    background: linear-gradient(180deg, rgba(74, 222, 128, 0.055), rgba(74, 222, 128, 0.01));
+}
+
+    .project-lead:hover {
+        border-color: rgba(74, 222, 128, 0.5);
+        background: linear-gradient(180deg, rgba(74, 222, 128, 0.08), rgba(74, 222, 128, 0.02));
+    }
+
+.project-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.project-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+    .project-name .brand-finance {
+        color: var(--green);
+    }
+
+.project-state {
+    font-size: 0.65rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.project-desc {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+.project-stack {
+    font-size: 0.68rem;
+    color: var(--faint);
+    margin: auto 0 0;
+    padding-top: 6px;
+}
+
+.project-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    font-size: 0.72rem;
+    color: var(--dim);
+}
+
+    .project-list span::after {
+        content: ' ·';
+        color: var(--faint);
+    }
+
+    .project-list span:last-child::after {
+        content: '';
+    }
+
+/* ---------- experiência ---------- */
+.jobs {
+    display: flex;
+    flex-direction: column;
+}
+
+.job {
+    padding-block: 22px;
+}
+
+    .job + .job {
+        border-top: 1px solid var(--border);
+    }
+
+    .job:first-child {
+        padding-top: 0;
+    }
+
+.job-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 20px;
+    align-items: baseline;
+}
+
+.job-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.job-org {
+    font-size: 0.8rem;
+    color: var(--dim);
+}
+
+.job-when {
+    font-size: 0.72rem;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.job-intro {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 10px 0 0;
+    max-width: 70ch;
+}
+
+.job-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 74ch;
+}
+
+    .job-bullets li {
+        font-size: 0.78rem;
+        color: var(--dim);
+        padding-left: 18px;
+        position: relative;
+    }
+
+        .job-bullets li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--faint);
+        }
+
+.job-stack {
+    font-size: 0.68rem;
+    color: var(--faint);
+    margin: 12px 0 0;
+    max-width: 74ch;
+}
+
+    .job-stack span {
+        color: var(--dim);
+    }
+
+/* ---------- formação ---------- */
+.creds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 28px;
+}
+
+.cred-head {
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 12px;
+}
+
+.cred-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.cred-item {
+    display: flex;
+    flex-direction: column;
+}
+
+    .cred-item b {
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+
+    .cred-item span {
+        font-size: 0.7rem;
+        color: var(--faint);
+    }
+
+/* ---------- contato ---------- */
+.contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+}
+
+.direct {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.direct-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+    .direct-item span {
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.06em;
+    }
+
+    .direct-item a {
+        font-size: 0.8rem;
+        color: var(--fg);
+    }
+
+    .direct-item p {
+        font-size: 0.8rem;
+        color: var(--dim);
+        margin: 0;
+    }
+
+@media (max-width: 760px) {
+    .projects,
+    .contact {
+        grid-template-columns: 1fr;
+    }
+
+    .skill-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .job-head {
+        grid-template-columns: 1fr;
+    }
+
+    .job-when {
+        text-align: left;
+    }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 1.25rem;
+}
+
+.footer-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-inline: var(--shell-padding);
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+    .footer-shell a {
+        color: var(--faint);
+        transition: color var(--transition);
+    }
+
+        .footer-shell a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+.footer-brand {
+    color: var(--fg);
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 1rem;
+}
+
+/* ============================================================
+   PÁGINAS DE FERRAMENTA
+   Não foram redesenhadas nesta etapa, então as classes seguem as mesmas.
+   ============================================================ */
 .lp-main {
     padding: 4rem 0 5rem;
 }
@@ -116,47 +789,6 @@ a {
     letter-spacing: -0.3px;
 }
 
-.lp-icons {
-    display: flex;
-    justify-content: center;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-    font-size: 1.25rem;
-}
-
-.lp-icons a {
-    color: var(--dim);
-    text-decoration: none;
-    transition: color var(--transition);
-}
-
-    .lp-icons a:hover {
-        color: var(--fg);
-        text-decoration: none;
-    }
-
-.lp-btn {
-    display: inline-block;
-    font-size: 0.78rem;
-    padding: 0.4rem 0.9rem;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    color: var(--fg);
-    text-decoration: none;
-    transition: background var(--transition), color var(--transition), border-color var(--transition);
-    letter-spacing: 0.2px;
-}
-
-    .lp-btn:hover {
-        background: var(--fg);
-        color: var(--bg);
-        border-color: var(--fg);
-        text-decoration: none;
-    }
-
-.lp-btn-cta {
-    border-color: var(--fg);
-}
-
 .lp-section {
     margin-bottom: 2.5rem;
 }
@@ -164,7 +796,7 @@ a {
 .lp-section-title {
     font-size: 0.68rem;
     font-weight: 700;
-    color: var(--dim);
+    color: var(--faint);
     letter-spacing: 0.5px;
     margin: 0 0 0.9rem;
 }
@@ -176,157 +808,50 @@ a {
     margin: 0;
 }
 
-.lp-text-gap {
-    margin-top: 0.75rem;
-}
-
-.lp-edu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-}
-
-.lp-edu-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    font-size: 0.84rem;
-}
-
 .lp-edu-meta {
     font-size: 0.76rem;
-    color: var(--dim);
+    color: var(--faint);
 }
 
-.lp-lang {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.lp-lang-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    font-size: 0.84rem;
-}
-
-.lp-cta {
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--border);
-}
-
-.lp-cta .lp-text {
-    margin-bottom: 1.25rem;
-}
-
-.lp-finance-brand {
-    color: var(--fg);
-    font-weight: 600;
-}
-
-.lp-finance-dot {
-    color: var(--dim);
-}
-
-.lp-finance-text {
-    color: var(--green);
-}
-
-.site-footer {
-    border-top: 1px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    justify-content: center;
-}
-
-.footer-shell {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: var(--dim);
-}
-
-    .footer-shell a {
-        color: var(--dim);
-        transition: color var(--transition);
-        text-decoration: none;
-    }
-
-        .footer-shell a:hover {
-            color: var(--fg);
-            text-decoration: none;
-        }
-
-.footer-brand { color: var(--fg); }
-
-.footer-links {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    font-size: 1rem;
-}
-
-.nav-link {
+.lp-btn {
+    display: inline-block;
     font-size: 0.78rem;
-    color: var(--dim) !important;
-    padding: 0.4rem 0.75rem;
-    transition: color var(--transition);
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    color: var(--fg);
+    background: transparent;
+    font-family: var(--font-mono);
+    line-height: 1.7;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
-    .nav-link:hover {
-        color: var(--fg) !important;
+    .lp-btn:hover {
+        background: var(--fg);
+        color: var(--bg);
+        border-color: var(--fg);
         text-decoration: none;
     }
 
-.nav-link-finance { color: var(--green) !important; }
-
-.nav-link-finance:hover {
-    color: var(--green) !important;
-    opacity: 0.8;
-}
-
-.lang-switcher {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-}
-
-.lang-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    padding: 0.2rem 0.3rem;
-    opacity: 0.3;
-    transition: opacity var(--transition);
-    line-height: 1;
-    display: flex;
-    align-items: center;
-}
-
-    .lang-btn:hover,
-    .lang-btn-active {
-        opacity: 1;
+    .lp-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
     }
 
-@media (min-width: 992px) {
-    .navbar-nav .nav-item + .nav-item {
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar-nav .nav-item + .nav-item::before,
-    .lang-switcher::before {
-        content: "|";
-        color: var(--border-hover);
-    }
-
-    .lang-switcher::before {
-        margin-right: 0.25rem;
-    }
+.lp-btn-solid {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    font-weight: 500;
 }
+
+    .lp-btn-solid:hover {
+        background: transparent;
+        color: var(--fg);
+        border-color: var(--border-strong);
+    }
 
 .tools-grid {
     display: grid;
@@ -339,9 +864,15 @@ a {
     border: 1px solid var(--border);
     padding: 1.25rem;
     color: var(--fg);
-    text-decoration: none;
     transition: border-color var(--transition), background var(--transition);
 }
+
+    .tool-card:hover {
+        border-color: var(--border-strong);
+        background: rgba(255, 255, 255, 0.03);
+        text-decoration: none;
+        color: var(--fg);
+    }
 
 .tool-card-icon {
     display: block;
@@ -349,13 +880,6 @@ a {
     color: var(--fg);
     margin-bottom: 0.65rem;
 }
-
-    .tool-card:hover {
-        border-color: var(--border-hover);
-        background: rgba(255, 255, 255, 0.03);
-        text-decoration: none;
-        color: var(--fg);
-    }
 
 .tool-card-name {
     display: block;
@@ -405,7 +929,7 @@ a {
 }
 
     .tool-upload-area:hover {
-        border-color: var(--border-hover);
+        border-color: var(--border-strong);
     }
 
 .tool-upload-label {
@@ -444,77 +968,11 @@ a {
 
 .tool-error {
     font-size: 0.78rem;
-    color: #f87171;
+    color: var(--red);
     margin: 0 0 1rem;
 }
 
-button.lp-btn {
-    background: transparent;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    line-height: 1.7;
-}
-
-.lp-btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-.error-section {
-    padding: 4rem 2.5rem;
-    max-width: 520px;
-    margin: 0 auto;
-}
-
-.error-tag {
-    display: block;
-    font-size: 0.68rem;
-    color: var(--dim);
-    margin-bottom: 1.25rem;
-}
-
-.error-section p {
-    color: var(--dim);
-    margin: 0 0 1rem;
-}
-
-.error-section .lp-btn {
-    margin-top: 0.5rem;
-}
-
-.error-note { font-size: 0.75rem; }
-
-.tool-textarea {
-    width: 100%;
-    min-height: 140px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--fg);
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    padding: 0.75rem;
-    resize: vertical;
-    transition: border-color var(--transition);
-    line-height: 1.6;
-    outline: none;
-}
-
-    .tool-textarea:focus {
-        border-color: var(--border-hover);
-        outline: 2px solid var(--fg);
-        outline-offset: 2px;
-    }
-
-    .tool-textarea::placeholder { color: var(--dim); }
-
-.tool-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.75rem;
-}
-
+.tool-textarea,
 .tool-input {
     width: 100%;
     background: transparent;
@@ -522,18 +980,39 @@ button.lp-btn {
     color: var(--fg);
     font-family: var(--font-mono);
     font-size: 0.82rem;
-    padding: 0.6rem 0.75rem;
+    padding: 0.75rem;
     transition: border-color var(--transition);
     outline: none;
 }
 
+.tool-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.tool-input {
+    padding: 0.6rem 0.75rem;
+}
+
+    .tool-textarea:focus,
     .tool-input:focus {
-        border-color: var(--border-hover);
+        border-color: var(--border-strong);
         outline: 2px solid var(--fg);
         outline-offset: 2px;
     }
 
-    .tool-input::placeholder { color: var(--dim); }
+    .tool-textarea::placeholder,
+    .tool-input::placeholder {
+        color: var(--faint);
+    }
+
+.tool-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
 
 .tool-options {
     display: flex;
@@ -615,7 +1094,7 @@ button.lp-btn {
 
 .tool-field-label {
     font-size: 0.72rem;
-    color: var(--dim);
+    color: var(--faint);
 }
 
 .tool-range {
@@ -638,9 +1117,17 @@ button.lp-btn {
     color: var(--dim);
 }
 
-.tool-strength-weak { color: #f87171; }
-.tool-strength-medium { color: #fbbf24; }
-.tool-strength-strong { color: #4ade80; }
+.tool-strength-weak {
+    color: var(--red);
+}
+
+.tool-strength-medium {
+    color: #fbbf24;
+}
+
+.tool-strength-strong {
+    color: var(--green);
+}
 
 .merge-overlay {
     position: fixed;
@@ -674,15 +1161,57 @@ button.lp-btn {
     transition: width 0.2s ease;
 }
 
-@media (max-width: 600px) {
-    .lp-main { padding: 2.5rem 0 4rem; }
+/* ============================================================
+   ERRO
+   ============================================================ */
+.error-section {
+    padding: 4rem 2.5rem;
+    max-width: 520px;
+    margin: 0 auto;
 }
 
-/* Substitui a classe .fi do flag-icons. Mesma proporção 4:3 dimensionada pela
-   fonte, para o botão de idioma não mudar de tamanho. */
-.flag {
-    display: inline-block;
-    width: 1.3333em;
-    height: 1em;
-    vertical-align: -0.125em;
+.error-tag {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--faint);
+    margin-bottom: 1.25rem;
+}
+
+    .error-section p {
+        color: var(--dim);
+        margin: 0 0 1rem;
+    }
+
+    .error-section .lp-btn {
+        margin-top: 0.5rem;
+    }
+
+.error-note {
+    font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .lp-main {
+        padding: 2.5rem 0 4rem;
+    }
+
+    .hero {
+        padding-block: 44px 36px;
+    }
+
+    .home-section {
+        padding-block: 34px;
+    }
+
+    :root {
+        --shell-padding: 18px;
+    }
+}
+
+/* O Bootstrap estilizava o code, e ele aparece na página de erro com o id da
+   requisição. Sem o framework, ficava no padrão do navegador. */
+code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg);
 }

@@ -334,7 +334,6 @@
 	<data name="Cv_Edu2_Meta" xml:space="preserve"><value>Centro Universitário Facens · Fev 2023 – Mai 2025 · Nota 9,6/10</value></data>
 	<data name="Cv_Edu3_Title" xml:space="preserve"><value>Tecnólogo, Análise e Desenvolvimento de Sistemas</value></data>
 	<data name="Cv_Edu3_Meta" xml:space="preserve"><value>Universidade Paulista (UNIP) · Fev 2021 – Dez 2022</value></data>
-	<data name="Home_CertificationsTag" xml:space="preserve"><value>// certificações</value></data>
 	<data name="Cv_Cert1_Title" xml:space="preserve"><value>Imersão Digital – Trilha Especialista em IA</value></data>
 	<data name="Cv_Cert1_Meta" xml:space="preserve"><value>Santander Open Academy · Jul 2026</value></data>
 	<data name="Cv_Cert2_Title" xml:space="preserve"><value>English Semi Intensive Program (Advanced 2)</value></data>
@@ -343,19 +342,15 @@
 	<data name="Cv_Cert3_Meta" xml:space="preserve"><value>Microsoft / freeCodeCamp · Mar 2026</value></data>
 	<data name="Cv_Cert4_Title" xml:space="preserve"><value>Introdução à Ciência de Dados</value></data>
 	<data name="Cv_Cert4_Meta" xml:space="preserve"><value>Fundação Getulio Vargas (FGV) · Ago 2022</value></data>
-	<data name="Home_LanguagesTag" xml:space="preserve"><value>// idiomas</value></data>
 	<data name="Cv_Lang1_Name" xml:space="preserve"><value>Português</value></data>
 	<data name="Cv_Lang1_Level" xml:space="preserve"><value>Nativo</value></data>
 	<data name="Cv_Lang2_Name" xml:space="preserve"><value>Inglês</value></data>
 	<data name="Cv_Lang2_Level" xml:space="preserve"><value>Avançado</value></data>
-	<data name="Home_SummaryTag" xml:space="preserve"><value>// resumo</value></data>
+	<data name="Home_AboutTag" xml:space="preserve"><value>// sobre</value></data>
 	<data name="Cv_About_P1" xml:space="preserve"><value>Desenvolvedor Fullstack .NET com 6 anos em tecnologia, atuando com C#, ASP.NET Core, .NET Framework e Oracle Database em sistemas web de saúde que precisam funcionar o tempo todo.</value></data>
 	<data name="Cv_About_P2" xml:space="preserve"><value>No dia a dia trabalho em toda a stack: modelagem e otimização de dados em Oracle com SQL e PL/SQL, construção e consumo de APIs REST, e desenvolvimento de interfaces com HTML5, CSS3, JavaScript, Bootstrap e Razor. Aplico Clean Architecture, SOLID e Design Patterns, participo de code reviews e faço versionamento com Git e Azure DevOps.</value></data>
 	<data name="Cv_About_P3" xml:space="preserve"><value>Uso IA de verdade no trabalho: GitHub Copilot, Claude e Cursor fazem parte do meu fluxo diário para escrever, revisar e depurar código mais rápido. Não como substituição de raciocínio, mas como ferramenta que acelera entrega sem abrir mão da qualidade.</value></data>
 	<data name="Home_ProjectsTag" xml:space="preserve"><value>// projetos</value></data>
-	<data name="Home_Finance_Desc_Pre" xml:space="preserve"><value>Desenvolvi o </value></data>
-	<data name="Home_Finance_Desc_Post" xml:space="preserve"><value> como projeto pessoal, um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>
-	<data name="Home_Finance_CTA" xml:space="preserve"><value>experimentar o lawllit.finance →</value></data>
 
 	<data name="Nav_Tools" xml:space="preserve"><value>ferramentas</value></data>
 
@@ -581,5 +576,32 @@
 	<data name="Cv_Job2_Stack" xml:space="preserve"><value>Oracle Database · SQL/PL/SQL · Linux · Windows Server</value></data>
 
 	<data name="Cv_DocumentTitle" xml:space="preserve"><value>Currículo</value></data>
+	<data name="Nav_Contact" xml:space="preserve"><value>contato</value></data>
+	<data name="Home_Contact_CTA" xml:space="preserve"><value>falar comigo</value></data>
+	<data name="Home_SkillsTag" xml:space="preserve"><value>// competências</value></data>
+	<data name="Home_Skills_Lang_Label" xml:space="preserve"><value>linguagem e front</value></data>
+	<data name="Home_Skills_Lang_Core" xml:space="preserve"><value>C#, ASP.NET Core</value></data>
+	<data name="Home_Skills_Lang_Rest" xml:space="preserve"><value>.NET Framework, Razor, JavaScript, HTML5, CSS3, Bootstrap</value></data>
+	<data name="Home_Skills_Data_Label" xml:space="preserve"><value>dados</value></data>
+	<data name="Home_Skills_Data_Core" xml:space="preserve"><value>Oracle Database, SQL, PL/SQL</value></data>
+	<data name="Home_Skills_Data_Rest" xml:space="preserve"><value>SQL Server, Azure SQL, Entity Framework</value></data>
+	<data name="Home_Skills_Practice_Label" xml:space="preserve"><value>arquitetura e prática</value></data>
+	<data name="Home_Skills_Practice_Core" xml:space="preserve"><value>APIs REST</value></data>
+	<data name="Home_Skills_Practice_Rest" xml:space="preserve"><value>Clean Architecture, SOLID, Design Patterns, Clean Code, Code Review, Scrum</value></data>
+	<data name="Home_Skills_Tooling_Label" xml:space="preserve"><value>ferramenta e infra</value></data>
+	<data name="Home_Skills_Tooling_Core" xml:space="preserve"><value>Azure DevOps, Git</value></data>
+	<data name="Home_Skills_Tooling_Rest" xml:space="preserve"><value>TFS, Linux, Windows Server</value></data>
+	<data name="Home_ExperienceTag" xml:space="preserve"><value>// experiência</value></data>
+	<data name="Home_ContactTag" xml:space="preserve"><value>// contato</value></data>
+	<data name="Home_Project_Live" xml:space="preserve"><value>no ar</value></data>
+	<data name="Home_Project_ToolsLive" xml:space="preserve"><value>{0} no ar</value></data>
+	<data name="Home_Finance_Card_Desc" xml:space="preserve"><value>Desenvolvi o lawllit.finance como projeto pessoal, um app de controle financeiro para registrar receitas, despesas e cotações em tempo real. Gratuito para testar.</value></data>
+	<data name="Home_Cred_Academic" xml:space="preserve"><value>acadêmica</value></data>
+	<data name="Home_Cred_Certifications" xml:space="preserve"><value>certificações</value></data>
+	<data name="Home_Cred_Languages" xml:space="preserve"><value>idiomas</value></data>
+	<data name="Home_Contact_Email" xml:space="preserve"><value>e-mail</value></data>
+	<data name="Home_Contact_Location" xml:space="preserve"><value>localização</value></data>
+
+	<data name="Nav_Menu" xml:space="preserve"><value>Abrir menu</value></data>
 
 </root>

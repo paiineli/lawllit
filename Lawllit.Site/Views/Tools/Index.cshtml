@@ -1,5 +1,10 @@
+@{
+    // Os onze cards estavam escritos à mão aqui. Agora saem do SiteTools, que é a mesma
+    // lista que o card de projetos da home usa.
+}
+
 <main class="lp-main">
-    <div class="container-lg d-flex justify-content-center">
+    <div class="shell">
         <div class="lp-body">
 
             <header class="lp-header">
@@ -7,84 +12,22 @@
                 <p class="lp-text">@Localizer["Tools_Subtitle"]</p>
             </header>
 
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Tools_Cat_Files"]</p>
-                <div class="tools-grid">
-                    <a class="tool-card" asp-controller="Tools" asp-action="SpreadsheetMerger">
-                        <i class="bi bi-file-earmark-spreadsheet tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_SpreadsheetMerger_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_SpreadsheetMerger_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="PdfMerger">
-                        <i class="bi bi-file-earmark-pdf tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_PdfMerger_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_PdfMerger_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="ImageCompressor">
-                        <i class="bi bi-file-earmark-image tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_ImageCompressor_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_ImageCompressor_Desc"]</span>
-                    </a>
-                </div>
-            </section>
-
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Tools_Cat_TextCode"]</p>
-                <div class="tools-grid">
-                    <a class="tool-card" asp-controller="Tools" asp-action="Base64">
-                        <i class="bi bi-code-slash tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_Base64_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_Base64_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="TextCase">
-                        <i class="bi bi-fonts tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_TextCase_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_TextCase_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="SqlList">
-                        <i class="bi bi-database tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_SqlList_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_SqlList_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="CharCounter">
-                        <i class="bi bi-body-text tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_CharCounter_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_CharCounter_Desc"]</span>
-                    </a>
-                </div>
-            </section>
-
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Tools_Cat_DataBrazil"]</p>
-                <div class="tools-grid">
-                    <a class="tool-card" asp-controller="Tools" asp-action="CpfCnpj">
-                        <i class="bi bi-person-vcard tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_CpfCnpj_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_CpfCnpj_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="CepLookup">
-                        <i class="bi bi-geo-alt tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_CepLookup_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_CepLookup_Desc"]</span>
-                    </a>
-                    <a class="tool-card" asp-controller="Tools" asp-action="QrCode">
-                        <i class="bi bi-qr-code tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_QrCode_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_QrCode_Desc"]</span>
-                    </a>
-                </div>
-            </section>
-
-            <section class="lp-section">
-                <p class="lp-section-title">@Localizer["Tools_Cat_Utilities"]</p>
-                <div class="tools-grid">
-                    <a class="tool-card" asp-controller="Tools" asp-action="PasswordGenerator">
-                        <i class="bi bi-shield-lock tool-card-icon"></i>
-                        <span class="tool-card-name">@Localizer["Tool_PasswordGenerator_Name"]</span>
-                        <span class="tool-card-desc">@Localizer["Tool_PasswordGenerator_Desc"]</span>
-                    </a>
-                </div>
-            </section>
+            @foreach (var group in SiteTools.Groups)
+            {
+                <section class="lp-section">
+                    <p class="lp-section-title">@Localizer[group.CategoryKey]</p>
+                    <div class="tools-grid">
+                        @foreach (var tool in group.Tools)
+                        {
+                            <a class="tool-card" asp-controller="Tools" asp-action="@tool.Action">
+                                <i class="bi @tool.Icon tool-card-icon"></i>
+                                <span class="tool-card-name">@Localizer[tool.NameKey]</span>
+                                <span class="tool-card-desc">@Localizer[tool.DescriptionKey]</span>
+                            </a>
+                        }
+                    </div>
+                </section>
+            }
 
         </div>
     </div>
