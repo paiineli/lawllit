@@ -1,0 +1,196 @@
+/* Folha de estilo do currículo. Veio do bloco <style> que estava dentro dos dois HTML
+   soltos no wwwroot, agora num arquivo só, servido pelo Razor.
+
+   Medidas em pt e mm de propósito. A página existe para virar A4, então a unidade é a
+   da impressão e não a da tela. Fonte de sistema, sem webfont, para nada depender de
+   download na hora de gerar o PDF. */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: #e9e9e9;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    font-size: 10.5pt;
+    line-height: 1.4;
+}
+
+.sheet {
+    position: relative;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 12mm auto;
+    padding: 11mm 15mm;
+    background: #fff;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 12pt;
+}
+
+h1 {
+    font-size: 19pt;
+    font-weight: bold;
+    margin: 0 0 3pt;
+}
+
+.title-line {
+    font-size: 9.5pt;
+    margin: 0 0 4pt;
+}
+
+.contact-line {
+    font-size: 9pt;
+}
+
+section {
+    margin-top: 11pt;
+}
+
+h2 {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 0 0 6pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #000;
+}
+
+p {
+    margin: 0 0 6pt;
+}
+
+.job {
+    margin-bottom: 9pt;
+    page-break-inside: avoid;
+}
+
+.job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.job-title {
+    font-weight: bold;
+}
+
+.job-dates {
+    font-size: 9.5pt;
+    white-space: nowrap;
+    padding-left: 10pt;
+}
+
+.job-intro {
+    margin: 1pt 0 3pt;
+}
+
+ul {
+    margin: 0 0 3pt;
+    padding-left: 16pt;
+}
+
+li {
+    margin-bottom: 2pt;
+}
+
+.stack {
+    font-size: 9pt;
+    color: #333;
+    margin: 2pt 0 0;
+}
+
+.line {
+    margin-bottom: 3pt;
+}
+
+.line-sep {
+    margin: 0 6pt;
+}
+
+/* Botão de imprimir. O link vindo da home continua trazendo ?print=1 e abrindo a
+   caixa de impressão sozinho, mas quem chega pelo endereço direto precisa de um botão. */
+.cv-actions {
+    position: absolute;
+    top: 6mm;
+    right: 6mm;
+}
+
+.cv-print {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    padding: 4pt 10pt;
+    border: 1px solid #999;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+.cv-print:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.cv-print:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+@page {
+    size: A4;
+    margin: 11mm 15mm;
+}
+
+@media print {
+    html {
+        background: #fff;
+    }
+
+    .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .cv-actions {
+        display: none;
+    }
+}
+
+/* A largura fixa de 210mm não cabe num celular, e o currículo é aberto no telefone com
+   frequência. Abaixo da largura de uma folha, a página passa a fluir. */
+@media screen and (max-width: 230mm) {
+    .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        padding: 7mm 6mm 12mm;
+        box-shadow: none;
+    }
+
+    .cv-actions {
+        position: static;
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 6pt;
+    }
+
+    .job-head {
+        flex-direction: column;
+    }
+
+    .job-dates {
+        padding-left: 0;
+    }
+}

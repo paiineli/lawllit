@@ -1,0 +1,19 @@
+@model TransacaoFiltroRotaViewModel
+
+@* Repete o filtro da listagem em cada post da tela, para o redirect voltar no mesmo mês, tipo,
+   busca e página. O prefixo "filtro" evita colisão com o campo Tipo do próprio formulário. *@
+
+@if (Model.Tipo.HasValue)
+{
+    <input type="hidden" name="filtro.tipo" value="@Model.Tipo">
+}
+<input type="hidden" name="filtro.mes" value="@Model.Mes">
+<input type="hidden" name="filtro.ano" value="@Model.Ano">
+@if (!string.IsNullOrWhiteSpace(Model.Busca))
+{
+    <input type="hidden" name="filtro.busca" value="@Model.Busca">
+}
+@if (Model.Pagina > 1)
+{
+    <input type="hidden" name="filtro.pagina" value="@Model.Pagina">
+}

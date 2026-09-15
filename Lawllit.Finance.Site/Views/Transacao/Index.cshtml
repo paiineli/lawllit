@@ -1,0 +1,371 @@
+@model TransacaoListaViewModel
+@{
+    var agora = DateTime.Now;
+
+    // O app é em real, então a formatação é sempre pt-BR.
+    var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+    var nomesMeses = new[]
+    {
+        "Janeiro",  "Fevereiro",  "Março",
+        "Abril",  "Maio",  "Junho",
+        "Julho",  "Agosto",  "Setembro",
+        "Outubro", "Novembro", "Dezembro",
+    };
+    // O select de tipo e os grupos do select de categoria seguem sempre esta mesma ordem.
+    var tiposTransacao = new[] { TipoTransacaoEnum.DESPESA, TipoTransacaoEnum.RECEITA, TipoTransacaoEnum.INVESTIMENTO };
+    var rotulosGrupo = new Dictionary<TipoTransacaoEnum, string>
+    {
+        [TipoTransacaoEnum.DESPESA] = "Despesas",
+        [TipoTransacaoEnum.RECEITA] = "Receitas",
+        [TipoTransacaoEnum.INVESTIMENTO] = "Investimentos",
+    };
+}
+
+<main class="container-lg py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <h5 class="fw-bold mb-0">Transações</h5>
+        <div class="d-flex align-items-center gap-2">
+            @if (Model.Transacoes.Any())
+            {
+                <a asp-action="Exportar" asp-route-tipo="@Model.FiltroTipo" asp-route-mes="@Model.FiltroMes"
+                   asp-route-ano="@Model.FiltroAno" asp-route-busca="@Model.FiltroBusca"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-download"></i> Exportar
+                </a>
+            }
+            @if (Model.Categorias.Any())
+            {
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-criar">
+                    <i class="bi bi-plus-lg"></i> Nova transação
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        <form method="get" asp-action="Index" class="d-flex gap-2 align-items-center">
+            @if (Model.FiltroTipo.HasValue)
+            {
+                <input type="hidden" name="tipo" value="@Model.FiltroTipo">
+            }
+            @if (!string.IsNullOrEmpty(Model.FiltroBusca))
+            {
+                <input type="hidden" name="busca" value="@Model.FiltroBusca">
+            }
+            <select name="mes" class="form-select form-select-sm select-auto" data-envio-automatico>
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i" selected="@(i == Model.FiltroMes ? "selected" : null)">@nomesMeses[i - 1]</option>
+                }
+            </select>
+            <select name="ano" class="form-select form-select-sm select-auto" data-envio-automatico>
+                @for (int y = agora.Year + 1; y >= agora.Year - 4; y--)
+                {
+                    <option value="@y" selected="@(y == Model.FiltroAno ? "selected" : null)">@y</option>
+                }
+            </select>
+        </form>
+
+        <div class="filter-group">
+            <a href="@Url.Action("Index", new { mes = Model.FiltroMes, ano = Model.FiltroAno, busca = Model.FiltroBusca })"
+               class="filter-btn @(!Model.FiltroTipo.HasValue ? "active" : "")">Todas</a>
+            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.RECEITA, mes = Model.FiltroMes, ano = Model.FiltroAno, busca = Model.FiltroBusca })"
+               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.RECEITA ? "active" : "")">Receitas</a>
+            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.DESPESA, mes = Model.FiltroMes, ano = Model.FiltroAno, busca = Model.FiltroBusca })"
+               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.DESPESA ? "active" : "")">Despesas</a>
+            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.INVESTIMENTO, mes = Model.FiltroMes, ano = Model.FiltroAno, busca = Model.FiltroBusca })"
+               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.INVESTIMENTO ? "active" : "")">Investimentos</a>
+        </div>
+
+        <input type="search" class="form-control form-control-sm search-input ms-auto"
+               placeholder="Buscar..." value="@Model.FiltroBusca" data-busca-viva>
+
+        @if (Model.TemFiltroAtivo)
+        {
+            <a href="@Url.Action("Index", new { mes = Model.FiltroMes, ano = Model.FiltroAno })"
+               class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-x-lg"></i> Limpar
+            </a>
+        }
+    </div>
+
+    @if (Model.RecorrentesPendentes > 0)
+    {
+        <div class="alert-recurring d-flex align-items-center justify-content-between py-2 px-3 mb-3 small rounded">
+            <span>
+                <i class="bi bi-arrow-repeat text-green me-1"></i>
+                @Html.Raw(string.Format("{0} transação(ões) recorrente(s) do mês anterior disponível(is).", $"<strong>{Model.RecorrentesPendentes}</strong>"))
+            </span>
+            <form method="post" asp-action="ImportarRecorrentes" class="mb-0">
+                @Html.AntiForgeryToken()
+                <partial name="_CamposFiltro" model="Model.FiltroRota" />
+                <button type="submit" class="btn btn-sm btn-primary ms-2">Importar</button>
+            </form>
+        </div>
+    }
+
+    @if (Model.Transacoes.Any())
+    {
+        <div class="d-flex justify-content-end mb-2 small">
+            <span class="text-green me-3">+@Model.TotalReceitas.ToString("C", cultura)</span>
+            <span class="text-red @(Model.TotalInvestimentos > 0 ? "me-3" : "")">-@Model.TotalDespesas.ToString("C", cultura)</span>
+            @if (Model.TotalInvestimentos > 0)
+            {
+                <span class="text-blue">-@Model.TotalInvestimentos.ToString("C", cultura)</span>
+            }
+        </div>
+    }
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th>Categoria</th>
+                        <th>Tipo</th>
+                        <th class="text-end">Valor</th>
+                        <th class="col-actions"></th>
+                    </tr>
+                </thead>
+                <tbody data-tabela-busca>
+                    @if (!Model.Transacoes.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-secondary">
+                                @if (!Model.Categorias.Any())
+                                {
+                                    <span>
+                                        Crie sua primeira <a asp-controller="Categoria" asp-action="Index" class="text-green">categoria</a> para adicionar transações.
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>Nenhuma transação encontrada.</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var transacao in Model.Transacoes)
+                    {
+                        <tr data-linha-busca>
+                            <td class="text-secondary">@transacao.DtTransacao.ToString("dd/MM/yyyy")</td>
+                            <td class="fw-medium">
+                                @transacao.TxDescricao
+                                @if (transacao.Recorrente)
+                                {
+                                    <i class="bi bi-arrow-repeat text-green ms-1 icon-sm" title="Recorrente"></i>
+                                }
+                            </td>
+                            <td><span class="badge bg-secondary bg-opacity-25 text-body">@transacao.Categoria?.NmCategoria</span></td>
+                            <td>
+                                <span class="@transacao.TxTipo.ClasseBadge()">
+                                    @transacao.TxTipo.Rotulo()
+                                </span>
+                            </td>
+                            <td class="text-end fw-semibold tabular-nums @transacao.TxTipo.ClasseTexto()">
+                                @transacao.TxTipo.Sinal()@transacao.VlTransacao.ToString("C", cultura)
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1 justify-content-end">
+                                    <button class="btn btn-sm btn-outline-secondary py-0 px-1"
+                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@transacao.CdTransacao">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger py-0 px-1"
+                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@transacao.CdTransacao">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr data-linha-vazia hidden>
+                        <td colspan="6" class="text-center py-5 text-secondary">Nenhuma transação encontrada.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <partial name="_Paginacao" model="@(new PaginacaoViewModel
+                                     {
+                                         PaginaAtual = Model.Pagina.PaginaAtual,
+                                         TotalPaginas = Model.Pagina.TotalPaginas,
+                                         ValoresRota = new Dictionary<string, object?>
+                                         {
+                                             ["tipo"] = Model.FiltroTipo,
+                                             ["mes"] = Model.FiltroMes,
+                                             ["ano"] = Model.FiltroAno,
+                                             ["busca"] = Model.FiltroBusca,
+                                         },
+                                     })" />
+
+</main>
+
+<div class="modal fade" id="modal-criar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nova transação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" asp-action="Criar">
+                @Html.AntiForgeryToken()
+                <partial name="_CamposFiltro" model="Model.FiltroRota" />
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label small">Descrição (opcional)</label>
+                        <input type="text" class="form-control" name="Descricao" maxlength="200" placeholder="Ex: Almoço, Salário...">
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small">Valor <span class="text-danger">*</span></label>
+                            <input type="text" inputmode="decimal" class="form-control" name="Valor" placeholder="0,00" data-campo-decimal>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Tipo</label>
+                            <select class="form-select" name="Tipo" data-filtro-tipo id="criar-tipo">
+                                @foreach (var tipo in tiposTransacao)
+                                {
+                                    <option value="@tipo">@tipo.Rotulo()</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Data <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" name="Data" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small">Categoria <span class="text-danger">*</span></label>
+                        <select class="form-select" name="CodigoCategoria" data-filtro-categoria id="criar-categoria">
+                            @foreach (var tipo in tiposTransacao)
+                            {
+                                var categoriasDoTipo = Model.Categorias.Where(c => c.TxTipo == tipo).ToList();
+                                if (categoriasDoTipo.Count > 0)
+                                {
+                                    <optgroup label="@rotulosGrupo[tipo]" data-tipo-grupo="@tipo">
+                                        @foreach (var categoria in categoriasDoTipo)
+                                        {
+                                            <option value="@categoria.CdCategoria">@categoria.NmCategoria</option>
+                                        }
+                                    </optgroup>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="Recorrente" value="true" id="criar-recorrente">
+                        <label class="form-check-label small" for="criar-recorrente">Transação recorrente</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@foreach (var transacao in Model.Transacoes)
+{
+    <div class="modal fade" id="modal-editar-@transacao.CdTransacao" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar transação</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="post" asp-action="Alterar" asp-route-codigo="@transacao.CdTransacao">
+                    @Html.AntiForgeryToken()
+                    <partial name="_CamposFiltro" model="Model.FiltroRota" />
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small">Descrição (opcional)</label>
+                            <input type="text" class="form-control" name="Descricao" maxlength="200"
+                                   value="@transacao.TxDescricao" placeholder="Ex: Almoço, Salário...">
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small">Valor <span class="text-danger">*</span></label>
+                                <input type="text" inputmode="decimal" class="form-control" name="Valor"
+                                       value="@transacao.VlTransacao.ToString("F2", cultura)" data-campo-decimal>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Tipo</label>
+                                <select class="form-select" name="Tipo" data-filtro-tipo>
+                                    @foreach (var tipo in tiposTransacao)
+                                    {
+                                        <option value="@tipo" selected="@(transacao.TxTipo == tipo ? "selected" : null)">@tipo.Rotulo()</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Data <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" name="Data"
+                                   value="@transacao.DtTransacao.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Categoria <span class="text-danger">*</span></label>
+                            <select class="form-select" name="CodigoCategoria" data-filtro-categoria>
+                                @foreach (var tipo in tiposTransacao)
+                                {
+                                    var categoriasDoTipo = Model.Categorias.Where(c => c.TxTipo == tipo).ToList();
+                                    if (categoriasDoTipo.Count > 0)
+                                    {
+                                        <optgroup label="@rotulosGrupo[tipo]" data-tipo-grupo="@tipo">
+                                            @foreach (var categoria in categoriasDoTipo)
+                                            {
+                                                <option value="@categoria.CdCategoria" selected="@(categoria.CdCategoria == transacao.CdCategoria ? "selected" : null)">@categoria.NmCategoria</option>
+                                            }
+                                        </optgroup>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="Recorrente" value="true"
+                                   id="editar-recorrente-@transacao.CdTransacao" @(transacao.Recorrente ? "checked" : "")>
+                            <label class="form-check-label small" for="editar-recorrente-@transacao.CdTransacao">Transação recorrente</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-excluir-@transacao.CdTransacao" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Confirmar exclusão</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-secondary small">
+                    <p class="mb-1">Tem certeza que deseja excluir esta transação?</p>
+                    <div class="mt-2 p-2 rounded bg-body-tertiary">
+                        <p class="mb-0 fw-medium text-body">@(transacao.TxDescricao ?? "Sem descrição")</p>
+                        <p class="mb-0 @transacao.TxTipo.ClasseTexto()">@transacao.TxTipo.Sinal()@transacao.VlTransacao.ToString("C", cultura)</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" asp-action="Inativar" asp-route-codigo="@transacao.CdTransacao">
+                        @Html.AntiForgeryToken()
+                        <partial name="_CamposFiltro" model="Model.FiltroRota" />
+                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

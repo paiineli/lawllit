@@ -1,0 +1,51 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">unificador de planilhas</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// como funciona</p>
+                <ol class="tool-steps">
+                    <li>envie seus arquivos .xlsx ou .xls</li>
+                    <li>o cabeçalho é lido do primeiro arquivo</li>
+                    <li>as linhas de todos os arquivos são unificadas em sequência</li>
+                    <li>baixe o arquivo .xlsx unificado</li>
+                </ol>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// enviar</p>
+                <form asp-controller="Ferramentas" asp-action="JuntarPlanilhas" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="tool-upload-area">
+                        <input type="file" id="files-input" name="files" multiple accept=".xlsx,.xls" class="visually-hidden" />
+                        <label for="files-input" class="tool-upload-label">
+                            <i class="bi bi-file-earmark-spreadsheet"></i>
+                            <span>escolher arquivos</span>
+                            <span class="lp-edu-meta">.xlsx e .xls · cabeçalho do primeiro arquivo</span>
+                        </label>
+                    </div>
+                    <div id="file-list" class="tool-file-list" hidden></div>
+                    <button type="submit" id="merge-btn" class="lp-btn" disabled>unificar arquivos</button>
+                </form>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<div id="merge-overlay" class="merge-overlay" hidden>
+    <p id="overlay-label" class="merge-overlay-label" data-molde="arquivo {0} de {1}"></p>
+    <div class="merge-overlay-track">
+        <div id="overlay-progress" class="merge-overlay-fill"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="~/js/juntar-planilhas.js" asp-append-version="true"></script>
+}

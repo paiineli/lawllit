@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5290",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "PORT": "5290",
+        "Api__Key": "dev-local-nao-e-segredo",
+        "Jwt__SecretKey": "dev-local-chave-de-assinatura-com-mais-de-32-caracteres"
+      }
+    }
+  }
+}

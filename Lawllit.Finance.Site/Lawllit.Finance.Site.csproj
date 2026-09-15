@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>Lawllit.Finance.Site</RootNamespace>
+    <UserSecretsId>lawllit-finance-site-1c7e4b90-5a23-4f88-b6d1-0e9a7c3f2d64</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lawllit.Repository\Lawllit.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,83 @@
+@inject IConfiguration Configuration
+@{
+    var pageTitle = (ViewData["Title"] as string) ?? "lawllit.";
+    var canonicalUrl = SeoUrls.Canonica(Context.Request);
+    var socialImageUrl = SeoUrls.Absoluta(Context.Request, "/og-image.png");
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@pageTitle</title>
+    <meta name="description" content="Desenvolvo software. Simples assim." />
+    <link rel="canonical" href="@canonicalUrl" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="lawllit" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:description" content="Desenvolvo software. Simples assim." />
+    <meta property="og:url" content="@canonicalUrl" />
+    <meta property="og:image" content="@socialImageUrl" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="@pageTitle" />
+    <meta name="twitter:description" content="Desenvolvo software. Simples assim." />
+    <meta name="twitter:image" content="@socialImageUrl" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>" />
+    @* A fonte é declarada dentro do app.css, então sem este preload o navegador só
+       descobriria o arquivo depois de baixar o CSS. O endereço tem que ser idêntico ao
+       que o CSS pede, sem hash de versão, senão o arquivo é baixado duas vezes. *@
+    <link rel="preload" href="~/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="~/css/icons.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+</head>
+<body>
+    @* O site público não carrega mais o Bootstrap. As classes de layout que ele usava
+       estão no app.css, e o menu do celular está no site.js, em vinte linhas. *@
+    <nav id="main-nav">
+        <div class="nav-shell">
+            <a class="brand" asp-controller="Inicio" asp-action="Index">lawllit<span class="brand-dot">.</span></a>
+
+            <button type="button" class="nav-toggle" id="nav-toggle"
+                    aria-controls="nav-menu" aria-expanded="false" aria-label="Abrir menu">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M3 6h18M3 12h18M3 18h18" />
+                </svg>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li>
+                        <a class="nav-link nav-link-finance" href="@Configuration["Finance:Url"]">finance</a>
+                    </li>
+                    <li aria-hidden="true"><span class="nav-pipe">|</span></li>
+                    <li>
+                        <a class="nav-link" asp-controller="Ferramentas" asp-action="Index">ferramentas</a>
+                    </li>
+                    <li aria-hidden="true"><span class="nav-pipe">|</span></li>
+                    <li>
+                        <a class="nav-link" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">contato</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <footer class="site-footer">
+        <div class="footer-shell">
+            <span>© @DateTime.Now.Year <span class="footer-brand">lawllit<span class="brand-dot">.</span></span></span>
+            <div class="footer-links">
+                <a href="mailto:contato@lawllit.com" aria-label="Email"><i class="bi bi-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

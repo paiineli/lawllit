@@ -1,0 +1,59 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">comprimir imagem</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// enviar</p>
+                <div class="tool-upload-area">
+                    <input type="file" id="img-input" accept="image/png,image/jpeg" class="visually-hidden" />
+                    <label for="img-input" class="tool-upload-label">
+                        <i class="bi bi-file-earmark-image"></i>
+                        <span>escolher imagem</span>
+                        <span class="lp-edu-meta">.jpg, .png · processado no seu navegador</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// nível de compressão</p>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-nivel="alta" disabled>qualidade alta</button>
+                    <button class="lp-btn" data-nivel="equilibrado" disabled>equilibrado</button>
+                    <button class="lp-btn" data-nivel="menor" disabled>menor arquivo</button>
+                </div>
+            </section>
+
+            <section id="img-result" class="lp-section" hidden>
+                <p class="lp-section-title">// resultado</p>
+                <img id="img-preview" class="tool-preview-img" alt="" />
+                <div class="tool-result">
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">original</span>
+                        <span class="tool-result-value" id="img-original"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">comprimida</span>
+                        <span class="tool-result-value" id="img-compressed"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">redução</span>
+                        <span class="tool-result-value" id="img-reduction"></span>
+                    </div>
+                </div>
+                <div class="tool-actions">
+                    <button id="img-download" class="lp-btn">baixar</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/comprimir-imagem.js" asp-append-version="true"></script>
+}

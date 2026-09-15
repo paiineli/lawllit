@@ -1,0 +1,258 @@
+@model PerfilViewModel
+
+<main class="container-lg py-4">
+
+    <div class="mb-4">
+        <h5 class="fw-bold mb-0">Perfil</h5>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3">
+                <div class="profile-avatar flex-shrink-0">@Model.Nome.Substring(0, 1).ToUpper()</div>
+                <div>
+                    <p class="fw-semibold mb-0">@Model.Nome</p>
+                    <p class="small text-secondary mb-1">@Model.Email</p>
+                    <p class="small text-secondary opacity-75 mb-0">
+                        Membro desde @Model.MembroDesdeTexto
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-12 col-md-3">
+            <div class="nav flex-column profile-nav">
+                <a asp-action="Index"
+                   class="nav-link @(Model.AbaAtiva == "info" ? "active" : "")">
+                    <i class="bi bi-person me-2"></i>Geral
+                </a>
+                <a asp-action="Index" asp-route-aba="seguranca"
+                   class="nav-link @(Model.AbaAtiva == "seguranca" ? "active" : "")">
+                    <i class="bi bi-shield-lock me-2"></i>Segurança
+                </a>
+                <a asp-action="Index" asp-route-aba="aparencia"
+                   class="nav-link @(Model.AbaAtiva == "aparencia" ? "active" : "")">
+                    <i class="bi bi-sliders me-2"></i>Preferências
+                </a>
+                <a asp-action="Index" asp-route-aba="conta"
+                   class="nav-link @(Model.AbaAtiva == "conta" ? "active" : "")">
+                    <i class="bi bi-gear me-2"></i>Conta
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9">
+
+            @if (Model.AbaAtiva == "info")
+            {
+                <div class="card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">Informações pessoais</p>
+                        <form method="post" asp-action="AlterarNome">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label class="form-label small">Nome</label>
+                                <input type="text" name="Nome" value="@Model.Nome" class="form-control" maxlength="100" required>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            }
+
+            @if (Model.AbaAtiva == "seguranca")
+            {
+                <div class="card mb-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">E-mail</p>
+                        <form method="post" asp-action="AlterarEmail">
+                            @Html.AntiForgeryToken()
+                            <div class="mb-3">
+                                <label class="form-label small">Endereço de e-mail</label>
+                                <input type="email" name="Email" value="@Model.Email" class="form-control" required>
+                            </div>
+                            @if (Model.TemSenha)
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label small">Confirmar senha</label>
+                                    <div class="input-group">
+                                        <input type="password" name="Senha" id="senha-email" class="form-control" placeholder="Confirmar senha" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="Mostrar senha" data-ver-senha="senha-email">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+
+                @if (Model.TemSenha)
+                {
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">Alterar senha</p>
+                            <form method="post" asp-action="AlterarSenha">
+                                @Html.AntiForgeryToken()
+                                <div class="mb-3">
+                                    <label class="form-label small">Senha atual</label>
+                                    <div class="input-group">
+                                        <input type="password" name="SenhaAtual" id="senha-atual" class="form-control" placeholder="Senha atual" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="Mostrar senha" data-ver-senha="senha-atual">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small">Nova senha</label>
+                                    <div class="input-group">
+                                        <input type="password" name="NovaSenha" id="senha-nova" class="form-control" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="Mostrar senha" data-ver-senha="senha-nova">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small">Confirmar nova senha</label>
+                                    <div class="input-group">
+                                        <input type="password" name="ConfirmarNovaSenha" id="senha-confirmar" class="form-control" placeholder="Confirmar nova senha" required>
+                                        <button type="button" class="btn btn-outline-secondary" aria-label="Mostrar senha" data-ver-senha="senha-confirmar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">Alterar senha</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+
+            @if (Model.AbaAtiva == "aparencia")
+            {
+                <div class="card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">Tema</p>
+                        <div class="row g-3" id="opcoes-tema">
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Tema == "dark" ? "theme-card--active" : "")"
+                                        data-valor-tema="dark">
+                                    <div class="theme-preview theme-preview--dark mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">Escuro</span>
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Tema == "light" ? "theme-card--active" : "")"
+                                        data-valor-tema="light">
+                                    <div class="theme-preview theme-preview--light mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">Claro</span>
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <button type="button" class="theme-card w-100 @(Model.Tema == "high-contrast" ? "theme-card--active" : "")"
+                                        data-valor-tema="high-contrast">
+                                    <div class="theme-preview theme-preview--high-contrast mb-2">
+                                        <div class="theme-preview-bar"></div>
+                                        <div class="theme-preview-content">
+                                            <div class="theme-preview-line"></div>
+                                            <div class="theme-preview-line theme-preview-line--short"></div>
+                                        </div>
+                                    </div>
+                                    <span class="small fw-semibold">Alto Contraste</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">Tamanho da fonte</p>
+                        <div class="d-flex gap-2 flex-wrap" id="opcoes-tamanho-fonte">
+                            <button type="button" class="font-size-card @(Model.TamanhoFonte == "normal" ? "font-size-card--active" : "")" data-valor-tamanho-fonte="normal">Normal</button>
+                            <button type="button" class="font-size-card @(Model.TamanhoFonte == "large" ? "font-size-card--active" : "")" data-valor-tamanho-fonte="large">Grande</button>
+                            <button type="button" class="font-size-card @(Model.TamanhoFonte == "xlarge" ? "font-size-card--active" : "")" data-valor-tamanho-fonte="xlarge">Muito grande</button>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="pref-form" method="post" asp-action="SalvarPreferencia" class="d-none">
+                    @Html.AntiForgeryToken()
+                </form>
+            }
+
+            @if (Model.AbaAtiva == "conta")
+            {
+                <div class="card profile-danger-card">
+                    <div class="card-body p-4">
+                        <p class="card-section-title text-secondary small fw-semibold text-uppercase mb-3">Zona de perigo</p>
+                        <p class="small text-secondary mb-3">
+                            Esta ação é irreversível. Todas as suas transações, categorias e dados serão permanentemente excluídos.
+                        </p>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#modal-excluir-conta">
+                            Excluir conta
+                        </button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</main>
+
+<div class="modal fade" id="modal-excluir-conta" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" asp-action="ExcluirConta">
+                @Html.AntiForgeryToken()
+                <div class="modal-header">
+                    <h6 class="modal-title fw-semibold">Excluir conta</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary @(Model.TemSenha ? "mb-3" : "mb-0")">
+                        Tem certeza? Todas as transações, categorias e dados da conta serão excluídos permanentemente e não poderão ser recuperados.
+                    </p>
+                    @if (Model.TemSenha)
+                    {
+                        <div>
+                            <label class="form-label small">Confirmar senha</label>
+                            <div class="input-group">
+                                <input type="password" name="Senha" id="senha-excluir" class="form-control form-control-sm" placeholder="Confirmar senha" required>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="Mostrar senha" data-ver-senha="senha-excluir">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Excluir permanentemente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/perfil.js" asp-append-version="true"></script>
+}

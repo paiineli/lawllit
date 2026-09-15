@@ -1,0 +1,52 @@
+@inject IConfiguration Configuracao
+@{
+    // Login e cadastro chegam sem claim e caem no escuro, que é o visual da entrada. Termos e
+    // privacidade também abrem por dentro do app, com o usuário logado, e aí seguem o tema dele.
+    var tema = User.FindFirst("tema")?.Value ?? "dark";
+    var tamanhoFonte = User.FindFirst("tamanho_fonte")?.Value ?? "normal";
+    var temaBootstrap = tema == "high-contrast" ? "dark" : tema;
+    var enderecoPortfolio = Configuracao["Site:Url"];
+}
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="@temaBootstrap" data-theme="@tema" @(tamanhoFonte != "normal" ? $"data-font-size=\"{tamanhoFonte}\"" : "")>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lawllit.finance</title>
+    @* Termos e privacidade abrem por este layout e são páginas públicas, então o
+       canônico precisa existir aqui também. *@
+    <link rel="canonical" href="@SeoUrls.Canonica(Context.Request)" />
+    <link rel="preload" href="~/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/icons.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/app.css" rel="stylesheet" asp-append-version="true">
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%234ade80' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>">
+</head>
+<body>
+
+    <nav class="navbar sticky-top border-bottom" id="menu-topo">
+        <div class="container-lg d-flex align-items-center justify-content-between w-100">
+            <a class="navbar-brand" asp-controller="Inicio" asp-action="Index">
+                lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span>
+            </a>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <footer class="site-footer">
+        <div class="container-lg footer-shell">
+            <span>© @DateTime.Now.Year <a class="footer-brand" href="@enderecoPortfolio">lawllit<span class="brand-dot">.</span></a></span>
+            <div class="footer-links">
+                <a asp-controller="Legal" asp-action="Privacidade">Privacidade</a>
+                <a asp-controller="Legal" asp-action="Termos">Termos</a>
+                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/bootstrap.bundle.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">cpf / cnpj</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// entrada</p>
+                <textarea id="doc-input" class="tool-textarea" placeholder="um documento por linha..."></textarea>
+                <div class="tool-actions">
+                    <button class="lp-btn" data-doc="validar">validar</button>
+                    <button class="lp-btn" data-doc="formatar">formatar</button>
+                    <button class="lp-btn" data-doc="limpar">remover máscara</button>
+                    <button class="lp-btn" data-doc="gerar-cpf">gerar cpf</button>
+                    <button class="lp-btn" data-doc="gerar-cnpj">gerar cnpj</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// saída</p>
+                <textarea id="doc-output" class="tool-textarea" readonly
+                          data-valido="válido"
+                          data-invalido="inválido"></textarea>
+                <div class="tool-actions">
+                    <button id="doc-copy" class="lp-btn" data-copiar="#doc-output">copiar</button>
+                    <button id="doc-clear" class="lp-btn">limpar</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/cpf-cnpj.js" asp-append-version="true"></script>
+}

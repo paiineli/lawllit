@@ -1,0 +1,236 @@
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "lawllit.";
+
+    // A chave pública do Turnstile vai no HTML, é para isso que ela existe. A privada
+    // fica só no servidor, dentro do TurnstileValidator.
+    var turnstileSiteKey = Configuration["Turnstile:SiteKey"];
+    var turnstileLanguage = "pt-br";
+}
+
+<main class="home-main">
+    <div class="shell">
+        <div class="home">
+
+            <section class="home-section hero">
+                <h1>@Curriculo.Nome</h1>
+                <p class="hero-role">@Curriculo.Titulo</p>
+
+                <div class="hero-actions">
+                    <a class="lp-btn lp-btn-solid" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">falar comigo</a>
+                    <a class="lp-btn" asp-controller="Curriculo" asp-action="Index" asp-route-print="1" target="_blank">currículo</a>
+
+                    <div class="socials">
+                        <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                        <a href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="mailto:@Curriculo.Email" aria-label="e-mail"><i class="bi bi-envelope"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">// projetos</p>
+
+                <div class="vitrine">
+                    <div class="vitrine-texto">
+                        <h2 class="vitrine-nome">lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span></h2>
+                        <p class="vitrine-desc">Controle financeiro pessoal, no ar e em uso. Cadastro com confirmação por e-mail, recuperação de senha, painel com projeção de gasto e importação de recorrentes.</p>
+                        <div class="vitrine-acoes">
+                            <a class="lp-btn lp-btn-solid" href="@Configuration["Finance:Url"]">conhecer</a>
+                            <a class="btn-icone" href="https://github.com/paiineli/lawllit" target="_blank" rel="noopener noreferrer" aria-label="Código no GitHub"><i class="bi bi-github"></i></a>
+                        </div>
+                    </div>
+
+                    @* Esquema do painel, desenhado em CSS. Não é captura de tela: imagem de
+                       interface envelhece a cada mudança do app e ninguém lembra de trocar. *@
+                    <div class="painel" aria-hidden="true">
+                        <div class="painel-tiles">
+                            <div class="tile"><span class="tile-rot">receitas</span><span class="tile-val tile-receita">R$ 8.240</span></div>
+                            <div class="tile"><span class="tile-rot">despesas</span><span class="tile-val tile-despesa">R$ 5.117</span></div>
+                            <div class="tile"><span class="tile-rot">aportes</span><span class="tile-val tile-aporte">R$ 1.052</span></div>
+                        </div>
+                        <div class="painel-grafico">
+                            <div class="painel-col"><i class="barra-receita" style="height:30px"></i><i class="barra-despesa" style="height:20px"></i><i class="barra-aporte" style="height:6px"></i></div>
+                            <div class="painel-col"><i class="barra-receita" style="height:26px"></i><i class="barra-despesa" style="height:24px"></i><i class="barra-aporte" style="height:5px"></i></div>
+                            <div class="painel-col"><i class="barra-receita" style="height:34px"></i><i class="barra-despesa" style="height:18px"></i><i class="barra-aporte" style="height:9px"></i></div>
+                            <div class="painel-col"><i class="barra-receita" style="height:22px"></i><i class="barra-despesa" style="height:28px"></i><i class="barra-aporte" style="height:4px"></i></div>
+                            <div class="painel-col"><i class="barra-receita" style="height:38px"></i><i class="barra-despesa" style="height:22px"></i><i class="barra-aporte" style="height:11px"></i></div>
+                            <div class="painel-col"><i class="barra-receita" style="height:32px"></i><i class="barra-despesa" style="height:26px"></i><i class="barra-aporte" style="height:8px"></i></div>
+                        </div>
+                        <div class="painel-eixo"><span>abr</span><span>mai</span><span>jun</span><span>jul</span><span>ago</span><span>set</span></div>
+                    </div>
+                </div>
+
+                <a class="cartao-projeto" asp-controller="Ferramentas" asp-action="Index">
+                    <div>
+                        <span class="cartao-nome">ferramentas<span class="brand-dot">.</span></span>
+                        <p class="cartao-desc">utilitários que rodam inteiros no navegador, nenhum arquivo sobe pra servidor.</p>
+                    </div>
+                    <span class="cartao-num"><b>@Ferramentas.Quantidade</b> no ar</span>
+                </a>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">// experiência</p>
+                <div class="jobs">
+                    @foreach (var cargo in Curriculo.Cargos)
+                    {
+                        <div class="job">
+                            <div class="job-when">@cargo.Periodo</div>
+                            <div>
+                                <div class="job-title">@cargo.Titulo <span class="job-org">· @cargo.Empresa</span></div>
+                                <p class="job-intro">@cargo.Introducao</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">// formação</p>
+                <div class="creds">
+                    <div>
+                        <p class="cred-head">acadêmica</p>
+                        <div class="cred-list">
+                            @foreach (var item in Curriculo.Formacao)
+                            {
+                                <div class="cred-item">
+                                    <b>@item.Titulo</b>
+                                    <span>@item.Detalhe</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <p class="cred-head">certificações</p>
+                        <div class="cred-list">
+                            @foreach (var item in Curriculo.Certificacoes)
+                            {
+                                <div class="cred-item">
+                                    <b>@item.Titulo</b>
+                                    <span>@item.Detalhe</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <p class="cred-head">idiomas</p>
+                        <div class="cred-list">
+                            @foreach (var item in Curriculo.Idiomas)
+                            {
+                                <div class="cred-item">
+                                    <b>@item.Titulo</b>
+                                    <span>@item.Detalhe</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="home-section">
+                <p class="slab">// competências</p>
+                <div class="skill-rows">
+                    @foreach (var grupo in Curriculo.GruposCompetencia)
+                    {
+                        <div class="skill-row">
+                            <span class="skill-label">@grupo.Rotulo</span>
+                            <div class="tags">
+                                @foreach (var competencia in grupo.Destaque)
+                                {
+                                    <span class="tag tag-core">@competencia</span>
+                                }
+                                @foreach (var competencia in grupo.Demais)
+                                {
+                                    <span class="tag">@competencia</span>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="home-section" id="contato">
+                <p class="slab">// contato</p>
+
+                @if (TempData["ContatoSucesso"] is string contactSuccess)
+                {
+                    <p class="form-note form-note-ok" role="status">@contactSuccess</p>
+                }
+                else if (TempData["ContatoErro"] is string contactError)
+                {
+                    <p class="form-note form-note-error" role="alert">@contactError</p>
+                }
+
+                <div class="contact">
+                    <form class="form" asp-controller="Contato" asp-action="Enviar" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="field">
+                            <label for="contact-name">nome</label>
+                            <input id="contact-name" name="Name" type="text" maxlength="100" required
+                                   autocomplete="name" placeholder="seu nome"
+                                   value="@(TempData["ContatoNome"] as string)" />
+                        </div>
+
+                        <div class="field">
+                            <label for="contact-email">e-mail</label>
+                            <input id="contact-email" name="Email" type="email" maxlength="255" required
+                                   autocomplete="email" placeholder="seu e-mail"
+                                   value="@(TempData["ContatoEmail"] as string)" />
+                        </div>
+
+                        <div class="field">
+                            <label for="contact-message">mensagem</label>
+                            <textarea id="contact-message" name="Message" maxlength="2000" minlength="10" required
+                                      placeholder="sua mensagem">@(TempData["ContatoMensagem"] as string)</textarea>
+                        </div>
+
+                        @* Isca para robô. Fica fora da tela por CSS e fora da navegação por
+                           teclado e leitor de tela, então só um preenchedor automático acerta. *@
+                        <div class="form-trap" aria-hidden="true">
+                            <label for="contact-website">Website</label>
+                            <input id="contact-website" name="Website" type="text" tabindex="-1" autocomplete="off" />
+                        </div>
+
+                        <div class="cf-turnstile" data-sitekey="@turnstileSiteKey" data-theme="dark" data-language="@turnstileLanguage"></div>
+
+                        <div>
+                            <button type="submit" class="lp-btn lp-btn-solid" id="contact-submit"
+                                    data-enviando="enviando">enviar</button>
+                        </div>
+                    </form>
+
+                    <div class="direct">
+                        <p class="prose">Prefere escrever? Respondo por e-mail, normalmente no mesmo dia.</p>
+
+                        <div class="direct-item">
+                            <span>e-mail</span>
+                            <a href="mailto:@Curriculo.Email">@Curriculo.Email</a>
+                        </div>
+                        <div class="direct-item">
+                            <span>linkedin</span>
+                            <a href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer">@Curriculo.LinkedIn</a>
+                        </div>
+                        <div class="direct-item">
+                            <span>github</span>
+                            <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer">@Curriculo.GitHub</a>
+                        </div>
+                        <div class="direct-item">
+                            <span>localização</span>
+                            <p>Sorocaba, São Paulo</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @* O script do Turnstile é o único de terceiro no site público, e é assíncrono e
+       adiado, então não bloqueia a renderização. *@
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="~/js/contato.js" asp-append-version="true" defer></script>
+}

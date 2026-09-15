@@ -1,0 +1,13 @@
+@model ErroViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5 text-center">
+    <h4 class="mb-3">error</h4>
+    @if (Model.MostrarCodigo)
+    {
+        <p class="text-secondary small">request id: <code>@Model.CodigoRequisicao</code></p>
+    }
+    <a asp-controller="Inicio" asp-action="Index" class="btn btn-outline-secondary mt-3">go home</a>
+</div>

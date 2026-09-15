@@ -1,0 +1,34 @@
+@{
+    // Os onze cards estavam escritos à mão aqui. Agora saem do Ferramentas, que é a
+    // mesma lista que o card de projetos da home usa.
+}
+
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <h1 class="lp-name">ferramentas.</h1>
+                <p class="lp-text">Utilitários pequenos para problemas reais. Rodam inteiros no seu navegador, nenhum arquivo sobe pra servidor.</p>
+            </header>
+
+            @foreach (var grupo in Ferramentas.Grupos)
+            {
+                <section class="lp-section">
+                    <p class="lp-section-title">@grupo.Categoria</p>
+                    <div class="tools-grid">
+                        @foreach (var ferramenta in grupo.Ferramentas)
+                        {
+                            <a class="tool-card" asp-controller="Ferramentas" asp-action="@ferramenta.Acao">
+                                <i class="bi @ferramenta.Icone tool-card-icon"></i>
+                                <span class="tool-card-name">@ferramenta.Nome</span>
+                                <span class="tool-card-desc">@ferramenta.Descricao</span>
+                            </a>
+                        }
+                    </div>
+                </section>
+            }
+
+        </div>
+    </div>
+</main>

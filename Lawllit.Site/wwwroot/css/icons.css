@@ -1,0 +1,40 @@
+/* Bootstrap Icons 1.11.3, reduzido aos 12 ícones que o projeto usa.
+ * Licença MIT, https://github.com/twbs/icons/blob/main/LICENSE
+ *
+ * ARQUIVO GERADO. Ícone novo entra refazendo o subset a partir do pacote original,
+ * que traz 130 KB de fonte e 98 KB de CSS para cerca de 2000 ícones.
+ * font-display é swap, e não o block do original, que o Lighthouse penaliza.
+ */
+
+@font-face {
+    font-display: swap;
+    font-family: "bootstrap-icons";
+    src: url("../fonts/bootstrap-icons-subset.woff2") format("woff2");
+}
+.bi::before,
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bi-code-slash::before { content: "\f2c6"; }
+.bi-database::before { content: "\f8c4"; }
+.bi-envelope::before { content: "\f32f"; }
+.bi-file-earmark-image::before { content: "\f36d"; }
+.bi-file-earmark-pdf::before { content: "\f63e"; }
+.bi-file-earmark-spreadsheet::before { content: "\f389"; }
+.bi-geo-alt::before { content: "\f3e8"; }
+.bi-github::before { content: "\f3ed"; }
+.bi-linkedin::before { content: "\f472"; }
+.bi-person-vcard::before { content: "\f8c9"; }
+.bi-qr-code::before { content: "\f6ae"; }
+.bi-shield-lock::before { content: "\f538"; }

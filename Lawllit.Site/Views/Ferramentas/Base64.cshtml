@@ -1,0 +1,35 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">base64</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// entrada</p>
+                <textarea id="b64-input" class="tool-textarea" placeholder="cole seu texto aqui..."></textarea>
+                <div class="tool-actions">
+                    <button id="b64-encode" class="lp-btn">codificar</button>
+                    <button id="b64-decode" class="lp-btn">decodificar</button>
+                    <button id="b64-clear" class="lp-btn">limpar</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// saída</p>
+                <textarea id="b64-output" class="tool-textarea" readonly></textarea>
+                <p id="b64-error" class="tool-error" hidden>entrada base64 inválida.</p>
+                <div class="tool-actions">
+                    <button id="b64-copy" class="lp-btn" data-copiar="#b64-output">copiar</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/base64.js" asp-append-version="true"></script>
+}

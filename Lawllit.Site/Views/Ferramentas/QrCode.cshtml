@@ -1,0 +1,36 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">qr code</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// entrada</p>
+                <textarea id="qr-input" class="tool-textarea" placeholder="cole um texto ou link..."></textarea>
+                <div class="tool-actions">
+                    <button id="qr-generate" class="lp-btn">gerar</button>
+                    <button id="qr-clear" class="lp-btn">limpar</button>
+                </div>
+            </section>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// saída</p>
+                <div class="tool-qr" hidden>
+                    <div id="qr-canvas" class="tool-qr-code"></div>
+                </div>
+                <div class="tool-actions">
+                    <button id="qr-download" class="lp-btn" disabled>baixar png</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="~/js/qr-code.js" asp-append-version="true"></script>
+}

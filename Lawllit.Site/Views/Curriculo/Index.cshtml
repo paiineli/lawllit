@@ -1,0 +1,89 @@
+@{
+    Layout = "_CurriculoLayout";
+}
+
+<div class="sheet">
+
+    <div class="cv-actions">
+        <button type="button" class="cv-print" id="cv-print">Imprimir</button>
+    </div>
+
+    <header>
+        <h1>@Curriculo.Nome</h1>
+        <p class="title-line">@Curriculo.Titulo</p>
+        <p class="contact-line">@Curriculo.Email | @Curriculo.LinkedIn | @Curriculo.GitHub</p>
+    </header>
+
+    <section>
+        <h2>Sobre</h2>
+        @foreach (var paragrafo in Curriculo.Sobre)
+        {
+            <p>@paragrafo</p>
+        }
+    </section>
+
+    <section>
+        <h2>Experiência</h2>
+        @foreach (var cargo in Curriculo.Cargos)
+        {
+            <div class="job">
+                <div class="job-head">
+                    <span class="job-title">@cargo.Titulo &mdash; @cargo.Empresa</span>
+                    <span class="job-dates">@cargo.Periodo</span>
+                </div>
+                <p class="job-intro">@cargo.Introducao</p>
+
+                @if (cargo.Topicos.Length > 0)
+                {
+                    <ul>
+                        @foreach (var topico in cargo.Topicos)
+                        {
+                            <li>@topico</li>
+                        }
+                    </ul>
+                }
+
+                @if (cargo.Stack is not null)
+                {
+                    <p class="stack">Stack: @cargo.Stack</p>
+                }
+            </div>
+        }
+    </section>
+
+    <section>
+        <h2>Formação</h2>
+        @foreach (var item in Curriculo.Formacao)
+        {
+            <div class="line">@item.Titulo &mdash; @item.Detalhe</div>
+        }
+    </section>
+
+    <section>
+        <h2>Certificações</h2>
+        @foreach (var item in Curriculo.Certificacoes)
+        {
+            <div class="line">@item.Titulo &mdash; @item.Detalhe</div>
+        }
+    </section>
+
+    <section>
+        <h2>Idiomas</h2>
+        <div class="line">
+            @for (var indice = 0; indice < Curriculo.Idiomas.Length; indice++)
+            {
+                @if (indice > 0)
+                {
+                    <span class="line-sep">|</span>
+                }
+                <span>@Curriculo.Idiomas[indice].Titulo &mdash; @Curriculo.Idiomas[indice].Detalhe</span>
+            }
+        </div>
+    </section>
+
+    <section>
+        <h2>Competências</h2>
+        <p>@Curriculo.Competencias</p>
+    </section>
+
+</div>

@@ -1,0 +1,1303 @@
+/* CSS do site público. Não depende do Bootstrap: as vinte e poucas classes de layout
+   que o site usava dele estão escritas aqui, o que tirou 232 KB do caminho crítico.
+   O app financeiro continua com Bootstrap, ele usa o framework de verdade. */
+
+/* FONTE. Auto hospedada, e o unicode-range só baixa o latin-ext quando a página precisa.
+   Licença SIL OFL 1.1, o texto está em wwwroot/fonts/OFL.txt. */
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/jetbrains-mono-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/jetbrains-mono-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* TOKENS E BASE */
+:root {
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --bg: #000;
+    --fg: #fff;
+    /* Cinza com leve viés de verde, herança de terminal de fósforo. Dá cerca de 8:1
+       sobre o preto, contra 5,9:1 do cinza neutro que estava aqui antes. */
+    --dim: #9aa39d;
+    --faint: #6b736d;
+    --green: #4ade80;
+    --red: #f87171;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    /* Card com preenchimento se destaca do fundo como objeto. Só a borda sobre preto puro
+       lê como rascunho, que era a queixa da versão anterior desta página. */
+    --surface: #101010;
+    --surface-alto: #161616;
+    --raio: 10px;
+    --raio-ctrl: 7px;
+    --transition: 0.15s ease;
+    --shell-padding: 24px;
+}
+
+*, *::before, *::after {
+    font-family: var(--font-mono);
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+}
+
+/* Grão sobre a página inteira, fixo, para não rolar com o conteúdo. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+a {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* LAYOUT. .shell e .visually-hidden vieram do Bootstrap e continuam aqui: a segunda
+   esconde o input de arquivo das ferramentas atrás do rótulo clicável. */
+.shell {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-inline: var(--shell-padding);
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* NAVBAR */
+#main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-shell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-block: 13px;
+    padding-inline: var(--shell-padding);
+}
+
+.brand {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.3px;
+}
+
+    .brand:hover {
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.brand-dot {
+    color: var(--faint);
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    color: var(--dim);
+    margin-left: auto;
+    padding: 6px;
+    cursor: pointer;
+    line-height: 0;
+}
+
+    .nav-toggle:hover {
+        color: var(--fg);
+    }
+
+    .nav-toggle svg {
+        width: 22px;
+        height: 22px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+    }
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    font-size: 0.78rem;
+    color: var(--dim);
+    padding: 0.4rem 0.75rem;
+    transition: color var(--transition);
+}
+
+    .nav-link:hover {
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+.nav-link-finance {
+    color: var(--green);
+}
+
+    .nav-link-finance:hover {
+        color: var(--green);
+        opacity: 0.8;
+    }
+
+.nav-pipe {
+    color: var(--border-strong);
+    font-size: 0.78rem;
+    user-select: none;
+}
+
+@media (max-width: 860px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        background: rgba(0, 0, 0, 0.97);
+        border-bottom: 1px solid var(--border);
+        padding: 10px var(--shell-padding) 16px;
+        margin-left: 0;
+    }
+
+        .nav-menu.is-open {
+            display: flex;
+        }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .nav-pipe {
+        display: none;
+    }
+
+}
+
+/* HOME */
+/* Brilho verde discreto no topo, para o preto chapado não abrir a página seca. Fica
+   como background-image, e não como pseudo-elemento, para não entrar na disputa de
+   camada com o grão que está no body. Só a home tem, as ferramentas seguem chapadas. */
+.home-main {
+    background-image: radial-gradient(760px 380px at 50% -8%, rgba(74, 222, 128, 0.07), transparent 72%);
+    background-repeat: no-repeat;
+    background-size: 100% 620px;
+    background-position: top center;
+}
+
+.home {
+    width: 100%;
+    max-width: 880px;
+}
+
+.home-section {
+    padding-block: 46px;
+}
+
+    .home-section + .home-section {
+        border-top: 1px solid var(--border);
+    }
+
+.slab {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 20px;
+}
+
+.prose {
+    font-size: 0.875rem;
+    color: var(--dim);
+    max-width: 68ch;
+    margin: 0;
+}
+
+    .prose + .prose {
+        margin-top: 14px;
+    }
+
+/* ---------- topo ---------- */
+.hero {
+    padding-block: 64px 48px;
+}
+
+    .hero h1 {
+        font-size: clamp(1.75rem, 5.4vw, 2.75rem);
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+        margin: 0;
+        text-wrap: balance;
+    }
+
+.hero-role {
+    font-size: 0.8rem;
+    color: var(--fg);
+    font-weight: 500;
+    margin: 16px 0 0;
+    max-width: 62ch;
+}
+
+    .hero-role span {
+        color: var(--faint);
+    }
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+}
+
+.socials {
+    display: flex;
+    gap: 14px;
+    margin-left: 6px;
+    font-size: 0.95rem;
+}
+
+    .socials a {
+        color: var(--faint);
+        display: flex;
+        align-items: center;
+        transition: color var(--transition);
+    }
+
+        .socials a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+    .socials svg {
+        width: 1em;
+        height: 1em;
+        fill: currentColor;
+        display: block;
+    }
+
+/* ---------- competências ---------- */
+.skill-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.skill-row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 14px;
+}
+
+.skill-label {
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    padding-top: 4px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    font-size: 0.72rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 9px;
+}
+
+    .tag-core {
+        color: var(--fg);
+        border-color: var(--border-strong);
+    }
+
+/* ---------- projetos ----------
+   O finance ocupa metade da largura porque é a peça que mais mostra competência. */
+.vitrine {
+    display: grid;
+    grid-template-columns: 1fr 1.02fr;
+    gap: 28px;
+    align-items: center;
+    border: 1px solid rgba(74, 222, 128, 0.22);
+    border-radius: var(--raio);
+    background: linear-gradient(180deg, rgba(74, 222, 128, 0.05), rgba(74, 222, 128, 0.008));
+    padding: 26px;
+}
+
+.vitrine-nome {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0;
+}
+
+    .vitrine-nome .brand-finance {
+        color: var(--green);
+    }
+
+.vitrine-desc {
+    font-size: 0.82rem;
+    color: var(--dim);
+    margin: 12px 0 0;
+}
+
+.vitrine-acoes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+}
+
+.btn-icone {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--raio-ctrl);
+    color: var(--dim);
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+    .btn-icone:hover {
+        color: var(--fg);
+        border-color: var(--fg);
+        background: rgba(255, 255, 255, 0.03);
+        text-decoration: none;
+    }
+
+/* Esquema, não captura de tela: imagem de interface envelhece e ninguém lembra de trocar. */
+.painel {
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.painel-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.tile {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--raio-ctrl);
+    padding: 9px 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--raio-ctrl);
+}
+
+.tile-rot {
+    font-size: 0.58rem;
+    color: var(--faint);
+    letter-spacing: 0.08em;
+}
+
+.tile-val {
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+}
+
+.tile-receita { color: var(--green); }
+.tile-despesa { color: var(--red); }
+.tile-aporte { color: #60a5fa; }
+
+.painel-grafico {
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    height: 76px;
+    padding-top: 6px;
+}
+
+.painel-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+}
+
+    .painel-col i {
+        display: block;
+    }
+
+.barra-receita { background: var(--green); }
+.barra-despesa { background: var(--red); opacity: 0.85; }
+.barra-aporte { background: #60a5fa; opacity: 0.8; }
+
+.painel-eixo {
+    display: flex;
+    gap: 7px;
+    font-size: 0.55rem;
+    color: var(--faint);
+}
+
+    .painel-eixo span {
+        flex: 1;
+        text-align: center;
+    }
+
+/* Segundo projeto. Leva para a página das ferramentas em vez de listar as nove aqui. */
+.cartao-projeto {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--surface);
+    padding: 20px 24px;
+    margin-top: 12px;
+    color: var(--fg);
+    flex-wrap: wrap;
+    transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+
+    .cartao-projeto:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+        background: var(--surface-alto);
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.cartao-nome {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.cartao-desc {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 3px 0 0;
+}
+
+.cartao-num {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--faint);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+    .cartao-num b {
+        color: var(--fg);
+        font-size: 0.85rem;
+    }
+
+/* ---------- experiência ---------- */
+.jobs {
+    display: flex;
+    flex-direction: column;
+}
+
+.job {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 20px;
+    padding-block: 18px;
+}
+
+    .job + .job {
+        border-top: 1px solid var(--border);
+    }
+
+    .job:first-child {
+        padding-top: 0;
+    }
+
+.job-when {
+    font-size: 0.72rem;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.job-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.job-org {
+    color: var(--dim);
+    font-weight: 400;
+}
+
+.job-intro {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 5px 0 0;
+    max-width: 74ch;
+}
+
+.creds {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 28px;
+}
+
+.cred-head {
+    font-size: 0.7rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 12px;
+}
+
+.cred-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.cred-item {
+    display: flex;
+    flex-direction: column;
+}
+
+    .cred-item b {
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+
+    .cred-item span {
+        font-size: 0.7rem;
+        color: var(--faint);
+    }
+
+/* ---------- contato ---------- */
+.contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+}
+
+.direct {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.direct-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+    .direct-item span {
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.06em;
+    }
+
+    .direct-item a {
+        font-size: 0.8rem;
+        color: var(--fg);
+    }
+
+    .direct-item p {
+        font-size: 0.8rem;
+        color: var(--dim);
+        margin: 0;
+    }
+
+@media (max-width: 760px) {
+    .vitrine,
+    .contact {
+        grid-template-columns: 1fr;
+    }
+
+    .skill-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .job {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+}
+
+/* FOOTER */
+.site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 1.25rem;
+}
+
+.footer-shell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+    max-width: 1140px;
+    margin-inline: auto;
+    padding-inline: var(--shell-padding);
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+    .footer-shell a {
+        color: var(--faint);
+        transition: color var(--transition);
+    }
+
+        .footer-shell a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+.footer-brand {
+    color: var(--fg);
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 1rem;
+}
+
+/* PÁGINAS DE FERRAMENTA */
+.lp-main {
+    padding: 4rem 0 5rem;
+}
+
+.lp-body {
+    width: 100%;
+    max-width: 620px;
+}
+
+.lp-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.lp-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+    letter-spacing: -0.3px;
+}
+
+.lp-section {
+    margin-bottom: 2.5rem;
+}
+
+.lp-section-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--faint);
+    letter-spacing: 0.5px;
+    margin: 0 0 0.9rem;
+}
+
+.lp-text {
+    font-size: 0.83rem;
+    color: var(--dim);
+    line-height: 1.75;
+    margin: 0;
+}
+
+.lp-edu-meta {
+    font-size: 0.76rem;
+    color: var(--faint);
+}
+
+.lp-btn {
+    display: inline-block;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--raio-ctrl);
+    color: var(--fg);
+    background: transparent;
+    font-family: var(--font-mono);
+    line-height: 1.7;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+    .lp-btn:hover {
+        background: var(--fg);
+        color: var(--bg);
+        border-color: var(--fg);
+        text-decoration: none;
+    }
+
+    .lp-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+.lp-btn-solid {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    font-weight: 500;
+}
+
+    .lp-btn-solid:hover {
+        background: transparent;
+        color: var(--fg);
+        border-color: var(--border-strong);
+    }
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
+    gap: 0.75rem;
+}
+
+.tool-card {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--surface);
+    padding: 1.25rem;
+    color: var(--fg);
+    transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+
+    .tool-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-strong);
+        background: var(--surface-alto);
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.tool-card-icon {
+    display: block;
+    font-size: 1.4rem;
+    color: var(--fg);
+    margin-bottom: 0.65rem;
+}
+
+.tool-card-name {
+    display: block;
+    font-size: 0.84rem;
+    margin-bottom: 0.25rem;
+}
+
+.tool-card-desc {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--dim);
+}
+
+.tool-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+    .tool-steps li {
+        font-size: 0.83rem;
+        color: var(--dim);
+        padding-left: 1.75rem;
+        position: relative;
+        counter-increment: step-counter;
+    }
+
+        .tool-steps li::before {
+            content: counter(step-counter) ".";
+            position: absolute;
+            left: 0;
+            color: var(--fg);
+            font-weight: 700;
+        }
+
+.tool-upload-area {
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    padding: 2.5rem 1.25rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: border-color var(--transition);
+}
+
+    .tool-upload-area:hover {
+        border-color: var(--border-strong);
+    }
+
+.tool-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.84rem;
+    color: var(--dim);
+    transition: color var(--transition);
+}
+
+    .tool-upload-label:hover {
+        color: var(--fg);
+    }
+
+    .tool-upload-label i {
+        font-size: 1.5rem;
+    }
+
+.tool-file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 1.25rem;
+}
+
+.tool-file-item {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--dim);
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+}
+
+.tool-error {
+    font-size: 0.78rem;
+    color: var(--red);
+    margin: 0 0 1rem;
+}
+
+.tool-textarea,
+.tool-input {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 0.75rem;
+    transition: border-color var(--transition);
+    outline: none;
+}
+
+.tool-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.tool-input {
+    padding: 0.6rem 0.75rem;
+}
+
+    .tool-textarea:focus,
+    .tool-input:focus {
+        border-color: var(--border-strong);
+        outline: 2px solid var(--fg);
+        outline-offset: 2px;
+    }
+
+    .tool-textarea::placeholder,
+    .tool-input::placeholder {
+        color: var(--faint);
+    }
+
+.tool-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.tool-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.tool-option {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--dim);
+    cursor: pointer;
+    margin: 0;
+}
+
+    .tool-option input {
+        accent-color: var(--fg);
+        cursor: pointer;
+    }
+
+.tool-result {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+}
+
+.tool-result-row {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+}
+
+    .tool-result-row:last-child {
+        border-bottom: none;
+    }
+
+.tool-result-label {
+    flex: 0 0 7rem;
+    color: var(--dim);
+}
+
+.tool-result-value {
+    color: var(--fg);
+    word-break: break-word;
+}
+
+.tool-qr {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    margin-bottom: 1rem;
+}
+
+.tool-qr-code {
+    background: #fff;
+    padding: 0.75rem;
+    line-height: 0;
+}
+
+    .tool-qr-code canvas,
+    .tool-qr-code img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+.tool-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.85rem;
+}
+
+.tool-field-label {
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+.tool-range {
+    width: 100%;
+    accent-color: var(--fg);
+    cursor: pointer;
+}
+
+.tool-preview-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    margin-bottom: 1rem;
+}
+
+.tool-strength {
+    font-size: 0.76rem;
+    margin: 0.6rem 0 0;
+    color: var(--dim);
+}
+
+.tool-strength-fraca {
+    color: var(--red);
+}
+
+.tool-strength-media {
+    color: #fbbf24;
+}
+
+.tool-strength-forte {
+    color: var(--green);
+}
+
+.merge-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 9999;
+}
+
+.merge-overlay-label {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+.merge-overlay-track {
+    width: min(320px, 80vw);
+    height: 2px;
+    background: var(--border);
+    overflow: hidden;
+}
+
+.merge-overlay-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--green);
+    transition: width 0.2s ease;
+}
+
+/* ERRO */
+.error-section {
+    padding: 4rem 2.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.error-tag {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--faint);
+    margin-bottom: 1.25rem;
+}
+
+    .error-section p {
+        color: var(--dim);
+        margin: 0 0 1rem;
+    }
+
+    .error-section .lp-btn {
+        margin-top: 0.5rem;
+    }
+
+.error-note {
+    font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .lp-main {
+        padding: 2.5rem 0 4rem;
+    }
+
+    .hero {
+        padding-block: 44px 36px;
+    }
+
+    .home-section {
+        padding-block: 34px;
+    }
+
+    :root {
+        --shell-padding: 18px;
+    }
+}
+
+/* O Bootstrap estilizava o code, e ele aparece na página de erro com o id da
+   requisição. Sem o framework, ficava no padrão do navegador. */
+code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg);
+}
+
+/* FORMULÁRIO DE CONTATO */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .field label {
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.06em;
+    }
+
+    .field input,
+    .field textarea {
+        width: 100%;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg);
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        padding: 8px 10px;
+        outline: none;
+        transition: border-color var(--transition);
+    }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: var(--faint);
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: var(--border-strong);
+            outline: 2px solid var(--fg);
+            outline-offset: 1px;
+        }
+
+    .field textarea {
+        min-height: 96px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+/* A isca do robô. Fora da tela em vez de display:none, porque preenchedor automático
+   costuma ignorar campo escondido por display e cair nesse. */
+.form-trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-note {
+    font-size: 0.8rem;
+    margin: 0 0 18px;
+    padding: 9px 12px;
+    border: 1px solid;
+    border-radius: var(--raio-ctrl);
+}
+
+.form-note-ok {
+    color: var(--green);
+    border-color: rgba(74, 222, 128, 0.35);
+    background: rgba(74, 222, 128, 0.06);
+}
+
+.form-note-error {
+    color: var(--red);
+    border-color: rgba(248, 113, 113, 0.35);
+    background: rgba(248, 113, 113, 0.06);
+}
+
+/* O widget do Turnstile carrega dentro de um iframe de altura fixa. Reservar o espaço
+   evita o conteúdo pular quando ele termina de carregar. */
+.cf-turnstile {
+    min-height: 65px;
+}
+
+.contact .direct .prose {
+    margin-bottom: 4px;
+}

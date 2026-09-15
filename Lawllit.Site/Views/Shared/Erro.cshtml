@@ -1,0 +1,14 @@
+@model ErroViewModel
+@{
+    ViewData["Title"] = "erro";
+}
+
+<section class="error-section">
+    <span class="error-tag">// erro</span>
+    <p>alguma coisa deu errado.</p>
+    @if (Model.MostrarCodigo)
+    {
+        <p class="error-note">código da requisição: <code>@Model.CodigoRequisicao</code></p>
+    }
+    <a asp-controller="Inicio" asp-action="Index" class="lp-btn">voltar ao início</a>
+</section>

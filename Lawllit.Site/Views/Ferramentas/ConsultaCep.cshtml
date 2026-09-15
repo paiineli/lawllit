@@ -1,0 +1,64 @@
+<main class="lp-main">
+    <div class="shell">
+        <div class="lp-body">
+
+            <header class="lp-header">
+                <p class="lp-section-title"><a asp-controller="Ferramentas" asp-action="Index">ferramentas.</a></p>
+                <h1 class="lp-name">consulta de cep</h1>
+            </header>
+
+            <section class="lp-section">
+                <p class="lp-section-title">// cep</p>
+                <input type="text" id="cep-input" class="tool-input" inputmode="numeric" maxlength="9" placeholder="00000-000" />
+                <div class="tool-actions">
+                    <button id="cep-lookup" class="lp-btn">consultar</button>
+                </div>
+                <p id="cep-error" class="tool-error" hidden
+                   data-invalido="cep inválido. informe 8 dígitos."
+                   data-naoencontrado="cep não encontrado."></p>
+            </section>
+
+            <section id="cep-result" class="lp-section" hidden>
+                <p class="lp-section-title">// resultado</p>
+                <div class="tool-result">
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">cep</span>
+                        <span class="tool-result-value" id="cep-cep"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">logradouro</span>
+                        <span class="tool-result-value" id="cep-logradouro"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">complemento</span>
+                        <span class="tool-result-value" id="cep-complemento"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">bairro</span>
+                        <span class="tool-result-value" id="cep-bairro"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">cidade</span>
+                        <span class="tool-result-value" id="cep-localidade"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">estado</span>
+                        <span class="tool-result-value" id="cep-uf"></span>
+                    </div>
+                    <div class="tool-result-row">
+                        <span class="tool-result-label">ddd</span>
+                        <span class="tool-result-value" id="cep-ddd"></span>
+                    </div>
+                </div>
+                <div class="tool-actions">
+                    <button id="cep-copy" class="lp-btn">copiar endereço</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/consulta-cep.js" asp-append-version="true"></script>
+}
