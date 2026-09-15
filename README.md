@@ -103,5 +103,5 @@ nothing sensitive is committed. every secret comes from the environment.
 ---
 
 <p align="center">
-  <sub>MIT licensed. built by <a href="https://github.com/paiineli">paiineli</a>.</sub>
+  <sub>built by <a href="https://github.com/paiineli">paiineli</a>.</sub>
 </p>
