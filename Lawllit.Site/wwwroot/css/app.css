@@ -54,6 +54,12 @@
     box-sizing: border-box;
 }
 
+/* Sem o !important, classe que declara display vence o atributo hidden e o elemento
+   escondido continua na tela. Foi o que prendeu a cortina de progresso das ferramentas. */
+[hidden] {
+    display: none !important;
+}
+
 html {
     background: var(--bg);
 }
