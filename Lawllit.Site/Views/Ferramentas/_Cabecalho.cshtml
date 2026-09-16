@@ -1,12 +1,15 @@
 @model Ferramenta
 
-@* A seta é SVG porque o subset da fonte de ícones tem doze glifos e não traz o chevron.
-   Um ícone novo ali obriga a refazer a fonte inteira, o que não se paga por uma seta. *@
-<a class="util-voltar" asp-controller="Ferramentas" asp-action="Index">
-    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 3.5 5 8l4.5 4.5" /></svg>
-    @* Num só elemento porque o gap do flex separaria o ponto da palavra. *@
-    <span>ferramentas<span class="marca-ponto">.</span></span>
-</a>
+@* Agrupa os três num item só do grid do .util, senão cada um viraria uma célula. *@
+<div class="util-cabecalho">
+    @* A seta é SVG porque o subset da fonte de ícones tem doze glifos e não traz o chevron.
+       Um ícone novo ali obriga a refazer a fonte inteira, o que não se paga por uma seta. *@
+    <a class="util-voltar" asp-controller="Ferramentas" asp-action="Index">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 3.5 5 8l4.5 4.5" /></svg>
+        @* Num só elemento porque o gap do flex separaria o ponto da palavra. *@
+        <span>ferramentas<span class="marca-ponto">.</span></span>
+    </a>
 
-<h1 class="util-titulo">@Model.Nome</h1>
-<p class="util-desc">@Model.Descricao</p>
+    <h1 class="util-titulo">@Model.Nome</h1>
+    <p class="util-desc">@Model.Descricao</p>
+</div>

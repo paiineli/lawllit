@@ -1171,12 +1171,31 @@ code {
     margin: 0;
 }
 
-/* PÁGINA DE UMA FERRAMENTA. Coluna estreita de propósito, porque aqui é formulário e
-   linha longa atrapalha, mas dentro do mesmo container do resto do site. */
+/* PÁGINA DE UMA FERRAMENTA. Uma coluna no celular e duas no desktop, entrada à esquerda e
+   saída à direita. Para em 1040px porque aqui é formulário e linha longa atrapalha. */
 .util {
     width: 100%;
-    max-width: 680px;
+    max-width: 1040px;
+    margin-inline: auto;
     padding-block: 56px 72px;
+    display: grid;
+    gap: 14px;
+}
+
+.util-cabecalho {
+    grid-column: 1 / -1;
+}
+
+@media (min-width: 992px) {
+    .util {
+        grid-template-columns: 1fr 1fr;
+        /* Sem isto os dois painéis de uma linha esticam até a altura do mais alto. */
+        align-items: start;
+    }
+
+    .util-painel-largo {
+        grid-column: 1 / -1;
+    }
 }
 
 .util-voltar {
@@ -1212,7 +1231,8 @@ code {
 .util-desc {
     font-size: 0.83rem;
     color: var(--dim);
-    margin: 0 0 32px;
+    /* 18 mais o gap de 14 do grid recompõe os 32px que a margem sozinha dava antes. */
+    margin: 0 0 18px;
 }
 
 .util-painel {
@@ -1221,10 +1241,6 @@ code {
     background: var(--surface);
     padding: 24px;
 }
-
-    .util-painel + .util-painel {
-        margin-top: 14px;
-    }
 
 .util-rotulo {
     font-size: 0.72rem;
