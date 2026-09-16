@@ -1,0 +1,37 @@
+@{
+    var ferramenta = Ferramentas.Por("CpfCnpj");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// entrada</p>
+            <textarea id="documento-entrada" class="util-area" placeholder="um documento por linha..."></textarea>
+            <div class="util-acoes">
+                <button class="botao botao-cheio" data-documento="validar">validar</button>
+                <button class="botao" data-documento="formatar">formatar</button>
+                <button class="botao" data-documento="limpar">remover máscara</button>
+                <button class="botao" data-documento="gerar-cpf">gerar cpf</button>
+                <button class="botao" data-documento="gerar-cnpj">gerar cnpj</button>
+            </div>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// saída</p>
+            <textarea id="documento-saida" class="util-area" readonly
+                      data-valido="válido"
+                      data-invalido="inválido"></textarea>
+            <div class="util-acoes">
+                <button id="documento-copiar" class="botao" data-copiar="#documento-saida">copiar</button>
+                <button id="documento-limpar" class="botao">limpar</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/cpf-cnpj.js" asp-append-version="true"></script>
+}

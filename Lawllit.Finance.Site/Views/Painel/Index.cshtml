@@ -1,0 +1,442 @@
+@model PainelModel
+@{
+    // O app é em real, então a formatação é sempre pt-BR, independente do idioma da interface.
+    var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
+    var nomesMeses = new[]
+    {
+        "Janeiro",  "Fevereiro",  "Março",
+        "Abril",  "Maio",  "Junho",
+        "Julho",  "Agosto",  "Setembro",
+        "Outubro", "Novembro", "Dezembro",
+    };
+
+    var modoAno = Model.Periodo == PeriodoPainelEnum.ANO;
+    var rotuloPeriodo = modoAno ? Model.Ano.ToString() : $"{nomesMeses[Model.Mes - 1]} {Model.Ano}";
+    var rotuloAnterior = modoAno
+        ? "contra o ano anterior"
+        : "contra o mês anterior";
+
+    // Variação de despesa para cima é ruim, de receita para cima é boa, então a cor
+    // não sai do sinal e sim do que o número significa.
+    Func<decimal?, bool, string> classeVariacao = (change, moreIsBetter) =>
+        !change.HasValue || change.Value == 0 ? "text-secondary"
+            : change.Value > 0 == moreIsBetter ? "text-green" : "text-red";
+
+    Func<decimal?, string> changeText = change => !change.HasValue
+        ? string.Empty
+        : (change.Value >= 0 ? "▲ " : "▼ ") + Math.Abs(change.Value).ToString("F0", cultura) + "%";
+}
+
+<main class="container-lg py-4">
+
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+            <h5 class="fw-bold mb-0">Dashboard</h5>
+            <div class="filter-group">
+                <a asp-action="Index" asp-route-periodo="@PeriodoPainelEnum.MES"
+                   asp-route-mes="@(modoAno ? DateTime.Now.Month : Model.Mes)" asp-route-ano="@Model.Ano"
+                   class="filter-btn @(modoAno ? "" : "active")">Mês</a>
+                <a asp-action="Index" asp-route-periodo="@PeriodoPainelEnum.ANO" asp-route-ano="@Model.Ano"
+                   class="filter-btn @(modoAno ? "active" : "")">Ano</a>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a asp-action="Index" asp-route-periodo="@Model.Periodo"
+               asp-route-mes="@Model.MesAnterior" asp-route-ano="@Model.AnoAnterior"
+               class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <span class="small fw-semibold month-nav-label">@rotuloPeriodo</span>
+            @if (Model.PodeAvancar)
+            {
+                <a asp-action="Index" asp-route-periodo="@Model.Periodo"
+                   asp-route-mes="@Model.ProximoMes" asp-route-ano="@Model.ProximoAno"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            }
+            else
+            {
+                <button class="btn btn-sm btn-outline-secondary" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-graph-up-arrow me-1"></i>Receitas
+                    </p>
+                    <p class="card-value text-green mb-0">@Model.TotalReceitas.ToString("C", cultura)</p>
+                    @if (Model.VariacaoReceitas.HasValue)
+                    {
+                        <p class="small mb-0 mt-1 tabular-nums @classeVariacao(Model.VariacaoReceitas, true)">
+                            @changeText(Model.VariacaoReceitas) <span class="text-secondary">@rotuloAnterior</span>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-graph-down-arrow me-1"></i>Despesas
+                    </p>
+                    <p class="card-value text-red mb-0">@Model.TotalDespesas.ToString("C", cultura)</p>
+                    @if (Model.VariacaoDespesas.HasValue)
+                    {
+                        <p class="small mb-0 mt-1 tabular-nums @classeVariacao(Model.VariacaoDespesas, false)">
+                            @changeText(Model.VariacaoDespesas) <span class="text-secondary">@rotuloAnterior</span>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-piggy-bank me-1"></i>Investimentos
+                    </p>
+                    <p class="card-value text-blue mb-0">@Model.TotalInvestimentos.ToString("C", cultura)</p>
+                    @if (Model.VariacaoInvestimentos.HasValue)
+                    {
+                        <p class="small mb-0 mt-1 tabular-nums @classeVariacao(Model.VariacaoInvestimentos, true)">
+                            @changeText(Model.VariacaoInvestimentos) <span class="text-secondary">@rotuloAnterior</span>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="small text-secondary text-uppercase mb-2">
+                        <i class="bi bi-wallet2 me-1"></i>Saldo do mês
+                    </p>
+                    <p class="card-value @(Model.Saldo >= 0 ? "text-green" : "text-red") mb-0">
+                        @Model.Saldo.ToString("C", cultura)
+                    </p>
+                    @if (Model.TaxaPoupanca.HasValue)
+                    {
+                        <p class="small mb-0 mt-1 tabular-nums @(Model.TaxaPoupanca.Value >= 0 ? "text-green" : "text-red")">
+                            @Model.TaxaPoupanca.Value.ToString("F0", cultura)%
+                            <span class="text-secondary">do que entrou você não gastou</span>
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+
+        <div class="col-12 col-lg-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-pin-angle me-1"></i>Fixo e variável
+                    </h6>
+                    @if (Model.TotalSaidas > 0)
+                    {
+                        // Linha zerada fica de fora, senão quase todo mês sobraria um "aporte
+                        // variável" de R$ 0,00 ocupando espaço no card.
+                        var linhasSaida = new[]
+                        {
+                            (Rotulo: "Custo fixo, marcado como recorrente",   Valor: Model.DespesasRecorrentes,      Cor: "var(--red)"),
+                            (Rotulo: "Custo variável",                        Valor: Model.DespesasVariaveis,        Cor: "var(--red)"),
+                            (Rotulo: "Aporte fixo, marcado como recorrente",  Valor: Model.InvestimentosRecorrentes, Cor: "var(--blue)"),
+                            (Rotulo: "Aporte variável",                       Valor: Model.InvestimentosVariaveis,   Cor: "var(--blue)"),
+                        }.Where(linha => linha.Valor > 0);
+
+                        foreach (var linha in linhasSaida)
+                        {
+                            var participacao = Model.ParcelaSaida(linha.Valor);
+                            <div class="d-flex justify-content-between align-items-baseline mb-1 small">
+                                <span>@linha.Rotulo</span>
+                                <span class="tabular-nums">
+                                    <span class="fw-semibold">@linha.Valor.ToString("C", cultura)</span>
+                                    <span class="text-secondary"> · @participacao.ToString("F0", cultura)%</span>
+                                </span>
+                            </div>
+                            <div class="ranking-bar mb-3">
+                                <div class="ranking-fill"
+                                     data-largura="@participacao.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)"
+                                     data-cor="@linha.Cor"></div>
+                            </div>
+                        }
+
+                        @if (Model.ParcelaComprometida.HasValue)
+                        {
+                            var comprometidoTexto = Model.InvestimentosRecorrentes > 0
+                                ? "Custo fixo e aporte fixo comprometem {0}% do que entra."
+                                : "O custo fixo compromete {0}% do que entra.";
+                            <p class="small text-secondary mb-0 mt-auto">
+                                @string.Format(comprometidoTexto, Model.ParcelaComprometida.Value.ToString("F0", cultura))
+                            </p>
+                        }
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                            <i class="bi bi-pin-angle display-6 mb-2 opacity-25"></i>
+                            Sem despesas nem aportes neste mês
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-safe me-1"></i>Total investido
+                    </h6>
+                    @if (Model.TotalInvestido > 0)
+                    {
+                        <p class="card-value text-blue mb-1">@Model.TotalInvestido.ToString("C", cultura)</p>
+                        <p class="small text-secondary mb-0">
+                            @string.Format("Somando tudo que você aportou em {0} meses.", Model.MesesInvestidos)
+                        </p>
+                        @if (Model.MediaInvestidaPorMes.HasValue)
+                        {
+                            <p class="small text-secondary mb-0 mt-auto">
+                                @string.Format("Média de {0} por mês com aporte.",
+                                    Model.MediaInvestidaPorMes.Value.ToString("C", cultura))
+                            </p>
+                        }
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                            <i class="bi bi-safe display-6 mb-2 opacity-25"></i>
+                            Nenhum aporte lançado ainda
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-3 mb-3">
+
+        <div class="col-12 col-lg-5">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-pie-chart me-1"></i>Despesas por categoria — top 5
+                    </h6>
+                    @if (Model.DespesasPorCategoria.Any())
+                    {
+                        <canvas id="grafico-rosca" class="chart-pie"></canvas>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                            <i class="bi bi-pie-chart display-6 mb-2 opacity-25"></i>
+                            Nenhuma despesa neste mês
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-7">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-bar-chart me-1"></i>Receitas, Despesas e Investimentos — últimos 6 meses
+                    </h6>
+                    <div class="chart-bar-wrap">
+                        <canvas id="grafico-barras"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-5 d-flex flex-column gap-3">
+
+            @if (!modoAno)
+            {
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <p class="small text-secondary text-uppercase mb-2">
+                            <i class="bi bi-graph-up-arrow me-1"></i>Projeção mensal
+                        </p>
+                        @if (Model.ProjecaoMensal.HasValue)
+                        {
+                            <p class="fs-5 fw-bold text-red mb-1">@Model.ProjecaoMensal.Value.ToString("C", cultura)</p>
+                            <p class="small text-secondary mb-0">
+                                @string.Format("No ritmo atual com {0} dias registrados", Model.DiasDecorridos)
+                            </p>
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                                <i class="bi bi-graph-up-arrow display-6 mb-2 opacity-25"></i>
+                                Sem dados para projeção
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <p class="small text-secondary text-uppercase mb-2">
+                            <i class="bi bi-calendar-event me-1"></i>A pagar até o fim do mês
+                        </p>
+                        @if (Model.MesCorrente && Model.DespesasAVencer > 0)
+                        {
+                            <p class="fs-5 fw-bold text-red mb-1">@Model.DespesasAVencer.ToString("C", cultura)</p>
+                            <p class="small text-secondary mb-0">Despesas com data futura neste mês</p>
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                                <i class="bi bi-calendar-check display-6 mb-2 opacity-25"></i>
+                                Nenhuma conta futura
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <p class="small text-secondary text-uppercase mb-2">
+                            <i class="bi bi-activity me-1"></i>Média diária
+                        </p>
+                        @if (Model.MediaDiaria > 0)
+                        {
+                            <p class="fs-5 fw-bold text-red mb-1">@Model.MediaDiaria.ToString("C", cultura)/dia</p>
+                            <p class="small text-secondary mb-0">
+                                @if (Model.MesCorrente)
+                                {
+                                    @string.Format("Baseado em {0} dias de {1} neste mês", Model.DiasDecorridos, Model.DiasNoMes)
+                                }
+                                else
+                                {
+                                    @string.Format("Média sobre os {0} dias do mês", Model.DiasNoMes)
+                                }
+                            </p>
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                                <i class="bi bi-activity display-6 mb-2 opacity-25"></i>
+                                Sem despesas neste mês
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <p class="small text-secondary text-uppercase mb-2">
+                            <i class="bi bi-calendar3 me-1"></i>Média mensal do ano
+                        </p>
+                        @if (Model.TotalDespesas > 0)
+                        {
+                            <p class="fs-5 fw-bold text-red mb-1">@((Model.TotalDespesas / 12).ToString("C", cultura))</p>
+                            <p class="small text-secondary mb-0">Despesa do ano dividida por doze meses.</p>
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-2">
+                                <i class="bi bi-calendar3 display-6 mb-2 opacity-25"></i>
+                                Sem despesas neste mês
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="col-12 col-lg-7">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <h6 class="card-title mb-3 small text-secondary text-uppercase card-section-title">
+                        <i class="bi bi-list-ol me-1"></i>Ranking de Despesas por Categoria
+                    </h6>
+                    <div class="ranking-inner flex-grow-1 d-flex flex-column">
+                        @if (Model.DespesasPorCategoria.Any())
+                        {
+                            var maiorGasto = Model.DespesasPorCategoria.First().Total;
+                            @foreach (var categoria in Model.DespesasPorCategoria)
+                            {
+                                decimal barPercentage = categoria.Total > 0 && maiorGasto > 0
+                                    ? categoria.Total / maiorGasto * 100 : 0;
+                                decimal sharePercentage = Model.TotalRanking > 0 ? categoria.Total / Model.TotalRanking * 100 : 0;
+                                string shareText = sharePercentage > 0 && sharePercentage < 0.1m
+                                    ? "< 0,1%" : sharePercentage.ToString("F1", cultura) + "%";
+                                <div class="ranking-item">
+                                    <div class="d-flex justify-content-between align-items-baseline mb-1">
+                                        <span class="small">@categoria.NomeCategoria</span>
+                                        <span class="small tabular-nums">
+                                            <span class="text-red fw-semibold">@categoria.Total.ToString("C", cultura)</span>
+                                            <span class="text-secondary"> · @shareText</span>
+                                        </span>
+                                    </div>
+                                    <div class="ranking-bar mb-1">
+                                        <div class="ranking-fill" data-largura="@barPercentage.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)"></div>
+                                    </div>
+                                    @if (categoria.VariacaoPercentual.HasValue)
+                                    {
+                                        <p class="small text-secondary mb-3 tabular-nums">
+                                            @string.Format("Média de {0} meses: {1}",
+                                                Model.MesesDeReferencia,
+                                                categoria.MediaReferencia.ToString("C", cultura))
+                                            <span class="@(categoria.VariacaoPercentual.Value > 0 ? "text-red" : "text-green")">
+                                                @changeText(categoria.VariacaoPercentual)
+                                            </span>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="small text-secondary mb-3">Sem histórico para comparar</p>
+                                    }
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-secondary small py-3">
+                                <i class="bi bi-bar-chart display-6 mb-2 opacity-25"></i>
+                                Sem despesas neste mês
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+@section Scripts {
+    <script type="application/json" id="dados-painel">
+        @Html.Raw(System.Text.Json.JsonSerializer.Serialize(new
+        {
+            categorias = Model.DespesasPorCategoria.Select(c => new { rotulo = c.NomeCategoria, valor = (double)c.Total }),
+            tendencia = Model.TendenciaMensal.Select(t => new { mes = t.Mes, ano = t.Ano, receitas = (double)t.Receitas, despesas = (double)t.Despesas, investimentos = (double)t.Investimentos }),
+            rotuloReceita = "Receita",
+            rotuloDespesa = "Despesa",
+            rotuloInvestimento = "Investimento",
+            rotuloOutros = "Outros",
+            meses = nomesMeses
+        }))
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="~/js/painel.js" asp-append-version="true"></script>
+}

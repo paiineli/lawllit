@@ -1,0 +1,57 @@
+@{
+    var ferramenta = Ferramentas.Por("ComprimirImagem");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// enviar</p>
+            <div class="util-envio">
+                <input type="file" id="imagem-entrada" accept="image/png,image/jpeg" class="fora-da-tela" />
+                <label for="imagem-entrada" class="util-envio-rotulo">
+                    <i class="bi bi-file-earmark-image"></i>
+                    <span>escolher imagem</span>
+                    <span class="util-dica">.jpg, .png · processado no seu navegador</span>
+                </label>
+            </div>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// nível de compressão</p>
+            <div class="util-acoes">
+                <button class="botao" data-nivel="alta" disabled>qualidade alta</button>
+                <button class="botao" data-nivel="equilibrado" disabled>equilibrado</button>
+                <button class="botao" data-nivel="menor" disabled>menor arquivo</button>
+            </div>
+        </section>
+
+        <section id="imagem-resultado" class="util-painel" hidden>
+            <p class="util-rotulo">// resultado</p>
+            <img id="imagem-previa" class="util-previa" alt="" />
+            <div class="util-resultado">
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">original</span>
+                    <span class="util-resultado-valor" id="imagem-original"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">comprimida</span>
+                    <span class="util-resultado-valor" id="imagem-comprimida"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">redução</span>
+                    <span class="util-resultado-valor" id="imagem-reducao"></span>
+                </div>
+            </div>
+            <div class="util-acoes">
+                <button id="imagem-baixar" class="botao botao-cheio">baixar</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/comprimir-imagem.js" asp-append-version="true"></script>
+}

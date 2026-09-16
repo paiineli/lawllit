@@ -1,0 +1,63 @@
+@{
+    Layout = "_LayoutAcesso";
+}
+
+<div class="legal-wrapper">
+    <div class="legal-content">
+
+        <div class="card">
+            <div class="card-body p-4 p-md-5">
+
+                <h4 class="fw-bold mb-1">Política de Privacidade</h4>
+                <p class="text-secondary small mb-4">Última atualização: setembro de 2026</p>
+
+                <p class="small text-secondary">
+                    O lawllit.finance é um projeto pessoal. Esta política diz o que ele guarda sobre você e o
+                    que você pode fazer a respeito, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018).
+                </p>
+
+                <h6 class="fw-semibold mt-4 mb-2">1. O que é guardado</h6>
+                <ul class="small text-secondary">
+                    <li>Nome e e-mail, informados no cadastro</li>
+                    <li>Senha, guardada apenas como hash, nunca em texto</li>
+                    <li>As transações e categorias que você registra</li>
+                    <li>Suas preferências de tema e de tamanho de fonte</li>
+                </ul>
+                <p class="small text-secondary">
+                    Não há rastreamento, publicidade nem cookie de terceiro. O único cookie é o de sessão, que
+                    mantém você autenticado por até 7 dias.
+                </p>
+
+                <h6 class="fw-semibold mt-4 mb-2">2. Para que serve</h6>
+                <p class="small text-secondary">
+                    Só para o serviço funcionar: autenticar, exibir seus lançamentos e enviar os e-mails de
+                    confirmação de cadastro e de recuperação de senha. Seus dados não são vendidos,
+                    compartilhados nem analisados para qualquer outra finalidade.
+                </p>
+
+                <h6 class="fw-semibold mt-4 mb-2">3. Onde ficam</h6>
+                <p class="small text-secondary">
+                    Em um banco PostgreSQL hospedado na Railway, com acesso restrito. O envio de e-mail é feito
+                    pelo Resend. As cotações de câmbio vêm da API pública economia.awesomeapi.com.br, consultada
+                    pelo servidor e sem nenhum dado seu na requisição.
+                </p>
+
+                <h6 class="fw-semibold mt-4 mb-2">4. Seus direitos</h6>
+                <p class="small text-secondary">
+                    Você pode acessar, corrigir e excluir seus dados a qualquer momento. A exclusão da conta fica
+                    na seção Perfil e é definitiva: apaga de verdade o usuário, as categorias e as transações, e
+                    não é possível desfazer. Para qualquer outra solicitação, escreva para
+                    <a href="mailto:contato@lawllit.com" class="text-green">contato@lawllit.com</a>.
+                </p>
+
+            </div>
+        </div>
+
+        <p class="text-center small text-secondary mt-3 mb-4">
+            <a asp-controller="Legal" asp-action="Termos" class="text-secondary">Termos</a>
+            &nbsp;&middot;&nbsp;
+            <a asp-controller="Conta" asp-action="Entrar" class="text-secondary">Voltar ao login</a>
+        </p>
+
+    </div>
+</div>

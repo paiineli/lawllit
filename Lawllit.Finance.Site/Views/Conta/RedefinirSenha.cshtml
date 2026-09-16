@@ -1,0 +1,58 @@
+@model RedefinirSenhaViewModel
+@{
+    Layout = "_LayoutAcesso";
+    var classeResumo = ViewData.ModelState.IsValid ? "d-none" : "";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="text-center mb-4">
+            <h1 class="fs-4 fw-bold mb-1">lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span></h1>
+            <p class="text-secondary small mb-0">Gestão financeira pessoal.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-4">
+                <h5 class="fw-semibold mb-4">Nova senha</h5>
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-3 @classeResumo"></div>
+
+                <form asp-action="RedefinirSenha" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Token" type="hidden">
+
+                    <div class="mb-3">
+                        <label asp-for="Senha" class="form-label small">Nova senha <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input asp-for="Senha" type="password" class="form-control" id="senha-nova"
+                                   placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+                            <button class="btn btn-outline-secondary" type="button" data-ver-senha="senha-nova"
+                                    tabindex="-1" aria-label="Mostrar senha">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Senha" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ConfirmarSenha" class="form-label small">Confirmar nova senha <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input asp-for="ConfirmarSenha" type="password" class="form-control" id="senha-confirmar"
+                                   placeholder="Repita a senha" autocomplete="new-password">
+                            <button class="btn btn-outline-secondary" type="button" data-ver-senha="senha-confirmar"
+                                    tabindex="-1" aria-label="Mostrar senha">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmarSenha" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Redefinir senha</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

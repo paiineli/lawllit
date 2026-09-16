@@ -1,0 +1,123 @@
+@inject IConfiguration Configuracao
+@{
+    var tema = User.FindFirst("tema")?.Value ?? "dark";
+    var tamanhoFonte = User.FindFirst("tamanho_fonte")?.Value ?? "normal";
+    var temaBootstrap = tema == "high-contrast" ? "dark" : tema;
+    var urlCanonica = SeoUrls.Canonica(Context.Request);
+    var urlImagemSocial = SeoUrls.Absoluta(Context.Request, "/og-image-finance.png");
+    var enderecoPortfolio = Configuracao["Site:Url"];
+}
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="@temaBootstrap" data-theme="@tema" @(tamanhoFonte != "normal" ? $"data-font-size=\"{tamanhoFonte}\"" : "")>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lawllit.finance</title>
+    <meta name="description" content="Suas finanças. Simples assim." />
+    <link rel="canonical" href="@urlCanonica" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="lawllit.finance" />
+    <meta property="og:title" content="lawllit.finance" />
+    <meta property="og:description" content="Suas finanças. Simples assim." />
+    <meta property="og:url" content="@urlCanonica" />
+    <meta property="og:image" content="@urlImagemSocial" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="lawllit.finance" />
+    <meta name="twitter:description" content="Suas finanças. Simples assim." />
+    <meta name="twitter:image" content="@urlImagemSocial" />
+
+    @* A fonte é declarada dentro do app.css, então sem este preload o navegador só
+       descobriria o arquivo depois de baixar o CSS. O endereço tem que ser idêntico ao
+       que o CSS pede, sem hash de versão, senão o arquivo é baixado duas vezes. *@
+    <link rel="preload" href="~/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/icons.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/app.css" rel="stylesheet" asp-append-version="true">
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%234ade80' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>">
+</head>
+<body>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <nav class="navbar navbar-expand-lg sticky-top border-bottom" id="menu-topo">
+            <div class="container-lg">
+                <a class="navbar-brand" asp-controller="Painel" asp-action="Index">
+                    lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span>
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menu-conteudo">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menu-conteudo">
+                    <ul class="navbar-nav me-auto gap-1">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                               asp-controller="Painel" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Transaction" ? "active" : "")"
+                               asp-controller="Transacao" asp-action="Index">Transações</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                               asp-controller="Categoria" asp-action="Index">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Quotes" ? "active" : "")"
+                               asp-controller="Cotacoes" asp-action="Index">Cotações</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+                        <a asp-controller="Perfil" asp-action="Index" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2">
+                            <span class="nav-avatar-btn">@(User.Identity?.Name?.Substring(0, 1).ToUpper())</span>
+                            @User.Identity?.Name
+                        </a>
+                        <form asp-controller="Conta" asp-action="Sair" method="post" class="mb-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-box-arrow-right"></i> Sair
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    }
+    else
+    {
+        <nav class="navbar sticky-top border-bottom" id="menu-topo">
+            <div class="container-lg d-flex align-items-center justify-content-between w-100">
+                <a class="navbar-brand" asp-controller="Inicio" asp-action="Index">
+                    lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span>
+                </a>
+            </div>
+        </nav>
+    }
+
+    <partial name="_Notificacao" />
+
+    @RenderBody()
+
+    <footer class="site-footer">
+        <div class="container-lg footer-shell">
+            <span>© @DateTime.Now.Year <a class="footer-brand" href="@enderecoPortfolio">lawllit<span class="brand-dot">.</span></a></span>
+            <div class="footer-links">
+                <a asp-controller="Legal" asp-action="Privacidade">Privacidade</a>
+                <a asp-controller="Legal" asp-action="Termos">Termos</a>
+                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/bootstrap.bundle.min.js" asp-append-version="true" defer></script>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

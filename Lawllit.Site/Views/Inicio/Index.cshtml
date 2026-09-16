@@ -1,0 +1,230 @@
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "lawllit.";
+
+    // A chave pública do Turnstile vai no HTML, é para isso que ela existe. A privada
+    // fica só no servidor, dentro do TurnstileValidador.
+    var turnstileSiteKey = Configuration["Turnstile:SiteKey"];
+    var turnstileIdioma = "pt-br";
+}
+
+<header class="topo">
+    <div class="container-lg topo-grade">
+        <div>
+            <h1>O sistema que o seu negócio precisa.</h1>
+            <p class="topo-sub">Tiro o seu controle do papel e da planilha, entrego funcionando e continuo cuidando depois.</p>
+
+            <div class="topo-acoes">
+                <a class="botao botao-cheio" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">pedir orçamento</a>
+                <a class="botao" asp-controller="Inicio" asp-action="Index" asp-fragment="projetos">ver projetos</a>
+            </div>
+        </div>
+
+        @* Desenho de uma tela de sistema, em CSS. Cliente entende um desenho de tela antes
+           de entender uma frase sobre sistema, e captura de tela envelheceria a cada
+           mudança de projeto. *@
+        <div class="tela" aria-hidden="true">
+            <div class="tela-barra">
+                <i class="tela-bolinha"></i>
+                <i class="tela-bolinha"></i>
+                <i class="tela-bolinha"></i>
+            </div>
+            <div class="tela-corpo">
+                <div class="tela-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="tela-conteudo">
+                    <div class="tela-topo">
+                        <i class="tela-titulo"></i>
+                        <i class="tela-acao"></i>
+                    </div>
+                    <div class="tela-cartoes">
+                        <div class="tela-cartao"><i></i><b></b></div>
+                        <div class="tela-cartao"><i></i><b></b></div>
+                        <div class="tela-cartao"><i></i><b></b></div>
+                    </div>
+                    <div class="tela-tabela">
+                        <div class="tela-linha tela-linha-cabecalho"><i></i><i></i><i></i></div>
+                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
+                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
+                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
+                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="secao" id="servicos" data-revelar>
+    <div class="container-lg">
+        <p class="rotulo">// serviços</p>
+
+        <div class="servicos">
+            <article class="servico">
+                <h2>um sistema só seu</h2>
+                <p>Aquele controle que hoje vive em planilha, caderno ou na cabeça de alguém vira uma tela organizada, com acesso por senha, de qualquer computador.</p>
+            </article>
+
+            <article class="servico">
+                <h2>menos trabalho repetido</h2>
+                <p>Relatório que alguém monta toda segunda, informação copiada de um lugar para o outro. O sistema passa a fazer isso sozinho, e sem errar.</p>
+            </article>
+
+            <article class="servico">
+                <h2>tudo conversando</h2>
+                <p>Se a sua equipe digita a mesma coisa em dois lugares, dá para ligar um ao outro e digitar uma vez só.</p>
+            </article>
+
+            <article class="servico">
+                <h2>o sistema que você já tem</h2>
+                <p>Ficou lento, deu problema ou quem fez sumiu. Eu assumo, arrumo e sigo melhorando sem parar o seu dia.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="secao" id="projetos" data-revelar>
+    <div class="container-lg">
+        <p class="rotulo">// projetos</p>
+
+        <div class="vitrine">
+            <div>
+                <h2 class="vitrine-nome">lawllit<span class="marca-ponto">.</span><span class="marca-finance">finance</span></h2>
+                <p class="vitrine-desc">Um aplicativo de controle de gastos completo, no ar e em uso. Você pode criar uma conta e experimentar agora.</p>
+
+                <div class="vitrine-acoes">
+                    <a class="botao botao-finance" href="@Configuration["Finance:Url"]">conhecer</a>
+                    <a class="botao-icone" href="https://github.com/paiineli/lawllit" target="_blank" rel="noopener noreferrer" aria-label="Código no GitHub"><i class="bi bi-github"></i></a>
+                </div>
+            </div>
+
+            @* Esquema do painel do finance. As alturas das barras ficam no CSS: escritas
+               como style inline, a CSP sem unsafe-inline descartava todas em silêncio. *@
+            <div class="painel" aria-hidden="true">
+                <div class="painel-tiles">
+                    <div class="tile"><span class="tile-rotulo">receitas</span><span class="tile-valor tile-receita">R$ 8.240</span></div>
+                    <div class="tile"><span class="tile-rotulo">despesas</span><span class="tile-valor tile-despesa">R$ 5.117</span></div>
+                    <div class="tile"><span class="tile-rotulo">aportes</span><span class="tile-valor tile-aporte">R$ 1.052</span></div>
+                </div>
+                <div class="painel-grafico">
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
+                </div>
+                <div class="painel-eixo"><span>abr</span><span>mai</span><span>jun</span><span>jul</span><span>ago</span><span>set</span></div>
+            </div>
+        </div>
+
+        <a class="cartao" asp-controller="Ferramentas" asp-action="Index">
+            <div>
+                <span class="cartao-nome">ferramentas<span class="marca-ponto">.</span></span>
+                <p class="cartao-desc">Tarefas chatas do dia a dia resolvidas em um clique, de graça e sem instalar nada.</p>
+            </div>
+            <span class="cartao-quantidade"><b>@Ferramentas.Quantidade</b> no ar</span>
+        </a>
+    </div>
+</section>
+
+<section class="secao" id="sobre" data-revelar>
+    <div class="container-lg">
+        <p class="rotulo">// quem faz</p>
+
+        <div class="sobre">
+            <p>Me chamo Lucas. Trabalho com desenvolvimento há seis anos e hoje cuido de sistemas de uma operadora de saúde, usados em larga escala todos os dias.</p>
+            <p>Nos projetos por fora, você fala comigo do começo ao fim. Sem intermediário, sem equipe que troca no meio do caminho e sem sumir depois da entrega.</p>
+        </div>
+
+        <div class="sobre-acao">
+            <a class="botao" href="@Perfil.CurriculoPdf" target="_blank">currículo em pdf</a>
+        </div>
+    </div>
+</section>
+
+<section class="secao" id="contato" data-revelar>
+    <div class="container-lg">
+        <p class="rotulo">// contato</p>
+
+        @if (TempData["ContatoSucesso"] is string contatoSucesso)
+        {
+            <p class="form-aviso form-aviso-ok" role="status">@contatoSucesso</p>
+        }
+        else if (TempData["ContatoErro"] is string contatoErro)
+        {
+            <p class="form-aviso form-aviso-erro" role="alert">@contatoErro</p>
+        }
+
+        <div class="contato">
+            <div>
+                <h2 class="contato-titulo">Me conta o que você precisa.</h2>
+                <p class="contato-desc">Com as suas palavras. Não precisa saber o nome de nada, nem chegar com o projeto pronto na cabeça.</p>
+
+                <div class="contatos">
+                    <a class="contato-item" href="mailto:@Perfil.Email">
+                        <span class="contato-icone"><i class="bi bi-envelope"></i></span>
+                        <span class="contato-texto"><span>e-mail</span><b>@Perfil.Email</b></span>
+                    </a>
+                    <a class="contato-item" href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer">
+                        <span class="contato-icone"><i class="bi bi-linkedin"></i></span>
+                        <span class="contato-texto"><span>linkedin</span><b>@Perfil.LinkedIn</b></span>
+                    </a>
+                    <a class="contato-item" href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer">
+                        <span class="contato-icone"><i class="bi bi-github"></i></span>
+                        <span class="contato-texto"><span>github</span><b>@Perfil.GitHub</b></span>
+                    </a>
+                </div>
+            </div>
+
+            <form class="formulario" asp-controller="Contato" asp-action="Enviar" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="campo">
+                    <label for="contato-nome">nome</label>
+                    <input id="contato-nome" name="Nome" type="text" maxlength="100" required
+                           autocomplete="name" placeholder="seu nome"
+                           value="@(TempData["ContatoNome"] as string)" />
+                </div>
+
+                <div class="campo">
+                    <label for="contato-email">e-mail</label>
+                    <input id="contato-email" name="Email" type="email" maxlength="255" required
+                           autocomplete="email" placeholder="seu e-mail"
+                           value="@(TempData["ContatoEmail"] as string)" />
+                </div>
+
+                <div class="campo">
+                    <label for="contato-mensagem">mensagem</label>
+                    <textarea id="contato-mensagem" name="Mensagem" maxlength="2000" minlength="10" required
+                              placeholder="hoje eu controlo as ordens de serviço da minha oficina no caderno e está começando a dar confusão">@(TempData["ContatoMensagem"] as string)</textarea>
+                </div>
+
+                @* Isca para robô. Fica fora da tela por CSS e fora da navegação por
+                   teclado e leitor de tela, então só um preenchedor automático acerta. *@
+                <div class="form-isca" aria-hidden="true">
+                    <label for="contato-site">Website</label>
+                    <input id="contato-site" name="Site" type="text" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div class="cf-turnstile" data-sitekey="@turnstileSiteKey" data-theme="dark" data-language="@turnstileIdioma"></div>
+
+                <div>
+                    <button type="submit" class="botao botao-cheio" id="contato-enviar"
+                            data-enviando="enviando">enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @* O script do Turnstile é o único de terceiro no site público, e é assíncrono e
+       adiado, então não bloqueia a renderização. *@
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="~/js/contato.js" asp-append-version="true" defer></script>
+}

@@ -1,0 +1,62 @@
+@{
+    var ferramenta = Ferramentas.Por("ConsultaCep");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// cep</p>
+            <input type="text" id="cep-entrada" class="util-campo" inputmode="numeric" maxlength="9" placeholder="00000-000" />
+            <div class="util-acoes">
+                <button id="cep-consultar" class="botao botao-cheio">consultar</button>
+            </div>
+            <p id="cep-erro" class="util-erro" hidden
+               data-invalido="cep inválido. informe 8 dígitos."
+               data-naoencontrado="cep não encontrado."></p>
+        </section>
+
+        <section id="cep-resultado" class="util-painel" hidden>
+            <p class="util-rotulo">// resultado</p>
+            <div class="util-resultado">
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">cep</span>
+                    <span class="util-resultado-valor" id="cep-cep"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">logradouro</span>
+                    <span class="util-resultado-valor" id="cep-logradouro"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">complemento</span>
+                    <span class="util-resultado-valor" id="cep-complemento"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">bairro</span>
+                    <span class="util-resultado-valor" id="cep-bairro"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">cidade</span>
+                    <span class="util-resultado-valor" id="cep-localidade"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">estado</span>
+                    <span class="util-resultado-valor" id="cep-uf"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">ddd</span>
+                    <span class="util-resultado-valor" id="cep-ddd"></span>
+                </div>
+            </div>
+            <div class="util-acoes">
+                <button id="cep-copiar" class="botao">copiar endereço</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/consulta-cep.js" asp-append-version="true"></script>
+}

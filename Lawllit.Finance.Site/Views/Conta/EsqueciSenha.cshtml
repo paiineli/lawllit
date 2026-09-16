@@ -1,0 +1,43 @@
+@model EsqueciSenhaViewModel
+@{
+    Layout = "_LayoutAcesso";
+    var classeResumo = ViewData.ModelState.IsValid ? "d-none" : "";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="text-center mb-4">
+            <h1 class="fs-4 fw-bold mb-1">lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span></h1>
+            <p class="text-secondary small mb-0">Gestão financeira pessoal.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-4">
+                <h5 class="fw-semibold mb-1">Esqueci minha senha</h5>
+                <p class="text-secondary small mb-4">Informe seu e-mail e enviaremos um link para redefinição.</p>
+
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-3 @classeResumo"></div>
+
+                <form asp-action="EsqueciSenha" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-4">
+                        <label asp-for="Email" class="form-label small">E-mail</label>
+                        <input asp-for="Email" class="form-control" placeholder="seu@@email.com" autocomplete="email">
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Enviar link</button>
+                </form>
+
+                <p class="text-center text-secondary small mt-3 mb-0">
+                    Lembrou a senha?
+                    <a asp-action="Entrar" class="text-green">Entrar</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>

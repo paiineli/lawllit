@@ -1,0 +1,49 @@
+@{
+    var ferramenta = Ferramentas.Por("JuntarPlanilhas");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// como funciona</p>
+            <ol class="util-passos">
+                <li>envie seus arquivos .xlsx ou .xls</li>
+                <li>o cabeçalho é lido do primeiro arquivo</li>
+                <li>as linhas de todos os arquivos são unificadas em sequência</li>
+                <li>baixe o arquivo .xlsx unificado</li>
+            </ol>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// enviar</p>
+            <form asp-controller="Ferramentas" asp-action="JuntarPlanilhas" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="util-envio">
+                    <input type="file" id="arquivos-entrada" name="files" multiple accept=".xlsx,.xls" class="fora-da-tela" />
+                    <label for="arquivos-entrada" class="util-envio-rotulo">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                        <span>escolher arquivos</span>
+                        <span class="util-dica">.xlsx e .xls · cabeçalho do primeiro arquivo</span>
+                    </label>
+                </div>
+                <div id="arquivos-lista" class="util-arquivos" hidden></div>
+                <button type="submit" id="arquivos-unificar" class="botao botao-cheio" disabled>unificar arquivos</button>
+            </form>
+        </section>
+    </div>
+</main>
+
+<div id="progresso" class="util-progresso" hidden>
+    <p id="progresso-rotulo" class="util-progresso-rotulo" data-molde="arquivo {0} de {1}"></p>
+    <div class="util-progresso-trilho">
+        <div id="progresso-barra" class="util-progresso-barra"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="~/js/juntar-planilhas.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,12 @@
+<Project>
+
+  <!-- Propriedades comuns a todos os projetos da solução. Mantém os .csproj enxutos
+       e garante que ninguém fique para trás numa troca de TargetFramework. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>

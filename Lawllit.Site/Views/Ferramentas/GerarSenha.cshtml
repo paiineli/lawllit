@@ -1,0 +1,62 @@
+@{
+    var ferramenta = Ferramentas.Por("GerarSenha");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// opções</p>
+
+            <div class="util-medida">
+                <label for="senha-tamanho">comprimento</label>
+                <b id="senha-tamanho-valor">16</b>
+            </div>
+            <input type="range" id="senha-tamanho" class="util-faixa" min="4" max="64" step="1" value="16" />
+
+            <div class="util-opcoes">
+                <label class="util-opcao">
+                    <input type="checkbox" id="senha-maiusculas" checked />
+                    <span>maiúsculas (A-Z)</span>
+                </label>
+                <label class="util-opcao">
+                    <input type="checkbox" id="senha-minusculas" checked />
+                    <span>minúsculas (a-z)</span>
+                </label>
+                <label class="util-opcao">
+                    <input type="checkbox" id="senha-numeros" checked />
+                    <span>números (0-9)</span>
+                </label>
+                <label class="util-opcao">
+                    <input type="checkbox" id="senha-simbolos" checked />
+                    <span>símbolos (!@@#...)</span>
+                </label>
+            </div>
+
+            <div class="util-acoes">
+                <button id="senha-gerar" class="botao botao-cheio">gerar</button>
+            </div>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// senha</p>
+
+            <div class="util-saida">
+                <input type="text" id="senha-resultado" class="util-campo" readonly />
+                <button id="senha-copiar" class="botao" data-copiar="#senha-resultado">copiar</button>
+            </div>
+
+            <p id="senha-forca" class="util-forca"
+               data-rotulo="força"
+               data-fraca="fraca"
+               data-media="média"
+               data-forte="forte"></p>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/gerar-senha.js" asp-append-version="true"></script>
+}

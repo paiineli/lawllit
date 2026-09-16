@@ -1,0 +1,45 @@
+@{
+    var ferramenta = Ferramentas.Por("ListaSql");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// entrada</p>
+            <textarea id="sql-entrada" class="util-area" placeholder="um valor por linha..."></textarea>
+
+            <div class="util-opcoes">
+                <label class="util-opcao">
+                    <input type="checkbox" id="sql-duplicados" />
+                    <span>remover duplicados</span>
+                </label>
+                <label class="util-opcao">
+                    <input type="checkbox" id="sql-parenteses" checked />
+                    <span>envolver em ( )</span>
+                </label>
+            </div>
+
+            <div class="util-acoes">
+                <button class="botao botao-cheio" data-aspas="simples">'x','y'</button>
+                <button class="botao" data-aspas="duplas">"x","y"</button>
+                <button class="botao" data-aspas="nenhuma">x,y</button>
+            </div>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// saída</p>
+            <textarea id="sql-saida" class="util-area" readonly></textarea>
+            <div class="util-acoes">
+                <button id="sql-copiar" class="botao" data-copiar="#sql-saida">copiar</button>
+                <button id="sql-limpar" class="botao">limpar</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/lista-sql.js" asp-append-version="true"></script>
+}

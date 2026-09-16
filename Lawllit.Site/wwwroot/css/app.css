@@ -1,0 +1,1630 @@
+/* CSS do site público. Não depende do Bootstrap: as classes de layout que o site usava
+   dele estão escritas aqui, o que tirou 232 KB do caminho crítico. O app financeiro
+   continua com Bootstrap, ele usa o framework de verdade.
+   O verde é cor do finance, não da marca. Só aparece no bloco do finance e no item do
+   menu que leva pra lá. */
+
+/* FONTE. Auto hospedada, e o unicode-range só baixa o latin-ext quando a página precisa.
+   Licença SIL OFL 1.1, o texto está em wwwroot/fonts/OFL.txt. */
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/jetbrains-mono-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('../fonts/jetbrains-mono-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* TOKENS E BASE */
+:root {
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --bg: #000;
+    --fg: #fff;
+    /* Cinza com leve viés de verde, herança de terminal de fósforo. Dá cerca de 8:1
+       sobre o preto, contra 5,9:1 do cinza neutro que estava aqui antes. */
+    --dim: #9aa39d;
+    --faint: #6b736d;
+    --green: #4ade80;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    /* Card com preenchimento se destaca do fundo como objeto. Só a borda sobre preto puro
+       lê como rascunho, que era a queixa da versão anterior desta página. */
+    --surface: #101010;
+    --surface-alto: #161616;
+    --raio: 10px;
+    --raio-ctrl: 7px;
+    --transicao: 0.18s ease;
+    /* Gutter do container-lg do Bootstrap, metade de 1.5rem de cada lado. */
+    --gutter: 12px;
+}
+
+*, *::before, *::after {
+    font-family: var(--font-mono);
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    margin: 0;
+    line-height: 1.7;
+    font-size: 15px;
+    overflow-x: hidden;
+}
+
+/* Grão sobre a página inteira, fixo, para não rolar com o conteúdo. */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+a {
+    color: var(--fg);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 2px;
+}
+
+code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* LAYOUT. Réplica do container-lg do Bootstrap, que é o que o finance usa. É daqui que
+   sai a mesma largura de nav e rodapé nos dois domínios. */
+.container-lg {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+@media (min-width: 992px) {
+    .container-lg {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container-lg {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-lg {
+        max-width: 1320px;
+    }
+}
+
+/* Esconde o input de arquivo das ferramentas atrás do rótulo clicável. */
+.fora-da-tela {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* MENU */
+.menu-topo {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+}
+
+.menu-linha {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-block: 13px;
+}
+
+.marca {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.3px;
+}
+
+    .marca:hover {
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.marca-ponto {
+    color: var(--faint);
+}
+
+.menu-itens {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    margin-block: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.menu-item {
+    font-size: 0.78rem;
+    color: var(--dim);
+    padding: 0.4rem 0.7rem;
+    transition: color var(--transicao);
+}
+
+    .menu-item:hover {
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+.menu-item-finance {
+    color: var(--green);
+}
+
+    .menu-item-finance:hover {
+        color: var(--green);
+        opacity: 0.8;
+    }
+
+/* Mesmo botão do topo da home, então inverte no hover em vez de só perder opacidade. */
+.menu-item-acao {
+    color: var(--bg);
+    background: var(--fg);
+    border: 1px solid var(--fg);
+    border-radius: var(--raio-ctrl);
+    font-weight: 500;
+    transition: background var(--transicao), color var(--transicao), border-color var(--transicao);
+}
+
+    .menu-item-acao:hover {
+        background: transparent;
+        color: var(--fg);
+        border-color: var(--border-strong);
+        text-decoration: none;
+    }
+
+.menu-botao {
+    display: none;
+    background: none;
+    border: 0;
+    color: var(--dim);
+    margin-left: auto;
+    padding: 6px;
+    cursor: pointer;
+    line-height: 0;
+    position: relative;
+    z-index: 210;
+}
+
+    .menu-botao:hover {
+        color: var(--fg);
+    }
+
+    .menu-botao svg {
+        width: 24px;
+        height: 24px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+    }
+
+/* O X só aparece com o menu aberto, e aí some o desenho das três barras. */
+.menu-botao .icone-fechar,
+.menu-botao[aria-expanded="true"] .icone-abrir {
+    display: none;
+}
+
+.menu-botao[aria-expanded="true"] .icone-fechar {
+    display: block;
+    color: var(--fg);
+}
+
+/* Os cinco itens não cabem numa tela de celular, então vira menu de tela cheia. */
+@media (max-width: 860px) {
+    /* backdrop-filter faz a barra virar containing block, e aí o menu fixed fica preso
+       dentro dela em vez de cobrir a janela. No celular o desfoque não faz falta. */
+    .menu-topo {
+        background: var(--bg);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
+    .marca {
+        position: relative;
+        z-index: 210;
+    }
+
+    .menu-botao {
+        display: block;
+    }
+
+    .menu-itens {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        background: var(--bg);
+        padding: env(safe-area-inset-top, 0px) 24px env(safe-area-inset-bottom, 0px);
+        margin-left: 0;
+        /* Fica montado e fora da tela, então abrir e fechar tem transição em vez de
+           aparecer seco. */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-12px);
+        transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+    }
+
+        .menu-itens.aberto {
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+        }
+
+    .menu-item {
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        color: var(--fg);
+        padding: 0.55rem 0;
+    }
+
+    .menu-item-finance {
+        color: var(--green);
+    }
+
+    /* A cor precisa ser repetida aqui: a regra .menu-item acima tem a mesma
+       especificidade e vem depois, então ela sobrescreveria o preto do botão. */
+    .menu-item-acao {
+        display: block;
+        color: var(--bg);
+        font-size: 0.95rem;
+        text-align: center;
+        padding: 0.85rem 1.2rem;
+        margin-top: 34px;
+    }
+
+    /* Trava a página atrás do menu, senão o dedo rola o conteúdo escondido. */
+    body.menu-aberto {
+        overflow: hidden;
+    }
+}
+
+/* SEÇÃO */
+.secao {
+    padding-block: 64px;
+    border-top: 1px solid var(--border);
+}
+
+.rotulo {
+    font-size: 0.75rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 24px;
+}
+
+.texto {
+    font-size: 0.85rem;
+    color: var(--dim);
+    max-width: 92ch;
+    margin: 0;
+}
+
+/* BOTÃO */
+.botao {
+    display: inline-block;
+    font-size: 0.82rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--raio-ctrl);
+    color: var(--fg);
+    background: transparent;
+    font-family: var(--font-mono);
+    line-height: 1.7;
+    cursor: pointer;
+    transition: background var(--transicao), color var(--transicao), border-color var(--transicao);
+}
+
+    .botao:hover {
+        border-color: var(--fg);
+        text-decoration: none;
+    }
+
+    .botao:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+.botao-cheio {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+    font-weight: 500;
+}
+
+    .botao-cheio:hover {
+        background: transparent;
+        color: var(--fg);
+        border-color: var(--border-strong);
+    }
+
+.botao-icone {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--raio-ctrl);
+    color: var(--dim);
+    transition: color var(--transicao), border-color var(--transicao);
+}
+
+    .botao-icone:hover {
+        color: var(--fg);
+        border-color: var(--fg);
+        text-decoration: none;
+    }
+
+/* TOPO DA HOME. Duas colunas, porque texto sozinho numa tela larga deixa metade da
+   página vazia e a peça perde o centro de gravidade. */
+.topo {
+    padding-block: 72px 76px;
+}
+
+.topo-grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 56px;
+    align-items: center;
+}
+
+.topo h1 {
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.08;
+    margin: 0;
+    text-wrap: balance;
+}
+
+.topo-sub {
+    font-size: 0.95rem;
+    color: var(--dim);
+    max-width: 44ch;
+    margin: 22px 0 0;
+}
+
+.topo-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+}
+
+/* Desenho de uma tela de sistema. Cliente entende desenho de tela antes de entender
+   frase sobre sistema, e captura envelheceria a cada mudança de projeto. */
+.tela {
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--surface);
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.tela-barra {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: #0b0b0b;
+}
+
+.tela-bolinha {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.tela-corpo {
+    display: grid;
+    grid-template-columns: 116px 1fr;
+    min-height: 264px;
+}
+
+.tela-menu {
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+    .tela-menu span {
+        height: 7px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+        .tela-menu span:nth-child(1) {
+            width: 78%;
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .tela-menu span:nth-child(2) {
+            width: 62%;
+        }
+
+        .tela-menu span:nth-child(3) {
+            width: 70%;
+        }
+
+        .tela-menu span:nth-child(4) {
+            width: 54%;
+        }
+
+.tela-conteudo {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tela-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.tela-titulo {
+    height: 9px;
+    width: 122px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.tela-acao {
+    height: 20px;
+    width: 66px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.tela-cartoes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.tela-cartao {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .tela-cartao i {
+        display: block;
+        height: 5px;
+        width: 60%;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .tela-cartao b {
+        display: block;
+        height: 10px;
+        width: 82%;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+.tela-tabela {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.tela-linha {
+    display: grid;
+    grid-template-columns: 1fr 74px 52px;
+    gap: 12px;
+    align-items: center;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+    .tela-linha:last-child {
+        border-bottom: 0;
+    }
+
+    .tela-linha i {
+        display: block;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.13);
+    }
+
+.tela-linha-cabecalho i {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tela-linha:nth-child(2) i:first-child { width: 68%; }
+.tela-linha:nth-child(3) i:first-child { width: 84%; }
+.tela-linha:nth-child(4) i:first-child { width: 56%; }
+.tela-linha:nth-child(5) i:first-child { width: 76%; }
+
+.tela-selo {
+    height: 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* As linhas entram em cascata, o que faz a tela parecer carregando de verdade. */
+.tela-linha,
+.tela-cartao {
+    animation: entrar 0.5s ease both;
+}
+
+.tela-cartao:nth-child(1) { animation-delay: 0.05s; }
+.tela-cartao:nth-child(2) { animation-delay: 0.12s; }
+.tela-cartao:nth-child(3) { animation-delay: 0.19s; }
+.tela-linha:nth-child(2) { animation-delay: 0.26s; }
+.tela-linha:nth-child(3) { animation-delay: 0.33s; }
+.tela-linha:nth-child(4) { animation-delay: 0.4s; }
+.tela-linha:nth-child(5) { animation-delay: 0.47s; }
+
+@keyframes entrar {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* SERVIÇOS. Grade encostada em vez de quatro cards soltos, que é o que tira a cara de
+   catálogo. */
+.servicos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--border);
+    overflow: hidden;
+}
+
+.servico {
+    background: var(--bg);
+    padding: 28px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background var(--transicao);
+}
+
+    .servico:hover {
+        background: var(--surface);
+    }
+
+    .servico h2 {
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin: 0;
+        text-wrap: balance;
+    }
+
+    .servico p {
+        font-size: 0.82rem;
+        color: var(--dim);
+        margin: 0;
+    }
+
+/* PROJETOS */
+.vitrine {
+    display: grid;
+    grid-template-columns: 1fr 1.02fr;
+    gap: 34px;
+    align-items: center;
+    border: 1px solid rgba(74, 222, 128, 0.22);
+    border-radius: var(--raio);
+    background: linear-gradient(180deg, rgba(74, 222, 128, 0.05), rgba(74, 222, 128, 0.008));
+    padding: 30px;
+}
+
+.vitrine-nome {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0;
+}
+
+.marca-finance {
+    color: var(--green);
+}
+
+.vitrine-desc {
+    font-size: 0.84rem;
+    color: var(--dim);
+    max-width: 46ch;
+    margin: 12px 0 0;
+}
+
+.vitrine-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.botao-finance {
+    background: var(--green);
+    border-color: var(--green);
+    color: #04140a;
+    font-weight: 700;
+}
+
+    .botao-finance:hover {
+        background: transparent;
+        color: var(--green);
+        border-color: var(--green);
+    }
+
+/* Esquema do painel do finance. As alturas das barras moram aqui, e não em style inline,
+   porque a CSP do site não aceita estilo inline e descartava todas em silêncio. */
+.painel {
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+}
+
+.painel-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.tile {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--raio-ctrl);
+    padding: 9px 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-rotulo {
+    font-size: 0.58rem;
+    color: var(--faint);
+    letter-spacing: 0.08em;
+}
+
+.tile-valor {
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+}
+
+.tile-receita { color: var(--green); }
+.tile-despesa { color: var(--red); }
+.tile-aporte { color: var(--blue); }
+
+.painel-grafico {
+    display: flex;
+    align-items: flex-end;
+    gap: 7px;
+    height: 82px;
+    padding-top: 6px;
+}
+
+.painel-coluna {
+    flex: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+}
+
+    .painel-coluna i {
+        display: block;
+        border-radius: 1px;
+        /* A altura final fica na variável e a barra cresce até ela quando a seção aparece. */
+        height: var(--altura);
+        transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+.oculto .painel-coluna i {
+    height: 0;
+}
+
+.barra-receita { background: var(--green); }
+.barra-despesa { background: var(--red); opacity: 0.85; }
+.barra-aporte { background: var(--blue); opacity: 0.8; }
+
+.painel-coluna:nth-child(1) .barra-receita { --altura: 30px; }
+.painel-coluna:nth-child(1) .barra-despesa { --altura: 20px; }
+.painel-coluna:nth-child(1) .barra-aporte { --altura: 6px; }
+.painel-coluna:nth-child(2) .barra-receita { --altura: 26px; }
+.painel-coluna:nth-child(2) .barra-despesa { --altura: 24px; }
+.painel-coluna:nth-child(2) .barra-aporte { --altura: 5px; }
+.painel-coluna:nth-child(3) .barra-receita { --altura: 34px; }
+.painel-coluna:nth-child(3) .barra-despesa { --altura: 18px; }
+.painel-coluna:nth-child(3) .barra-aporte { --altura: 9px; }
+.painel-coluna:nth-child(4) .barra-receita { --altura: 22px; }
+.painel-coluna:nth-child(4) .barra-despesa { --altura: 28px; }
+.painel-coluna:nth-child(4) .barra-aporte { --altura: 4px; }
+.painel-coluna:nth-child(5) .barra-receita { --altura: 38px; }
+.painel-coluna:nth-child(5) .barra-despesa { --altura: 22px; }
+.painel-coluna:nth-child(5) .barra-aporte { --altura: 11px; }
+.painel-coluna:nth-child(6) .barra-receita { --altura: 32px; }
+.painel-coluna:nth-child(6) .barra-despesa { --altura: 26px; }
+.painel-coluna:nth-child(6) .barra-aporte { --altura: 8px; }
+
+.painel-eixo {
+    display: flex;
+    gap: 7px;
+    font-size: 0.55rem;
+    color: var(--faint);
+}
+
+    .painel-eixo span {
+        flex: 1;
+        text-align: center;
+    }
+
+/* Segundo projeto. Leva para a página das ferramentas em vez de listar as nove aqui. */
+.cartao {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--surface);
+    padding: 20px 24px;
+    margin-top: 14px;
+    color: var(--fg);
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+    .cartao:hover {
+        border-color: var(--border-strong);
+        background: var(--surface-alto);
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.cartao-nome {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.cartao-desc {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 4px 0 0;
+}
+
+.cartao-quantidade {
+    margin-left: auto;
+    font-size: 0.72rem;
+    color: var(--faint);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+    .cartao-quantidade b {
+        color: var(--fg);
+        font-size: 0.9rem;
+    }
+
+/* SOBRE. Dois parágrafos lado a lado em vez de uma coluna estreita encostada na esquerda.
+   Cada um fica perto de cinquenta caracteres por linha, que é medida de leitura, e o
+   bloco ocupa a largura da página. */
+.sobre {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+    .sobre p {
+        font-size: 0.88rem;
+        color: var(--dim);
+        margin: 0;
+    }
+
+.sobre-acao {
+    margin-top: 32px;
+}
+
+/* CONTATO. Card único, com borda mais forte que o resto da página, porque é a única
+   seção que existe para ser usada e não lida. */
+.contato {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 44px;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    background: var(--surface);
+    padding: 38px;
+}
+
+.contato-titulo {
+    font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    margin: 0;
+    text-wrap: balance;
+}
+
+.contato-desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    max-width: 40ch;
+    margin: 16px 0 30px;
+}
+
+.contatos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contato-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--bg);
+    padding: 14px 16px;
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+    .contato-item:hover {
+        border-color: var(--border-strong);
+        background: var(--surface-alto);
+        text-decoration: none;
+    }
+
+.contato-icone {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: var(--raio-ctrl);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--fg);
+}
+
+.contato-texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+    .contato-texto span {
+        font-size: 0.68rem;
+        color: var(--faint);
+        letter-spacing: 0.06em;
+    }
+
+    .contato-texto b {
+        font-size: 0.8rem;
+        font-weight: 400;
+        overflow-wrap: anywhere;
+    }
+
+/* FORMULÁRIO */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .campo label {
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.06em;
+    }
+
+    .campo input,
+    .campo textarea {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--raio-ctrl);
+        color: var(--fg);
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        padding: 10px 12px;
+        outline: none;
+        transition: border-color var(--transicao);
+    }
+
+        .campo input::placeholder,
+        .campo textarea::placeholder {
+            color: var(--faint);
+        }
+
+        .campo input:focus,
+        .campo textarea:focus {
+            border-color: var(--fg);
+        }
+
+    .campo textarea {
+        min-height: 110px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+/* A isca do robô. Fora da tela em vez de display:none, porque preenchedor automático
+   costuma ignorar campo escondido por display e cair nesse. */
+.form-isca {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-aviso {
+    font-size: 0.8rem;
+    margin: 0 0 18px;
+    padding: 9px 12px;
+    border: 1px solid;
+    border-radius: var(--raio-ctrl);
+}
+
+.form-aviso-ok {
+    color: var(--green);
+    border-color: rgba(74, 222, 128, 0.35);
+    background: rgba(74, 222, 128, 0.06);
+}
+
+.form-aviso-erro {
+    color: var(--red);
+    border-color: rgba(248, 113, 113, 0.35);
+    background: rgba(248, 113, 113, 0.06);
+}
+
+/* O widget do Turnstile carrega dentro de um iframe de altura fixa. Reservar o espaço
+   evita o conteúdo pular quando ele termina de carregar. */
+.cf-turnstile {
+    min-height: 65px;
+}
+
+/* RODAPÉ */
+.rodape {
+    border-top: 1px solid var(--border);
+    padding-block: 1.25rem;
+}
+
+.rodape-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+    .rodape-linha a {
+        color: var(--faint);
+        transition: color var(--transicao);
+    }
+
+        .rodape-linha a:hover {
+            color: var(--fg);
+            text-decoration: none;
+        }
+
+.rodape-marca {
+    color: var(--fg);
+}
+
+.rodape-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+/* ÍNDICE DAS FERRAMENTAS */
+.ferramentas-topo {
+    padding-block: 60px 12px;
+}
+
+.ferramentas-titulo {
+    font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    margin: 0 0 14px;
+}
+
+.grupo + .grupo {
+    margin-top: 44px;
+}
+
+.ferramentas-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.ferramenta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+    background: var(--surface);
+    padding: 20px;
+    color: var(--fg);
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+    .ferramenta:hover {
+        border-color: var(--border-strong);
+        background: var(--surface-alto);
+        text-decoration: none;
+        color: var(--fg);
+    }
+
+.ferramenta-icone {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--raio-ctrl);
+    background: rgba(255, 255, 255, 0.05);
+    margin-bottom: 4px;
+}
+
+.ferramenta-nome {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.ferramenta-desc {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+/* PÁGINA DE UMA FERRAMENTA. Coluna estreita de propósito, porque aqui é formulário e
+   linha longa atrapalha, mas dentro do mesmo container do resto do site. */
+.util {
+    width: 100%;
+    max-width: 680px;
+    padding-block: 56px 72px;
+}
+
+.util-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.75rem;
+    color: var(--faint);
+    transition: color var(--transicao);
+}
+
+    .util-voltar:hover {
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+    .util-voltar svg {
+        width: 13px;
+        height: 13px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+    }
+
+.util-titulo {
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    margin: 16px 0 10px;
+}
+
+.util-desc {
+    font-size: 0.83rem;
+    color: var(--dim);
+    margin: 0 0 32px;
+}
+
+.util-painel {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    padding: 24px;
+}
+
+    .util-painel + .util-painel {
+        margin-top: 14px;
+    }
+
+.util-rotulo {
+    font-size: 0.72rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+    margin: 0 0 18px;
+}
+
+.util-dica {
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+.util-erro {
+    font-size: 0.78rem;
+    color: var(--red);
+    margin: 14px 0 0;
+}
+
+.util-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 16px;
+}
+
+.util-area,
+.util-campo {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color var(--transicao);
+}
+
+    .util-area:focus,
+    .util-campo:focus {
+        border-color: var(--fg);
+    }
+
+    .util-area::placeholder,
+    .util-campo::placeholder {
+        color: var(--faint);
+    }
+
+.util-area {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.util-saida {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .util-saida .util-campo {
+        flex: 1 1 240px;
+        min-width: 0;
+        width: auto;
+        font-size: 0.9rem;
+    }
+
+.util-medida {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin-bottom: 10px;
+}
+
+    .util-medida b {
+        color: var(--fg);
+        font-variant-numeric: tabular-nums;
+    }
+
+.util-faixa {
+    width: 100%;
+    accent-color: var(--fg);
+    cursor: pointer;
+}
+
+.util-opcoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.util-opcao {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.79rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    background: var(--bg);
+    padding: 9px 12px;
+    margin: 0;
+    cursor: pointer;
+    transition: border-color var(--transicao), color var(--transicao);
+}
+
+    .util-opcao:hover {
+        border-color: var(--border-strong);
+        color: var(--fg);
+    }
+
+    .util-opcao input {
+        accent-color: var(--fg);
+        cursor: pointer;
+    }
+
+.util-forca {
+    font-size: 0.76rem;
+    color: var(--dim);
+    margin: 14px 0 0;
+}
+
+.forca-fraca { color: var(--red); }
+.forca-media { color: #fbbf24; }
+.forca-forte { color: var(--green); }
+
+.util-passos {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: passo;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+    .util-passos li {
+        font-size: 0.83rem;
+        color: var(--dim);
+        padding-left: 1.75rem;
+        position: relative;
+        counter-increment: passo;
+    }
+
+        .util-passos li::before {
+            content: counter(passo) ".";
+            position: absolute;
+            left: 0;
+            color: var(--fg);
+            font-weight: 700;
+        }
+
+.util-envio {
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--raio);
+    padding: 2.5rem 1.25rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--transicao);
+}
+
+    .util-envio:hover {
+        border-color: var(--fg);
+    }
+
+.util-envio-rotulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.84rem;
+    color: var(--dim);
+    cursor: pointer;
+    transition: color var(--transicao);
+}
+
+    .util-envio-rotulo:hover {
+        color: var(--fg);
+    }
+
+    .util-envio-rotulo i {
+        font-size: 1.5rem;
+    }
+
+.util-arquivos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 1rem;
+}
+
+.util-arquivo {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--dim);
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+}
+
+.util-arquivos + .botao {
+    margin-top: 16px;
+}
+
+.util-resultado {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+}
+
+.util-resultado-linha {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--border);
+}
+
+    .util-resultado-linha:last-child {
+        border-bottom: none;
+    }
+
+.util-resultado-rotulo {
+    flex: 0 0 7rem;
+    color: var(--dim);
+}
+
+.util-resultado-valor {
+    color: var(--fg);
+    word-break: break-word;
+}
+
+.util-previa {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--raio-ctrl);
+    margin-bottom: 1rem;
+}
+
+.util-qr {
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--raio);
+}
+
+.util-qr-desenho {
+    background: #fff;
+    padding: 0.75rem;
+    line-height: 0;
+}
+
+    .util-qr-desenho canvas,
+    .util-qr-desenho img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+
+.util-progresso {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 9999;
+}
+
+.util-progresso-rotulo {
+    font-size: 0.78rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+.util-progresso-trilho {
+    width: min(320px, 80vw);
+    height: 2px;
+    background: var(--border);
+    overflow: hidden;
+}
+
+.util-progresso-barra {
+    height: 100%;
+    width: 0%;
+    background: var(--fg);
+    transition: width 0.2s ease;
+}
+
+/* ERRO */
+.erro {
+    padding-block: 4rem 5rem;
+    max-width: 520px;
+}
+
+    .erro p {
+        color: var(--dim);
+        margin: 0 0 1rem;
+    }
+
+    .erro .botao {
+        margin-top: 0.5rem;
+    }
+
+.erro-codigo {
+    font-size: 0.75rem;
+}
+
+/* ENTRADA AO ROLAR. Só entra em quem está fora da tela no carregamento, para a primeira
+   dobra já nascer legível. */
+.oculto {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.revelado {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .oculto {
+        opacity: 1;
+        transform: none;
+    }
+
+        .oculto .painel-coluna i {
+            height: var(--altura);
+        }
+}
+
+/* RESPONSIVO */
+@media (max-width: 980px) {
+    .topo-grade {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .topo-sub {
+        max-width: 52ch;
+    }
+}
+
+@media (max-width: 820px) {
+    .vitrine,
+    .contato {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --gutter: 16px;
+    }
+
+    .topo {
+        padding-block: 48px 52px;
+    }
+
+    .secao {
+        padding-block: 44px;
+    }
+
+    .vitrine {
+        padding: 22px;
+    }
+
+    .contato {
+        padding: 24px 20px;
+        gap: 30px;
+    }
+
+    .servico {
+        padding: 22px 20px 24px;
+    }
+
+    .util {
+        padding-block: 36px 52px;
+    }
+
+    .util-painel {
+        padding: 20px;
+    }
+
+    /* O menu da tela de exemplo vira uma faixa estreita, senão sobra pouco para a tabela
+       e o desenho deixa de parecer um sistema. */
+    .tela-corpo {
+        grid-template-columns: 68px 1fr;
+        min-height: 0;
+    }
+
+    .tela-conteudo {
+        padding: 14px;
+        gap: 10px;
+    }
+}

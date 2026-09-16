@@ -1,0 +1,33 @@
+@{
+    var ferramenta = Ferramentas.Por("Base64");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// entrada</p>
+            <textarea id="base64-entrada" class="util-area" placeholder="cole seu texto aqui..."></textarea>
+            <div class="util-acoes">
+                <button id="base64-codificar" class="botao botao-cheio">codificar</button>
+                <button id="base64-decodificar" class="botao">decodificar</button>
+                <button id="base64-limpar" class="botao">limpar</button>
+            </div>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// saída</p>
+            <textarea id="base64-saida" class="util-area" readonly></textarea>
+            <p id="base64-erro" class="util-erro" hidden>entrada base64 inválida.</p>
+            <div class="util-acoes">
+                <button id="base64-copiar" class="botao" data-copiar="#base64-saida">copiar</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="~/js/base64.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,55 @@
+## Visual Studio / IDE
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+## Claude Code
+.claude/
+
+## Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+## NuGet
+*.nupkg
+.dotnet/
+
+## Publicação
+*.publishsettings
+*.pubxml.user
+PublishProfiles/*.user
+
+## Segredos e ambiente
+secrets.json
+appsettings.*.local.json
+appsettings.Production.json
+appsettings.Development.json
+.env
+.env.*
+!.env.example
+
+## Certificados e chaves
+*.pfx
+*.p12
+*.key
+*.pem
+*.cer
+
+## Logs, cache e temporários
+logs/
+*.log
+*.cache
+*.tmp
+*.bak
+
+## OS
+.DS_Store
+Thumbs.db
+desktop.ini

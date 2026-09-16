@@ -1,0 +1,30 @@
+
+<main class="flex-grow-1 d-flex flex-column">
+    <section class="landing-hero">
+        <div class="container-lg w-100">
+            <div class="row justify-content-center text-center">
+                <div class="col-11 col-md-9 col-lg-7">
+                    <h1 class="fw-bold landing-headline mb-3">
+                        <span id="linha-digitada-1" data-texto="Suas finanças."></span><br>
+                        <span class="text-green" id="linha-digitada-2" data-texto="Simples assim."></span>
+                    </h1>
+                    <p class="text-secondary mb-4 landing-subtitle mx-auto">
+                        Controle suas receitas e despesas, saiba para onde seu dinheiro vai e mantenha seus dados só seus.
+                    </p>
+                    <div class="d-flex gap-2 justify-content-center flex-wrap">
+                        <a asp-controller="Conta" asp-action="Cadastrar" class="btn btn-primary px-4">
+                            Criar conta
+                        </a>
+                        <a asp-controller="Conta" asp-action="Entrar" class="btn btn-outline-secondary px-4">
+                            Entrar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script src="~/js/inicio.js" asp-append-version="true"></script>
+}

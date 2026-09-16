@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "ferramentas. · lawllit.";
+}
+
+<header class="ferramentas-topo">
+    <div class="container-lg">
+        <h1 class="ferramentas-titulo">ferramentas<span class="marca-ponto">.</span></h1>
+        <p class="texto">Tarefas chatas do dia a dia, resolvidas em um clique. Tudo acontece no seu navegador, nenhum arquivo sobe para servidor nenhum.</p>
+    </div>
+</header>
+
+<section class="secao">
+    <div class="container-lg">
+        @foreach (var grupo in Ferramentas.Grupos)
+        {
+            <div class="grupo" data-revelar>
+                <p class="rotulo">@grupo.Categoria</p>
+                <div class="ferramentas-grade">
+                    @foreach (var ferramenta in grupo.Ferramentas)
+                    {
+                        <a class="ferramenta" asp-controller="Ferramentas" asp-action="@ferramenta.Acao">
+                            <span class="ferramenta-icone"><i class="bi @ferramenta.Icone"></i></span>
+                            <span class="ferramenta-nome">@ferramenta.Nome</span>
+                            <p class="ferramenta-desc">@ferramenta.Descricao</p>
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>

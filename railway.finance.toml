@@ -1,0 +1,12 @@
+# Config do serviço do app financeiro na Railway.
+# No painel do serviço, aponte Settings > Config as code para este arquivo.
+# Domínio público próprio, finance.lawllit.com, separado do portfólio.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Lawllit.Finance.Site/Dockerfile"
+watchPatterns = ["Lawllit.Finance.Site/**", "Lawllit.Repository/**", "Lawllit.Model/**", "Directory.Build.props", "NuGet.config"]
+
+[deploy]
+healthcheckPath = "/health"
+restartPolicyType = "ON_FAILURE"
