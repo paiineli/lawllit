@@ -841,7 +841,7 @@ code {
         text-align: center;
     }
 
-/* Segundo projeto. Leva para a página das ferramentas em vez de listar as nove aqui. */
+/* Segundo projeto. Leva para a página das ferramentas em vez de listar as dez aqui. */
 .cartao {
     display: flex;
     align-items: center;
@@ -1257,6 +1257,12 @@ code {
 .util-erro {
     font-size: 0.78rem;
     color: var(--red);
+    margin: 14px 0 0;
+}
+
+.util-aviso {
+    font-size: 0.76rem;
+    color: var(--dim);
     margin: 14px 0 0;
 }
 

@@ -10,6 +10,7 @@ public static class Ferramentas
             new("JuntarPlanilhas", "bi-file-earmark-spreadsheet", "unificador de planilhas", "una múltiplos arquivos .xlsx e .xls sem perder dados."),
             new("JuntarPdf", "bi-file-earmark-pdf", "unificador de pdf", "junte múltiplos arquivos .pdf em um só, preservando todas as páginas."),
             new("ComprimirImagem", "bi-file-earmark-image", "comprimir imagem", "reduza o tamanho de imagens .jpg e .png pra caber em e-mails e uploads."),
+            new("ComprimirPdf", "bi-file-earmark-pdf", "comprimir pdf", "reduza o tamanho de arquivos .pdf escaneados ou com muitas imagens."),
         ]),
         new("// texto",
         [

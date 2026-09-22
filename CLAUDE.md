@@ -11,7 +11,7 @@
 Três coisas num domínio só.
 
 - **lawllit.com** — serviços, projetos, currículo em PDF e formulário de contato.
-- **Ferramentas** — nove utilitários que rodam inteiros no navegador, sem back-end.
+- **Ferramentas** — dez utilitários que rodam inteiros no navegador, sem back-end.
 - **finance.lawllit.com** — controle financeiro pessoal, com cadastro aberto.
 
 ## Arquétipo

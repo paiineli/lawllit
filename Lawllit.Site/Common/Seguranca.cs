@@ -17,9 +17,12 @@ public static class Seguranca
         // data: é o favicon embutido. blob: é o arquivo que o compressor e o unificador geram.
         "img-src 'self' data: blob:; " +
 
-        // jsdelivr serve pdf-lib, xlsx e qrcodejs. challenges.cloudflare.com é o Turnstile.
+        // jsdelivr serve pdf-lib, pdf.js, xlsx e qrcodejs. challenges.cloudflare.com é o Turnstile.
         "script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com; " +
         "frame-src https://challenges.cloudflare.com; " +
+
+        // Worker de outra origem é recusado, então o pdf.js embrulha o do jsdelivr num blob.
+        "worker-src blob:; " +
 
         // A consulta de CEP é a única chamada do navegador para fora.
         "connect-src 'self' https://viacep.com.br";

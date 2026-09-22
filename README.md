@@ -48,7 +48,7 @@ a personal finance tracker with open registration. it is public on purpose: sign
 
 **// the portfolio**
 
-a landing page aimed at clients rather than recruiters, plus nine browser tools that run with no back-end at all: spreadsheet merging, pdf merging, image compression, base64, sql `in` lists, cpf/cnpj, postal code lookup, qr codes and a password generator. the server only ships the page.
+a landing page aimed at clients rather than recruiters, plus ten browser tools that run with no back-end at all: spreadsheet merging, pdf merging, image compression, pdf compression, base64, sql `in` lists, cpf/cnpj, postal code lookup, qr codes and a password generator. the server only ships the page.
 
 **// engineering decisions**
 
@@ -97,7 +97,7 @@ nothing sensitive is committed. every secret comes from the environment.
 `.NET 10` · `ASP.NET Core MVC` · `C#` · `Razor` · `Minimal API`<br>
 `PostgreSQL` · `Dapper` · `Npgsql`<br>
 `Cookie Auth` · `JWT` · `BCrypt` · `Resend` · `Cloudflare Turnstile`<br>
-`Bootstrap` · `Chart.js` · `SheetJS` · `pdf-lib` · `JavaScript`<br>
+`Bootstrap` · `Chart.js` · `SheetJS` · `pdf-lib` · `pdf.js` · `JavaScript`<br>
 `Scalar` · `Docker` · `Railway`
 
 ---

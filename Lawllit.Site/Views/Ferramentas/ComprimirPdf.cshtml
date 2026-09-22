@@ -1,0 +1,68 @@
+@{
+    var ferramenta = Ferramentas.Por("ComprimirPdf");
+    ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+}
+
+<main class="container-lg">
+    <div class="util">
+        <partial name="_Cabecalho" model="ferramenta" />
+
+        <section class="util-painel">
+            <p class="util-rotulo">// enviar</p>
+            <div class="util-envio">
+                <input type="file" id="pdf-entrada" accept=".pdf,application/pdf" class="fora-da-tela" />
+                <label for="pdf-entrada" class="util-envio-rotulo">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    <span>escolher pdf</span>
+                    <span class="util-dica">.pdf · processado no seu navegador</span>
+                </label>
+            </div>
+            <p id="pdf-erro" class="util-erro" hidden>não foi possível ler este pdf. arquivos protegidos por senha não são aceitos.</p>
+        </section>
+
+        <section class="util-painel">
+            <p class="util-rotulo">// nível de compressão</p>
+            <div class="util-acoes">
+                <button class="botao" data-nivel="alta" disabled>qualidade alta</button>
+                <button class="botao" data-nivel="equilibrado" disabled>equilibrado</button>
+                <button class="botao" data-nivel="menor" disabled>menor arquivo</button>
+            </div>
+            <p class="util-aviso">cada página vira imagem, então o texto deixa de ser selecionável. funciona melhor em pdf escaneado ou cheio de fotos.</p>
+        </section>
+
+        <section id="pdf-resultado" class="util-painel util-painel-largo" hidden>
+            <p class="util-rotulo">// resultado</p>
+            <div class="util-resultado">
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">original</span>
+                    <span class="util-resultado-valor" id="pdf-original"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">comprimido</span>
+                    <span class="util-resultado-valor" id="pdf-comprimido"></span>
+                </div>
+                <div class="util-resultado-linha">
+                    <span class="util-resultado-rotulo">redução</span>
+                    <span class="util-resultado-valor" id="pdf-reducao"></span>
+                </div>
+            </div>
+            <p id="pdf-sem-ganho" class="util-aviso" hidden>este pdf já está enxuto, a versão comprimida ficou maior que o original. tente outro nível ou mantenha o arquivo como está.</p>
+            <div class="util-acoes">
+                <button id="pdf-baixar" class="botao botao-cheio">baixar</button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div id="progresso" class="util-progresso" hidden>
+    <p id="progresso-rotulo" class="util-progresso-rotulo" data-molde="página {0} de {1}"></p>
+    <div class="util-progresso-trilho">
+        <div id="progresso-barra" class="util-progresso-barra"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@@3.11.174/build/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="~/js/comprimir-pdf.js" asp-append-version="true"></script>
+}

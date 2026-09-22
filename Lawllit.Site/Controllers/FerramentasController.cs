@@ -13,6 +13,8 @@ public class FerramentasController : Controller
 
     public IActionResult ComprimirImagem() => View();
 
+    public IActionResult ComprimirPdf() => View();
+
     public IActionResult Base64() => View();
 
     public IActionResult ListaSql() => View();
