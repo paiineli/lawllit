@@ -12,6 +12,8 @@ public static class SeoConteudo
         "/",
         "/Ferramentas",
         .. Ferramentas.Todas.Select(ferramenta => $"/Ferramentas/{ferramenta.Acao}"),
+        "/Jogos",
+        .. Jogos.Todos.Select(jogo => $"/Jogos/{jogo.Acao}"),
     ];
 
     private static readonly string[] CaminhosBloqueados =

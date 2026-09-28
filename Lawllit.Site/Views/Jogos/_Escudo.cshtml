@@ -1,0 +1,11 @@
+@using Lawllit.Model.Jogos.Contratos
+@model EquipePartidaModel
+
+@if (Model.Logo is { } logo)
+{
+    <img class="confronto-escudo" src="@logo" alt="" loading="lazy" width="26" height="26" />
+}
+else
+{
+    <span class="confronto-escudo escudo-selo @Escudo.Classe(Model.Nome)" aria-hidden="true">@Escudo.Sigla(Model.Nome)</span>
+}

@@ -3,6 +3,7 @@ using Lawllit.Api;
 using Lawllit.Api.Common;
 using Lawllit.Api.Contato.Endpoints;
 using Lawllit.Api.Finance.Endpoints;
+using Lawllit.Api.Jogos.Endpoints;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -87,5 +88,12 @@ api.MapGroup("financas/cotacoes").RequireAuthorization().MapCotacoes();
 
 // Anônimo porque quem escreve não tem conta; a chave compartilhada acima continua valendo.
 api.MapGroup("contato").AllowAnonymous().MapContato();
+
+// Anônimo pelo mesmo motivo, a página de jogos é pública.
+var jogos = api.MapGroup("jogos").AllowAnonymous();
+jogos.MapGroup("agenda").MapAgenda();
+jogos.MapGroup("shrine").MapShrine();
+jogos.MapGroup("baro").MapBaro();
+jogos.MapGroup("atualizacoes").MapAtualizacoes();
 
 app.Run();

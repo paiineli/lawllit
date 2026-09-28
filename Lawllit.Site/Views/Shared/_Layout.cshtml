@@ -6,7 +6,8 @@
 
     // A página não cita tecnologia em lugar nenhum, porque quem lê é cliente. Os termos
     // ficam aqui, que o buscador lê e o visitante não vê.
-    var descricao = "Desenvolvimento de sistemas web sob medida em .NET e C#. Aplicações, integrações e banco de dados, do orçamento à entrega.";
+    var descricao = (ViewData["Descricao"] as string)
+        ?? "Desenvolvimento de sistemas web sob medida em .NET e C#. Aplicações, integrações e banco de dados, do orçamento à entrega.";
 }
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -56,10 +57,10 @@
             </button>
 
             <ul class="menu-itens" id="menu-itens">
-                <li><a class="menu-item" asp-controller="Inicio" asp-action="Index" asp-fragment="servicos">serviços</a></li>
-                <li><a class="menu-item" asp-controller="Inicio" asp-action="Index" asp-fragment="projetos">projetos</a></li>
+                <li><a class="menu-item" asp-controller="Inicio" asp-action="Index">home</a></li>
                 <li><a class="menu-item menu-item-finance" href="@Configuration["Finance:Url"]">finance</a></li>
                 <li><a class="menu-item" asp-controller="Ferramentas" asp-action="Index">ferramentas</a></li>
+                <li><a class="menu-item" asp-controller="Jogos" asp-action="Index">jogos</a></li>
                 <li><a class="menu-item menu-item-acao" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">pedir orçamento</a></li>
             </ul>
         </div>

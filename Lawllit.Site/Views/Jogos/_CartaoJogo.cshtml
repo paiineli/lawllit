@@ -1,0 +1,89 @@
+@model PainelJogoViewModel
+
+@* O card inteiro é o link, então nada dentro dele pode ser outro link. *@
+<a class="jogo-cartao @Model.Jogo.Classe" asp-controller="Jogos" asp-action="@Model.Jogo.Acao">
+    @* Capa como a da biblioteca da Steam: a arte oficial de fundo e a logo por cima dela. *@
+    <div class="jogo-cartao-capa">
+        <img class="jogo-cartao-arte" src="@Url.Content(Model.Jogo.Arte)" alt="" loading="lazy" />
+        <h2 class="jogo-cartao-nome"><partial name="_LogoJogo" model="Model.Jogo" /></h2>
+        @if (Model.QuantidadeAoVivo > 0)
+        {
+            <span class="ao-vivo jogo-cartao-vivo">@Model.QuantidadeAoVivo ao vivo</span>
+        }
+    </div>
+
+    <div class="jogo-cartao-corpo">
+        @if (Model.Agenda is { } agenda)
+        {
+            @if (Model.Destaque is { } destaque)
+            {
+                <p class="jogo-cartao-rotulo">@(destaque.AoVivo ? "rolando agora" : $"próxima · {Model.Quando(destaque.Partida.Inicio)}")</p>
+                <partial name="_Confronto" model="destaque" />
+                <p class="jogo-cartao-detalhe">@destaque.Partida.Campeonato</p>
+            }
+            else
+            {
+                <p class="jogo-cartao-detalhe">@(agenda.Sucesso ? "Nenhuma partida marcada nos campeonatos grandes." : agenda.Mensagem)</p>
+            }
+        }
+
+        @if (Model.Shrine is { } shrine)
+        {
+            @if (shrine.Valor is { } semana)
+            {
+                <p class="jogo-cartao-rotulo">shrine · troca @Model.Quando(semana.Fim)</p>
+                <div class="jogo-cartao-miniaturas">
+                    @foreach (var perk in semana.Perks)
+                    {
+                        @if (perk.Icone is { } icone)
+                        {
+                            <img src="@icone" alt="@perk.Nome" title="@perk.Nome" loading="lazy" width="52" height="52" />
+                        }
+                        else
+                        {
+                            <span class="jogo-cartao-miniatura-nome">@perk.Nome</span>
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="jogo-cartao-detalhe">@shrine.Mensagem</p>
+            }
+        }
+
+        @if (Model.Baro is { } baro)
+        {
+            @if (baro.Valor is { } visita)
+            {
+                <div class="jogo-cartao-baro">
+                    <img src="@Jogos.ImagemBaro" alt="" loading="lazy" width="60" height="60" />
+                    <div>
+                        <p class="jogo-cartao-rotulo">baro ki'teer</p>
+                        <p class="jogo-cartao-destaque">@(Model.BaroPresente ? $"na relay até {Model.Quando(visita.Partida)}" : $"chega {Model.Quando(visita.Chegada)}")</p>
+                        <p class="jogo-cartao-detalhe">@visita.Local</p>
+                    </div>
+                </div>
+
+                @if (Model.BaroPresente)
+                {
+                    <div class="jogo-cartao-miniaturas">
+                        @foreach (var item in visita.Itens.Where(item => item.Imagem is not null).Take(5))
+                        {
+                            <img src="@item.Imagem" alt="@item.Nome" title="@item.Nome" loading="lazy" width="52" height="52" />
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="jogo-cartao-detalhe">@baro.Mensagem</p>
+            }
+        }
+    </div>
+
+    <div class="jogo-cartao-rodape">
+        <span>@(Model.Patch?.Titulo ?? "patch indisponível")</span>
+        <span class="jogo-cartao-abrir">abrir</span>
+    </div>
+</a>

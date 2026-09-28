@@ -27,7 +27,7 @@ View → Controller (Site) → Lawllit.Repository (HTTP) → Lawllit.Api → Ser
 | `Lawllit.Model` | entities, api contracts, and shared plumbing (result type, pagination, enums) |
 | `Lawllit.Api` | minimal api. endpoints, dapper repositories, and business services. the only project that talks to postgres |
 | `Lawllit.Repository` | typed http client for the api, consumed by both sites |
-| `Lawllit.Site` | `lawllit.com`. services, projects, browser tools and the contact form |
+| `Lawllit.Site` | `lawllit.com`. services, projects, browser tools, the games page and the contact form |
 | `Lawllit.Finance.Site` | `finance.lawllit.com`. the finance app, cookie session of its own |
 
 the api holds no screen and the sites hold no sql, which is what makes the split worth the extra hop: the finance app was an mvc area of the portfolio until it outgrew the arrangement, and separating them meant each one deploys, scales and fails on its own.
@@ -49,6 +49,16 @@ a personal finance tracker with open registration. it is public on purpose: sign
 **// the portfolio**
 
 a landing page aimed at clients rather than recruiters, plus ten browser tools that run with no back-end at all: spreadsheet merging, pdf merging, image compression, pdf compression, base64, sql `in` lists, cpf/cnpj, postal code lookup, qr codes and a password generator. the server only ships the page.
+
+**// the games page**
+
+a hub with one card per game and a page for each, painted in that game's color: esports schedules for valorant, league of legends and dota 2 in brasília time, the weekly dead by daylight shrine, warframe's baro ki'teer and the latest patch of each game. every source is open and keyless: liquipedia, opendota, dbd.tricky.lol, the official dead by daylight wiki, warframestat.us and the wfcd item catalog, steam news, data dragon and valorant-api.com.
+
+- **the schedule is read in the background.** liquipedia allows one parse every thirty seconds and bans whoever goes over, so a worker reads one wiki at a time, thirty-five seconds apart, every fifteen minutes. a page view never waits on liquipedia
+- **all or nothing.** a match card that does not parse means the markup changed, and the whole read is dropped instead of showing half a schedule
+- **a source that fails serves its last good read.** the page grows stale instead of going blank, and each card fails on its own
+- **official art, loaded from where each game publishes it.** logos and cover art come from the games' own sites and the steam store (valorant's wallpaper only ships as a zip, so it is served from the site itself), perk icons from the official dbd wiki, baro's stock from the mit-licensed wfcd catalog, and dota crests from opendota, which is what each team uploads to steam. liquipedia blocks hotlinking and does not own the crests, so league and valorant teams get a generated badge with their initials
+- **each game wears its own brand.** two colors per game, the accent and the background, paint its card on the hub and its whole page, and the rest of the site stays black and white
 
 **// engineering decisions**
 
@@ -98,7 +108,7 @@ nothing sensitive is committed. every secret comes from the environment.
 `PostgreSQL` · `Dapper` · `Npgsql`<br>
 `Cookie Auth` · `JWT` · `BCrypt` · `Resend` · `Cloudflare Turnstile`<br>
 `Bootstrap` · `Chart.js` · `SheetJS` · `pdf-lib` · `pdf.js` · `JavaScript`<br>
-`Scalar` · `Docker` · `Railway`
+`AngleSharp` · `Scalar` · `Docker` · `Railway`
 
 ---
 

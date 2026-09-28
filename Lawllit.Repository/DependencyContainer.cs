@@ -1,6 +1,7 @@
 using Lawllit.Repository.Common;
 using Lawllit.Repository.Contato;
 using Lawllit.Repository.Finance;
+using Lawllit.Repository.Jogos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,6 +35,16 @@ public static class DependencyContainer
     public static IServiceCollection AddRepositoriosContato(this IServiceCollection services)
     {
         services.AddScoped<IContatoRepository, ContatoRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddRepositoriosJogos(this IServiceCollection services)
+    {
+        services.AddScoped<IAgendaRepository, AgendaRepository>();
+        services.AddScoped<IAtualizacaoRepository, AtualizacaoRepository>();
+        services.AddScoped<IBaroRepository, BaroRepository>();
+        services.AddScoped<IShrineRepository, ShrineRepository>();
 
         return services;
     }

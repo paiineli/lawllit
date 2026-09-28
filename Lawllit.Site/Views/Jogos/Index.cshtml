@@ -1,0 +1,25 @@
+@model PainelJogoViewModel[]
+@{
+    ViewData["Title"] = "jogos. · lawllit.";
+    ViewData["Descricao"] = "Agenda dos campeonatos de Valorant, LoL e Dota 2 no horário de Brasília, o Shrine of Secrets da semana, o Baro Ki'Teer e o patch mais recente de cada jogo.";
+}
+
+<header class="jogos-topo">
+    <div class="container-lg">
+        <h1 class="jogos-titulo">jogos<span class="marca-ponto">.</span></h1>
+        <p class="texto">Os jogos que a galera joga, num lugar só. Campeonato, o que mudou na semana e o patch de cada um, sempre no horário de Brasília.</p>
+    </div>
+</header>
+
+<section class="secao">
+    <div class="container-lg">
+        <div class="jogos-grade">
+            @foreach (var painel in Model)
+            {
+                <partial name="_CartaoJogo" model="painel" />
+            }
+        </div>
+
+        <partial name="_Fontes" />
+    </div>
+</section>

@@ -1109,12 +1109,14 @@ code {
     font-size: 1rem;
 }
 
-/* ÍNDICE DAS FERRAMENTAS */
-.ferramentas-topo {
+/* ÍNDICE DAS FERRAMENTAS. O topo e o título servem também à página de jogos. */
+.ferramentas-topo,
+.jogos-topo {
     padding-block: 60px 12px;
 }
 
-.ferramentas-titulo {
+.ferramentas-titulo,
+.jogos-titulo {
     font-size: clamp(1.7rem, 3.4vw, 2.3rem);
     font-weight: 700;
     letter-spacing: -0.045em;
@@ -1548,6 +1550,684 @@ code {
     transition: width 0.2s ease;
 }
 
+/* JOGOS. Cada jogo traz duas cores da própria marca: o destaque e o fundo, que pinta o card no
+   hub e a página inteira do jogo. O resto do site segue preto e branco, como o verde do finance. */
+.jogo-valorant {
+    --cor-jogo: #ff4655;
+    --fundo-jogo: #0f1923;
+    --largura-logo: 170px;
+
+    /* Os agentes ficam no meio da arte, com o V atrás, e o corte largo precisa pegar os rostos. */
+    --posicao-capa: 50% 42%;
+    --posicao-banner: 50% 38%;
+}
+
+.jogo-lol {
+    --cor-jogo: #c8aa6e;
+    --fundo-jogo: #091428;
+    --largura-logo: 130px;
+
+    /* O rosto da Jinx fica no terço de cima da splash, que o corte central deixava de fora. */
+    --posicao-capa: 50% 22%;
+    --posicao-banner: 50% 20%;
+}
+
+.jogo-dota {
+    --cor-jogo: #f26b21;
+    --fundo-jogo: #150e0a;
+    --largura-logo: 180px;
+}
+
+.jogo-dbd {
+    --cor-jogo: #d4122f;
+    --fundo-jogo: #0a0a0c;
+    --largura-logo: 190px;
+}
+
+.jogo-warframe {
+    --cor-jogo: #6fc9e0;
+    --fundo-jogo: #07141a;
+    --largura-logo: 210px;
+}
+
+/* Superfície dos blocos dentro das cores do jogo, um degrau mais clara que o fundo. */
+.jogo-valorant,
+.jogo-lol,
+.jogo-dota,
+.jogo-dbd,
+.jogo-warframe {
+    --superficie-jogo: color-mix(in srgb, var(--fundo-jogo) 88%, #fff);
+    --borda-jogo: color-mix(in srgb, var(--cor-jogo) 22%, transparent);
+}
+
+.jogos-aviso {
+    font-size: 0.8rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+/* Crédito das fontes no pé da página, centralizado e sem o respiro inteiro de uma seção. */
+.jogos-fontes {
+    font-size: 0.72rem;
+    color: var(--faint);
+    text-align: center;
+    max-width: 88ch;
+    margin: 0 auto;
+}
+
+    .jogos-fontes a {
+        color: var(--dim);
+        text-decoration: underline;
+    }
+
+.jogos-grade + .jogos-fontes {
+    margin-top: 44px;
+}
+
+.jogos-rodape {
+    padding-block: 32px 56px;
+    border-top: 1px solid var(--borda-jogo, var(--border));
+}
+
+.ao-vivo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--red);
+}
+
+    .ao-vivo::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: currentColor;
+        animation: pulsar 1.6s ease-in-out infinite;
+    }
+
+@keyframes pulsar {
+    50% {
+        opacity: 0.25;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ao-vivo::before {
+        animation: none;
+    }
+}
+
+/* Letreiro oficial, medido pela largura que cada jogo acerta na variável dele, porque cada
+   arquivo tem proporção e sobra em volta diferentes. */
+.jogo-logo {
+    display: block;
+    width: var(--largura-logo, 190px);
+    max-width: 100%;
+    height: auto;
+}
+
+/* HUB. Três em cima e dois embaixo, cada um com a largura que fecha a linha. */
+.jogos-grade {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+    .jogos-grade > * {
+        grid-column: span 2;
+    }
+
+        .jogos-grade > :nth-child(n + 4) {
+            grid-column: span 3;
+        }
+
+@media (max-width: 991.98px) {
+    .jogos-grade {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+        .jogos-grade > *,
+        .jogos-grade > :nth-child(n + 4) {
+            grid-column: span 1;
+        }
+
+            .jogos-grade > :last-child {
+                grid-column: 1 / -1;
+            }
+}
+
+@media (max-width: 600px) {
+    .jogos-grade {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.jogo-cartao {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--borda-jogo);
+    border-radius: 12px;
+    background: var(--fundo-jogo);
+    color: var(--fg);
+    transition: border-color var(--transicao);
+}
+
+    /* Só a borda muda. Mover o card ou crescer a arte deixava uma faixa piscando entre a capa e o
+       corpo, porque o navegador redesenha a arte a cada quadro da animação. */
+    .jogo-cartao:hover {
+        border-color: var(--cor-jogo);
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+/* A arte some no fundo do card por baixo, e é ali que a logo fica, legível sobre qualquer arte. */
+.jogo-cartao-capa {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    min-height: 150px;
+    padding: 18px 20px;
+}
+
+    .jogo-cartao-capa::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 20%, var(--fundo-jogo) 96%);
+    }
+
+.jogo-cartao-arte {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--posicao-capa, center);
+    opacity: 0.8;
+}
+
+.jogo-cartao-nome {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    line-height: 0;
+}
+
+.jogo-cartao-vivo {
+    position: absolute;
+    z-index: 1;
+    top: 14px;
+    right: 14px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.72);
+}
+
+.jogo-cartao-corpo {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    flex: 1;
+    padding: 6px 20px 18px;
+}
+
+.jogo-cartao-rotulo {
+    font-size: 0.72rem;
+    color: var(--cor-jogo);
+    margin: 0;
+}
+
+.jogo-cartao-destaque {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.jogo-cartao-detalhe {
+    font-size: 0.76rem;
+    color: var(--dim);
+    margin: 0;
+}
+
+.jogo-cartao-miniaturas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+    .jogo-cartao-miniaturas img {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+    }
+
+.jogo-cartao-miniatura-nome {
+    font-size: 0.76rem;
+    color: var(--dim);
+}
+
+.jogo-cartao-baro {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+    .jogo-cartao-baro img {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+
+    .jogo-cartao-baro p + p {
+        margin-top: 4px;
+    }
+
+.jogo-cartao-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--borda-jogo);
+    font-size: 0.74rem;
+    color: var(--dim);
+}
+
+.jogo-cartao-abrir {
+    color: var(--cor-jogo);
+}
+
+/* PÁGINA DE UM JOGO. O fundo da marca cobre a página inteira, e a arte oficial abre o topo. */
+.jogo-pagina {
+    background: var(--fundo-jogo);
+}
+
+    .jogo-pagina .secao {
+        border-top-color: var(--borda-jogo);
+    }
+
+.jogo-topo {
+    position: relative;
+    overflow: hidden;
+}
+
+    .jogo-topo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, var(--fundo-jogo) 8%, transparent 75%),
+            linear-gradient(180deg, transparent 35%, var(--fundo-jogo) 100%);
+    }
+
+.jogo-topo-arte {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--posicao-banner, center 30%);
+    opacity: 0.75;
+}
+
+.jogo-topo-conteudo {
+    position: relative;
+    z-index: 1;
+    padding-block: 44px 40px;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Caixa de altura fixa para a logo, senão cada letreiro deixava o topo de um tamanho. */
+.jogo-titulo {
+    display: flex;
+    align-items: center;
+    height: 120px;
+    margin: 0;
+    line-height: 0;
+}
+
+    .jogo-titulo .jogo-logo {
+        width: calc(var(--largura-logo, 190px) * 1.9);
+        max-height: 100%;
+        object-fit: contain;
+        object-position: left center;
+    }
+
+.jogo-patches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+}
+
+/* Etiqueta reta com a barra na cor do jogo, e não pílula, que é o que todo painel usa. */
+.jogo-patch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid transparent;
+    border-left: 3px solid var(--cor-jogo);
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 0.78rem;
+    color: var(--fg);
+    transition: background var(--transicao), border-color var(--transicao);
+}
+
+    /* A seta avisa que abre fora do site, e anda no hover junto com a cor. */
+    .jogo-patch::after {
+        content: "\2197";
+        color: var(--cor-jogo);
+        transition: transform var(--transicao);
+    }
+
+    .jogo-patch:hover {
+        border-color: color-mix(in srgb, var(--cor-jogo) 60%, transparent);
+        border-left-color: var(--cor-jogo);
+        background: color-mix(in srgb, var(--cor-jogo) 24%, rgba(0, 0, 0, 0.7));
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+        .jogo-patch:hover::after {
+            transform: translate(2px, -2px);
+        }
+
+.jogo-patch-rotulo {
+    font-size: 0.7rem;
+    color: var(--dim);
+}
+
+.jogo-status {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin: 0 0 6px;
+}
+
+.baro-aviso {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+    .baro-aviso img {
+        width: 72px;
+        height: 72px;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+
+/* Cabeçalho de cada seção da página do jogo, com o rótulo e a informação de quando muda. */
+.jogo-cabecalho {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin-bottom: 20px;
+}
+
+    .jogo-cabecalho .rotulo {
+        margin: 0;
+    }
+
+.jogo-cabecalho-info {
+    font-size: 0.72rem;
+    color: var(--faint);
+}
+
+/* AGENDA. Próximas e resultados lado a lado no desktop. No celular empilha, com as próximas
+   antes. */
+.agenda {
+    display: grid;
+    gap: 40px;
+}
+
+@media (min-width: 992px) {
+    .agenda {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+    }
+}
+
+.agenda-titulo {
+    font-size: 0.72rem;
+    color: var(--cor-jogo);
+    letter-spacing: 0.06em;
+    margin: 0 0 14px;
+}
+
+.agenda-dia + .agenda-dia {
+    margin-top: 24px;
+}
+
+.agenda-dia-rotulo {
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin: 0 0 10px;
+}
+
+.partida {
+    display: grid;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--borda-jogo);
+    border-radius: var(--raio);
+    background: var(--superficie-jogo);
+}
+
+    .partida + .partida {
+        margin-top: 8px;
+    }
+
+.partida-ao-vivo {
+    border-color: color-mix(in srgb, var(--red) 60%, transparent);
+}
+
+.partida-topo,
+.partida-rodape {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+}
+
+.partida-hora {
+    color: var(--dim);
+}
+
+.partida-formato {
+    margin-left: auto;
+}
+
+.partida-campeonato {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.partida-links {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+    .partida-links a {
+        color: var(--dim);
+    }
+
+        .partida-links a:hover {
+            color: var(--fg);
+        }
+
+    .partida-links .partida-assistir {
+        color: var(--cor-jogo);
+    }
+
+/* Colunas iguais dos dois lados deixam o placar no meio mesmo com nomes de tamanho diferente,
+   e o escudo de cada time fica encostado nele. */
+.confronto {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+}
+
+.confronto-equipe {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    min-width: 0;
+    font-size: 0.88rem;
+    font-weight: 500;
+}
+
+.confronto-equipe-direita {
+    justify-content: flex-start;
+}
+
+.confronto-nome {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.confronto-escudo {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+/* Selo de time sem escudo aberto. Oito cores fixas, porque a CSP não aceita a cor inline. */
+.escudo-selo {
+    display: grid;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--cor-escudo) 55%, transparent);
+    border-radius: 7px;
+    background: color-mix(in srgb, var(--cor-escudo) 20%, #0a0a0a);
+    color: var(--cor-escudo);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1;
+}
+
+.escudo-cor-0 {
+    --cor-escudo: #f87171;
+}
+
+.escudo-cor-1 {
+    --cor-escudo: #fb923c;
+}
+
+.escudo-cor-2 {
+    --cor-escudo: #facc15;
+}
+
+.escudo-cor-3 {
+    --cor-escudo: #4ade80;
+}
+
+.escudo-cor-4 {
+    --cor-escudo: #2dd4bf;
+}
+
+.escudo-cor-5 {
+    --cor-escudo: #60a5fa;
+}
+
+.escudo-cor-6 {
+    --cor-escudo: #a78bfa;
+}
+
+.escudo-cor-7 {
+    --cor-escudo: #f472b6;
+}
+
+.confronto-placar {
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* Nos resultados quem perdeu apaga, e o vencedor continua com a cor cheia. */
+.partida-concluida .confronto-equipe {
+    color: var(--faint);
+}
+
+    .partida-concluida .confronto-equipe .confronto-escudo {
+        opacity: 0.5;
+    }
+
+.partida-concluida .confronto-vencedora {
+    color: var(--fg);
+}
+
+    .partida-concluida .confronto-vencedora .confronto-escudo {
+        opacity: 1;
+    }
+
+/* SHRINE E BARO. A mesma vitrine serve às perks e ao estoque do Baro. */
+.estoque {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+    gap: 12px;
+}
+
+.estoque-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 22px 16px 18px;
+    border: 1px solid var(--borda-jogo);
+    border-top: 2px solid var(--cor-jogo);
+    border-radius: var(--raio);
+    background: var(--superficie-jogo);
+    text-align: center;
+}
+
+.estoque-imagem {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.estoque-nome {
+    font-size: 0.86rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.estoque-detalhe {
+    font-size: 0.74rem;
+    color: var(--dim);
+}
+
+.estoque-preco {
+    font-size: 0.74rem;
+    color: var(--cor-jogo);
+    font-variant-numeric: tabular-nums;
+}
+
 /* ERRO */
 .erro {
     padding-block: 4rem 5rem;
@@ -1642,6 +2322,30 @@ code {
 
     .util-painel {
         padding: 20px;
+    }
+
+    /* Nome de time e escudo um pouco menores, que é o que deixa ler o nome inteiro na maioria. */
+    .confronto {
+        gap: 8px;
+    }
+
+    .confronto-equipe {
+        gap: 8px;
+        font-size: 0.8rem;
+    }
+
+    .confronto-escudo {
+        width: 22px;
+        height: 22px;
+    }
+
+    .estoque-item {
+        padding: 18px 10px 14px;
+    }
+
+    .estoque-imagem {
+        width: 72px;
+        height: 72px;
     }
 
     /* O menu da tela de exemplo vira uma faixa estreita, senão sobra pouco para a tabela

@@ -1,0 +1,20 @@
+@model PartidaViewModel
+@{
+    var partida = Model.Partida;
+}
+
+@* Escudo colado no placar dos dois lados. Sem escudo aberto entra o selo com a sigla, do mesmo
+   tamanho, para os nomes não desalinharem entre uma partida e outra. *@
+<div class="confronto">
+    <span class="@(partida.EquipeA.Vencedora ? "confronto-equipe confronto-vencedora" : "confronto-equipe")">
+        <span class="confronto-nome">@partida.EquipeA.Nome</span>
+        <partial name="_Escudo" model="partida.EquipeA" />
+    </span>
+
+    <span class="confronto-placar">@Model.Placar</span>
+
+    <span class="@(partida.EquipeB.Vencedora ? "confronto-equipe confronto-equipe-direita confronto-vencedora" : "confronto-equipe confronto-equipe-direita")">
+        <partial name="_Escudo" model="partida.EquipeB" />
+        <span class="confronto-nome">@partida.EquipeB.Nome</span>
+    </span>
+</div>

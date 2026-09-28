@@ -8,10 +8,11 @@
 
 ## O que é
 
-Três coisas num domínio só.
+Quatro coisas num domínio só.
 
 - **lawllit.com** — serviços, projetos, currículo em PDF e formulário de contato.
 - **Ferramentas** — dez utilitários que rodam inteiros no navegador, sem back-end.
+- **Jogos** — agenda de esports, Shrine do DBD, Baro do Warframe e patches, só de fonte aberta e sem chave.
 - **finance.lawllit.com** — controle financeiro pessoal, com cadastro aberto.
 
 ## Arquétipo
@@ -19,8 +20,8 @@ Três coisas num domínio só.
 API + Site separados, com dois sites. **.NET 10**, `Nullable` e `ImplicitUsings` ligados.
 
 ```
-Lawllit.Api            Minimal API. Finance/ e Contato/, cada um com Endpoints/ Repositories/ Services/
-Lawllit.Model          modelos, contratos e Common/, divididos em Finance/ e Contato/
+Lawllit.Api            Minimal API. Finance/, Contato/ e Jogos/, cada um com Endpoints/ Services/ e, se usa banco, Repositories/
+Lawllit.Model          modelos, contratos e Common/, divididos em Finance/, Contato/ e Jogos/
 Lawllit.Repository     cliente HTTP da API, consumido pelos dois sites
 Lawllit.Site           lawllit.com
 Lawllit.Finance.Site   finance.lawllit.com
@@ -143,6 +144,15 @@ Segredo **nunca** em `appsettings.json` nem em código.
    só para "ter interface" sai fora.
 5. **Sufixo por extenso**, porque `Controller`, `Endpoints` e `Service` já são por extenso
    e abreviar dois deles destoava.
+6. **Agenda lida em segundo plano, uma wiki a cada 35s.** A Liquipedia aceita um parse a
+   cada 30s e bane quem passa. Ler na hora da visita estouraria com duas abas abertas.
+7. **Fonte de jogo que falha devolve o último dado bom.** A página nunca fica vazia por
+   causa de fonte fora do ar, só envelhece.
+8. **Logo e arte de jogo são as oficiais, carregadas do site ou da Steam.** Foi escolha do
+   Lucas, sabendo que Riot e Digital Extremes pedem licença. Se pedirem para tirar, o selo volta.
+   A exceção é a arte do Valorant, que a Riot só distribui em zip e por isso mora em `wwwroot/img`.
+9. **Card de jogo sem animação no hover.** Mover o card ou crescer a arte fazia uma faixa piscar
+   entre a capa e o corpo. Só a cor da borda muda.
 
 ## Escopo cortado de propósito
 
@@ -153,6 +163,10 @@ Não é bug nem esquecimento.
 - **Onboarding de 3 passos.** No lugar dele, o cadastro já cria dez categorias padrão.
 - **Bloqueio ao excluir categoria com transação.** Com `SN_ATIVO` a linha continua existindo,
   então o histórico não quebra.
+- **Escudo de time de LoL e Valorant.** A Liquipedia bloqueia hotlink e não é dona dos escudos,
+  e não há outra fonte aberta. No lugar entra selo com sigla. Dota tem escudo pelo OpenDota.
+- **Fonte de jogo com chave ou cadastro.** Riot, HenrikDev e PandaScore ficaram de fora por
+  isso, e a loja diária do Valorant porque a própria Riot proíbe.
 
 ## Entrega
 

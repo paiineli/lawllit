@@ -15,7 +15,13 @@ public static class Seguranca
         "font-src 'self'; " +
 
         // data: é o favicon embutido. blob: é o arquivo que o compressor e o unificador geram.
-        "img-src 'self' data: blob:; " +
+        "img-src 'self' data: blob: " +
+
+            // Jogos: logo e arte oficiais, perk da wiki do DBD, Baro pelo jsDelivr e escudo de Dota na Steam.
+            "https://cmsassets.rgpub.io https://ddragon.leagueoflegends.com " +
+            "https://shared.fastly.steamstatic.com https://www-static.warframe.com " +
+            "https://deadbydaylight.wiki.gg https://cdn.jsdelivr.net " +
+            "https://cdn.steamusercontent.com https://steamcdn-a.akamaihd.net https://steamusercontent-a.akamaihd.net; " +
 
         // jsdelivr serve pdf-lib, pdf.js, xlsx e qrcodejs. challenges.cloudflare.com é o Turnstile.
         "script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com; " +

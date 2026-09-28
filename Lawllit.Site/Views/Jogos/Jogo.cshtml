@@ -1,0 +1,188 @@
+@model PainelJogoViewModel
+@{
+    ViewData["Title"] = $"{Model.Jogo.Nome}. · lawllit.";
+    ViewData["Descricao"] = $"{Model.Jogo.Nome}: campeonatos, novidades da semana e o patch mais recente, no horário de Brasília.";
+
+    var proximas = Model.ProximasPorDia;
+    var resultados = Model.ResultadosPorDia;
+}
+
+@* A classe do jogo fica em volta de tudo, e é ela que pinta a página com as cores dele. *@
+<div class="jogo-pagina @Model.Jogo.Classe">
+    <header class="jogo-topo">
+        <img class="jogo-topo-arte" src="@Url.Content(Model.Jogo.Arte)" alt="" />
+        <div class="container-lg jogo-topo-conteudo">
+            @* Mesma seta da página de ferramentas, pelo mesmo motivo: o chevron não está no subset
+               da fonte de ícones. *@
+            <a class="util-voltar" asp-controller="Jogos" asp-action="Index">
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M9.5 3.5 5 8l4.5 4.5" /></svg>
+                <span>jogos<span class="marca-ponto">.</span></span>
+            </a>
+
+            <h1 class="jogo-titulo"><partial name="_LogoJogo" model="Model.Jogo" /></h1>
+
+            @if (Model.Atualizacoes.Count > 0)
+            {
+                <div class="jogo-patches">
+                    @foreach (var atualizacao in Model.Atualizacoes)
+                    {
+                        <a class="jogo-patch" href="@atualizacao.Link" target="_blank" rel="noopener noreferrer">
+                            @if (atualizacao.Jogo != Model.Jogo.Codigo)
+                            {
+                                <span class="jogo-patch-rotulo">@atualizacao.Jogo.ToString().ToLowerInvariant()</span>
+                            }
+                            <span>@atualizacao.Titulo</span>
+                            @if (atualizacao.Data is { } data)
+                            {
+                                <span class="jogo-patch-rotulo">@data.ToString("dd/MM")</span>
+                            }
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </header>
+
+    @if (Model.Agenda is { } agenda)
+    {
+        <section class="secao">
+            <div class="container-lg">
+                <div class="jogo-cabecalho">
+                    <p class="rotulo">// agenda</p>
+                    @if (agenda.Valor is { } lida)
+                    {
+                        <span class="jogo-cabecalho-info">atualizado @Model.Quando(lida.AtualizadoEm)</span>
+                    }
+                </div>
+
+                @if (!agenda.Sucesso)
+                {
+                    <p class="jogos-aviso">@agenda.Mensagem</p>
+                }
+                else
+                {
+                    <div class="agenda">
+                        <div>
+                            <p class="agenda-titulo">próximas</p>
+                            @if (proximas.Count == 0)
+                            {
+                                <p class="jogos-aviso">Nenhuma partida marcada nos campeonatos grandes.</p>
+                            }
+                            @foreach (var dia in proximas)
+                            {
+                                <partial name="_DiaAgenda" model="dia" />
+                            }
+                        </div>
+
+                        <div>
+                            <p class="agenda-titulo">resultados</p>
+                            @foreach (var dia in resultados)
+                            {
+                                <partial name="_DiaAgenda" model="dia" />
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    @if (Model.Shrine is { } shrine)
+    {
+        <section class="secao">
+            <div class="container-lg">
+                <div class="jogo-cabecalho">
+                    <p class="rotulo">// shrine of secrets</p>
+                    @if (shrine.Valor is { } semana)
+                    {
+                        <span class="jogo-cabecalho-info">troca @Model.Quando(semana.Fim)</span>
+                    }
+                </div>
+
+                @if (shrine.Valor is { } perks)
+                {
+                    <div class="estoque">
+                        @foreach (var perk in perks.Perks)
+                        {
+                            <article class="estoque-item">
+                                @if (perk.Icone is { } icone)
+                                {
+                                    <img class="estoque-imagem" src="@icone" alt="" loading="lazy" width="96" height="96" />
+                                }
+                                <h2 class="estoque-nome">@perk.Nome</h2>
+                                <span class="estoque-detalhe">@perk.Personagem</span>
+                                <span class="estoque-preco">@perk.Fragmentos.ToString("N0") fragmentos</span>
+                            </article>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="jogos-aviso">@shrine.Mensagem</p>
+                }
+            </div>
+        </section>
+    }
+
+    @if (Model.Baro is { } baro)
+    {
+        <section class="secao">
+            <div class="container-lg">
+                <p class="rotulo">// baro ki'teer</p>
+
+                @if (baro.Valor is not { } visita)
+                {
+                    <p class="jogos-aviso">@baro.Mensagem</p>
+                }
+                else
+                {
+                    <div class="baro-aviso">
+                        <img src="@Jogos.ImagemBaro" alt="" width="72" height="72" />
+                        <div>
+                            @if (Model.BaroPresente)
+                            {
+                                <p class="jogo-status">no @visita.Local</p>
+                                <p class="jogos-aviso">vai embora @Model.Quando(visita.Partida)</p>
+                            }
+                            else
+                            {
+                                <p class="jogo-status">chega @Model.Quando(visita.Chegada)</p>
+                                <p class="jogos-aviso">no @visita.Local, e fica até @Model.Quando(visita.Partida). O estoque aparece aqui quando ele chegar.</p>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (Model.BaroPresente && baro.Valor is { } estoque)
+                {
+                    <div class="estoque">
+                        @foreach (var item in estoque.Itens)
+                        {
+                            <article class="estoque-item">
+                                @if (item.Imagem is { } imagem)
+                                {
+                                    <img class="estoque-imagem" src="@imagem" alt="" loading="lazy" width="96" height="96" />
+                                }
+                                <h2 class="estoque-nome">@item.Nome</h2>
+                                @if (item.Ducats is { } ducats)
+                                {
+                                    <span class="estoque-preco">@ducats.ToString("N0") ducats</span>
+                                }
+                                @if (item.Creditos is { } creditos)
+                                {
+                                    <span class="estoque-detalhe">@creditos.ToString("N0") créditos</span>
+                                }
+                            </article>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    <div class="jogos-rodape">
+        <div class="container-lg">
+            <partial name="_Fontes" />
+        </div>
+    </div>
+</div>
