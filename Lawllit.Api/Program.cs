@@ -6,7 +6,9 @@ using Lawllit.Api.Finance.Endpoints;
 using Lawllit.Api.Jogos.Endpoints;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using Scalar.AspNetCore;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -81,7 +83,21 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference().AllowAnonymous();
 }
 
-app.MapGet("/health", () => TypedResults.Ok(new { status = "ok" }))
+// Toca o banco porque a Railway só troca a versão no ar quando este endpoint responde 200.
+// Sem o SELECT, uma subida com a conexão quebrada entrava no ar no lugar da que funcionava.
+app.MapGet("/health", async Task<Results<Ok<object>, StatusCodeHttpResult>> (NpgsqlDataSource banco, CancellationToken cancellationToken) =>
+    {
+        try
+        {
+            await using var comando = banco.CreateCommand("SELECT 1");
+            await comando.ExecuteScalarAsync(cancellationToken);
+            return TypedResults.Ok<object>(new { status = "ok" });
+        }
+        catch (NpgsqlException)
+        {
+            return TypedResults.StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
+    })
     .AllowAnonymous()
     .ExcludeFromDescription();
 
