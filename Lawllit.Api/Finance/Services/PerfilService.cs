@@ -31,40 +31,40 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
         };
     }
 
-    public async Task<Resultado<UsuarioModel>> AlterarNome(Guid cdUsuario, AlterarNomeModel alterar, CancellationToken cancellationToken)
+    public async Task<Resultado<UsuarioSessaoModel>> AlterarNome(Guid cdUsuario, AlterarNomeModel alterar, CancellationToken cancellationToken)
     {
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null)
-            return Resultado<UsuarioModel>.Falha("Operação não permitida.");
+            return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         usuario.NmUsuario = Textos.ParaTitulo(alterar.Nome);
         await usuarioRepositorio.Alterar(usuario, cancellationToken);
 
-        return Resultado<UsuarioModel>.Ok(usuario);
+        return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
 
-    public async Task<Resultado<UsuarioModel>> AlterarEmail(Guid cdUsuario, AlterarEmailModel alterar, CancellationToken cancellationToken)
+    public async Task<Resultado<UsuarioSessaoModel>> AlterarEmail(Guid cdUsuario, AlterarEmailModel alterar, CancellationToken cancellationToken)
     {
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null)
-            return Resultado<UsuarioModel>.Falha("Operação não permitida.");
+            return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         if (!Senha.Confere(alterar.Senha, usuario.TxSenha))
-            return Resultado<UsuarioModel>.Falha("Senha incorreta.");
+            return Resultado<UsuarioSessaoModel>.Falha("Senha incorreta.");
 
         var email = alterar.Email.Trim().ToLower();
 
         if (usuario.TxEmail == email)
-            return Resultado<UsuarioModel>.Falha("O novo e-mail é igual ao atual.");
+            return Resultado<UsuarioSessaoModel>.Falha("O novo e-mail é igual ao atual.");
 
         var existente = await usuarioRepositorio.BuscarPorEmail(email, cancellationToken);
         if (existente is not null)
-            return Resultado<UsuarioModel>.Falha("Este e-mail já está em uso.");
+            return Resultado<UsuarioSessaoModel>.Falha("Este e-mail já está em uso.");
 
         usuario.TxEmail = email;
         await usuarioRepositorio.Alterar(usuario, cancellationToken);
 
-        return Resultado<UsuarioModel>.Ok(usuario);
+        return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
 
     public async Task<Resultado> AlterarSenha(Guid cdUsuario, AlterarSenhaModel alterar, CancellationToken cancellationToken)
@@ -82,19 +82,19 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
         return Resultado.Ok();
     }
 
-    public async Task<Resultado<UsuarioModel>> SalvarPreferencia(Guid cdUsuario, PreferenciaModel preferencia, CancellationToken cancellationToken)
+    public async Task<Resultado<UsuarioSessaoModel>> SalvarPreferencia(Guid cdUsuario, PreferenciaModel preferencia, CancellationToken cancellationToken)
     {
         if (!PreferenciasAceitas.TryGetValue(preferencia.Chave, out var aceita) || !aceita.ValoresValidos.Contains(preferencia.Valor))
-            return Resultado<UsuarioModel>.Falha("Dados inválidos.");
+            return Resultado<UsuarioSessaoModel>.Falha("Dados inválidos.");
 
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null)
-            return Resultado<UsuarioModel>.Falha("Operação não permitida.");
+            return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         aceita.Aplicar(usuario, preferencia.Valor);
         await usuarioRepositorio.Alterar(usuario, cancellationToken);
 
-        return Resultado<UsuarioModel>.Ok(usuario);
+        return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
 
     public async Task<Resultado> ExcluirConta(Guid cdUsuario, ExcluirContaModel excluir, CancellationToken cancellationToken)
@@ -117,10 +117,10 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
 public interface IPerfilService
 {
     Task<PerfilModel?> Consultar(Guid cdUsuario, CancellationToken cancellationToken);
-    Task<Resultado<UsuarioModel>> AlterarNome(Guid cdUsuario, AlterarNomeModel alterar, CancellationToken cancellationToken);
-    Task<Resultado<UsuarioModel>> AlterarEmail(Guid cdUsuario, AlterarEmailModel alterar, CancellationToken cancellationToken);
+    Task<Resultado<UsuarioSessaoModel>> AlterarNome(Guid cdUsuario, AlterarNomeModel alterar, CancellationToken cancellationToken);
+    Task<Resultado<UsuarioSessaoModel>> AlterarEmail(Guid cdUsuario, AlterarEmailModel alterar, CancellationToken cancellationToken);
     Task<Resultado> AlterarSenha(Guid cdUsuario, AlterarSenhaModel alterar, CancellationToken cancellationToken);
-    Task<Resultado<UsuarioModel>> SalvarPreferencia(Guid cdUsuario, PreferenciaModel preferencia, CancellationToken cancellationToken);
+    Task<Resultado<UsuarioSessaoModel>> SalvarPreferencia(Guid cdUsuario, PreferenciaModel preferencia, CancellationToken cancellationToken);
     Task<Resultado> ExcluirConta(Guid cdUsuario, ExcluirContaModel excluir, CancellationToken cancellationToken);
 }
 

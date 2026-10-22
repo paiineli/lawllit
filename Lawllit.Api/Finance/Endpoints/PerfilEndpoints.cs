@@ -1,7 +1,6 @@
 using Lawllit.Api.Common;
 using Lawllit.Api.Finance.Services;
 using Lawllit.Model.Common;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -52,14 +51,14 @@ public static class PerfilEndpoints
             : TypedResults.Ok(perfil);
     }
 
-    private static async Task<Results<Ok<UsuarioModel>, BadRequest<ErroApiModel>>> AlterarNome(
+    private static async Task<Results<Ok<UsuarioSessaoModel>, BadRequest<ErroApiModel>>> AlterarNome(
         AlterarNomeModel alterar,
         ClaimsPrincipal usuario,
         IPerfilService servico,
         CancellationToken cancellationToken)
         => (await servico.AlterarNome(usuario.ObterCodigoUsuario(), alterar, cancellationToken)).ParaHttp();
 
-    private static async Task<Results<Ok<UsuarioModel>, BadRequest<ErroApiModel>>> AlterarEmail(
+    private static async Task<Results<Ok<UsuarioSessaoModel>, BadRequest<ErroApiModel>>> AlterarEmail(
         AlterarEmailModel alterar,
         ClaimsPrincipal usuario,
         IPerfilService servico,
@@ -73,7 +72,7 @@ public static class PerfilEndpoints
         CancellationToken cancellationToken)
         => (await servico.AlterarSenha(usuario.ObterCodigoUsuario(), alterar, cancellationToken)).ParaHttp();
 
-    private static async Task<Results<Ok<UsuarioModel>, BadRequest<ErroApiModel>>> SalvarPreferencia(
+    private static async Task<Results<Ok<UsuarioSessaoModel>, BadRequest<ErroApiModel>>> SalvarPreferencia(
         PreferenciaModel preferencia,
         ClaimsPrincipal usuario,
         IPerfilService servico,

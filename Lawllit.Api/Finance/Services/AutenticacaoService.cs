@@ -145,7 +145,7 @@ public sealed class AutenticacaoService(
 
         return new AutenticacaoModel
         {
-            Usuario = usuario,
+            Usuario = UsuarioSessaoModel.De(usuario),
             Token = token.Token,
             ExpiraEm = token.ExpiraEm,
         };

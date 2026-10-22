@@ -1,5 +1,5 @@
 using Lawllit.Model.Common;
-using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contratos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -10,15 +10,15 @@ namespace Lawllit.Finance.Site.Controllers;
 public abstract class BaseController : Controller
 {
     // O token viaja no cookie e quem o injeta é o TokenHttpHandler, nunca o controller.
-    protected async Task Autenticar(UsuarioModel usuario, string tokenApi)
+    protected async Task Autenticar(UsuarioSessaoModel usuario, string tokenApi)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, usuario.CdUsuario.ToString()),
-            new(ClaimTypes.Name,           usuario.NmUsuario),
-            new(ClaimTypes.Email,          usuario.TxEmail),
-            new("tema",                    usuario.TxTema),
-            new("tamanho_fonte",           usuario.TxTamanhoFonte),
+            new(ClaimTypes.NameIdentifier, usuario.Codigo.ToString()),
+            new(ClaimTypes.Name,           usuario.Nome),
+            new(ClaimTypes.Email,          usuario.Email),
+            new("tema",                    usuario.Tema),
+            new("tamanho_fonte",           usuario.TamanhoFonte),
             new(Constantes.ClaimTokenApi,  tokenApi),
         };
 
@@ -31,6 +31,6 @@ public abstract class BaseController : Controller
     }
 
     // Reaproveita o token vigente: ele só carrega o código do usuário e continua válido.
-    protected Task Reautenticar(UsuarioModel usuario)
+    protected Task Reautenticar(UsuarioSessaoModel usuario)
         => Autenticar(usuario, User.FindFirst(Constantes.ClaimTokenApi)?.Value ?? string.Empty);
 }
