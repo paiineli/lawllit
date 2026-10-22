@@ -20,8 +20,6 @@ public sealed class TransacaoListaViewModel
 
     public List<TransacaoItemModel> Transacoes => Pagina.Itens;
 
-    public bool TemFiltroAtivo => FiltroTipo.HasValue || !string.IsNullOrEmpty(FiltroBusca);
-
     public TransacaoFiltroRotaViewModel FiltroRota => new()
     {
         Tipo = FiltroTipo,

@@ -160,5 +160,5 @@ window.Lawllit = (function () {
         });
     });
 
-    return { avisar: avisar, enviar: enviar, aplicarMedidas: aplicarMedidas, copiar: copiar };
+    return { avisar: avisar, enviar: enviar, copiar: copiar };
 })();

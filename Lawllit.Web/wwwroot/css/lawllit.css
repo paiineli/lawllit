@@ -475,7 +475,6 @@ select.entrada { appearance: none; padding-right: 44px; background-image: linear
 .secao-invertida .entrada, .cartao-invertido .entrada { border-color: var(--invertido-borda); background: var(--invertido-superficie); color: var(--sobre-invertido); }
 .secao-invertida .entrada::placeholder, .cartao-invertido .entrada::placeholder { color: var(--invertido-suave); }
 
-.entrada-pilula { border-radius: 999px; }
 
 /* Busca com a lupa por dentro da pílula. */
 .busca {
