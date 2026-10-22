@@ -1,36 +1,20 @@
 using System.Text;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Http;
 
-namespace Lawllit.Site.Common;
+namespace Lawllit.Web.Common;
 
 // robots.txt e sitemap.xml montados em código em vez de arquivo estático, porque as URLs
 // precisam sair do host da requisição para sobreviver a uma troca de domínio.
 public static class SeoConteudo
 {
-    private static readonly string[] CaminhosIndexaveis =
-    [
-        "/",
-        "/Ferramentas",
-        .. Ferramentas.Todas.Select(ferramenta => $"/Ferramentas/{ferramenta.Acao}"),
-        "/Jogos",
-        .. Jogos.Todos.Select(jogo => $"/Jogos/{jogo.Acao}"),
-    ];
-
-    private static readonly string[] CaminhosBloqueados =
-    [
-        "/Inicio/Erro",
-
-        // Fragmento HTML da assinatura de e-mail, para copiar e colar. Não é página de busca.
-        "/signature.html",
-    ];
-
-    public static string Robots(HttpRequest request)
+    public static string Robots(HttpRequest request, string[] caminhosBloqueados)
     {
         var conteudo = new StringBuilder()
             .AppendLine("User-agent: *")
             .AppendLine("Allow: /");
 
-        foreach (var caminho in CaminhosBloqueados)
+        foreach (var caminho in caminhosBloqueados)
             conteudo.AppendLine($"Disallow: {caminho}");
 
         return conteudo
@@ -39,11 +23,11 @@ public static class SeoConteudo
             .ToString();
     }
 
-    public static string Sitemap(HttpRequest request)
+    public static string Sitemap(HttpRequest request, string[] caminhosIndexaveis)
     {
         XNamespace sitemap = "http://www.sitemaps.org/schemas/sitemap/0.9";
 
-        var urls = CaminhosIndexaveis.Select(caminho => new XElement(sitemap + "url",
+        var urls = caminhosIndexaveis.Select(caminho => new XElement(sitemap + "url",
             new XElement(sitemap + "loc", SeoUrls.Absoluta(request, caminho))));
 
         var documento = new XDocument(

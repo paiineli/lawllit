@@ -5,7 +5,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Lawllit.Site/Dockerfile"
-watchPatterns = ["Lawllit.Site/**", "Lawllit.Repository/**", "Lawllit.Model/**", "Directory.Build.props", "NuGet.config"]
+watchPatterns = ["Lawllit.Site/**", "Lawllit.Repository/**", "Lawllit.Web/**", "Lawllit.Model/**", "Directory.Build.props", "NuGet.config"]
 
 [deploy]
 healthcheckPath = "/health"

@@ -1,4 +1,4 @@
-namespace Lawllit.Finance.Site.Models;
+namespace Lawllit.Web.Models;
 
 public sealed record ErroViewModel(string? CodigoRequisicao)
 {

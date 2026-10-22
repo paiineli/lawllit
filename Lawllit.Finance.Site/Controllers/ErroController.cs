@@ -1,4 +1,4 @@
-using Lawllit.Finance.Site.Models;
+using Lawllit.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;

@@ -1,4 +1,6 @@
-namespace Lawllit.Finance.Site.Common;
+using Microsoft.AspNetCore.Http;
+
+namespace Lawllit.Web.Common;
 
 // Saem do host da requisição, então o mesmo binário atende o domínio final e o da Railway.
 public static class SeoUrls

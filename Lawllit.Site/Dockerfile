@@ -7,11 +7,13 @@ WORKDIR /src
 COPY Directory.Build.props NuGet.config ./
 COPY Lawllit.Model/Lawllit.Model.csproj Lawllit.Model/
 COPY Lawllit.Repository/Lawllit.Repository.csproj Lawllit.Repository/
+COPY Lawllit.Web/Lawllit.Web.csproj Lawllit.Web/
 COPY Lawllit.Site/Lawllit.Site.csproj Lawllit.Site/
 RUN dotnet restore Lawllit.Site/Lawllit.Site.csproj
 
 COPY Lawllit.Model/ Lawllit.Model/
 COPY Lawllit.Repository/ Lawllit.Repository/
+COPY Lawllit.Web/ Lawllit.Web/
 COPY Lawllit.Site/ Lawllit.Site/
 RUN dotnet publish Lawllit.Site/Lawllit.Site.csproj -c Release -o /app/publish --no-restore
 

@@ -23,6 +23,7 @@ API + Site separados, com dois sites. **.NET 10**, `Nullable` e `ImplicitUsings`
 Lawllit.Api            Minimal API. Finance/, Contato/ e Jogos/, cada um com Endpoints/ Services/ e, se usa banco, Repositories/
 Lawllit.Model          modelos, contratos e Common/, divididos em Finance/, Contato/ e Jogos/
 Lawllit.Repository     cliente HTTP da API, consumido pelos dois sites
+Lawllit.Web            biblioteca Razor dos dois sites: hospedagem, cabeçalhos de segurança, cache, SEO e erro
 Lawllit.Site           lawllit.com
 Lawllit.Finance.Site   finance.lawllit.com
 Database/              scripts numerados por ordem de execução

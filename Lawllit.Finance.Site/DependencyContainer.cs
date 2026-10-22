@@ -1,10 +1,6 @@
 using Lawllit.Repository;
+using Lawllit.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.RateLimiting;
-using Microsoft.AspNetCore.ResponseCompression;
-using System.IO.Compression;
-using System.Threading.RateLimiting;
 
 namespace Lawllit.Finance.Site;
 
@@ -20,21 +16,9 @@ public static class DependencyContainer
         services.AddLawllitRepository(configuration).AddRepositoriosFinance();
 
         AddAutenticacao(services, desenvolvimento);
-        AddCompressao(services);
-        AddLimitador(services);
 
-        services.AddHsts(options =>
-        {
-            options.MaxAge = TimeSpan.FromDays(365);
-            options.IncludeSubDomains = true;
-        });
-
-        services.Configure<ForwardedHeadersOptions>(options =>
-        {
-            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            options.KnownIPNetworks.Clear();
-            options.KnownProxies.Clear();
-        });
+        services.AddLawllitWeb();
+        services.AddLimitadorPorIp(PoliticaLimiteAcesso, limite: 5, janela: TimeSpan.FromMinutes(1));
 
         return services;
     }
@@ -73,45 +57,5 @@ public static class DependencyContainer
             options.Cookie.SameSite = SameSiteMode.Lax;
             options.Cookie.SecurePolicy = exigenciaHttps;
         });
-    }
-
-    private static void AddLimitador(IServiceCollection services)
-    {
-        services.AddRateLimiter(options =>
-        {
-            // Por IP, e não balde único, senão cinco tentativas de qualquer um travavam o
-            // login para o mundo todo.
-            options.AddPolicy(PoliticaLimiteAcesso, contexto => RateLimitPartition.GetFixedWindowLimiter(
-                contexto.Connection.RemoteIpAddress?.ToString() ?? "sem-ip",
-                chave => new FixedWindowRateLimiterOptions
-                {
-                    PermitLimit = 5,
-                    Window = TimeSpan.FromMinutes(1),
-                    QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                    QueueLimit = 0,
-                }));
-
-            options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        });
-    }
-
-    private static void AddCompressao(IServiceCollection services)
-    {
-        services.AddResponseCompression(options =>
-        {
-            // O UseForwardedHeaders reescreve o esquema para https, então sem isto a compressão
-            // ficaria desligada justamente em produção.
-            options.EnableForHttps = true;
-            options.Providers.Add<BrotliCompressionProvider>();
-            options.Providers.Add<GzipCompressionProvider>();
-        });
-
-        // Medido no bootstrap.min.css: Fastest entrega arquivo maior que o CDN, e SmallestSize
-        // custa quase meio segundo de CPU por requisição.
-        services.Configure<BrotliCompressionProviderOptions>(
-            options => options.Level = CompressionLevel.Optimal);
-
-        services.Configure<GzipCompressionProviderOptions>(
-            options => options.Level = CompressionLevel.Optimal);
     }
 }

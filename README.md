@@ -27,6 +27,7 @@ View → Controller (Site) → Lawllit.Repository (HTTP) → Lawllit.Api → Ser
 | `Lawllit.Model` | entities, api contracts, and shared plumbing (result type, pagination, enums) |
 | `Lawllit.Api` | minimal api. endpoints, dapper repositories, and business services. the only project that talks to postgres |
 | `Lawllit.Repository` | typed http client for the api, consumed by both sites |
+| `Lawllit.Web` | razor class library both sites share: hosting, security headers, compression, static file caching, seo and the error model |
 | `Lawllit.Site` | `lawllit.com`. services, projects, browser tools, the games page and the contact form |
 | `Lawllit.Finance.Site` | `finance.lawllit.com`. the finance app, cookie session of its own |
 
