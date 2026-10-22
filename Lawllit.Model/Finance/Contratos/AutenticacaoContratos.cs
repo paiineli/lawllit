@@ -1,3 +1,5 @@
+using Lawllit.Model.Common;
+
 namespace Lawllit.Model.Finance.Contratos;
 
 public sealed class LoginModel
@@ -13,6 +15,14 @@ public sealed class CadastroModel
     public string Email { get; set; } = string.Empty;
     public string Senha { get; set; } = string.Empty;
     public string MoldeUrlConfirmacao { get; set; } = string.Empty;
+
+    public string? Validar()
+    {
+        if (!Validacao.Tamanho(Nome, 1, 100)) return "Informe um nome de até 100 caracteres.";
+        if (!Validacao.Email(Email)) return "E-mail inválido.";
+        if ((Senha?.Length ?? 0) < Validacao.SenhaMinima) return "A senha precisa ter pelo menos 6 caracteres.";
+        return null;
+    }
 }
 
 public sealed class EsqueciSenhaModel
@@ -25,6 +35,9 @@ public sealed class RedefinirSenhaModel
 {
     public string Token { get; set; } = string.Empty;
     public string NovaSenha { get; set; } = string.Empty;
+
+    public string? Validar()
+        => (NovaSenha?.Length ?? 0) < Validacao.SenhaMinima ? "A senha precisa ter pelo menos 6 caracteres." : null;
 }
 
 // Só o que o Site põe no cookie. Senha e tokens de e-mail nunca saem da API.

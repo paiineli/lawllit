@@ -15,12 +15,12 @@ public sealed class ContatoService(
 {
     public async Task<Resultado> Enviar(EnviarMensagemModel requisicao, CancellationToken cancellationToken)
     {
+        if (requisicao.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var nome = requisicao.Nome.Trim();
         var email = requisicao.Email.Trim();
         var texto = requisicao.Mensagem.Trim();
-
-        if (nome.Length == 0 || email.Length == 0 || texto.Length == 0)
-            return Resultado.Falha("Dados inválidos.");
 
         var contato = new ContatoModel
         {

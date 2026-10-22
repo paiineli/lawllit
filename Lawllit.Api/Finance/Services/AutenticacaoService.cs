@@ -43,6 +43,9 @@ public sealed class AutenticacaoService(
 
     public async Task<Resultado> Cadastrar(CadastroModel cadastro, CancellationToken cancellationToken)
     {
+        if (cadastro.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var email = cadastro.Email.Trim().ToLower();
 
         var existente = await usuarioRepositorio.BuscarPorEmail(email, cancellationToken);
@@ -126,6 +129,9 @@ public sealed class AutenticacaoService(
 
     public async Task<Resultado> RedefinirSenha(RedefinirSenhaModel redefinir, CancellationToken cancellationToken)
     {
+        if (redefinir.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var usuario = await usuarioRepositorio.BuscarPorTokenSenha(redefinir.Token, cancellationToken);
 
         if (usuario is null || usuario.DtExpiraTokenSenha < DateTime.UtcNow)

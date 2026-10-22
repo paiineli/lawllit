@@ -33,6 +33,17 @@ public sealed class TransacaoSalvarModel
     public DateTime Data { get; set; }
     public Guid CodigoCategoria { get; set; }
     public bool Recorrente { get; set; }
+
+    // O teto é o que cabe no NUMERIC(18, 2) da coluna.
+    public string? Validar()
+    {
+        if (Valor <= 0 || Valor >= 10_000_000_000_000_000m) return "Informe um valor maior que zero.";
+        if (!Enum.IsDefined(Tipo)) return "Tipo inválido.";
+        if (Data == default) return "Informe a data.";
+        if (CodigoCategoria == Guid.Empty) return "Escolha uma categoria.";
+        if ((Descricao?.Trim().Length ?? 0) > 200) return "A descrição passou de 200 caracteres.";
+        return null;
+    }
 }
 
 public sealed class ImportarRecorrentesModel

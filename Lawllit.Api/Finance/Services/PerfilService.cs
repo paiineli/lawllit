@@ -33,6 +33,9 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
 
     public async Task<Resultado<UsuarioSessaoModel>> AlterarNome(Guid cdUsuario, AlterarNomeModel alterar, CancellationToken cancellationToken)
     {
+        if (alterar.Validar() is { } erro)
+            return Resultado<UsuarioSessaoModel>.Falha(erro);
+
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null)
             return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
@@ -45,6 +48,9 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
 
     public async Task<Resultado<UsuarioSessaoModel>> AlterarEmail(Guid cdUsuario, AlterarEmailModel alterar, CancellationToken cancellationToken)
     {
+        if (alterar.Validar() is { } erro)
+            return Resultado<UsuarioSessaoModel>.Falha(erro);
+
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null)
             return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
@@ -69,6 +75,9 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
 
     public async Task<Resultado> AlterarSenha(Guid cdUsuario, AlterarSenhaModel alterar, CancellationToken cancellationToken)
     {
+        if (alterar.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
         if (usuario is null || usuario.TxSenha is null)
             return Resultado.Falha("Operação não permitida.");

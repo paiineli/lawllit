@@ -15,6 +15,9 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
 
     public async Task<Resultado> Criar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken)
     {
+        if (categoria.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var nome = categoria.Nome.Trim();
 
         if (await categoriaRepositorio.Existe(cdUsuario, nome, categoria.Tipo, cdIgnorar: null, cancellationToken))
@@ -33,6 +36,9 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
 
     public async Task<Resultado> Alterar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken)
     {
+        if (categoria.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var existente = await categoriaRepositorio.BuscarPorCodigo(cdUsuario, categoria.Codigo, cancellationToken);
         if (existente is null)
             return Resultado.Falha("Categoria não encontrada.");

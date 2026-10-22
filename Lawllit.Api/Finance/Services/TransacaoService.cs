@@ -41,6 +41,9 @@ public sealed class TransacaoService(
 
     public async Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken)
     {
+        if (transacao.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var categoria = await categoriaRepositorio.BuscarPorCodigo(cdUsuario, transacao.CodigoCategoria, cancellationToken);
         if (categoria is null)
             return Resultado.Falha("Categoria não encontrada.");
@@ -62,6 +65,9 @@ public sealed class TransacaoService(
 
     public async Task<Resultado> Alterar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken)
     {
+        if (transacao.Validar() is { } erro)
+            return Resultado.Falha(erro);
+
         var existente = await transacaoRepositorio.BuscarPorCodigo(cdUsuario, transacao.Codigo, cancellationToken);
         if (existente is null)
             return Resultado.Falha("Transação não encontrada.");

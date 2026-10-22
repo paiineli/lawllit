@@ -34,8 +34,12 @@ builder.Services.AddLawllitApi(builder.Configuration);
 if (builder.Environment.IsDevelopment())
     builder.Services.AddOpenApi();
 
+// Null explícito em propriedade não anulável vira 400 em vez de NullReferenceException lá dentro.
 builder.Services.ConfigureHttpJsonOptions(options =>
-    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.SerializerOptions.RespectNullableAnnotations = true;
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
