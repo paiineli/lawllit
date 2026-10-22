@@ -1,18 +1,21 @@
 @inject IConfiguration Configuracao
 @{
-    var tema = User.FindFirst("tema")?.Value ?? "dark";
-    var tamanhoFonte = User.FindFirst("tamanho_fonte")?.Value ?? "normal";
-    var temaBootstrap = tema == "high-contrast" ? "dark" : tema;
+    var logado = User.Identity?.IsAuthenticated == true;
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var urlCanonica = SeoUrls.Canonica(Context.Request);
     var urlImagemSocial = SeoUrls.Absoluta(Context.Request, "/og-image-finance.png");
-    var enderecoPortfolio = Configuracao["Site:Url"];
+    var titulo = ViewData["Title"] is string tituloPagina ? $"{tituloPagina} · lawllit.finance" : "lawllit.finance";
+
+    string? Atual(string nome) => controller == nome ? "page" : null;
 }
 <!DOCTYPE html>
-<html lang="pt-BR" data-bs-theme="@temaBootstrap" data-theme="@tema" @(tamanhoFonte != "normal" ? $"data-font-size=\"{tamanhoFonte}\"" : "")>
+@* Logado, o tema vem da conta e o tema.js não mexe. Fora da conta, segue o aparelho como o lawllit.com. *@
+<html lang="pt-BR" data-tema="@(logado ? Aparencia.Tema(User) : null)" data-tema-conta="@(logado ? "" : null)"
+      data-tamanho-fonte="@(logado ? Aparencia.TamanhoFonte(User) : null)">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lawllit.finance</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>@titulo</title>
     <meta name="description" content="Suas finanças. Simples assim." />
     <link rel="canonical" href="@urlCanonica" />
     <meta property="og:type" content="website" />
@@ -28,96 +31,80 @@
     <meta name="twitter:title" content="lawllit.finance" />
     <meta name="twitter:description" content="Suas finanças. Simples assim." />
     <meta name="twitter:image" content="@urlImagemSocial" />
-
-    @* A fonte é declarada dentro do app.css, então sem este preload o navegador só
-       descobriria o arquivo depois de baixar o CSS. O endereço tem que ser idêntico ao
-       que o CSS pede, sem hash de versão, senão o arquivo é baixado duas vezes. *@
-    <link rel="preload" href="~/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link href="~/lib/bootstrap/bootstrap.min.css" rel="stylesheet" asp-append-version="true">
-    <link href="~/css/icons.css" rel="stylesheet" asp-append-version="true">
-    <link href="~/css/app.css" rel="stylesheet" asp-append-version="true">
-    <link rel="icon" type="image/svg+xml"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%234ade80' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>">
+    <partial name="_RecursosLawllit" />
+    <link rel="stylesheet" href="~/css/finance.css" asp-append-version="true" />
 </head>
-<body>
+<body data-url-entrar="@Url.Action("Entrar", "Conta")">
+    <header class="topo">
+        <div class="conteiner topo-linha">
+            <a class="marca" asp-controller="@(logado ? "Painel" : "Inicio")" asp-action="Index">lawllit<span class="marca-ponto">.</span><span class="marca-sufixo">finance</span></a>
 
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <nav class="navbar navbar-expand-lg sticky-top border-bottom" id="menu-topo">
-            <div class="container-lg">
-                <a class="navbar-brand" asp-controller="Painel" asp-action="Index">
-                    lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span>
-                </a>
+            @if (logado)
+            {
+                <nav class="menu-pilula so-computador" aria-label="Menu do finance">
+                    <a asp-controller="Painel" asp-action="Index" aria-current="@Atual("Painel")">Painel</a>
+                    <a asp-controller="Transacao" asp-action="Index" aria-current="@Atual("Transacao")">Transações</a>
+                    <a asp-controller="Categoria" asp-action="Index" aria-current="@Atual("Categoria")">Categorias</a>
+                    <a asp-controller="Cotacoes" asp-action="Index" aria-current="@Atual("Cotacoes")">Cotações</a>
+                </nav>
+            }
 
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menu-conteudo">
-                    <span class="navbar-toggler-icon"></span>
+            <div class="topo-acoes">
+                <button type="button" class="botao botao-icone" data-alternar-tema aria-label="Trocar entre tema claro e escuro">
+                    <icone nome="lua" class="icone-lua" />
+                    <icone nome="sol" class="icone-sol" />
                 </button>
 
-                <div class="collapse navbar-collapse" id="menu-conteudo">
-                    <ul class="navbar-nav me-auto gap-1">
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Painel" ? "active" : "")"
-                               asp-controller="Painel" asp-action="Index">Painel</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Transacao" ? "active" : "")"
-                               asp-controller="Transacao" asp-action="Index">Transações</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categoria" ? "active" : "")"
-                               asp-controller="Categoria" asp-action="Index">Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cotacoes" ? "active" : "")"
-                               asp-controller="Cotacoes" asp-action="Index">Cotações</a>
-                        </li>
-                    </ul>
-
-                    <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
-                        <a asp-controller="Perfil" asp-action="Index" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2">
-                            <span class="nav-avatar-btn">@(User.Identity?.Name?.Substring(0, 1).ToUpper())</span>
-                            @User.Identity?.Name
-                        </a>
-                        <form asp-controller="Conta" asp-action="Sair" method="post" class="mb-0">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="bi bi-box-arrow-right"></i> Sair
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                @if (logado)
+                {
+                    <a class="botao botao-icone" asp-controller="Perfil" asp-action="Index" aria-label="Perfil"
+                       aria-current="@Atual("Perfil")">
+                        <icone nome="perfil" />
+                    </a>
+                    <form asp-controller="Conta" asp-action="Sair" method="post">
+                        <button type="submit" class="botao botao-icone" aria-label="Sair"><icone nome="sair" /></button>
+                    </form>
+                }
+                else if (controller != "Conta")
+                {
+                    <a class="botao botao-escuro" asp-controller="Conta" asp-action="Entrar">Entrar</a>
+                }
             </div>
-        </nav>
-    }
-    else
-    {
-        <nav class="navbar sticky-top border-bottom" id="menu-topo">
-            <div class="container-lg d-flex align-items-center justify-content-between w-100">
-                <a class="navbar-brand" asp-controller="Inicio" asp-action="Index">
-                    lawllit<span class="brand-dot">.</span><span class="brand-finance">finance</span>
-                </a>
-            </div>
-        </nav>
-    }
+        </div>
+    </header>
 
     <partial name="_Notificacao" />
 
     @RenderBody()
 
-    <footer class="site-footer">
-        <div class="container-lg footer-shell">
-            <span>© @DateTime.Now.Year <a class="footer-brand" href="@enderecoPortfolio">lawllit<span class="brand-dot">.</span></a></span>
-            <div class="footer-links">
+    <footer class="rodape">
+        <div class="conteiner linha-espacada">
+            <a class="marca marca-rodape" href="@Configuracao["Site:Url"]">lawllit<span class="marca-ponto">.</span></a>
+            <nav class="rodape-links" aria-label="Rodapé">
                 <a asp-controller="Legal" asp-action="Privacidade">Privacidade</a>
                 <a asp-controller="Legal" asp-action="Termos">Termos</a>
-                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-            </div>
+                <a href="@Configuracao["Site:Url"]">lawllit.com</a>
+            </nav>
         </div>
     </footer>
 
-    <script src="~/lib/bootstrap/bootstrap.bundle.min.js" asp-append-version="true" defer></script>
-    <script src="~/js/app.js" asp-append-version="true"></script>
+    @if (logado)
+    {
+        <nav class="barra-inferior so-celular" aria-label="Menu do finance">
+            <a asp-controller="Painel" asp-action="Index" aria-current="@Atual("Painel")"><icone nome="painel" />Painel</a>
+            <a asp-controller="Transacao" asp-action="Index" aria-current="@Atual("Transacao")"><icone nome="transacoes" />Transações</a>
+            @* Fora da tela de transações o + leva até ela com a gaveta já aberta. *@
+            <a class="botao-flutuante" asp-controller="Transacao" asp-action="Index" asp-route-novo="true" aria-label="Lançar transação"
+               data-nova-transacao><icone nome="mais" /></a>
+            <a asp-controller="Categoria" asp-action="Index" aria-current="@Atual("Categoria")"><icone nome="categorias" />Categorias</a>
+            <a asp-controller="Cotacoes" asp-action="Index" aria-current="@Atual("Cotacoes")"><icone nome="cotacoes" />Cotações</a>
+        </nav>
+
+        <form id="form-preferencia" asp-controller="Perfil" asp-action="SalvarPreferencia" method="post" hidden></form>
+    }
+
+    <script src="~/_content/Lawllit.Web/js/lawllit.js" asp-append-version="true" defer></script>
+    <script src="~/js/finance.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>

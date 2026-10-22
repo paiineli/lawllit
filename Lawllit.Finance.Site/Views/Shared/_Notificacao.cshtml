@@ -1,18 +1,13 @@
+@* Mensagem do redirect depois de um POST. Sai sozinha pelo lawllit.js, como os avisos criados em JS. *@
 @if (TempData["Sucesso"] is string mensagemSucesso)
 {
-    <div class="container-lg pt-3">
-        <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
-            @mensagemSucesso
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+    <div class="avisos" role="status" aria-live="polite">
+        <div class="aviso aviso-ok"><icone nome="check" /><span>@mensagemSucesso</span></div>
     </div>
 }
-@if (TempData["Erro"] is string mensagemErro)
+else if (TempData["Erro"] is string mensagemErro)
 {
-    <div class="container-lg pt-3">
-        <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-            @mensagemErro
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+    <div class="avisos" role="alert">
+        <div class="aviso aviso-erro"><icone nome="alerta" /><span>@mensagemErro</span></div>
     </div>
 }

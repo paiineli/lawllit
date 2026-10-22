@@ -1,13 +1,15 @@
 @model ErroViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Erro";
 }
 
-<div class="container py-5 text-center">
-    <h4 class="mb-3">error</h4>
+<main class="conteiner erro-pagina">
+    <p class="rotulo">Erro</p>
+    <h1 class="titulo-grande">Alguma coisa deu errado.</h1>
+    <p class="texto-grande texto-suave">Tente de novo daqui a pouco. Seus dados estão guardados.</p>
     @if (Model.MostrarCodigo)
     {
-        <p class="text-secondary small">request id: <code>@Model.CodigoRequisicao</code></p>
+        <p class="texto-pequeno texto-suave">Código da requisição: <code>@Model.CodigoRequisicao</code></p>
     }
-    <a asp-controller="Inicio" asp-action="Index" class="btn btn-outline-secondary mt-3">go home</a>
-</div>
+    <a asp-controller="Inicio" asp-action="Index" class="botao botao-escuro">Voltar ao início</a>
+</main>

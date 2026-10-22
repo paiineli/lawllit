@@ -100,15 +100,20 @@ realmente não cabem. Três nunca.
 
 ### Front-end
 
-- O portfólio **não usa framework de CSS**. As classes de layout são escritas à mão.
-- O finance usa **Bootstrap**, onde modal, tabela, grid e form control se pagam.
-- Por isso **classe CSS acompanha o framework de cada site**: no finance elas ficam em
-  inglês, porque convivem com `row`, `col-md-6` e `btn` do Bootstrap, e misturar idioma
-  na mesma `<div>` lê pior. No portfólio são todas nossas.
+- **Nenhum dos dois sites usa framework de CSS.** A base visual mora no `Lawllit.Web`:
+  `lawllit.css` (tokens de tema e componentes), `tema.js` e `lawllit.js`. Cada site só
+  acrescenta o CSS das próprias telas (`site.css`, `ferramentas.css`, `jogos.css`, `finance.css`).
+- **Classe CSS em português nos dois sites**, como o resto do código.
+- Ícone é `<icone nome="..." />`, SVG inline. Ícone novo entra em `Lawllit.Web/Common/Icones.cs`.
+- Modal e gaveta são `<dialog>` nativo, abertos por `data-abrir` ou, no finance, `data-editar`.
+- Medida que vem do servidor (largura e altura de barra) vai em `data-largura`/`data-altura`,
+  porque a CSP recusa `style` inline.
 - Sem CSS nem JS inline. Texto de tela fica na view, nunca em arquivo de recurso.
+- Texto de tela fala com leigo: nada de citar tecnologia no portfólio. Isso fica no currículo.
 - **Cuidado com renomeação em massa em `.cshtml`.** Nome de variável Razor e nome de classe
-  CSS moram no mesmo arquivo, e trocar palavra inteira já quebrou o grid do Bootstrap uma
-  vez. Depois de renomear, cruzar toda classe usada na view contra o CSS definido.
+  CSS moram no mesmo arquivo. Depois de renomear, cruzar toda classe usada na view contra o
+  CSS definido. Classe de seção não pode repetir nome de componente: `.entrada` da página
+  inicial do finance já sobrescreveu o padding de todos os campos.
 
 ## Config e segredos
 

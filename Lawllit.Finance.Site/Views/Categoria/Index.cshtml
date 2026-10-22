@@ -1,178 +1,107 @@
 @model CategoriaListaViewModel
+@{
+    ViewData["Title"] = "Categorias";
 
-<main class="container-lg py-4">
+    var tipos = new[] { TipoTransacaoEnum.DESPESA, TipoTransacaoEnum.RECEITA, TipoTransacaoEnum.INVESTIMENTO };
 
-    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-        <h5 class="fw-bold mb-0">Categorias</h5>
-        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-criar">
-            <i class="bi bi-plus-lg"></i> Nova categoria
-        </button>
-    </div>
+    var filtros = new (string Rotulo, TipoTransacaoEnum? Tipo)[]
+    {
+        ("Todas", null),
+        ("Despesas", TipoTransacaoEnum.DESPESA),
+        ("Receitas", TipoTransacaoEnum.RECEITA),
+        ("Investimentos", TipoTransacaoEnum.INVESTIMENTO),
+    };
 
-    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-        <div class="filter-group">
-            <a href="@Url.Action("Index", new { busca = Model.FiltroBusca })"
-               class="filter-btn @(!Model.FiltroTipo.HasValue ? "active" : "")">Todas</a>
-            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.DESPESA, busca = Model.FiltroBusca })"
-               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.DESPESA ? "active" : "")">Despesas</a>
-            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.RECEITA, busca = Model.FiltroBusca })"
-               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.RECEITA ? "active" : "")">Receitas</a>
-            <a href="@Url.Action("Index", new { tipo = TipoTransacaoEnum.INVESTIMENTO, busca = Model.FiltroBusca })"
-               class="filter-btn @(Model.FiltroTipo == TipoTransacaoEnum.INVESTIMENTO ? "active" : "")">Investimentos</a>
+    var valoresDaNova = System.Text.Json.JsonSerializer.Serialize(new { Tipo = TipoTransacaoEnum.DESPESA.ToString() });
+
+    string ValoresDe(CategoriaItemModel categoria)
+        => System.Text.Json.JsonSerializer.Serialize(new { categoria.Nome, Tipo = categoria.Tipo.ToString() });
+}
+
+<main class="conteiner pagina">
+    <div class="linha-espacada">
+        <div>
+            <p class="texto-pequeno texto-suave">@Model.Categorias.Count @(Model.Categorias.Count == 1 ? "categoria" : "categorias")</p>
+            <h1 class="titulo-grande">Categorias</h1>
         </div>
-        <input type="search" class="form-control form-control-sm search-input ms-auto"
-               placeholder="Buscar..." value="@Model.FiltroBusca" data-busca-viva>
-        @if (Model.FiltroTipo.HasValue || !string.IsNullOrEmpty(Model.FiltroBusca))
-        {
-            <a href="@Url.Action("Index")" class="btn btn-sm btn-outline-secondary">
-                <i class="bi bi-x-lg"></i> Limpar
-            </a>
-        }
+        <button type="button" class="botao botao-primario" data-editar="gaveta-categoria" data-titulo="Nova categoria"
+                data-acao="@Url.Action("Criar")" data-valores="@valoresDaNova"><icone nome="mais" />Nova categoria</button>
     </div>
 
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="cat-type-col">Tipo</th>
-                        <th class="col-actions"></th>
-                    </tr>
-                </thead>
-                <tbody data-tabela-busca>
-                    @if (!Model.Categorias.Any())
-                    {
-                        <tr>
-                            <td colspan="3" class="text-center py-5 text-secondary">Nenhuma categoria encontrada.</td>
-                        </tr>
-                    }
-                    @foreach (var categoria in Model.Categorias)
-                    {
-                        <tr data-linha-busca>
-                            <td class="fw-medium">@categoria.Nome</td>
-                            <td>
-                                <span class="@categoria.Tipo.ClasseBadge()">
-                                    @categoria.Tipo.Rotulo()
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-1 justify-content-end">
-                                    <button class="btn btn-sm btn-outline-secondary py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@categoria.Codigo">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@categoria.Codigo">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                    <tr data-linha-vazia hidden>
-                        <td colspan="3" class="text-center py-5 text-secondary">Nenhuma categoria encontrada.</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="filtros">
+        <label class="busca">
+            <icone nome="lupa" />
+            <input type="search" placeholder="Buscar" aria-label="Buscar categoria" value="@Model.FiltroBusca" data-busca-viva />
+        </label>
+        <nav class="chips chips-rolagem" aria-label="Filtrar por tipo">
+            @foreach (var filtro in filtros)
+            {
+                <a class="chip" asp-action="Index" asp-route-tipo="@filtro.Tipo" asp-route-busca="@Model.FiltroBusca"
+                   aria-current="@(Model.FiltroTipo == filtro.Tipo ? "page" : null)">@filtro.Rotulo</a>
+            }
+        </nav>
+    </div>
+
+    @if (Model.Categorias.Any())
+    {
+        <div class="lista" data-grupo-busca>
+            @foreach (var categoria in Model.Categorias)
+            {
+                <button type="button" class="lista-item" data-linha-busca data-editar="gaveta-categoria" data-titulo="Editar categoria"
+                        data-acao="@Url.Action("Alterar", new { codigo = categoria.Codigo })"
+                        data-excluir="@Url.Action("Inativar", new { codigo = categoria.Codigo })"
+                        data-descricao="@categoria.Nome" data-valores="@ValoresDe(categoria)">
+                    <span class="icone-quadro icone-tipo @categoria.Tipo.ClasseCor()"><icone nome="@categoria.Tipo.Icone()" /></span>
+                    <span class="lista-item-corpo"><span class="lista-item-titulo">@categoria.Nome</span></span>
+                    <span class="selo">@categoria.Tipo.Rotulo()</span>
+                    <icone nome="chevron-direita" class="texto-suave" />
+                </button>
+            }
         </div>
-    </div>
 
+        <p class="estado-vazio" data-busca-vazia hidden><icone nome="lupa" />Nenhuma categoria com esse nome.</p>
+    }
+    else
+    {
+        <p class="estado-vazio"><icone nome="categorias" />Nenhuma categoria encontrada.</p>
+    }
 </main>
 
-<div class="modal fade" id="modal-criar" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Nova categoria</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="post" asp-action="Criar">
-                @Html.AntiForgeryToken()
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label small">Nome <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="Nome" maxlength="100"
-                               placeholder="Ex: Alimentação, Salário...">
-                    </div>
-                    <div class="mb-1">
-                        <label class="form-label small">Tipo</label>
-                        <select class="form-select" name="Tipo">
-                            <option value="@TipoTransacaoEnum.DESPESA">Despesa</option>
-                            <option value="@TipoTransacaoEnum.RECEITA">Receita</option>
-                            <option value="@TipoTransacaoEnum.INVESTIMENTO">Investimento</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Criar</button>
-                </div>
-            </form>
+<dialog class="gaveta" id="gaveta-categoria" aria-labelledby="gaveta-categoria-titulo">
+    <form method="post" asp-action="Criar" class="gaveta-corpo" data-formulario-gaveta>
+        <div class="gaveta-topo">
+            <h2 class="gaveta-titulo" id="gaveta-categoria-titulo" data-titulo-gaveta>Nova categoria</h2>
+            <button type="button" class="botao botao-icone botao-icone-plano" data-fechar aria-label="Fechar"><icone nome="fechar" /></button>
         </div>
-    </div>
-</div>
 
-@foreach (var categoria in Model.Categorias)
-{
-    <div class="modal fade" id="modal-editar-@categoria.Codigo" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar categoria</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form method="post" asp-action="Alterar" asp-route-codigo="@categoria.Codigo">
-                    @Html.AntiForgeryToken()
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label small">Nome <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="Nome" maxlength="100" value="@categoria.Nome">
-                        </div>
-                        <div class="mb-1">
-                            <label class="form-label small">Tipo</label>
-                            <select class="form-select" name="Tipo">
-                                <option value="@TipoTransacaoEnum.DESPESA" selected="@(categoria.Tipo == TipoTransacaoEnum.DESPESA ? "selected" : null)">Despesa</option>
-                                <option value="@TipoTransacaoEnum.RECEITA" selected="@(categoria.Tipo == TipoTransacaoEnum.RECEITA ? "selected" : null)">Receita</option>
-                                <option value="@TipoTransacaoEnum.INVESTIMENTO" selected="@(categoria.Tipo == TipoTransacaoEnum.INVESTIMENTO ? "selected" : null)">Investimento</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
-                </form>
-            </div>
+        <div class="campo">
+            <label for="categoria-nome">Nome</label>
+            <input id="categoria-nome" type="text" name="Nome" class="entrada" maxlength="100" required placeholder="Ex.: Mercado, Salário" />
         </div>
-    </div>
 
-    <div class="modal fade" id="modal-excluir-@categoria.Codigo" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title">Confirmar exclusão</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-secondary small">
-                    <p class="mb-1">Tem certeza que deseja excluir esta categoria?</p>
-                    <div class="mt-2 p-2 rounded bg-body-tertiary">
-                        <p class="mb-1 fw-medium text-body">@categoria.Nome</p>
-                        <p class="mb-0">
-                            <span class="@categoria.Tipo.ClasseBadge()">
-                                @categoria.Tipo.Rotulo()
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="post" asp-action="Inativar" asp-route-codigo="@categoria.Codigo">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-                    </form>
-                </div>
+        <div class="campo">
+            <span class="campo-rotulo" id="categoria-tipo">Tipo</span>
+            <div class="segmentado segmentado-bloco" role="radiogroup" aria-labelledby="categoria-tipo">
+                @foreach (var tipo in tipos)
+                {
+                    <label><input type="radio" name="Tipo" value="@tipo" checked="@(tipo == TipoTransacaoEnum.DESPESA)" />@tipo.Rotulo()</label>
+                }
             </div>
         </div>
-    </div>
-}
+
+        <button type="submit" class="botao botao-primario botao-grande botao-bloco">Salvar</button>
+        <button type="button" class="botao botao-contorno botao-bloco texto-erro" data-abrir-excluir hidden><icone nome="lixeira" />Excluir categoria</button>
+    </form>
+</dialog>
+
+<dialog class="gaveta gaveta-pequena" id="gaveta-excluir" aria-labelledby="gaveta-excluir-titulo">
+    <form method="post" asp-action="Inativar" class="gaveta-corpo" data-formulario-excluir>
+        <h2 class="gaveta-titulo" id="gaveta-excluir-titulo">Excluir categoria?</h2>
+        <p class="texto-suave" data-descricao-excluir></p>
+        <p class="texto-pequeno texto-suave">Os lançamentos antigos dela continuam no histórico.</p>
+        <div class="grade gaveta-par">
+            <button type="button" class="botao botao-contorno" data-fechar>Cancelar</button>
+            <button type="submit" class="botao botao-perigo">Excluir</button>
+        </div>
+    </form>
+</dialog>

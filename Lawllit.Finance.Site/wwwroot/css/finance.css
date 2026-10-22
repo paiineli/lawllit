@@ -1,0 +1,171 @@
+/* O que é só do finance. Tokens e componentes vêm do lawllit.css do Lawllit.Web. */
+
+.marca-rodape { font-size: 1.25rem; }
+
+.pagina { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; padding-bottom: 48px; }
+
+.periodo { display: flex; align-items: center; gap: 4px; }
+.periodo .titulo-grande { line-height: 1.05; }
+
+.filtros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.filtros .busca { flex: 1 1 240px; }
+
+/* ---------- entrada pública ---------- */
+
+.boas-vindas { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding-block: 48px 24px; }
+.boas-vindas-texto { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.boas-vindas-beneficios { --grade-minimo: 260px; }
+.boas-vindas-beneficios .titulo-cartao { margin: 16px 0 6px; }
+
+.vitrine { flex: 0 1 300px; width: 280px; margin-inline: auto; padding: 12px; border-radius: 40px; background: var(--invertido); }
+.vitrine-tela { display: flex; flex-direction: column; gap: 10px; padding: 24px 18px; border-radius: 30px; background: var(--fundo); }
+.vitrine-rotulo { font-size: 0.8125rem; color: var(--texto-suave); }
+.vitrine-valor { font-size: 2.2rem; margin-bottom: 6px; }
+.vitrine-linha { display: flex; justify-content: space-between; padding: 12px 14px; border-radius: var(--raio-pequeno); background: var(--superficie); font-size: 0.875rem; }
+
+/* ---------- conta ---------- */
+
+.acesso { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding-block: 40px 64px; }
+.acesso-chamada { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+.acesso-cartao { flex: 1 1 380px; max-width: 480px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; padding: clamp(22px, 4vw, 36px); }
+.acesso-link { align-self: flex-start; font-size: 0.875rem; font-weight: 600; color: var(--destaque-texto); }
+.acesso-rodape { font-size: 0.9375rem; color: var(--texto-suave); text-align: center; }
+.acesso-rodape a { font-weight: 700; color: var(--destaque-texto); }
+.acesso-termos { display: flex; gap: 12px; font-size: 0.875rem; color: var(--texto-suave); cursor: pointer; }
+.acesso-termos input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--destaque); }
+.acesso-termos a { color: var(--destaque-texto); font-weight: 600; }
+
+/* O resumo de validação só ocupa espaço quando tem erro dentro. */
+.alerta.validation-summary-valid { display: none; }
+.alerta ul { margin: 0; padding-left: 18px; }
+
+.campo-senha { position: relative; }
+.campo-senha .entrada { padding-right: 56px; }
+.campo-senha .botao-icone { position: absolute; top: 4px; right: 4px; }
+.icone-olho-fechado { display: none; }
+[data-ver-senha][aria-pressed="true"] .icone-olho { display: none; }
+[data-ver-senha][aria-pressed="true"] .icone-olho-fechado { display: block; }
+
+/* ---------- painel ---------- */
+
+.painel-topo, .painel-meio, .painel-resumos, .painel-detalhes { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.painel-saldo { flex: 2 1 380px; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+.painel-saldo-rotulo { font-weight: 700; }
+.painel-saldo-valor { font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 0.95; }
+.painel-saldo-detalhe { margin-top: 8px; font-weight: 600; }
+
+.painel-kpis { flex: 3 1 420px; min-width: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.painel-kpi { flex: 1 1 160px; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 20px; }
+.painel-kpi-valor { font-size: clamp(1.3rem, 5.2vw, 1.75rem); white-space: nowrap; }
+
+.legenda-solta { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--texto-suave); }
+.legenda-solta::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--cor, currentColor); }
+
+.painel-ranking { flex: 5 1 340px; min-width: 0; }
+.painel-grafico { flex: 7 1 420px; min-width: 0; }
+.painel-resumos > .cartao, .painel-detalhes > .cartao { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.painel-resumo-valor { font-size: 1.75rem; }
+.painel-detalhes .titulo-cartao { margin-bottom: 8px; }
+.painel-saidas { margin-block: 6px 10px; }
+
+.ranking { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.ranking-item { display: flex; align-items: center; gap: 12px; }
+.ranking-percentual { width: 44px; height: 44px; flex: none; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--raio-pequeno); background: var(--invertido-superficie); font-size: 0.8125rem; font-weight: 700; }
+.ranking-corpo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.ranking-linha { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; }
+.ranking-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ranking-variacao { flex: 0 0 56px; text-align: right; font-size: 0.8125rem; font-weight: 700; }
+.cartao-invertido .barra-trilho { background: var(--invertido-superficie); }
+
+/* Dentro do cartão invertido o verde e o vermelho do tema não teriam contraste, então inverte também. */
+:root:not([data-tema="escuro"]):not([data-tema="alto-contraste"]) .cartao-invertido { --ok: #3dd68c; --erro: #ff7a90; }
+:root[data-tema="escuro"] .cartao-invertido, :root[data-tema="alto-contraste"] .cartao-invertido { --ok: #0e7a4b; --erro: #c0263f; }
+
+.estado-vazio-invertido { margin-top: 20px; border-color: var(--invertido-borda); color: var(--invertido-suave); }
+
+.painel-grafico { display: flex; flex-direction: column; }
+.painel-grafico .grafico-colunas { flex: 1; min-height: 200px; margin-top: 8px; }
+
+/* ---------- transações e categorias ---------- */
+
+.totais { gap: 8px; }
+.totais b { font-weight: 700; }
+
+.dia { display: flex; flex-direction: column; gap: 8px; }
+.dia-titulo { display: flex; justify-content: space-between; gap: 12px; padding-inline: 4px; font-family: var(--fonte-texto); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0; color: var(--texto-suave); }
+
+.icone-tipo { background: var(--superficie-2); color: var(--cor); }
+.icone-tipo.cor-receita { background: var(--receita-suave); }
+.icone-tipo.cor-despesa { background: var(--despesa-suave); color: var(--destaque-texto); }
+.icone-tipo.cor-investimento { background: var(--investimento-suave); }
+
+.valor { flex: none; font-weight: 700; }
+.texto-despesa.valor { color: var(--texto); }
+
+.alerta-acao { flex-wrap: wrap; align-items: center; }
+.alerta-acao > span { flex: 1 1 260px; }
+
+/* ---------- gaveta de lançamento ---------- */
+
+.gaveta-pequena { width: min(420px, 100%); }
+.gaveta-par { --grade-minimo: 150px; align-items: end; }
+
+.campo-valor { display: flex; flex-direction: column; align-items: center; gap: 2px; padding-block: 6px; cursor: text; }
+.campo-valor-linha { display: flex; align-items: baseline; gap: 6px; }
+.campo-valor-moeda { font-family: var(--fonte-titulo); font-size: 1.5rem; font-weight: 700; color: var(--texto-suave); }
+
+.campo-valor input {
+    width: 7ch;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--texto);
+    font-family: var(--fonte-titulo);
+    font-size: 3.25rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-align: center;
+}
+
+.campo-valor input::placeholder { color: var(--borda-forte); }
+
+/* O tipo marcado pinta o controle com a cor que o lançamento vai ter na lista. */
+.segmentado > .tipo-despesa:has(input:checked) { background: var(--destaque); color: var(--sobre-destaque); }
+.segmentado > .tipo-receita:has(input:checked) { background: var(--receita); color: var(--fundo); }
+.segmentado > .tipo-investimento:has(input:checked) { background: var(--investimento); color: var(--fundo); }
+
+/* ---------- cotações ---------- */
+
+.cotacoes { --grade-minimo: 260px; }
+.cotacao { display: flex; flex-direction: column; gap: 10px; }
+.cotacao-moeda { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.cotacao-bandeira { font-size: 1.5rem; line-height: 1; }
+.cotacao-valor { font-size: 2rem; }
+
+/* ---------- perfil ---------- */
+
+.perfil-cabecalho { display: flex; align-items: center; gap: 18px; }
+.perfil-avatar { width: 72px; height: 72px; flex: none; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--destaque); color: var(--sobre-destaque); font-family: var(--fonte-titulo); font-size: 2rem; font-weight: 800; }
+.perfil-secao { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
+.perfil-secao .botao { align-self: flex-start; }
+.perfil-perigo { border-color: color-mix(in srgb, var(--erro) 40%, transparent); }
+
+/* ---------- legal e erro ---------- */
+
+.legal { padding-block: 24px 48px; }
+.legal-texto { max-width: 760px; display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 5vw, 48px); }
+.legal-texto .titulo-cartao { margin-top: 12px; }
+.legal-texto ul { margin: 0; padding-left: 20px; }
+.legal-texto a { color: var(--destaque-texto); font-weight: 600; }
+.legal-links { display: flex; gap: 20px; max-width: 760px; margin-top: 16px; }
+.legal-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--texto-suave); }
+
+.erro-pagina { padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+
+/* No celular a chamada das telas de conta some e o título do período encolhe para caber com as setas. */
+@media (max-width: 640px) {
+    .acesso { padding-top: 16px; }
+    .periodo .titulo-grande { font-size: 2rem; }
+}

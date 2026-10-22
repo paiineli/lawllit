@@ -1,30 +1,43 @@
+<main>
+    <section class="conteiner boas-vindas">
+        <div class="boas-vindas-texto">
+            <h1 class="titulo-gigante">Suas finanças. <span class="destaque">Simples assim.</span></h1>
+            <p class="texto-grande texto-suave">Anote o que entrou e o que saiu e veja, todo mês, quanto sobrou e para onde foi o dinheiro.</p>
+            <div class="linha">
+                <a asp-controller="Conta" asp-action="Cadastrar" class="botao botao-primario botao-grande">Criar conta de graça</a>
+                <a asp-controller="Conta" asp-action="Entrar" class="botao botao-contorno botao-grande">Entrar</a>
+            </div>
+        </div>
 
-<main class="flex-grow-1 d-flex flex-column">
-    <section class="landing-hero">
-        <div class="container-lg w-100">
-            <div class="row justify-content-center text-center">
-                <div class="col-11 col-md-9 col-lg-7">
-                    <h1 class="fw-bold landing-headline mb-3">
-                        <span id="linha-digitada-1" data-texto="Suas finanças."></span><br>
-                        <span class="text-green" id="linha-digitada-2" data-texto="Simples assim."></span>
-                    </h1>
-                    <p class="text-secondary mb-4 landing-subtitle mx-auto">
-                        Controle suas receitas e despesas, saiba para onde seu dinheiro vai e mantenha seus dados só seus.
-                    </p>
-                    <div class="d-flex gap-2 justify-content-center flex-wrap">
-                        <a asp-controller="Conta" asp-action="Cadastrar" class="btn btn-primary px-4">
-                            Criar conta
-                        </a>
-                        <a asp-controller="Conta" asp-action="Entrar" class="btn btn-outline-secondary px-4">
-                            Entrar
-                        </a>
-                    </div>
-                </div>
+        @* Desenho do painel em CSS: captura de tela envelheceria a cada mudança do app. *@
+        <div class="vitrine" aria-hidden="true">
+            <div class="vitrine-tela">
+                <span class="vitrine-rotulo">Sobrou este mês</span>
+                <span class="numero vitrine-valor">R$ 2.070</span>
+                <span class="vitrine-linha"><span>Entrou</span><b class="texto-receita">R$ 8.240</b></span>
+                <span class="vitrine-linha"><span>Saiu</span><b class="texto-despesa">R$ 5.117</b></span>
+                <span class="vitrine-linha"><span>Investido</span><b class="texto-investimento">R$ 1.052</b></span>
             </div>
         </div>
     </section>
-</main>
 
-@section Scripts {
-    <script src="~/js/inicio.js" asp-append-version="true"></script>
-}
+    <section class="conteiner secao">
+        <div class="grade boas-vindas-beneficios">
+            <article class="cartao">
+                <span class="icone-quadro"><icone nome="mais" /></span>
+                <h2 class="titulo-cartao">Lança em segundos</h2>
+                <p class="texto-suave">Do celular, num toque: valor, categoria e pronto. O que se repete todo mês entra com um clique.</p>
+            </article>
+            <article class="cartao">
+                <span class="icone-quadro"><icone nome="painel" /></span>
+                <h2 class="titulo-cartao">Entende o seu mês</h2>
+                <p class="texto-suave">Quanto sobrou, o que é fixo, o que é escolha e onde o gasto passou da média.</p>
+            </article>
+            <article class="cartao">
+                <span class="icone-quadro"><icone nome="cadeado" /></span>
+                <h2 class="titulo-cartao">Seus dados, só seus</h2>
+                <p class="texto-suave">Sem anúncio e sem rastreamento. Exportou, apagou a conta, sumiu de verdade.</p>
+            </article>
+        </div>
+    </section>
+</main>

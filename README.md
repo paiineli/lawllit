@@ -39,7 +39,7 @@ entities carry the database shape (`CdTransacao`, `TxDescricao`) while contracts
 
 a personal finance tracker with open registration. it is public on purpose: sign-up, email confirmation and password recovery are the parts that show how the whole thing is wired.
 
-- **dashboard** month or year, with a doughnut of spending per category and a stacked trend of the last months. every card is computed server-side and handed to the view as one model
+- **dashboard** month or year: what was left, where the money went against each category's own average, and a six-month trend drawn in css. every card is computed server-side and handed to the view as one model
 - **transactions** filtered by type, month and search, paginated in the database, with csv export that opens correctly in a pt-BR excel
 - **recurring** a transaction marked recurring is copied into the next month on demand, and the screen shows how many are still pending for the month being viewed
 - **spending vs history** each category is compared against its own average in previous months rather than a budget the user has to maintain. no history means no comparison, not a 100% drop
@@ -83,9 +83,9 @@ a hub with one card per game and a page for each, painted in that game's color: 
 
 **// performance**
 
-- the portfolio ships **no css framework**. the twenty-odd layout classes it borrowed were rewritten by hand, which took 232 KB off the critical path. the finance app keeps bootstrap, where modals, tables and form controls actually earn it
-- fonts are self-hosted as one variable file, with `unicode-range` so the extended latin set is only fetched by pages that need it
-- the icon font is subset to the twelve icons actually used, down from around two thousand
+- **no css framework and no chart library** on either site. one shared design system (`Lawllit.Web`) holds the tokens and components, modals are the native `<dialog>`, and the dashboard bars are plain css, which took bootstrap and chart.js off both critical paths
+- fonts are self-hosted variable files in the latin subset only, which already covers portuguese
+- icons are inline svg rendered by a tag helper, so there is no icon font to download
 - brotli and gzip on, measured rather than guessed: the fast level shipped a larger file than the cdn, the maximum cost half a second of cpu per request
 - fingerprinted assets cached for a year, everything else for an hour
 
@@ -108,7 +108,7 @@ nothing sensitive is committed. every secret comes from the environment.
 `.NET 10` · `ASP.NET Core MVC` · `C#` · `Razor` · `Minimal API`<br>
 `PostgreSQL` · `Dapper` · `Npgsql`<br>
 `Cookie Auth` · `JWT` · `BCrypt` · `Resend` · `Cloudflare Turnstile`<br>
-`Bootstrap` · `Chart.js` · `SheetJS` · `pdf-lib` · `pdf.js` · `JavaScript`<br>
+`SheetJS` · `pdf-lib` · `pdf.js` · `JavaScript`<br>
 `AngleSharp` · `Scalar` · `Docker` · `Railway`
 
 ---

@@ -16,6 +16,6 @@ public static class Seguranca
         // data: é o favicon em SVG embutido no layout.
         "img-src 'self' data:; " +
 
-        // jsdelivr serve o Chart.js dos dois gráficos do painel.
-        "script-src 'self' https://cdn.jsdelivr.net";
+        // Os gráficos do painel viraram CSS, então nenhum script vem de fora.
+        "script-src 'self'";
 }

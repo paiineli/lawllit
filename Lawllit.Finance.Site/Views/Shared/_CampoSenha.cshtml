@@ -1,0 +1,10 @@
+@model CampoSenhaViewModel
+@* Campo de senha com o olho para mostrar, igual em todas as telas que pedem senha. *@
+<div class="campo-senha">
+    <input type="password" id="@Model.Id" name="@Model.Nome" class="entrada" autocomplete="@Model.Autocompletar"
+           placeholder="@Model.Dica" />
+    <button type="button" class="botao botao-icone botao-icone-plano" data-ver-senha="@Model.Id" aria-label="Mostrar senha" aria-pressed="false">
+        <icone nome="olho" class="icone-olho" />
+        <icone nome="olho-fechado" class="icone-olho-fechado" />
+    </button>
+</div>

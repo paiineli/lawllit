@@ -153,6 +153,11 @@ window.Lawllit = (function () {
     document.addEventListener('DOMContentLoaded', function () {
         aplicarMedidas(document);
         revelar();
+
+        // Aviso que veio pronto do servidor some no mesmo tempo do que nasce em JS.
+        document.querySelectorAll('.aviso').forEach(function (aviso) {
+            setTimeout(function () { aviso.remove(); }, aviso.classList.contains('aviso-erro') ? 6000 : 3500);
+        });
     });
 
     return { avisar: avisar, enviar: enviar, aplicarMedidas: aplicarMedidas, copiar: copiar };

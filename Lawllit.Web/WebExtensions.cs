@@ -41,7 +41,7 @@ public static class WebExtensions
             options.Providers.Add<GzipCompressionProvider>();
         });
 
-        // Medido no bootstrap.min.css: Fastest entrega arquivo maior que o CDN, e SmallestSize
+        // Medido no bootstrap.min.css que o finance servia: Fastest entrega arquivo maior que o CDN, e SmallestSize
         // custa quase meio segundo de CPU por requisição.
         services.Configure<BrotliCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
         services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
@@ -105,7 +105,6 @@ public static class WebExtensions
                 // Com hash na URL o navegador pode guardar por um ano sem servir versão velha. O resto
                 // fica em uma hora, para troca de imagem ou de currículo aparecer rápido.
                 var temHashNaUrl = context.Context.Request.Query.ContainsKey("v")
-                    || context.Context.Request.Path.StartsWithSegments("/fonts")
                     || context.Context.Request.Path.StartsWithSegments("/_content/Lawllit.Web/fonts");
 
                 context.Context.Response.Headers.CacheControl = temHashNaUrl
