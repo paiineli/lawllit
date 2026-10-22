@@ -1,14 +1,15 @@
 @model ErroViewModel
 @{
-    ViewData["Title"] = "erro · lawllit.";
+    ViewData["Title"] = "Erro · lawllit.";
 }
 
-<section class="container-lg erro">
-    <p class="rotulo">// erro</p>
-    <p>alguma coisa deu errado.</p>
+<section class="conteiner erro-pagina">
+    <p class="rotulo">Erro</p>
+    <h1 class="titulo-grande">Alguma coisa deu errado.</h1>
+    <p class="texto-grande texto-suave">Tente de novo daqui a pouco. Se continuar, me avisa pelo e-mail.</p>
     @if (Model.MostrarCodigo)
     {
-        <p class="erro-codigo">código da requisição: <code>@Model.CodigoRequisicao</code></p>
+        <p class="texto-pequeno texto-suave">Código da requisição: <code>@Model.CodigoRequisicao</code></p>
     }
-    <a asp-controller="Inicio" asp-action="Index" class="botao">voltar ao início</a>
+    <a asp-controller="Inicio" asp-action="Index" class="botao botao-escuro">Voltar ao início</a>
 </section>

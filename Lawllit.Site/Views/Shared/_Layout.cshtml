@@ -3,6 +3,7 @@
     var tituloPagina = (ViewData["Title"] as string) ?? "lawllit.";
     var urlCanonica = SeoUrls.Canonica(Context.Request);
     var urlImagemSocial = SeoUrls.Absoluta(Context.Request, "/og-image.png");
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
 
     // A página não cita tecnologia em lugar nenhum, porque quem lê é cliente. Os termos
     // ficam aqui, que o buscador lê e o visitante não vê.
@@ -13,7 +14,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>@tituloPagina</title>
     <meta name="description" content="@descricao" />
     <link rel="canonical" href="@urlCanonica" />
@@ -30,55 +31,59 @@
     <meta name="twitter:title" content="@tituloPagina" />
     <meta name="twitter:description" content="@descricao" />
     <meta name="twitter:image" content="@urlImagemSocial" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='monospace' font-weight='bold' font-size='18'>L.</text></svg>" />
-    @* A fonte é declarada dentro do app.css, então sem este preload o navegador só
-       descobriria o arquivo depois de baixar o CSS. O endereço tem que ser idêntico ao
-       que o CSS pede, sem hash de versão, senão o arquivo é baixado duas vezes. *@
-    <link rel="preload" href="~/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="~/css/icons.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/app.css" asp-append-version="true" />
+    <partial name="_RecursosLawllit" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Estilos", required: false)
 </head>
 <body>
-    @* O site público não carrega o Bootstrap. O container-lg é copiado dele no app.css,
-       para nav e rodapé terem a mesma largura do finance, e o menu do celular está no
-       site.js, em trinta linhas. *@
-    <nav class="menu-topo">
-        <div class="container-lg menu-linha">
+    <header class="topo">
+        <div class="conteiner topo-linha">
             <a class="marca" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
 
-            <button type="button" class="menu-botao" id="menu-botao"
-                    aria-controls="menu-itens" aria-expanded="false" aria-label="Abrir menu">
-                <svg class="icone-abrir" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M3 6h18M3 12h18M3 18h18" />
-                </svg>
-                <svg class="icone-fechar" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M5 5l14 14M19 5L5 19" />
-                </svg>
-            </button>
+            <nav class="topo-acoes" aria-label="Principal">
+                <a class="link-topo so-computador" asp-controller="Ferramentas" asp-action="Index" aria-current="@(controller == "Ferramentas" ? "page" : null)">
+                    <icone nome="ferramenta" />Ferramentas
+                </a>
+                <a class="link-topo so-computador" asp-controller="Jogos" asp-action="Index" aria-current="@(controller == "Jogos" ? "page" : null)">
+                    <icone nome="controle" />Jogos
+                </a>
+                <a class="link-topo so-computador" href="@Configuration["Finance:Url"]">
+                    <icone nome="carteira" />Finance
+                </a>
 
-            <ul class="menu-itens" id="menu-itens">
-                <li><a class="menu-item" asp-controller="Inicio" asp-action="Index">home</a></li>
-                <li><a class="menu-item menu-item-finance" href="@Configuration["Finance:Url"]">finance</a></li>
-                <li><a class="menu-item" asp-controller="Ferramentas" asp-action="Index">ferramentas</a></li>
-                <li><a class="menu-item" asp-controller="Jogos" asp-action="Index">jogos</a></li>
-                <li><a class="menu-item menu-item-acao" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">pedir orçamento</a></li>
-            </ul>
+                <a class="botao botao-icone so-celular" asp-controller="Ferramentas" asp-action="Index" aria-label="Ferramentas">
+                    <icone nome="ferramenta" />
+                </a>
+                <a class="botao botao-icone so-celular" asp-controller="Jogos" asp-action="Index" aria-label="Jogos">
+                    <icone nome="controle" />
+                </a>
+
+                <button type="button" class="botao botao-icone" data-alternar-tema aria-label="Trocar entre tema claro e escuro">
+                    <icone nome="lua" class="icone-lua" />
+                    <icone nome="sol" class="icone-sol" />
+                </button>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     @RenderBody()
 
     <footer class="rodape">
-        <div class="container-lg rodape-linha">
-            <span>© @DateTime.Now.Year <span class="rodape-marca">lawllit<span class="marca-ponto">.</span></span></span>
-            <div class="rodape-links">
-                <a href="mailto:@Perfil.Email" aria-label="Email"><i class="bi bi-envelope"></i></a>
-                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-            </div>
+        <div class="conteiner linha-espacada">
+            <a class="marca marca-rodape" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
+            <nav class="rodape-links" aria-label="Rodapé">
+                <a href="@Configuration["Finance:Url"]">Finance</a>
+                <a asp-controller="Ferramentas" asp-action="Index">Ferramentas</a>
+                <a asp-controller="Jogos" asp-action="Index">Jogos</a>
+                <a href="@Perfil.CurriculoPdf" target="_blank">Currículo</a>
+                <a href="https://www.linkedin.com/in/paiineli/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="mailto:@Perfil.Email">@Perfil.Email</a>
+            </nav>
         </div>
     </footer>
 
-    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    <script src="~/_content/Lawllit.Web/js/lawllit.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,224 +1,281 @@
 @inject IConfiguration Configuration
 @{
-    ViewData["Title"] = "lawllit.";
+    ViewData["Title"] = "lawllit. · sistemas sob medida";
 
     // A chave pública do Turnstile vai no HTML, é para isso que ela existe. A privada
     // fica só no servidor, dentro do TurnstileValidador.
     var turnstileSiteKey = Configuration["Turnstile:SiteKey"];
-    var turnstileIdioma = "pt-br";
+
+    // Cada cenário mostra o antes rabiscado e o depois numa tela de sistema. O texto do
+    // formulário muda junto, para quem escolheu começar a escrever já no assunto certo.
+    var cenarios = new[]
+    {
+        new Cenario("planilha", "Planilha", "pedidos_FINAL_v3.xlsx",
+            ["quem mexeu por último?", "a fórmula quebrou de novo", "duas pessoas editando junto"],
+            "Pedidos",
+            [new("Pedido 1042 · Ana", "3 itens · hoje 10:12", "Separando", "selo-andamento"),
+             new("Pedido 1041 · Bruno", "1 item · hoje 09:40", "Enviado", "selo-espera"),
+             new("Pedido 1040 · Carla", "5 itens · ontem", "Entregue", "selo-ok")],
+            "Cada pedido com responsável, situação e histórico.",
+            "Hoje os pedidos ficam numa planilha que três pessoas mexem e vive dando confusão..."),
+        new Cenario("caderno", "Caderno", "Caderno da oficina",
+            ["Gol prata, revisão, ligar sexta", "a peça chegou?? ver c/ João", "(a página de ontem molhou)"],
+            "Ordens de serviço",
+            [new("Gol prata · revisão", "cliente avisado sexta", "Aguardando peça", "selo-espera"),
+             new("Onix · freios", "mecânico: João", "Em andamento", "selo-andamento"),
+             new("HB20 · troca de óleo", "retirar até 18h", "Pronto", "selo-ok")],
+            "Tudo numa tela, e o cliente avisado quando o carro fica pronto.",
+            "Hoje eu controlo as ordens de serviço da minha oficina no caderno e está começando a dar confusão..."),
+        new Cenario("whatsapp", "WhatsApp", "Grupo Agendamentos (243)",
+            ["alguém confirmou a Dona Maria?", "marquei 14h... não, 15h", "áudio de 3 minutos"],
+            "Agenda de hoje",
+            [new("09:00 · Dona Maria", "retorno", "Confirmado", "selo-ok"),
+             new("10:30 · Sr. Paulo", "primeira consulta", "Aguardando", "selo-espera"),
+             new("15:00 · Júlia", "avaliação", "Confirmado", "selo-ok")],
+            "Uma agenda só, e o paciente confirma pelo link.",
+            "Hoje a gente marca os horários pelo WhatsApp e sempre alguém fica sem confirmar..."),
+        new Cenario("cabeca", "Na cabeça", "Só o Carlos sabe",
+            ["o Carlos entrou de férias", "onde está aquele contrato?", "qual foi o preço combinado?"],
+            "Clientes",
+            [new("Mercado Bom Preço", "contrato até 12/2026", "Em dia", "selo-ok"),
+             new("Padaria Central", "renovar em 30 dias", "Renovar", "selo-espera"),
+             new("Auto Peças Silva", "proposta enviada", "Negociando", "selo-andamento")],
+            "Preço, contrato e prazo à vista de quem precisa.",
+            "Hoje só uma pessoa sabe os contratos e preços de cada cliente, e quando ela falta trava tudo..."),
+        new Cenario("antigo", "Sistema antigo", "Sistema de 2009",
+            ["trava toda segunda", "quem fez sumiu", "só abre naquele computador"],
+            "Estoque",
+            [new("Parafuso 8mm", "1.240 unidades", "Normal", "selo-ok"),
+             new("Arruela lisa", "85 unidades", "Repor", "selo-espera"),
+             new("Porca sextavada", "pedido a caminho", "Chegando", "selo-andamento")],
+            "Abre de qualquer lugar, e quem cuida dele sou eu.",
+            "Temos um sistema antigo que trava toda hora e ninguém sabe mexer..."),
+    };
+
+    const string cenarioInicial = "caderno";
+    var fraseInicial = cenarios.First(cenario => cenario.Chave == cenarioInicial).Frase;
+
+    var ideias = new[]
+    {
+        (Icone: "ferramenta", Negocio: "Oficina", Ideia: "Avisa o cliente quando o carro fica pronto."),
+        (Icone: "calendario", Negocio: "Clínica", Ideia: "O paciente confirma o horário sozinho."),
+        (Icone: "sacola", Negocio: "Loja", Ideia: "Pedidos e estoque numa tela só."),
+        (Icone: "documento", Negocio: "Escritório", Ideia: "Alerta antes do contrato vencer."),
+        (Icone: "restaurante", Negocio: "Restaurante", Ideia: "Comanda do garçom direto na cozinha."),
+        (Icone: "halter", Negocio: "Academia", Ideia: "Mensalidade em dia, com lembrete."),
+    };
 }
 
-<header class="topo">
-    <div class="container-lg topo-grade">
+<div class="inicio-conteudo">
+    <section class="conteiner inicio-topo">
+        <h1 class="titulo-gigante">Onde a sua empresa ainda <span class="destaque">se perde</span>?</h1>
+        <p class="texto-grande texto-suave inicio-sub">Toque onde as coisas vivem hoje e veja como ficariam.</p>
+
+        <div class="chips inicio-cenarios" role="group" aria-label="Onde as coisas vivem hoje">
+            @foreach (var cenario in cenarios)
+            {
+                <button type="button" class="chip" data-cenario="@cenario.Chave"
+                        aria-pressed="@(cenario.Chave == cenarioInicial ? "true" : "false")">@cenario.Rotulo</button>
+            }
+        </div>
+    </section>
+
+    <section class="conteiner inicio-transformacao" aria-live="polite">
+        @foreach (var cenario in cenarios)
+        {
+            <div class="cartao cartao-sombra transformacao" data-painel-cenario="@cenario.Chave" data-frase="@cenario.Frase"
+                 hidden="@(cenario.Chave != cenarioInicial)">
+                <div class="transformacao-lado">
+                    <p class="rotulo rotulo-neutro">Hoje</p>
+                    <div class="papel">
+                        <p class="papel-titulo">@cenario.TituloAntes</p>
+                        @foreach (var linha in cenario.Antes)
+                        {
+                            <p>@linha</p>
+                        }
+                    </div>
+                </div>
+
+                <span class="transformacao-seta" aria-hidden="true"><icone nome="seta-direita" /></span>
+
+                <div class="transformacao-lado">
+                    <p class="rotulo">Com o seu sistema</p>
+                    <div class="tela-sistema">
+                        <div class="tela-sistema-topo">
+                            <span class="titulo-cartao">@cenario.TituloDepois</span>
+                            <span class="selo selo-destaque">+ Novo</span>
+                        </div>
+                        @foreach (var item in cenario.Depois)
+                        {
+                            <div class="lista-item">
+                                <span class="lista-item-corpo">
+                                    <span class="lista-item-titulo">@item.Nome</span>
+                                    <span class="lista-item-detalhe">@item.Detalhe</span>
+                                </span>
+                                <span class="selo selo-ponto @item.ClasseSelo">@item.Situacao</span>
+                            </div>
+                        }
+                        <p class="tela-sistema-rodape">Abre no computador e no celular, com senha.</p>
+                    </div>
+                </div>
+
+                <div class="transformacao-rodape">
+                    <p class="texto-grande">@cenario.Exemplo</p>
+                    <a class="botao botao-primario" href="#contato">Quero algo assim <icone nome="seta-direita" /></a>
+                </div>
+            </div>
+        }
+    </section>
+
+    <section class="secao secao-invertida" data-revelar>
+        <div class="conteiner">
+            <h2 class="titulo-secao">Ideias que viram sistema.</h2>
+            <p class="texto-grande inicio-sub-invertido">Só exemplos. O seu pode ser bem diferente.</p>
+
+            <div class="grade inicio-ideias">
+                @foreach (var ideia in ideias)
+                {
+                    <article class="ideia">
+                        <span class="icone-quadro icone-quadro-cheio"><icone nome="@ideia.Icone" /></span>
+                        <span>
+                            <h3 class="titulo-cartao">@ideia.Negocio</h3>
+                            <p class="ideia-texto">@ideia.Ideia</p>
+                        </span>
+                    </article>
+                }
+            </div>
+
+            <a class="botao botao-contorno inicio-ideias-acao" href="#contato">Não achou o seu? Me conta</a>
+        </div>
+    </section>
+
+    <section class="secao conteiner" data-revelar>
+        <h2 class="titulo-secao">Como funciona.</h2>
+        <ol class="grade inicio-passos">
+            <li class="cartao">
+                <span class="passo-numero">1</span>
+                <h3 class="titulo-cartao">Você me conta</h3>
+                <p class="texto-suave">Do jeito que funciona hoje, com as suas palavras.</p>
+            </li>
+            <li class="cartao">
+                <span class="passo-numero">2</span>
+                <h3 class="titulo-cartao">Eu te mostro como vai ficar</h3>
+                <p class="texto-suave">Você vê as telas antes e diz o que mudar.</p>
+            </li>
+            <li class="cartao">
+                <span class="passo-numero">3</span>
+                <h3 class="titulo-cartao">Entrego e continuo cuidando</h3>
+                <p class="texto-suave">No ar e funcionando, com ajustes sempre que precisar.</p>
+            </li>
+        </ol>
+    </section>
+
+    <section class="conteiner inicio-bloco" data-revelar>
+        <div class="cartao cartao-destaque prova">
+            <div class="prova-texto">
+                <p class="prova-chamada">Não precisa acreditar só na conversa</p>
+                <h2 class="titulo-secao">Um sistema meu está no ar. Teste você mesmo.</h2>
+                <p class="prova-sub">Crie uma conta de graça e mexa à vontade.</p>
+                <a class="botao botao-escuro-destaque" href="@Configuration["Finance:Url"]">Abrir o finance <icone nome="seta-diagonal" /></a>
+            </div>
+
+            @* Desenho do finance em CSS: captura de tela envelheceria a cada mudança do app. *@
+            <div class="celular" aria-hidden="true">
+                <div class="celular-tela">
+                    <span class="celular-rotulo">Sobrou este mês</span>
+                    <span class="numero celular-valor">R$ 2.070</span>
+                    <span class="celular-linha"><span>Entrou</span><b class="texto-receita">R$ 8.240</b></span>
+                    <span class="celular-linha"><span>Saiu</span><b class="texto-despesa">R$ 5.117</b></span>
+                    <span class="celular-barras">
+                        <i></i><i></i><i></i><i></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="conteiner inicio-bloco" data-revelar>
+        <p class="rotulo">De graça, sem cadastro</p>
+        <h2 class="titulo-secao">Enquanto isso, aproveite.</h2>
+
+        <div class="grade inicio-atalhos">
+            <a class="cartao atalho" asp-controller="Ferramentas" asp-action="Index">
+                <span class="icone-quadro atalho-numero">@Ferramentas.Quantidade</span>
+                <span class="atalho-texto">
+                    <span class="titulo-cartao">Ferramentas</span>
+                    <span class="texto-suave">PDF, imagem, QR Code e mais, direto no navegador.</span>
+                </span>
+                <icone nome="seta-diagonal" />
+            </a>
+            <a class="cartao atalho" asp-controller="Jogos" asp-action="Index">
+                <span class="icone-quadro atalho-numero"><icone nome="controle" /></span>
+                <span class="atalho-texto">
+                    <span class="titulo-cartao">Jogos</span>
+                    <span class="texto-suave">Esports, Shrine, Baro e patches num lugar só.</span>
+                </span>
+                <icone nome="seta-diagonal" />
+            </a>
+        </div>
+    </section>
+
+    @* Fixo embaixo só no celular e só até o formulário: dentro deste bloco, ele sai junto quando o contato entra. *@
+    <div class="barra-acao so-celular">
+        <a class="botao botao-primario botao-bloco botao-grande" href="#contato">Contar minha ideia</a>
+    </div>
+</div>
+
+<section class="secao secao-invertida" id="contato">
+    <div class="conteiner contato">
         <div>
-            <h1>O sistema que o seu negócio precisa.</h1>
-            <p class="topo-sub">Tiro o seu controle do papel e da planilha, entrego funcionando e continuo cuidando depois.</p>
-
-            <div class="topo-acoes">
-                <a class="botao botao-cheio" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">pedir orçamento</a>
-                <a class="botao" asp-controller="Inicio" asp-action="Index" asp-fragment="projetos">ver projetos</a>
-            </div>
+            <h2 class="titulo-grande">Me conta a sua <span class="destaque">ideia.</span></h2>
+            <p class="texto-grande contato-sub">Do seu jeito, sem precisar saber o nome de nada.</p>
         </div>
 
-        @* Desenho de uma tela de sistema, em CSS. Cliente entende um desenho de tela antes
-           de entender uma frase sobre sistema, e captura de tela envelheceria a cada
-           mudança de projeto. *@
-        <div class="tela" aria-hidden="true">
-            <div class="tela-barra">
-                <i class="tela-bolinha"></i>
-                <i class="tela-bolinha"></i>
-                <i class="tela-bolinha"></i>
-            </div>
-            <div class="tela-corpo">
-                <div class="tela-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="tela-conteudo">
-                    <div class="tela-topo">
-                        <i class="tela-titulo"></i>
-                        <i class="tela-acao"></i>
-                    </div>
-                    <div class="tela-cartoes">
-                        <div class="tela-cartao"><i></i><b></b></div>
-                        <div class="tela-cartao"><i></i><b></b></div>
-                        <div class="tela-cartao"><i></i><b></b></div>
-                    </div>
-                    <div class="tela-tabela">
-                        <div class="tela-linha tela-linha-cabecalho"><i></i><i></i><i></i></div>
-                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
-                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
-                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
-                        <div class="tela-linha"><i></i><i></i><i class="tela-selo"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
+        <form class="pilha" asp-controller="Contato" asp-action="Enviar" method="post">
+            @Html.AntiForgeryToken()
 
-<section class="secao" id="servicos" data-revelar>
-    <div class="container-lg">
-        <p class="rotulo">// serviços</p>
+            @if (TempData["ContatoSucesso"] is string contatoSucesso)
+            {
+                <p class="alerta alerta-ok" role="status"><icone nome="check" />@contatoSucesso</p>
+            }
+            else if (TempData["ContatoErro"] is string contatoErro)
+            {
+                <p class="alerta alerta-erro" role="alert"><icone nome="alerta" />@contatoErro</p>
+            }
 
-        <div class="servicos">
-            <article class="servico">
-                <h2>um sistema só seu</h2>
-                <p>Aquele controle que hoje vive em planilha, caderno ou na cabeça de alguém vira uma tela organizada, com acesso por senha, de qualquer computador.</p>
-            </article>
-
-            <article class="servico">
-                <h2>menos trabalho repetido</h2>
-                <p>Relatório que alguém monta toda segunda, informação copiada de um lugar para o outro. O sistema passa a fazer isso sozinho, e sem errar.</p>
-            </article>
-
-            <article class="servico">
-                <h2>tudo conversando</h2>
-                <p>Se a sua equipe digita a mesma coisa em dois lugares, dá para ligar um ao outro e digitar uma vez só.</p>
-            </article>
-
-            <article class="servico">
-                <h2>o sistema que você já tem</h2>
-                <p>Ficou lento, deu problema ou quem fez sumiu. Eu assumo, arrumo e sigo melhorando sem parar o seu dia.</p>
-            </article>
-        </div>
-    </div>
-</section>
-
-<section class="secao" id="projetos" data-revelar>
-    <div class="container-lg">
-        <p class="rotulo">// projetos</p>
-
-        <div class="vitrine">
-            <div>
-                <h2 class="vitrine-nome">lawllit<span class="marca-ponto">.</span><span class="marca-finance">finance</span></h2>
-                <p class="vitrine-desc">Um aplicativo de controle de gastos completo, no ar e em uso. Você pode criar uma conta e experimentar agora.</p>
-
-                <div class="vitrine-acoes">
-                    <a class="botao botao-finance" href="@Configuration["Finance:Url"]">conhecer</a>
-                    <a class="botao-icone" href="https://github.com/paiineli/lawllit" target="_blank" rel="noopener noreferrer" aria-label="Código no GitHub"><i class="bi bi-github"></i></a>
-                </div>
+            <div class="campo">
+                <label for="contato-mensagem">O que você quer resolver?</label>
+                <textarea id="contato-mensagem" class="entrada" name="Mensagem" maxlength="2000" minlength="10" required
+                          placeholder="@fraseInicial">@(TempData["ContatoMensagem"] as string)</textarea>
             </div>
 
-            @* Esquema do painel do finance. As alturas das barras ficam no CSS: escritas
-               como style inline, a CSP sem unsafe-inline descartava todas em silêncio. *@
-            <div class="painel" aria-hidden="true">
-                <div class="painel-tiles">
-                    <div class="tile"><span class="tile-rotulo">receitas</span><span class="tile-valor tile-receita">R$ 8.240</span></div>
-                    <div class="tile"><span class="tile-rotulo">despesas</span><span class="tile-valor tile-despesa">R$ 5.117</span></div>
-                    <div class="tile"><span class="tile-rotulo">aportes</span><span class="tile-valor tile-aporte">R$ 1.052</span></div>
-                </div>
-                <div class="painel-grafico">
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                    <div class="painel-coluna"><i class="barra-receita"></i><i class="barra-despesa"></i><i class="barra-aporte"></i></div>
-                </div>
-                <div class="painel-eixo"><span>abr</span><span>mai</span><span>jun</span><span>jul</span><span>ago</span><span>set</span></div>
-            </div>
-        </div>
-
-        <a class="cartao" asp-controller="Ferramentas" asp-action="Index">
-            <div>
-                <span class="cartao-nome">ferramentas<span class="marca-ponto">.</span></span>
-                <p class="cartao-desc">Tarefas chatas do dia a dia resolvidas em um clique, de graça e sem instalar nada.</p>
-            </div>
-            <span class="cartao-quantidade"><b>@Ferramentas.Quantidade</b> no ar</span>
-        </a>
-    </div>
-</section>
-
-<section class="secao" id="sobre" data-revelar>
-    <div class="container-lg">
-        <p class="rotulo">// quem faz</p>
-
-        <div class="sobre">
-            <p>Me chamo Lucas. Trabalho com desenvolvimento há seis anos e hoje cuido de sistemas de uma operadora de saúde, usados em larga escala todos os dias.</p>
-            <p>Nos projetos por fora, você fala comigo do começo ao fim. Sem intermediário, sem equipe que troca no meio do caminho e sem sumir depois da entrega.</p>
-        </div>
-
-        <div class="sobre-acao">
-            <a class="botao" href="@Perfil.CurriculoPdf" target="_blank">currículo em pdf</a>
-        </div>
-    </div>
-</section>
-
-<section class="secao" id="contato" data-revelar>
-    <div class="container-lg">
-        <p class="rotulo">// contato</p>
-
-        @if (TempData["ContatoSucesso"] is string contatoSucesso)
-        {
-            <p class="form-aviso form-aviso-ok" role="status">@contatoSucesso</p>
-        }
-        else if (TempData["ContatoErro"] is string contatoErro)
-        {
-            <p class="form-aviso form-aviso-erro" role="alert">@contatoErro</p>
-        }
-
-        <div class="contato">
-            <div>
-                <h2 class="contato-titulo">Me conta o que você precisa.</h2>
-                <p class="contato-desc">Com as suas palavras. Não precisa saber o nome de nada, nem chegar com o projeto pronto na cabeça.</p>
-
-                <div class="contatos">
-                    <a class="contato-item" href="mailto:@Perfil.Email">
-                        <span class="contato-icone"><i class="bi bi-envelope"></i></span>
-                        <span class="contato-texto"><span>e-mail</span><b>@Perfil.Email</b></span>
-                    </a>
-                    <a class="contato-item" href="https://www.linkedin.com/in/paiineli" target="_blank" rel="noopener noreferrer">
-                        <span class="contato-icone"><i class="bi bi-linkedin"></i></span>
-                        <span class="contato-texto"><span>linkedin</span><b>@Perfil.LinkedIn</b></span>
-                    </a>
-                    <a class="contato-item" href="https://github.com/paiineli" target="_blank" rel="noopener noreferrer">
-                        <span class="contato-icone"><i class="bi bi-github"></i></span>
-                        <span class="contato-texto"><span>github</span><b>@Perfil.GitHub</b></span>
-                    </a>
-                </div>
-            </div>
-
-            <form class="formulario" asp-controller="Contato" asp-action="Enviar" method="post">
-                @Html.AntiForgeryToken()
-
+            <div class="grade contato-dados">
                 <div class="campo">
-                    <label for="contato-nome">nome</label>
-                    <input id="contato-nome" name="Nome" type="text" maxlength="100" required
-                           autocomplete="name" placeholder="seu nome"
-                           value="@(TempData["ContatoNome"] as string)" />
+                    <label for="contato-nome">Seu nome</label>
+                    <input id="contato-nome" class="entrada" name="Nome" type="text" maxlength="100" required
+                           autocomplete="name" value="@(TempData["ContatoNome"] as string)" />
                 </div>
-
                 <div class="campo">
-                    <label for="contato-email">e-mail</label>
-                    <input id="contato-email" name="Email" type="email" maxlength="255" required
-                           autocomplete="email" placeholder="seu e-mail"
-                           value="@(TempData["ContatoEmail"] as string)" />
+                    <label for="contato-email">Seu e-mail para eu responder</label>
+                    <input id="contato-email" class="entrada" name="Email" type="email" maxlength="255" required
+                           autocomplete="email" value="@(TempData["ContatoEmail"] as string)" />
                 </div>
+            </div>
 
-                <div class="campo">
-                    <label for="contato-mensagem">mensagem</label>
-                    <textarea id="contato-mensagem" name="Mensagem" maxlength="2000" minlength="10" required
-                              placeholder="hoje eu controlo as ordens de serviço da minha oficina no caderno e está começando a dar confusão">@(TempData["ContatoMensagem"] as string)</textarea>
-                </div>
+            @* Isca para robô. Fica fora da tela por CSS e fora da navegação por
+               teclado e leitor de tela, então só um preenchedor automático acerta. *@
+            <div class="form-isca" aria-hidden="true">
+                <label for="contato-site">Website</label>
+                <input id="contato-site" name="Site" type="text" tabindex="-1" autocomplete="off" />
+            </div>
 
-                @* Isca para robô. Fica fora da tela por CSS e fora da navegação por
-                   teclado e leitor de tela, então só um preenchedor automático acerta. *@
-                <div class="form-isca" aria-hidden="true">
-                    <label for="contato-site">Website</label>
-                    <input id="contato-site" name="Site" type="text" tabindex="-1" autocomplete="off" />
-                </div>
+            <div class="cf-turnstile" data-sitekey="@turnstileSiteKey" data-theme="auto" data-language="pt-br"></div>
 
-                <div class="cf-turnstile" data-sitekey="@turnstileSiteKey" data-theme="dark" data-language="@turnstileIdioma"></div>
+            <button type="submit" class="botao botao-primario botao-grande botao-bloco" id="contato-enviar"
+                    data-enviando="Enviando...">Enviar minha ideia</button>
 
-                <div>
-                    <button type="submit" class="botao botao-cheio" id="contato-enviar"
-                            data-enviando="enviando">enviar</button>
-                </div>
-            </form>
-        </div>
+            <p class="contato-alternativa">Prefere outro caminho? <a href="mailto:@Perfil.Email">@Perfil.Email</a></p>
+        </form>
     </div>
 </section>
 
@@ -226,5 +283,12 @@
     @* O script do Turnstile é o único de terceiro no site público, e é assíncrono e
        adiado, então não bloqueia a renderização. *@
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script src="~/js/contato.js" asp-append-version="true" defer></script>
+    <script src="~/js/inicio.js" asp-append-version="true" defer></script>
+}
+
+@functions {
+    private sealed record ItemDepois(string Nome, string Detalhe, string Situacao, string ClasseSelo);
+
+    private sealed record Cenario(string Chave, string Rotulo, string TituloAntes, string[] Antes,
+        string TituloDepois, ItemDepois[] Depois, string Exemplo, string Frase);
 }
