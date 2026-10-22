@@ -56,19 +56,19 @@
                 <div class="collapse navbar-collapse" id="menu-conteudo">
                     <ul class="navbar-nav me-auto gap-1">
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
-                               asp-controller="Painel" asp-action="Index">Dashboard</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Painel" ? "active" : "")"
+                               asp-controller="Painel" asp-action="Index">Painel</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Transaction" ? "active" : "")"
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Transacao" ? "active" : "")"
                                asp-controller="Transacao" asp-action="Index">Transações</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Categoria" ? "active" : "")"
                                asp-controller="Categoria" asp-action="Index">Categorias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Quotes" ? "active" : "")"
+                            <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cotacoes" ? "active" : "")"
                                asp-controller="Cotacoes" asp-action="Index">Cotações</a>
                         </li>
                     </ul>
