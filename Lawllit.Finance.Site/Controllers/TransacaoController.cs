@@ -91,7 +91,7 @@ public class TransacaoController(
         {
             csv.AppendLine(string.Join(';',
                 transacao.DtTransacao.ToString("dd/MM/yyyy", cultura),
-                Escapar(transacao.TxDescricao),
+                Escapar(transacao.TxDescricao ?? string.Empty),
                 Escapar(transacao.Categoria?.NmCategoria ?? string.Empty),
                 transacao.TxTipo.Rotulo(),
                 transacao.Recorrente ? "Sim" : "Não",

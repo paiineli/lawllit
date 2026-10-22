@@ -6,7 +6,7 @@ namespace Lawllit.Model.Finance;
 public sealed class TransacaoModel
 {
     public Guid CdTransacao { get; set; }
-    public string TxDescricao { get; set; } = string.Empty;
+    public string? TxDescricao { get; set; }
     public decimal VlTransacao { get; set; }
     public TipoTransacaoEnum TxTipo { get; set; }
     public DateTime DtTransacao { get; set; }
