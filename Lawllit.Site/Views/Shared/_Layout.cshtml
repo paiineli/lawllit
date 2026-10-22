@@ -40,28 +40,25 @@
         <div class="conteiner topo-linha">
             <a class="marca" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
 
-            <nav class="topo-acoes" aria-label="Principal">
-                <a class="link-topo so-computador" asp-controller="Ferramentas" asp-action="Index" aria-current="@(controller == "Ferramentas" ? "page" : null)">
-                    <icone nome="ferramenta" />Ferramentas
+            @* No celular os nomes viram ícone e o pedido de orçamento sai, porque a home tem o botão fixo embaixo. *@
+            <nav class="menu-pilula menu-site" aria-label="Principal">
+                <a asp-controller="Inicio" asp-action="Index" aria-current="@(controller == "Inicio" ? "page" : null)" aria-label="Home">
+                    <icone nome="casa" class="so-celular" /><span class="so-computador">Home</span>
                 </a>
-                <a class="link-topo so-computador" asp-controller="Jogos" asp-action="Index" aria-current="@(controller == "Jogos" ? "page" : null)">
-                    <icone nome="controle" />Jogos
+                <a href="@Configuration["Finance:Url"]" aria-label="Finance">
+                    <icone nome="carteira" class="so-celular" /><span class="so-computador">Finance</span>
                 </a>
-                <a class="link-topo so-computador" href="@Configuration["Finance:Url"]">
-                    <icone nome="carteira" />Finance
+                <a asp-controller="Ferramentas" asp-action="Index" aria-current="@(controller == "Ferramentas" ? "page" : null)" aria-label="Ferramentas">
+                    <icone nome="ferramenta" class="so-celular" /><span class="so-computador">Ferramentas</span>
                 </a>
-
-                <a class="botao botao-icone so-celular" asp-controller="Ferramentas" asp-action="Index" aria-label="Ferramentas">
-                    <icone nome="ferramenta" />
+                <a asp-controller="Jogos" asp-action="Index" aria-current="@(controller == "Jogos" ? "page" : null)" aria-label="Jogos">
+                    <icone nome="controle" class="so-celular" /><span class="so-computador">Jogos</span>
                 </a>
-                <a class="botao botao-icone so-celular" asp-controller="Jogos" asp-action="Index" aria-label="Jogos">
-                    <icone nome="controle" />
-                </a>
-
-                <button type="button" class="botao botao-icone" data-alternar-tema aria-label="Trocar entre tema claro e escuro">
+                <button type="button" class="botao botao-icone menu-tema" data-alternar-tema aria-label="Trocar entre tema claro e escuro">
                     <icone nome="lua" class="icone-lua" />
                     <icone nome="sol" class="icone-sol" />
                 </button>
+                <a class="botao botao-escuro so-computador" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">Pedir orçamento</a>
             </nav>
         </div>
     </header>
