@@ -1,48 +1,57 @@
 @{
     var ferramenta = Ferramentas.Por("JuntarPdf");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// como funciona</p>
-            <ol class="util-passos">
-                <li>envie seus arquivos pdf</li>
-                <li>as páginas são mescladas na ordem dos arquivos</li>
-                <li>baixe o pdf unificado</li>
-            </ol>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span>Escolha os PDFs</h2>
+
+            <form class="pilha" asp-controller="Ferramentas" asp-action="JuntarPdf" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+                <label class="envio" data-varios="{0} arquivos escolhidos">
+                    <input type="file" id="arquivos-entrada" name="files" multiple accept=".pdf,application/pdf" />
+                    <span class="envio-icone"><icone nome="upload" /></span>
+                    <span class="titulo-cartao envio-titulo"><span class="so-celular">Toque para escolher</span><span class="so-computador">Clique ou arraste os PDFs aqui</span></span>
+                    <span class="texto-pequeno texto-suave">Dois ou mais, todos de uma vez. Eles não saem do seu aparelho.</span>
+                </label>
+
+                <ol id="arquivos-lista" class="lista arquivos" aria-label="Ordem dos arquivos" hidden></ol>
+
+                <button type="submit" id="arquivos-unificar" class="botao botao-primario botao-grande botao-bloco" disabled><icone nome="download" />Juntar e baixar</button>
+            </form>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// enviar</p>
-            <form asp-controller="Ferramentas" asp-action="JuntarPdf" method="post" enctype="multipart/form-data">
-                @Html.AntiForgeryToken()
-                <div class="util-envio">
-                    <input type="file" id="arquivos-entrada" name="files" multiple accept=".pdf" class="fora-da-tela" />
-                    <label for="arquivos-entrada" class="util-envio-rotulo">
-                        <i class="bi bi-file-earmark-pdf"></i>
-                        <span>escolher arquivos</span>
-                        <span class="util-dica">.pdf · páginas mescladas na ordem de envio</span>
-                    </label>
-                </div>
-                <div id="arquivos-lista" class="util-arquivos" hidden></div>
-                <button type="submit" id="arquivos-unificar" class="botao botao-cheio" disabled>mesclar arquivos</button>
-            </form>
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo">Como funciona</h2>
+            <ol class="passos">
+                <li><span class="painel-numero">1</span><span>Escolha todos os PDFs de uma vez.</span></li>
+                <li><span class="painel-numero">2</span><span>As páginas são juntadas na ordem em que aparecem na lista.</span></li>
+                <li><span class="painel-numero">3</span><span>O PDF único é baixado na hora.</span></li>
+            </ol>
         </section>
     </div>
 </main>
 
-<div id="progresso" class="util-progresso" hidden>
-    <p id="progresso-rotulo" class="util-progresso-rotulo" data-molde="arquivo {0} de {1}"></p>
-    <div class="util-progresso-trilho">
-        <div id="progresso-barra" class="util-progresso-barra"></div>
+<div id="progresso" class="progresso" hidden>
+    <div class="cartao pilha progresso-cartao" role="status" aria-live="polite">
+        <p class="titulo-cartao">Juntando...</p>
+        <p id="progresso-rotulo" class="texto-suave" data-molde="Arquivo {0} de {1}"></p>
+        <div class="barra-trilho"><div id="progresso-barra" class="barra-preenchimento"></div></div>
     </div>
 </div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib@@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="~/js/envio.js" asp-append-version="true"></script>
     <script src="~/js/juntar-pdf.js" asp-append-version="true"></script>
 }

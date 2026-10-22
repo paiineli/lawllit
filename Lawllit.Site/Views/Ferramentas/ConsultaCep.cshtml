@@ -1,57 +1,59 @@
 @{
     var ferramenta = Ferramentas.Por("ConsultaCep");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
+
+    var linhas = new[]
+    {
+        ("cep", "CEP"),
+        ("logradouro", "Rua"),
+        ("complemento", "Complemento"),
+        ("bairro", "Bairro"),
+        ("localidade", "Cidade"),
+        ("uf", "Estado"),
+        ("ddd", "DDD"),
+    };
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// cep</p>
-            <input type="text" id="cep-entrada" class="util-campo" inputmode="numeric" maxlength="9" placeholder="00000-000" />
-            <div class="util-acoes">
-                <button id="cep-consultar" class="botao botao-cheio">consultar</button>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span><label for="cep-entrada">Digite o CEP</label></h2>
+            <input type="text" id="cep-entrada" class="entrada" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000" />
+            <div class="acoes">
+                <button type="button" id="cep-consultar" class="botao botao-primario"><icone nome="lupa" />Consultar</button>
             </div>
-            <p id="cep-erro" class="util-erro" hidden
-               data-invalido="cep inválido. informe 8 dígitos."
-               data-naoencontrado="cep não encontrado."></p>
+            <p id="cep-erro" class="alerta alerta-erro" role="alert" hidden
+               data-invalido="CEP inválido. Ele tem 8 números."
+               data-naoencontrado="Não achei esse CEP. Confira os números e tente de novo."><icone nome="alerta" /><span id="cep-erro-texto"></span></p>
         </section>
 
-        <section id="cep-resultado" class="util-painel" hidden>
-            <p class="util-rotulo">// resultado</p>
-            <div class="util-resultado">
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">cep</span>
-                    <span class="util-resultado-valor" id="cep-cep"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">logradouro</span>
-                    <span class="util-resultado-valor" id="cep-logradouro"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">complemento</span>
-                    <span class="util-resultado-valor" id="cep-complemento"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">bairro</span>
-                    <span class="util-resultado-valor" id="cep-bairro"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">cidade</span>
-                    <span class="util-resultado-valor" id="cep-localidade"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">estado</span>
-                    <span class="util-resultado-valor" id="cep-uf"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">ddd</span>
-                    <span class="util-resultado-valor" id="cep-ddd"></span>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span>Endereço</h2>
+
+            <div id="cep-resultado" class="saida pilha" hidden>
+                <dl class="dados">
+                    @foreach (var (campo, rotulo) in linhas)
+                    {
+                        <div class="dados-linha">
+                            <dt>@rotulo</dt>
+                            <dd id="cep-@campo"></dd>
+                        </div>
+                    }
+                </dl>
+                <div class="acoes">
+                    <button type="button" id="cep-copiar" class="botao botao-escuro"><icone nome="copiar" />Copiar endereço</button>
                 </div>
             </div>
-            <div class="util-acoes">
-                <button id="cep-copiar" class="botao">copiar endereço</button>
+            <div class="estado-vazio">
+                <icone nome="mapa" />
+                <p>O endereço aparece aqui.</p>
             </div>
         </section>
     </div>

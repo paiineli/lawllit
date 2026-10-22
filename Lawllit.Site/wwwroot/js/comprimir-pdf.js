@@ -49,6 +49,12 @@
         botoesNivel.forEach(function (botao) { botao.disabled = !habilitado; });
     }
 
+    function marcarNivel(nivel) {
+        botoesNivel.forEach(function (botao) {
+            botao.setAttribute('aria-pressed', String(botao.dataset.nivel === nivel));
+        });
+    }
+
     function mostrarProgresso(atual, total, molde) {
         barra.style.width = Math.round(atual / total * 100) + '%';
         rotulo.textContent = molde.replace('{0}', atual).replace('{1}', total);
@@ -113,8 +119,9 @@
         // Pdf só de texto já é pequeno, e virar imagem costuma deixar o arquivo maior.
         var semGanho = bytes.length >= tamanhoOriginal;
 
-        reducaoTexto.textContent = '-' + reducao + '%';
+        reducaoTexto.textContent = reducao + '%';
         avisoSemGanho.hidden = !semGanho;
+        reducaoTexto.parentElement.hidden = semGanho;
         botaoBaixar.disabled = semGanho;
         resultado.hidden = false;
     }
@@ -127,6 +134,7 @@
         var inicio = Date.now();
 
         habilitarNiveis(false);
+        marcarNivel(nivel);
         cortina.hidden = false;
 
         comprimir(nivel)

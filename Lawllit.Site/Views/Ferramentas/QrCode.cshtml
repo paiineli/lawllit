@@ -1,28 +1,39 @@
 @{
     var ferramenta = Ferramentas.Por("QrCode");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// entrada</p>
-            <textarea id="qr-entrada" class="util-area" placeholder="cole um texto ou link..."></textarea>
-            <div class="util-acoes">
-                <button id="qr-gerar" class="botao botao-cheio">gerar</button>
-                <button id="qr-limpar" class="botao">limpar</button>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span><label for="qr-entrada">Cole o link ou texto</label></h2>
+            <textarea id="qr-entrada" class="entrada" placeholder="https://..."></textarea>
+            <div class="acoes">
+                <button type="button" id="qr-gerar" class="botao botao-primario"><icone nome="qr" />Gerar QR Code</button>
+                <button type="button" id="qr-limpar" class="botao"><icone nome="lixeira" />Limpar</button>
             </div>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// saída</p>
-            <div class="util-qr" hidden>
-                <div id="qr-desenho" class="util-qr-desenho"></div>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span>Seu QR Code</h2>
+
+            <div class="saida qr-moldura" hidden>
+                <div id="qr-desenho" class="qr-desenho"></div>
             </div>
-            <div class="util-acoes">
-                <button id="qr-baixar" class="botao" disabled>baixar png</button>
+            <div class="estado-vazio">
+                <icone nome="qr" />
+                <p>O QR Code aparece aqui.</p>
+            </div>
+
+            <div class="acoes">
+                <button type="button" id="qr-baixar" class="botao botao-escuro" disabled><icone nome="download" />Baixar imagem</button>
             </div>
         </section>
     </div>

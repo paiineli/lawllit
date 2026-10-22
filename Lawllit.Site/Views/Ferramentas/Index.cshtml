@@ -1,31 +1,57 @@
 @{
-    ViewData["Title"] = "ferramentas. · lawllit.";
+    ViewData["Title"] = "Ferramentas · lawllit.";
+    ViewData["Descricao"] = "Ferramentas gratuitas que rodam no navegador: juntar PDF e planilhas, comprimir imagem e PDF, QR Code, CEP, CPF e CNPJ, senha e mais.";
 }
 
-<header class="ferramentas-topo">
-    <div class="container-lg">
-        <h1 class="ferramentas-titulo">ferramentas<span class="marca-ponto">.</span></h1>
-        <p class="texto">Tarefas chatas do dia a dia, resolvidas em um clique. Tudo acontece no seu navegador, nenhum arquivo sobe para servidor nenhum.</p>
-    </div>
-</header>
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-<section class="secao">
-    <div class="container-lg">
-        @foreach (var grupo in Ferramentas.Grupos)
-        {
-            <div class="grupo" data-revelar>
-                <p class="rotulo">@grupo.Categoria</p>
-                <div class="ferramentas-grade">
-                    @foreach (var ferramenta in grupo.Ferramentas)
-                    {
-                        <a class="ferramenta" asp-controller="Ferramentas" asp-action="@ferramenta.Acao">
-                            <span class="ferramenta-icone"><i class="bi @ferramenta.Icone"></i></span>
-                            <span class="ferramenta-nome">@ferramenta.Nome</span>
-                            <p class="ferramenta-desc">@ferramenta.Descricao</p>
-                        </a>
-                    }
-                </div>
+<main class="conteiner">
+    <header class="ferramentas-topo">
+        <p class="rotulo">De graça, sem cadastro</p>
+        <h1 class="titulo-gigante">Ferramentas<span class="destaque">.</span></h1>
+        <p class="texto-grande texto-suave ferramentas-sub">Tarefas chatas do dia a dia, resolvidas em um toque. Tudo acontece no seu aparelho, nenhum arquivo é enviado para lugar nenhum.</p>
+
+        <nav class="chips chips-rolagem ferramentas-atalhos" aria-label="Grupos de ferramentas">
+            @foreach (var grupo in Ferramentas.Grupos)
+            {
+                <a class="chip" href="#@grupo.Ancora">@grupo.Categoria</a>
+            }
+        </nav>
+    </header>
+
+    @foreach (var grupo in Ferramentas.Grupos)
+    {
+        <section class="ferramentas-grupo" id="@grupo.Ancora" aria-labelledby="titulo-@grupo.Ancora" data-revelar>
+            <h2 class="titulo-cartao ferramentas-grupo-titulo" id="titulo-@grupo.Ancora">
+                @grupo.Categoria <span class="selo">@grupo.Ferramentas.Length</span>
+            </h2>
+
+            <div class="grade ferramentas-grade">
+                @foreach (var ferramenta in grupo.Ferramentas)
+                {
+                    <a class="cartao ferramenta-cartao" asp-controller="Ferramentas" asp-action="@ferramenta.Acao">
+                        <span class="ferramenta-cartao-topo">
+                            <span class="icone-quadro"><icone nome="@ferramenta.Icone" /></span>
+                            <icone nome="seta-diagonal" class="ferramenta-cartao-seta" />
+                        </span>
+                        <span class="ferramenta-cartao-texto">
+                            <span class="titulo-cartao">@ferramenta.Nome</span>
+                            <span class="texto-suave">@ferramenta.Descricao</span>
+                        </span>
+                    </a>
+                }
             </div>
-        }
-    </div>
-</section>
+        </section>
+    }
+
+    <section class="cartao cartao-invertido ferramentas-privacidade" data-revelar>
+        <span class="icone-quadro icone-quadro-cheio"><icone nome="escudo" /></span>
+        <div class="ferramentas-privacidade-texto">
+            <h2 class="titulo-cartao">Seus arquivos não saem do seu aparelho.</h2>
+            <p class="texto-suave">Tudo é feito no próprio navegador. A única exceção é a consulta de CEP, que manda só o CEP digitado para um serviço público de endereços.</p>
+        </div>
+        <a class="botao botao-primario" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">Precisa de algo sob medida? <icone nome="seta-direita" /></a>
+    </section>
+</main>

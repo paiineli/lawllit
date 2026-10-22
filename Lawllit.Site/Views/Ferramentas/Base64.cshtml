@@ -1,28 +1,33 @@
 @{
     var ferramenta = Ferramentas.Por("Base64");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// entrada</p>
-            <textarea id="base64-entrada" class="util-area" placeholder="cole seu texto aqui..."></textarea>
-            <div class="util-acoes">
-                <button id="base64-codificar" class="botao botao-cheio">codificar</button>
-                <button id="base64-decodificar" class="botao">decodificar</button>
-                <button id="base64-limpar" class="botao">limpar</button>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span><label for="base64-entrada">Cole o texto</label></h2>
+            <textarea id="base64-entrada" class="entrada area-codigo" spellcheck="false" placeholder="Um texto por linha"></textarea>
+            <div class="acoes">
+                <button type="button" id="base64-codificar" class="botao botao-primario">Codificar</button>
+                <button type="button" id="base64-decodificar" class="botao botao-contorno">Decodificar</button>
+                <button type="button" id="base64-limpar" class="botao"><icone nome="lixeira" />Limpar</button>
             </div>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// saída</p>
-            <textarea id="base64-saida" class="util-area" readonly></textarea>
-            <p id="base64-erro" class="util-erro" hidden>entrada base64 inválida.</p>
-            <div class="util-acoes">
-                <button id="base64-copiar" class="botao" data-copiar="#base64-saida">copiar</button>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span><label for="base64-saida">Resultado</label></h2>
+            <textarea id="base64-saida" class="entrada area-codigo" readonly spellcheck="false" placeholder="O resultado aparece aqui."></textarea>
+            <p id="base64-erro" class="alerta alerta-erro" role="alert" hidden><icone nome="alerta" />Isso não é um Base64 válido. Confira se colou o texto inteiro.</p>
+            <div class="acoes">
+                <button type="button" class="botao botao-escuro" data-copiar="#base64-saida"><icone nome="copiar" />Copiar resultado</button>
             </div>
         </section>
     </div>

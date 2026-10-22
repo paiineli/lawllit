@@ -11,16 +11,28 @@
     var rotulo = document.getElementById('progresso-rotulo');
     var barra = document.getElementById('progresso-barra');
 
+    // O número na frente mostra a ordem em que as páginas vão sair.
+    function montarItem(arquivo, indice) {
+        var item = document.createElement('li');
+        item.className = 'lista-item';
+
+        var ordem = document.createElement('span');
+        ordem.className = 'arquivo-ordem';
+        ordem.textContent = indice + 1;
+
+        var nome = document.createElement('span');
+        nome.className = 'lista-item-corpo lista-item-titulo';
+        nome.textContent = arquivo.name;
+
+        item.append(ordem, nome);
+        return item;
+    }
+
     entrada.addEventListener('change', function () {
         var arquivos = Array.from(entrada.files);
 
         lista.hidden = arquivos.length === 0;
-        lista.replaceChildren(...arquivos.map(function (arquivo) {
-            var item = document.createElement('span');
-            item.className = 'util-arquivo';
-            item.textContent = arquivo.name;
-            return item;
-        }));
+        lista.replaceChildren(...arquivos.map(montarItem));
 
         botaoJuntar.disabled = arquivos.length < 2;
     });

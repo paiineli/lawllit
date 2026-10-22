@@ -1,68 +1,73 @@
 @{
     var ferramenta = Ferramentas.Por("ComprimirPdf");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// enviar</p>
-            <div class="util-envio">
-                <input type="file" id="pdf-entrada" accept=".pdf,application/pdf" class="fora-da-tela" />
-                <label for="pdf-entrada" class="util-envio-rotulo">
-                    <i class="bi bi-file-earmark-pdf"></i>
-                    <span>escolher pdf</span>
-                    <span class="util-dica">.pdf · processado no seu navegador</span>
-                </label>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span>Escolha o PDF</h2>
+
+            <label class="envio">
+                <input type="file" id="pdf-entrada" accept=".pdf,application/pdf" />
+                <span class="envio-icone"><icone nome="upload" /></span>
+                <span class="titulo-cartao envio-titulo"><span class="so-celular">Toque para escolher</span><span class="so-computador">Clique ou arraste o PDF aqui</span></span>
+                <span class="texto-pequeno texto-suave">Um arquivo PDF. Ele não sai do seu aparelho.</span>
+            </label>
+
+            <p id="pdf-erro" class="alerta alerta-erro" role="alert" hidden><icone nome="alerta" />Não deu para ler este PDF. Arquivo protegido por senha não é aceito.</p>
+
+            <div class="campo">
+                <p class="campo-rotulo">Quanto comprimir</p>
+                <div class="chips" role="group" aria-label="Quanto comprimir">
+                    <button type="button" class="chip" data-nivel="alta" aria-pressed="false" disabled>Pouco</button>
+                    <button type="button" class="chip" data-nivel="equilibrado" aria-pressed="true" disabled>Equilibrado</button>
+                    <button type="button" class="chip" data-nivel="menor" aria-pressed="false" disabled>Muito</button>
+                </div>
+                <p class="texto-pequeno texto-suave">Quanto mais comprimir, mais leve fica o arquivo e menor a qualidade.</p>
             </div>
-            <p id="pdf-erro" class="util-erro" hidden>não foi possível ler este pdf. arquivos protegidos por senha não são aceitos.</p>
+
+            <p class="alerta alerta-info"><icone nome="info" />Cada página vira uma imagem, então o texto deixa de ser selecionável. Funciona melhor em PDF escaneado ou cheio de fotos.</p>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// nível de compressão</p>
-            <div class="util-acoes">
-                <button class="botao" data-nivel="alta" disabled>qualidade alta</button>
-                <button class="botao" data-nivel="equilibrado" disabled>equilibrado</button>
-                <button class="botao" data-nivel="menor" disabled>menor arquivo</button>
-            </div>
-            <p class="util-aviso">cada página vira imagem, então o texto deixa de ser selecionável. funciona melhor em pdf escaneado ou cheio de fotos.</p>
-        </section>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span>Baixe o resultado</h2>
 
-        <section id="pdf-resultado" class="util-painel util-painel-largo" hidden>
-            <p class="util-rotulo">// resultado</p>
-            <div class="util-resultado">
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">original</span>
-                    <span class="util-resultado-valor" id="pdf-original"></span>
+            <div id="pdf-resultado" class="saida pilha" hidden>
+                <div class="medidas">
+                    <p class="medida"><span class="texto-pequeno">Antes</span><span class="numero medida-valor" id="pdf-original"></span></p>
+                    <p class="medida"><span class="texto-pequeno">Depois</span><span class="numero medida-valor" id="pdf-comprimido"></span></p>
+                    <p class="medida medida-destaque"><span class="texto-pequeno">Ficou menor em</span><span class="numero medida-valor" id="pdf-reducao"></span></p>
                 </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">comprimido</span>
-                    <span class="util-resultado-valor" id="pdf-comprimido"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">redução</span>
-                    <span class="util-resultado-valor" id="pdf-reducao"></span>
-                </div>
+                <p id="pdf-sem-ganho" class="alerta alerta-info" hidden><icone nome="info" />Este PDF já é enxuto, e a versão comprimida ficou maior. Tente outro nível ou fique com o arquivo como está.</p>
+                <button type="button" id="pdf-baixar" class="botao botao-primario botao-grande botao-bloco"><icone nome="download" />Baixar PDF</button>
             </div>
-            <p id="pdf-sem-ganho" class="util-aviso" hidden>este pdf já está enxuto, a versão comprimida ficou maior que o original. tente outro nível ou mantenha o arquivo como está.</p>
-            <div class="util-acoes">
-                <button id="pdf-baixar" class="botao botao-cheio">baixar</button>
+            <div class="estado-vazio">
+                <icone nome="documento" />
+                <p>Escolha um PDF e o arquivo menor aparece aqui.</p>
             </div>
         </section>
     </div>
 </main>
 
-<div id="progresso" class="util-progresso" hidden>
-    <p id="progresso-rotulo" class="util-progresso-rotulo" data-molde="página {0} de {1}"></p>
-    <div class="util-progresso-trilho">
-        <div id="progresso-barra" class="util-progresso-barra"></div>
+<div id="progresso" class="progresso" hidden>
+    <div class="cartao pilha progresso-cartao" role="status" aria-live="polite">
+        <p class="titulo-cartao">Comprimindo...</p>
+        <p id="progresso-rotulo" class="texto-suave" data-molde="Página {0} de {1}"></p>
+        <div class="barra-trilho"><div id="progresso-barra" class="barra-preenchimento"></div></div>
     </div>
 </div>
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@@3.11.174/build/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib@@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="~/js/envio.js" asp-append-version="true"></script>
     <script src="~/js/comprimir-pdf.js" asp-append-version="true"></script>
 }

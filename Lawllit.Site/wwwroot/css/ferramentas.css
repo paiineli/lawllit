@@ -1,0 +1,171 @@
+/* Índice e páginas de ferramenta. Tokens e componentes vêm do lawllit.css do Lawllit.Web. */
+
+/* ---------- índice ---------- */
+
+.ferramentas-topo { padding-top: 40px; }
+.ferramentas-topo h1 { max-width: 900px; }
+.ferramentas-sub { margin-top: 20px; max-width: 600px; }
+.ferramentas-atalhos { margin-top: 28px; }
+
+/* A margem do scroll deixa o título do grupo respirando quando o atalho do topo desce até ele. */
+.ferramentas-grupo { padding-top: 56px; scroll-margin-top: 16px; }
+.ferramentas-grupo-titulo { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+/* auto-fill e não o auto-fit da .grade: grupo com uma ferramenta só não vira um cartão da largura toda. */
+.ferramentas-grade { grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); }
+
+.ferramenta-cartao { display: flex; flex-direction: column; gap: 18px; }
+.ferramenta-cartao-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.ferramenta-cartao-texto { display: flex; flex-direction: column; gap: 6px; }
+.ferramenta-cartao-seta { color: var(--texto-suave); transition: color var(--transicao); }
+.ferramenta-cartao:hover .ferramenta-cartao-seta { color: var(--destaque-texto); }
+
+.ferramentas-privacidade { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin-block: 72px; padding: clamp(24px, 4vw, 44px); border-radius: 32px; }
+.ferramentas-privacidade-texto { flex: 1 1 340px; min-width: 0; }
+.ferramentas-privacidade-texto p { margin-top: 12px; }
+
+/* ---------- página de uma ferramenta ---------- */
+
+.ferramenta-pagina { padding-top: 24px; padding-bottom: 72px; }
+.ferramenta-titulo { display: flex; align-items: center; gap: 16px; margin-top: 28px; }
+.ferramenta-titulo .icone-quadro { width: 56px; height: 56px; }
+.ferramenta-titulo .icone { width: 26px; height: 26px; }
+.ferramenta-descricao { margin-top: 16px; max-width: 640px; }
+
+/* Uma coluna no celular. No computador, entrada à esquerda e saída à direita. */
+/* O minmax com zero impede que nome de arquivo comprido alargue a coluna para fora da tela. */
+.ferramenta-corpo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 32px; }
+
+@media (min-width: 992px) {
+    /* Sem o align-items os dois painéis de uma linha esticam até a altura do mais alto. */
+    .ferramenta-corpo { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+
+.painel { gap: 20px; padding: clamp(20px, 3vw, 28px); }
+.painel-titulo { display: flex; align-items: center; gap: 12px; font-size: 1.3rem; letter-spacing: -0.02em; }
+
+.painel-numero {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--destaque-suave);
+    color: var(--destaque-texto);
+    font-size: 1rem;
+}
+
+.acoes { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* No celular o botão de ação ocupa a linha, que é onde o polegar alcança. */
+@media (max-width: 640px) {
+    .acoes > .botao, .senha-saida > .botao { flex: 1 1 auto; }
+}
+
+.area-codigo { min-height: 200px; font-family: var(--fonte-codigo); font-size: 0.9375rem; line-height: 1.6; }
+.area-codigo[readonly], .campo-saida { background: var(--superficie-2); }
+
+/* A classe copiado vem do Lawllit.copiar, que não pinta nada por conta própria. */
+.botao.copiado { border-color: var(--ok); background: var(--ok-suave); color: var(--ok); }
+.chip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- envio de arquivo ---------- */
+
+/* O input cobre a área toda, então tocar abre o seletor e soltar o arquivo em cima funciona sem script. */
+.envio {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 240px;
+    padding: 32px 20px;
+    border: 2px dashed var(--borda-forte);
+    border-radius: var(--raio-medio);
+    background: var(--fundo);
+    text-align: center;
+    transition: border-color var(--transicao), background var(--transicao);
+}
+
+.envio:hover, .envio.arrastando { border-color: var(--destaque); background: var(--destaque-suave); }
+.envio:focus-within { border-color: var(--destaque); box-shadow: var(--foco); }
+
+.envio input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.envio input::file-selector-button { cursor: pointer; }
+
+.envio-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background: var(--destaque);
+    color: var(--sobre-destaque);
+}
+
+.envio-icone .icone { width: 28px; height: 28px; stroke-width: 2.4; }
+.envio-titulo { overflow-wrap: anywhere; }
+
+.arquivos { margin: 0; padding: 0; list-style: none; }
+
+.arquivo-ordem {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--superficie-2);
+    font-size: 0.8125rem;
+    font-weight: 700;
+}
+
+.passos { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.passos li { display: flex; align-items: flex-start; gap: 12px; }
+.passos .painel-numero { width: 30px; height: 30px; font-size: 0.875rem; }
+
+/* ---------- resultado ---------- */
+
+/* O script só mostra a saída. O estado vazio vem logo depois dela e some sozinho. */
+.saida:not([hidden]) + .estado-vazio { display: none; }
+
+.medidas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.medida { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: var(--raio-pequeno); background: var(--superficie-2); }
+.medida-valor { font-size: 1.5rem; }
+.medida-destaque { grid-column: 1 / -1; background: var(--destaque); color: var(--sobre-destaque); }
+.medida-destaque .medida-valor { font-size: 2.5rem; }
+
+.previa { width: 100%; max-height: 360px; object-fit: contain; border-radius: var(--raio-pequeno); background: var(--superficie-2); }
+
+.dados { margin: 0; }
+.dados-linha { display: grid; grid-template-columns: minmax(96px, 30%) 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--borda); }
+.dados-linha:last-child { border-bottom: 0; }
+.dados dt { color: var(--texto-suave); font-size: 0.9375rem; }
+.dados dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+/* O QR Code fica sempre em fundo branco, senão o leitor do celular não acha o contraste no escuro. */
+.qr-moldura { display: flex; justify-content: center; }
+.qr-desenho { padding: 16px; border-radius: var(--raio-pequeno); background: #ffffff; line-height: 0; }
+.qr-desenho canvas, .qr-desenho img { display: block; max-width: 100%; height: auto; }
+
+/* ---------- senha ---------- */
+
+.faixa-topo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.faixa-valor { font-size: 2rem; }
+.faixa { width: 100%; height: 44px; margin: 0; accent-color: var(--destaque); cursor: pointer; }
+.opcoes { --grade-minimo: 220px; gap: 10px; }
+
+.senha-saida { display: flex; flex-wrap: wrap; gap: 10px; }
+.senha-saida .entrada { flex: 1 1 240px; min-height: 60px; font-family: var(--fonte-codigo); font-size: 1.15rem; }
+.forca:empty { display: none; }
+.forca { align-self: flex-start; }
+
+/* ---------- progresso ---------- */
+
+.progresso { position: fixed; inset: 0; z-index: 70; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--fundo-gaveta); }
+.progresso-cartao { width: min(380px, 100%); box-shadow: var(--sombra-flutuante); }

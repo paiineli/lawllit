@@ -1,58 +1,65 @@
 @{
     var ferramenta = Ferramentas.Por("GerarSenha");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// opções</p>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
 
-            <div class="util-medida">
-                <label for="senha-tamanho">comprimento</label>
-                <b id="senha-tamanho-valor">16</b>
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span>Escolha como ela vai ser</h2>
+
+            <div class="campo">
+                <div class="faixa-topo">
+                    <label for="senha-tamanho">Tamanho</label>
+                    <span><b id="senha-tamanho-valor" class="numero faixa-valor">16</b> <span class="texto-suave">caracteres</span></span>
+                </div>
+                <input type="range" id="senha-tamanho" class="faixa" min="4" max="64" step="1" value="16" />
             </div>
-            <input type="range" id="senha-tamanho" class="util-faixa" min="4" max="64" step="1" value="16" />
 
-            <div class="util-opcoes">
-                <label class="util-opcao">
+            <div class="grade opcoes">
+                <label class="interruptor">
+                    <span>Letras maiúsculas</span>
                     <input type="checkbox" id="senha-maiusculas" checked />
-                    <span>maiúsculas (A-Z)</span>
                 </label>
-                <label class="util-opcao">
+                <label class="interruptor">
+                    <span>Letras minúsculas</span>
                     <input type="checkbox" id="senha-minusculas" checked />
-                    <span>minúsculas (a-z)</span>
                 </label>
-                <label class="util-opcao">
+                <label class="interruptor">
+                    <span>Números</span>
                     <input type="checkbox" id="senha-numeros" checked />
-                    <span>números (0-9)</span>
                 </label>
-                <label class="util-opcao">
+                <label class="interruptor">
+                    <span>Símbolos como !@@#</span>
                     <input type="checkbox" id="senha-simbolos" checked />
-                    <span>símbolos (!@@#...)</span>
                 </label>
-            </div>
-
-            <div class="util-acoes">
-                <button id="senha-gerar" class="botao botao-cheio">gerar</button>
             </div>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// senha</p>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span><label for="senha-resultado">Sua senha</label></h2>
 
-            <div class="util-saida">
-                <input type="text" id="senha-resultado" class="util-campo" readonly />
-                <button id="senha-copiar" class="botao" data-copiar="#senha-resultado">copiar</button>
+            <div class="senha-saida">
+                <input type="text" id="senha-resultado" class="entrada campo-saida" readonly spellcheck="false" autocomplete="off" />
+                <button type="button" class="botao botao-escuro" data-copiar="#senha-resultado"><icone nome="copiar" />Copiar</button>
             </div>
 
-            <p id="senha-forca" class="util-forca"
-               data-rotulo="força"
+            <p id="senha-forca" class="forca"
+               data-rotulo="Força"
                data-fraca="fraca"
                data-media="média"
                data-forte="forte"></p>
+
+            <div class="acoes">
+                <button type="button" id="senha-gerar" class="botao botao-primario"><icone nome="atualizar" />Gerar outra</button>
+            </div>
         </section>
     </div>
 </main>

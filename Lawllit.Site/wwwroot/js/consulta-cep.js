@@ -7,6 +7,7 @@
     var botaoConsultar = document.getElementById('cep-consultar');
     var resultado = document.getElementById('cep-resultado');
     var erro = document.getElementById('cep-erro');
+    var erroTexto = document.getElementById('cep-erro-texto');
     var botaoCopiar = document.getElementById('cep-copiar');
 
     var campos = ['cep', 'logradouro', 'complemento', 'bairro', 'localidade', 'uf', 'ddd'];
@@ -14,7 +15,7 @@
 
     function mostrarErro(mensagem) {
         resultado.hidden = true;
-        erro.textContent = mensagem;
+        erroTexto.textContent = mensagem;
         erro.hidden = false;
     }
 
@@ -66,7 +67,7 @@
         }
     });
 
-    // Copia o endereço montado, e não um campo, por isso não usa o data-copiar do site.js.
+    // Copia o endereço montado, e não um campo, por isso não usa o data-copiar do lawllit.js.
     botaoCopiar.addEventListener('click', function () {
         var endereco = camposEndereco
             .map(function (campo) {
@@ -76,6 +77,6 @@
             .filter(function (valor) { return valor && valor !== '—'; })
             .join(', ');
 
-        window.copiar(botaoCopiar, endereco);
+        Lawllit.copiar(botaoCopiar, endereco);
     });
 })();

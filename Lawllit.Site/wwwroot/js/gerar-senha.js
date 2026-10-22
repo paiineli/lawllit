@@ -31,13 +31,15 @@
         return alfabeto;
     }
 
+    var selos = { fraca: 'selo-erro', media: 'selo-espera', forte: 'selo-ok' };
+
     // Entropia em bits, que é o tamanho vezes o log na base 2 do alfabeto.
     function mostrarForca(comprimento, tamanhoAlfabeto) {
         var entropia = comprimento * (Math.log(tamanhoAlfabeto) / Math.log(2));
         var nivel = entropia < 40 ? 'fraca' : entropia < 70 ? 'media' : 'forte';
 
         forca.textContent = forca.dataset.rotulo + ': ' + forca.dataset[nivel];
-        forca.className = 'util-forca forca-' + nivel;
+        forca.className = 'forca selo selo-ponto ' + selos[nivel];
     }
 
     function gerar() {
@@ -63,8 +65,14 @@
         mostrarForca(comprimento, alfabeto.length);
     }
 
+    // Mexer em qualquer opção já gera outra, para não obrigar a procurar o botão depois de cada ajuste.
     tamanho.addEventListener('input', function () {
         tamanhoTexto.textContent = tamanho.value;
+        gerar();
+    });
+
+    [usarMaiusculas, usarMinusculas, usarNumeros, usarSimbolos].forEach(function (opcao) {
+        opcao.addEventListener('change', gerar);
     });
 
     botaoGerar.addEventListener('click', gerar);

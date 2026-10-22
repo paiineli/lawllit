@@ -10,6 +10,7 @@
     var tamanhoOriginalTexto = document.getElementById('imagem-original');
     var tamanhoFinalTexto = document.getElementById('imagem-comprimida');
     var reducaoTexto = document.getElementById('imagem-reducao');
+    var avisoSemGanho = document.getElementById('imagem-sem-ganho');
     var botaoBaixar = document.getElementById('imagem-baixar');
 
     var niveis = {
@@ -39,8 +40,16 @@
         }
     }
 
+    function marcarNivel(nivel) {
+        botoesNivel.forEach(function (botao) {
+            botao.setAttribute('aria-pressed', String(botao.dataset.nivel === nivel));
+        });
+    }
+
     function comprimir(nivel) {
         if (!imagem) return;
+
+        marcarNivel(nivel);
 
         var preset = niveis[nivel];
         var escala = imagem.width > preset.larguraMaxima ? preset.larguraMaxima / imagem.width : 1;
@@ -64,7 +73,12 @@
                 ? Math.max(0, Math.round((1 - blob.size / tamanhoOriginal) * 100))
                 : 0;
 
-            reducaoTexto.textContent = '-' + reducao + '%';
+            reducaoTexto.textContent = reducao + '%';
+
+            // Imagem pequena ou já otimizada pode crescer ao passar pelo canvas, e "0%" sozinho confunde.
+            var semGanho = blob.size >= tamanhoOriginal;
+            reducaoTexto.parentElement.hidden = semGanho;
+            avisoSemGanho.hidden = !semGanho;
             resultado.hidden = false;
         }, tipoSaida, preset.qualidade);
     }

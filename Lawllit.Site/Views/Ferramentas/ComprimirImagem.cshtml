@@ -1,57 +1,60 @@
 @{
     var ferramenta = Ferramentas.Por("ComprimirImagem");
     ViewData["Title"] = $"{ferramenta.Nome} · lawllit.";
+    ViewData["Descricao"] = ferramenta.Descricao;
 }
 
-<main class="container-lg">
-    <div class="util">
-        <partial name="_Cabecalho" model="ferramenta" />
+@section Estilos {
+    <link rel="stylesheet" href="~/css/ferramentas.css" asp-append-version="true" />
+}
 
-        <section class="util-painel">
-            <p class="util-rotulo">// enviar</p>
-            <div class="util-envio">
-                <input type="file" id="imagem-entrada" accept="image/png,image/jpeg" class="fora-da-tela" />
-                <label for="imagem-entrada" class="util-envio-rotulo">
-                    <i class="bi bi-file-earmark-image"></i>
-                    <span>escolher imagem</span>
-                    <span class="util-dica">.jpg, .png · processado no seu navegador</span>
-                </label>
+<main class="conteiner ferramenta-pagina">
+    <partial name="_Cabecalho" model="ferramenta" />
+
+    <div class="ferramenta-corpo">
+        <section class="cartao pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">1</span>Escolha a imagem</h2>
+
+            <label class="envio">
+                <input type="file" id="imagem-entrada" accept="image/png,image/jpeg" />
+                <span class="envio-icone"><icone nome="upload" /></span>
+                <span class="titulo-cartao envio-titulo"><span class="so-celular">Toque para escolher</span><span class="so-computador">Clique ou arraste a imagem aqui</span></span>
+                <span class="texto-pequeno texto-suave">Foto em JPG ou PNG. Ela não sai do seu aparelho.</span>
+            </label>
+
+            <div class="campo">
+                <p class="campo-rotulo">Quanto comprimir</p>
+                <div class="chips" role="group" aria-label="Quanto comprimir">
+                    <button type="button" class="chip" data-nivel="alta" aria-pressed="false" disabled>Pouco</button>
+                    <button type="button" class="chip" data-nivel="equilibrado" aria-pressed="true" disabled>Equilibrado</button>
+                    <button type="button" class="chip" data-nivel="menor" aria-pressed="false" disabled>Muito</button>
+                </div>
+                <p class="texto-pequeno texto-suave">Quanto mais comprimir, mais leve fica o arquivo e menor a qualidade.</p>
             </div>
         </section>
 
-        <section class="util-painel">
-            <p class="util-rotulo">// nível de compressão</p>
-            <div class="util-acoes">
-                <button class="botao" data-nivel="alta" disabled>qualidade alta</button>
-                <button class="botao" data-nivel="equilibrado" disabled>equilibrado</button>
-                <button class="botao" data-nivel="menor" disabled>menor arquivo</button>
-            </div>
-        </section>
+        <section class="cartao cartao-sombra pilha painel">
+            <h2 class="painel-titulo"><span class="painel-numero">2</span>Baixe o resultado</h2>
 
-        <section id="imagem-resultado" class="util-painel util-painel-largo" hidden>
-            <p class="util-rotulo">// resultado</p>
-            <img id="imagem-previa" class="util-previa" alt="" />
-            <div class="util-resultado">
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">original</span>
-                    <span class="util-resultado-valor" id="imagem-original"></span>
+            <div id="imagem-resultado" class="saida pilha" hidden>
+                <img id="imagem-previa" class="previa" alt="Prévia da imagem comprimida" />
+                <div class="medidas">
+                    <p class="medida"><span class="texto-pequeno">Antes</span><span class="numero medida-valor" id="imagem-original"></span></p>
+                    <p class="medida"><span class="texto-pequeno">Depois</span><span class="numero medida-valor" id="imagem-comprimida"></span></p>
+                    <p class="medida medida-destaque"><span class="texto-pequeno">Ficou menor em</span><span class="numero medida-valor" id="imagem-reducao"></span></p>
                 </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">comprimida</span>
-                    <span class="util-resultado-valor" id="imagem-comprimida"></span>
-                </div>
-                <div class="util-resultado-linha">
-                    <span class="util-resultado-rotulo">redução</span>
-                    <span class="util-resultado-valor" id="imagem-reducao"></span>
-                </div>
+                <p id="imagem-sem-ganho" class="alerta alerta-info" hidden><icone nome="info" />Esta imagem já é leve, e a versão comprimida ficou maior. Tente comprimir mais ou fique com a original.</p>
+                <button type="button" id="imagem-baixar" class="botao botao-primario botao-grande botao-bloco"><icone nome="download" />Baixar imagem</button>
             </div>
-            <div class="util-acoes">
-                <button id="imagem-baixar" class="botao botao-cheio">baixar</button>
+            <div class="estado-vazio">
+                <icone nome="imagem" />
+                <p>Escolha uma imagem e a versão mais leve aparece aqui.</p>
             </div>
         </section>
     </div>
 </main>
 
 @section Scripts {
+    <script src="~/js/envio.js" asp-append-version="true"></script>
     <script src="~/js/comprimir-imagem.js" asp-append-version="true"></script>
 }

@@ -5,27 +5,27 @@ public static class Ferramentas
 {
     public static readonly GrupoFerramenta[] Grupos =
     [
-        new("// arquivos",
+        new("arquivos", "Arquivos",
         [
-            new("JuntarPlanilhas", "bi-file-earmark-spreadsheet", "unificador de planilhas", "una múltiplos arquivos .xlsx e .xls sem perder dados."),
-            new("JuntarPdf", "bi-file-earmark-pdf", "unificador de pdf", "junte múltiplos arquivos .pdf em um só, preservando todas as páginas."),
-            new("ComprimirImagem", "bi-file-earmark-image", "comprimir imagem", "reduza o tamanho de imagens .jpg e .png pra caber em e-mails e uploads."),
-            new("ComprimirPdf", "bi-file-earmark-pdf", "comprimir pdf", "reduza o tamanho de arquivos .pdf escaneados ou com muitas imagens."),
+            new("JuntarPlanilhas", "planilha", "Juntar planilhas", "Junte várias planilhas do Excel numa só, sem perder nenhuma linha."),
+            new("JuntarPdf", "camadas", "Juntar PDF", "Junte vários PDFs num arquivo só, com todas as páginas na ordem."),
+            new("ComprimirImagem", "imagem", "Comprimir imagem", "Deixe fotos mais leves para caber no e-mail ou no formulário."),
+            new("ComprimirPdf", "comprimir", "Comprimir PDF", "Diminua o tamanho de PDFs escaneados ou cheios de fotos."),
         ]),
-        new("// texto",
+        new("texto", "Texto",
         [
-            new("Base64", "bi-code-slash", "base64", "codifique e decodifique texto no formato base64."),
-            new("ListaSql", "bi-database", "lista para sql", "transforme uma lista de valores em cláusula in do sql, com ou sem aspas."),
+            new("Base64", "codigo", "Base64", "Converta texto para Base64 e de volta, linha por linha."),
+            new("ListaSql", "banco-dados", "Lista para SQL", "Transforme uma lista colada num filtro pronto para a consulta."),
         ]),
-        new("// dados & brasil",
+        new("brasil", "Dados do Brasil",
         [
-            new("CpfCnpj", "bi-person-vcard", "cpf / cnpj", "valide e gere números de cpf e cnpj, com ou sem máscara."),
-            new("ConsultaCep", "bi-geo-alt", "consulta de cep", "consulte endereços a partir do cep usando a base dos correios."),
-            new("QrCode", "bi-qr-code", "qr code", "gere um qr code a partir de qualquer texto ou link e baixe em png."),
+            new("CpfCnpj", "identidade", "CPF e CNPJ", "Confira se um CPF ou CNPJ é válido, formate ou gere um para teste."),
+            new("ConsultaCep", "mapa", "Consulta de CEP", "Digite o CEP e veja rua, bairro, cidade e DDD."),
+            new("QrCode", "qr", "QR Code", "Crie um QR Code de qualquer link ou texto e baixe a imagem."),
         ]),
-        new("// utilidades",
+        new("utilidades", "Utilidades",
         [
-            new("GerarSenha", "bi-shield-lock", "gerador de senha", "crie senhas fortes e aleatórias, geradas no seu navegador."),
+            new("GerarSenha", "cadeado", "Gerador de senha", "Crie senhas fortes e aleatórias, do tamanho que precisar."),
         ]),
     ];
 
@@ -39,7 +39,8 @@ public static class Ferramentas
         => Todas.First(ferramenta => ferramenta.Acao == acao);
 }
 
-public sealed record GrupoFerramenta(string Categoria, Ferramenta[] Ferramentas);
+// A âncora vira o id do grupo no índice, para o atalho do topo descer direto até ele.
+public sealed record GrupoFerramenta(string Ancora, string Categoria, Ferramenta[] Ferramentas);
 
 // A action do controller anda junto do nome, o que impede de renomear uma sem a outra.
 public sealed record Ferramenta(string Acao, string Icone, string Nome, string Descricao);
