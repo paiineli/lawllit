@@ -25,6 +25,8 @@ var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://[::]:{port}");
 
+// Exceção não tratada vira 500 em ProblemDetails, sem stack trace, e vai para o log.
+builder.Services.AddProblemDetails();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
 builder.Services.AddLawllitApi(builder.Configuration);
@@ -63,6 +65,8 @@ var app = builder.Build();
 // Falha na subida em vez de aceitar requisição sem a chave compartilhada configurada.
 if (string.IsNullOrWhiteSpace(app.Configuration["Api:Key"]))
     throw new InvalidOperationException("Api__Key não configurada no ambiente.");
+
+app.UseExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();
