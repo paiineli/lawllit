@@ -5,7 +5,9 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args).UseHospedagemLawllit();
 
+// Explícito porque a descoberta automática não pega as views compiladas do Lawllit.Web.
 builder.Services.AddControllersWithViews()
+    .AddApplicationPart(typeof(WebExtensions).Assembly)
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddLawllitFinanceSite(builder.Configuration, builder.Environment.IsDevelopment());
