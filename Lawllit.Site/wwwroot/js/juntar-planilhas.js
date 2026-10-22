@@ -4,43 +4,18 @@
     var entrada = document.getElementById('arquivos-entrada');
     if (!entrada) return;
 
-    var lista = document.getElementById('arquivos-lista');
     var botaoJuntar = document.getElementById('arquivos-unificar');
     var formulario = botaoJuntar.closest('form');
     var cortina = document.getElementById('progresso');
     var rotulo = document.getElementById('progresso-rotulo');
     var barra = document.getElementById('progresso-barra');
 
-    // O número na frente mostra a ordem em que as linhas vão entrar.
-    function montarItem(arquivo, indice) {
-        var item = document.createElement('li');
-        item.className = 'lista-item';
-
-        var ordem = document.createElement('span');
-        ordem.className = 'arquivo-ordem';
-        ordem.textContent = indice + 1;
-
-        var nome = document.createElement('span');
-        nome.className = 'lista-item-corpo lista-item-titulo';
-        nome.textContent = arquivo.name;
-
-        item.append(ordem, nome);
-        return item;
-    }
-
-    entrada.addEventListener('change', function () {
-        var arquivos = Array.from(entrada.files);
-
-        lista.hidden = arquivos.length === 0;
-        lista.replaceChildren(...arquivos.map(montarItem));
-
-        botaoJuntar.disabled = arquivos.length < 2;
-    });
+    var lista = ListaArquivos(entrada, document.getElementById('arquivos-lista'), botaoJuntar, 2);
 
     formulario.addEventListener('submit', function (evento) {
         evento.preventDefault();
 
-        var arquivos = Array.from(entrada.files);
+        var arquivos = lista.arquivos();
         if (arquivos.length < 2) return;
 
         var molde = rotulo.dataset.molde || '{0} / {1}';
@@ -67,16 +42,28 @@
             mostrarProgresso(indice + 1, arquivos.length, molde);
 
             var leitor = new FileReader();
-            leitor.onload = function (evento) {
-                var planilha = XLSX.read(new Uint8Array(evento.target.result), { type: 'array' });
-                var abaInicial = planilha.Sheets[planilha.SheetNames[0]];
-                var conteudo = XLSX.utils.sheet_to_json(abaInicial, { header: 1, defval: '' });
+            // Arquivo que não abre para tudo e avisa, senão a planilha saía incompleta sem ninguém saber.
+            function falhar() {
+                cortina.hidden = true;
+                Lawllit.avisar('Não deu para ler ' + arquivos[indice].name + '. Confira se é uma planilha válida.', 'erro');
+            }
 
-                // Só o primeiro arquivo traz o cabeçalho, senão ele se repetiria no meio.
-                linhas = indice === 0 ? conteudo : linhas.concat(conteudo.slice(1));
+            leitor.onload = function (evento) {
+                try {
+                    var planilha = XLSX.read(new Uint8Array(evento.target.result), { type: 'array' });
+                    var abaInicial = planilha.Sheets[planilha.SheetNames[0]];
+                    var conteudo = XLSX.utils.sheet_to_json(abaInicial, { header: 1, defval: '' });
+
+                    // Só o primeiro arquivo traz o cabeçalho, senão ele se repetiria no meio.
+                    linhas = indice === 0 ? conteudo : linhas.concat(conteudo.slice(1));
+                } catch (erro) {
+                    falhar();
+                    return;
+                }
+
                 lerArquivo(indice + 1);
             };
-            leitor.onerror = function () { lerArquivo(indice + 1); };
+            leitor.onerror = falhar;
             leitor.readAsArrayBuffer(arquivos[indice]);
         }
 

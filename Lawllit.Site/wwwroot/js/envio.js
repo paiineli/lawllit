@@ -16,7 +16,10 @@
             area.addEventListener(tipo, function () { area.classList.remove('arrastando'); });
         });
 
-        // Com o input invisível, o nome do arquivo escolhido não apareceria em lugar nenhum.
+        // Com o input invisível, o nome do arquivo escolhido não apareceria em lugar nenhum. Nas
+        // ferramentas de juntar quem escreve o título é o lista-arquivos.js, que soma as escolhas.
+        if (area.hasAttribute('data-acumula')) return;
+
         entrada.addEventListener('change', function () {
             var arquivos = entrada.files;
             if (!arquivos.length) return;

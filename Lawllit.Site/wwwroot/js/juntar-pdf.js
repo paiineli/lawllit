@@ -4,43 +4,18 @@
     var entrada = document.getElementById('arquivos-entrada');
     if (!entrada) return;
 
-    var lista = document.getElementById('arquivos-lista');
     var botaoJuntar = document.getElementById('arquivos-unificar');
     var formulario = botaoJuntar.closest('form');
     var cortina = document.getElementById('progresso');
     var rotulo = document.getElementById('progresso-rotulo');
     var barra = document.getElementById('progresso-barra');
 
-    // O número na frente mostra a ordem em que as páginas vão sair.
-    function montarItem(arquivo, indice) {
-        var item = document.createElement('li');
-        item.className = 'lista-item';
-
-        var ordem = document.createElement('span');
-        ordem.className = 'arquivo-ordem';
-        ordem.textContent = indice + 1;
-
-        var nome = document.createElement('span');
-        nome.className = 'lista-item-corpo lista-item-titulo';
-        nome.textContent = arquivo.name;
-
-        item.append(ordem, nome);
-        return item;
-    }
-
-    entrada.addEventListener('change', function () {
-        var arquivos = Array.from(entrada.files);
-
-        lista.hidden = arquivos.length === 0;
-        lista.replaceChildren(...arquivos.map(montarItem));
-
-        botaoJuntar.disabled = arquivos.length < 2;
-    });
+    var lista = ListaArquivos(entrada, document.getElementById('arquivos-lista'), botaoJuntar, 2);
 
     formulario.addEventListener('submit', function (evento) {
         evento.preventDefault();
 
-        var arquivos = Array.from(entrada.files);
+        var arquivos = lista.arquivos();
         if (arquivos.length < 2) return;
 
         var molde = rotulo.dataset.molde || '{0} / {1}';
@@ -57,7 +32,10 @@
                 var decorrido = Date.now() - inicio;
                 setTimeout(function () { cortina.hidden = true; }, Math.max(0, duracaoMinima - decorrido));
             })
-            .catch(function () { cortina.hidden = true; });
+            .catch(function () {
+                cortina.hidden = true;
+                Lawllit.avisar('Não deu para juntar. Algum PDF pode estar protegido por senha ou corrompido.', 'erro');
+            });
     });
 
     async function juntar(arquivos, molde) {

@@ -18,11 +18,11 @@
             <form class="pilha" asp-controller="Ferramentas" asp-action="JuntarPdf" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
-                <label class="envio" data-varios="{0} arquivos escolhidos">
+                <label class="envio" data-acumula>
                     <input type="file" id="arquivos-entrada" name="files" multiple accept=".pdf,application/pdf" />
                     <span class="envio-icone"><icone nome="upload" /></span>
                     <span class="titulo-cartao envio-titulo"><span class="so-celular">Toque para escolher</span><span class="so-computador">Clique ou arraste os PDFs aqui</span></span>
-                    <span class="texto-pequeno texto-suave">Dois ou mais, todos de uma vez. Eles não saem do seu aparelho.</span>
+                    <span class="texto-pequeno texto-suave">Dois ou mais. Dá para escolher aos poucos. Eles não saem do seu aparelho.</span>
                 </label>
 
                 <ol id="arquivos-lista" class="lista arquivos" aria-label="Ordem dos arquivos" hidden></ol>
@@ -34,7 +34,7 @@
         <section class="cartao pilha painel">
             <h2 class="painel-titulo">Como funciona</h2>
             <ol class="passos">
-                <li><span class="painel-numero">1</span><span>Escolha todos os PDFs de uma vez.</span></li>
+                <li><span class="painel-numero">1</span><span>Escolha os PDFs, de uma vez ou aos poucos. O x tira um da lista.</span></li>
                 <li><span class="painel-numero">2</span><span>As páginas são juntadas na ordem em que aparecem na lista.</span></li>
                 <li><span class="painel-numero">3</span><span>O PDF único é baixado na hora.</span></li>
             </ol>
@@ -53,5 +53,6 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib@@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="~/js/envio.js" asp-append-version="true"></script>
+    <script src="~/js/lista-arquivos.js" asp-append-version="true"></script>
     <script src="~/js/juntar-pdf.js" asp-append-version="true"></script>
 }
