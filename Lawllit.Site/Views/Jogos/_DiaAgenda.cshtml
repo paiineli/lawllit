@@ -1,37 +1,48 @@
 @model DiaAgendaViewModel
 
-<div class="agenda-dia">
-    <p class="agenda-dia-rotulo">@Model.Rotulo</p>
+<section class="agenda-dia">
+    <h4 class="agenda-dia-rotulo">@Model.Rotulo</h4>
 
-    @foreach (var item in Model.Partidas)
-    {
-        var partida = item.Partida;
-        var classe = partida.Concluida ? "partida partida-concluida" : item.AoVivo ? "partida partida-ao-vivo" : "partida";
-        <article class="@classe">
-            <div class="partida-topo">
-                <span class="partida-hora">@item.Hora</span>
-                @if (item.AoVivo)
-                {
-                    <span class="ao-vivo">ao vivo</span>
-                }
-                <span class="partida-formato">@partida.Formato</span>
-            </div>
-
-            <partial name="_Confronto" model="item" />
-
-            <div class="partida-rodape">
-                <span class="partida-campeonato">@partida.Campeonato</span>
-                <span class="partida-links">
-                    @if (partida.LinkTransmissao is { } transmissao)
+    <ol class="agenda-partidas">
+        @foreach (var item in Model.Partidas)
+        {
+            var partida = item.Partida;
+            var classe = partida.Concluida ? "partida partida-concluida" : item.AoVivo ? "partida partida-ao-vivo" : "partida";
+            <li class="@classe">
+                <div class="partida-hora">
+                    <span class="numero partida-horario">@item.Hora</span>
+                    @if (partida.Formato is { } formato)
                     {
-                        <a class="partida-assistir" href="@transmissao" target="_blank" rel="noopener noreferrer">assistir</a>
+                        <span class="partida-formato">@formato</span>
                     }
-                    @if (partida.LinkPartida is { } detalhes)
+                </div>
+
+                <div class="partida-corpo">
+                    @if (item.AoVivo)
                     {
-                        <a href="@detalhes" target="_blank" rel="noopener noreferrer">detalhes</a>
+                        <span class="ao-vivo">Ao vivo</span>
                     }
-                </span>
-            </div>
-        </article>
-    }
-</div>
+
+                    <partial name="_Confronto" model="item" />
+
+                    <div class="partida-rodape">
+                        <span class="partida-campeonato">@partida.Campeonato</span>
+                        @if (partida.LinkTransmissao is not null || partida.LinkPartida is not null)
+                        {
+                            <span class="partida-links">
+                                @if (partida.LinkTransmissao is { } transmissao)
+                                {
+                                    <a class="partida-link partida-assistir" href="@transmissao" target="_blank" rel="noopener noreferrer"><icone nome="play" />Assistir</a>
+                                }
+                                @if (partida.LinkPartida is { } detalhes)
+                                {
+                                    <a class="partida-link" href="@detalhes" target="_blank" rel="noopener noreferrer">Detalhes<icone nome="seta-diagonal" /></a>
+                                }
+                            </span>
+                        }
+                    </div>
+                </div>
+            </li>
+        }
+    </ol>
+</section>

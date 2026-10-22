@@ -9,24 +9,24 @@ public static class Jogos
     // img-src da CSP, em Seguranca.cs.
     public static readonly Jogo[] Todos =
     [
-        new(JogoEnum.VALORANT, "Valorant", "valorant", "jogo-valorant",
+        new(JogoEnum.VALORANT, "Valorant", "Valorant", "jogo-valorant",
             Logo: "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/7b76209193f1bfe190d3ae6ef8728328870be9c3-736x138.png",
             // A Riot só distribui o wallpaper em zip, então a arte mora no próprio site, em 1920x1080.
             Arte: "~/img/jogos/valorant.jpg"),
 
-        new(JogoEnum.LOL, "Lol", "league of legends", "jogo-lol",
+        new(JogoEnum.LOL, "Lol", "League of Legends", "jogo-lol",
             Logo: "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news/9eb028de391e65072d06e77f06d0955f66b9fa2c-736x316.png",
             Arte: "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg"),
 
-        new(JogoEnum.DOTA2, "Dota2", "dota 2", "jogo-dota",
+        new(JogoEnum.DOTA2, "Dota2", "Dota 2", "jogo-dota",
             Logo: Steam(570, "logo.png"),
             Arte: Steam(570, "library_hero.jpg")),
 
-        new(JogoEnum.DBD, "Dbd", "dead by daylight", "jogo-dbd",
+        new(JogoEnum.DBD, "Dbd", "Dead by Daylight", "jogo-dbd",
             Logo: Steam(381210, "logo.png"),
             Arte: Steam(381210, "library_hero.jpg")),
 
-        new(JogoEnum.WARFRAME, "Warframe", "warframe", "jogo-warframe",
+        new(JogoEnum.WARFRAME, "Warframe", "Warframe", "jogo-warframe",
             Logo: "https://www-static.warframe.com/images/logoWhite.png",
             Arte: Steam(230410, "library_hero.jpg")),
     ];

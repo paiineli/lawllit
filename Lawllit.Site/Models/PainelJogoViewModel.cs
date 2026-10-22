@@ -35,17 +35,20 @@ public sealed class PainelJogoViewModel
 
     public bool BaroPresente => Baro?.Valor is { } baro && baro.Chegada <= Agora && Agora < baro.Partida;
 
-    public string Quando(DateTime data) => $"{RotuloDia(data.Date)} {data:HH:mm}";
+    public string Quando(DateTime data) => $"{RotuloDia(data.Date)} às {data:HH:mm}";
 
     private List<DiaAgendaViewModel> PorDia(List<PartidaModel>? partidas)
         => [.. (partidas ?? [])
             .GroupBy(partida => partida.Inicio.Date)
             .Select(dia => new DiaAgendaViewModel(
-                RotuloDia(dia.Key),
+                Maiuscula(RotuloDia(dia.Key)),
                 [.. dia.Select(partida => new PartidaViewModel(partida, AoVivo(partida)))]))];
 
     // A API lê a fonte de 15 em 15 minutos, então "ao vivo" é calculado agora e não lá.
     private bool AoVivo(PartidaModel partida) => !partida.Concluida && partida.Inicio <= Agora;
+
+    // O rótulo do dia abre o grupo na agenda, mas no meio da frase, como em "troca hoje", fica minúsculo.
+    private static string Maiuscula(string texto) => string.Concat(char.ToUpperInvariant(texto[0]).ToString(), texto[1..]);
 
     private string RotuloDia(DateTime dia) => (dia - Agora.Date).Days switch
     {
@@ -63,8 +66,4 @@ public sealed record DiaAgendaViewModel(string Rotulo, List<PartidaViewModel> Pa
 public sealed record PartidaViewModel(PartidaModel Partida, bool AoVivo)
 {
     public string Hora => Partida.Inicio.ToString("HH:mm");
-
-    public string Placar => Partida.EquipeA.Placar is { } placarA && Partida.EquipeB.Placar is { } placarB
-        ? $"{placarA} : {placarB}"
-        : "vs";
 }

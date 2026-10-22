@@ -67,5 +67,6 @@ public static class Icones
         ["comprimir"] = "M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7",
         ["banco-dados"] = "M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3",
         ["identidade"] = "M3 5h18v14H3zM8 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM5 16a3 3 0 0 1 6 0M14 9h4M14 13h4",
+        ["play"] = "M6 3l14 9-14 9z",
     };
 }

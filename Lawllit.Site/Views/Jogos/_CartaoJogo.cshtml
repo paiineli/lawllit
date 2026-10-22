@@ -17,13 +17,17 @@
         {
             @if (Model.Destaque is { } destaque)
             {
-                <p class="jogo-cartao-rotulo">@(destaque.AoVivo ? "rolando agora" : $"próxima · {Model.Quando(destaque.Partida.Inicio)}")</p>
+                <p class="jogo-cartao-rotulo">@(destaque.AoVivo ? "Ao vivo agora" : $"Próxima partida {Model.Quando(destaque.Partida.Inicio)}")</p>
                 <partial name="_Confronto" model="destaque" />
-                <p class="jogo-cartao-detalhe">@destaque.Partida.Campeonato</p>
+                <p class="texto-pequeno texto-suave">@destaque.Partida.Campeonato</p>
+            }
+            else if (agenda.Sucesso)
+            {
+                <p class="jogo-cartao-vazio"><icone nome="calendario" />Nenhuma partida marcada nos campeonatos grandes.</p>
             }
             else
             {
-                <p class="jogo-cartao-detalhe">@(agenda.Sucesso ? "Nenhuma partida marcada nos campeonatos grandes." : agenda.Mensagem)</p>
+                <p class="jogo-cartao-vazio"><icone nome="alerta" />@agenda.Mensagem</p>
             }
         }
 
@@ -31,24 +35,27 @@
         {
             @if (shrine.Valor is { } semana)
             {
-                <p class="jogo-cartao-rotulo">shrine · troca @Model.Quando(semana.Fim)</p>
-                <div class="jogo-cartao-miniaturas">
+                <div>
+                    <p class="jogo-cartao-rotulo">Shrine of Secrets</p>
+                    <p class="jogo-cartao-destaque">Troca @Model.Quando(semana.Fim)</p>
+                </div>
+                <div class="jogo-miniaturas">
                     @foreach (var perk in semana.Perks)
                     {
                         @if (perk.Icone is { } icone)
                         {
-                            <img src="@icone" alt="@perk.Nome" title="@perk.Nome" loading="lazy" width="52" height="52" />
+                            <img class="jogo-miniatura" src="@icone" alt="@perk.Nome" title="@perk.Nome" loading="lazy" width="56" height="56" />
                         }
                         else
                         {
-                            <span class="jogo-cartao-miniatura-nome">@perk.Nome</span>
+                            <span class="jogo-miniatura jogo-miniatura-nome">@perk.Nome</span>
                         }
                     }
                 </div>
             }
             else
             {
-                <p class="jogo-cartao-detalhe">@shrine.Mensagem</p>
+                <p class="jogo-cartao-vazio"><icone nome="alerta" />@shrine.Mensagem</p>
             }
         }
 
@@ -56,34 +63,34 @@
         {
             @if (baro.Valor is { } visita)
             {
-                <div class="jogo-cartao-baro">
-                    <img src="@Jogos.ImagemBaro" alt="" loading="lazy" width="60" height="60" />
+                <div class="jogo-baro-resumo">
+                    <img class="jogo-baro-avatar" src="@Jogos.ImagemBaro" alt="" loading="lazy" width="56" height="56" />
                     <div>
-                        <p class="jogo-cartao-rotulo">baro ki'teer</p>
-                        <p class="jogo-cartao-destaque">@(Model.BaroPresente ? $"na relay até {Model.Quando(visita.Partida)}" : $"chega {Model.Quando(visita.Chegada)}")</p>
-                        <p class="jogo-cartao-detalhe">@visita.Local</p>
+                        <p class="jogo-cartao-rotulo">Baro Ki'Teer</p>
+                        <p class="jogo-cartao-destaque">@(Model.BaroPresente ? $"Na relay até {Model.Quando(visita.Partida)}" : $"Chega {Model.Quando(visita.Chegada)}")</p>
+                        <p class="texto-pequeno texto-suave">@visita.Local</p>
                     </div>
                 </div>
 
                 @if (Model.BaroPresente)
                 {
-                    <div class="jogo-cartao-miniaturas">
+                    <div class="jogo-miniaturas">
                         @foreach (var item in visita.Itens.Where(item => item.Imagem is not null).Take(5))
                         {
-                            <img src="@item.Imagem" alt="@item.Nome" title="@item.Nome" loading="lazy" width="52" height="52" />
+                            <img class="jogo-miniatura" src="@item.Imagem" alt="@item.Nome" title="@item.Nome" loading="lazy" width="56" height="56" />
                         }
                     </div>
                 }
             }
             else
             {
-                <p class="jogo-cartao-detalhe">@baro.Mensagem</p>
+                <p class="jogo-cartao-vazio"><icone nome="alerta" />@baro.Mensagem</p>
             }
         }
     </div>
 
     <div class="jogo-cartao-rodape">
-        <span>@(Model.Patch?.Titulo ?? "patch indisponível")</span>
-        <span class="jogo-cartao-abrir">abrir</span>
+        <span class="jogo-cartao-patch">@(Model.Patch?.Titulo ?? "Patch indisponível")</span>
+        <span class="jogo-cartao-abrir">Abrir <icone nome="seta-direita" /></span>
     </div>
 </a>
