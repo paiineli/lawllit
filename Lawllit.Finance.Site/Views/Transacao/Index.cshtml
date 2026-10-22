@@ -151,31 +151,31 @@
                     @foreach (var transacao in Model.Transacoes)
                     {
                         <tr data-linha-busca>
-                            <td class="text-secondary">@transacao.DtTransacao.ToString("dd/MM/yyyy")</td>
+                            <td class="text-secondary">@transacao.Data.ToString("dd/MM/yyyy")</td>
                             <td class="fw-medium">
-                                @transacao.TxDescricao
+                                @transacao.Descricao
                                 @if (transacao.Recorrente)
                                 {
                                     <i class="bi bi-arrow-repeat text-green ms-1 icon-sm" title="Recorrente"></i>
                                 }
                             </td>
-                            <td><span class="badge bg-secondary bg-opacity-25 text-body">@transacao.Categoria?.NmCategoria</span></td>
+                            <td><span class="badge bg-secondary bg-opacity-25 text-body">@transacao.NomeCategoria</span></td>
                             <td>
-                                <span class="@transacao.TxTipo.ClasseBadge()">
-                                    @transacao.TxTipo.Rotulo()
+                                <span class="@transacao.Tipo.ClasseBadge()">
+                                    @transacao.Tipo.Rotulo()
                                 </span>
                             </td>
-                            <td class="text-end fw-semibold tabular-nums @transacao.TxTipo.ClasseTexto()">
-                                @transacao.TxTipo.Sinal()@transacao.VlTransacao.ToString("C", cultura)
+                            <td class="text-end fw-semibold tabular-nums @transacao.Tipo.ClasseTexto()">
+                                @transacao.Tipo.Sinal()@transacao.Valor.ToString("C", cultura)
                             </td>
                             <td>
                                 <div class="d-flex gap-1 justify-content-end">
                                     <button class="btn btn-sm btn-outline-secondary py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@transacao.CdTransacao">
+                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@transacao.Codigo">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <button class="btn btn-sm btn-outline-danger py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@transacao.CdTransacao">
+                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@transacao.Codigo">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -244,13 +244,13 @@
                         <select class="form-select" name="CodigoCategoria" data-filtro-categoria id="criar-categoria">
                             @foreach (var tipo in tiposTransacao)
                             {
-                                var categoriasDoTipo = Model.Categorias.Where(c => c.TxTipo == tipo).ToList();
+                                var categoriasDoTipo = Model.Categorias.Where(c => c.Tipo == tipo).ToList();
                                 if (categoriasDoTipo.Count > 0)
                                 {
                                     <optgroup label="@rotulosGrupo[tipo]" data-tipo-grupo="@tipo">
                                         @foreach (var categoria in categoriasDoTipo)
                                         {
-                                            <option value="@categoria.CdCategoria">@categoria.NmCategoria</option>
+                                            <option value="@categoria.Codigo">@categoria.Nome</option>
                                         }
                                     </optgroup>
                                 }
@@ -273,34 +273,34 @@
 
 @foreach (var transacao in Model.Transacoes)
 {
-    <div class="modal fade" id="modal-editar-@transacao.CdTransacao" tabindex="-1">
+    <div class="modal fade" id="modal-editar-@transacao.Codigo" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar transação</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" asp-action="Alterar" asp-route-codigo="@transacao.CdTransacao">
+                <form method="post" asp-action="Alterar" asp-route-codigo="@transacao.Codigo">
                     @Html.AntiForgeryToken()
                     <partial name="_CamposFiltro" model="Model.FiltroRota" />
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label small">Descrição (opcional)</label>
                             <input type="text" class="form-control" name="Descricao" maxlength="200"
-                                   value="@transacao.TxDescricao" placeholder="Ex: Almoço, Salário...">
+                                   value="@transacao.Descricao" placeholder="Ex: Almoço, Salário...">
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-6">
                                 <label class="form-label small">Valor <span class="text-danger">*</span></label>
                                 <input type="text" inputmode="decimal" class="form-control" name="Valor"
-                                       value="@transacao.VlTransacao.ToString("F2", cultura)" data-campo-decimal>
+                                       value="@transacao.Valor.ToString("F2", cultura)" data-campo-decimal>
                             </div>
                             <div class="col-6">
                                 <label class="form-label small">Tipo</label>
                                 <select class="form-select" name="Tipo" data-filtro-tipo>
                                     @foreach (var tipo in tiposTransacao)
                                     {
-                                        <option value="@tipo" selected="@(transacao.TxTipo == tipo ? "selected" : null)">@tipo.Rotulo()</option>
+                                        <option value="@tipo" selected="@(transacao.Tipo == tipo ? "selected" : null)">@tipo.Rotulo()</option>
                                     }
                                 </select>
                             </div>
@@ -308,20 +308,20 @@
                         <div class="mb-3">
                             <label class="form-label small">Data <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" name="Data"
-                                   value="@transacao.DtTransacao.ToString("yyyy-MM-dd")">
+                                   value="@transacao.Data.ToString("yyyy-MM-dd")">
                         </div>
                         <div class="mb-3">
                             <label class="form-label small">Categoria <span class="text-danger">*</span></label>
                             <select class="form-select" name="CodigoCategoria" data-filtro-categoria>
                                 @foreach (var tipo in tiposTransacao)
                                 {
-                                    var categoriasDoTipo = Model.Categorias.Where(c => c.TxTipo == tipo).ToList();
+                                    var categoriasDoTipo = Model.Categorias.Where(c => c.Tipo == tipo).ToList();
                                     if (categoriasDoTipo.Count > 0)
                                     {
                                         <optgroup label="@rotulosGrupo[tipo]" data-tipo-grupo="@tipo">
                                             @foreach (var categoria in categoriasDoTipo)
                                             {
-                                                <option value="@categoria.CdCategoria" selected="@(categoria.CdCategoria == transacao.CdCategoria ? "selected" : null)">@categoria.NmCategoria</option>
+                                                <option value="@categoria.Codigo" selected="@(categoria.Codigo == transacao.CodigoCategoria ? "selected" : null)">@categoria.Nome</option>
                                             }
                                         </optgroup>
                                     }
@@ -330,8 +330,8 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="Recorrente" value="true"
-                                   id="editar-recorrente-@transacao.CdTransacao" @(transacao.Recorrente ? "checked" : "")>
-                            <label class="form-check-label small" for="editar-recorrente-@transacao.CdTransacao">Transação recorrente</label>
+                                   id="editar-recorrente-@transacao.Codigo" @(transacao.Recorrente ? "checked" : "")>
+                            <label class="form-check-label small" for="editar-recorrente-@transacao.Codigo">Transação recorrente</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -343,7 +343,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-excluir-@transacao.CdTransacao" tabindex="-1">
+    <div class="modal fade" id="modal-excluir-@transacao.Codigo" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -353,13 +353,13 @@
                 <div class="modal-body text-secondary small">
                     <p class="mb-1">Tem certeza que deseja excluir esta transação?</p>
                     <div class="mt-2 p-2 rounded bg-body-tertiary">
-                        <p class="mb-0 fw-medium text-body">@(transacao.TxDescricao ?? "Sem descrição")</p>
-                        <p class="mb-0 @transacao.TxTipo.ClasseTexto()">@transacao.TxTipo.Sinal()@transacao.VlTransacao.ToString("C", cultura)</p>
+                        <p class="mb-0 fw-medium text-body">@(transacao.Descricao ?? "Sem descrição")</p>
+                        <p class="mb-0 @transacao.Tipo.ClasseTexto()">@transacao.Tipo.Sinal()@transacao.Valor.ToString("C", cultura)</p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="post" asp-action="Inativar" asp-route-codigo="@transacao.CdTransacao">
+                    <form method="post" asp-action="Inativar" asp-route-codigo="@transacao.Codigo">
                         @Html.AntiForgeryToken()
                         <partial name="_CamposFiltro" model="Model.FiltroRota" />
                         <button type="submit" class="btn btn-sm btn-danger">Excluir</button>

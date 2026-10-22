@@ -2,7 +2,6 @@ using Lawllit.Finance.Site.Common;
 using Lawllit.Finance.Site.Models;
 using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
 using Microsoft.AspNetCore.Authorization;
@@ -73,7 +72,7 @@ public class TransacaoController(
 
     // Ponto e vírgula e vírgula decimal, que é o que o Excel em pt-BR espera, senão ele joga
     // tudo numa coluna só. O BOM na frente evita acento quebrado ao abrir o arquivo.
-    private static byte[] MontarCsv(List<TransacaoModel> transacoes)
+    private static byte[] MontarCsv(List<TransacaoItemModel> transacoes)
     {
         var cultura = CultureInfo.GetCultureInfo("pt-BR");
         var csv = new StringBuilder();
@@ -90,12 +89,12 @@ public class TransacaoController(
         foreach (var transacao in transacoes)
         {
             csv.AppendLine(string.Join(';',
-                transacao.DtTransacao.ToString("dd/MM/yyyy", cultura),
-                Escapar(transacao.TxDescricao ?? string.Empty),
-                Escapar(transacao.Categoria?.NmCategoria ?? string.Empty),
-                transacao.TxTipo.Rotulo(),
+                transacao.Data.ToString("dd/MM/yyyy", cultura),
+                Escapar(transacao.Descricao ?? string.Empty),
+                Escapar(transacao.NomeCategoria ?? string.Empty),
+                transacao.Tipo.Rotulo(),
                 transacao.Recorrente ? "Sim" : "Não",
-                transacao.VlTransacao.ToString("F2", cultura)));
+                transacao.Valor.ToString("F2", cultura)));
         }
 
         return Encoding.UTF8.GetBytes(csv.ToString());

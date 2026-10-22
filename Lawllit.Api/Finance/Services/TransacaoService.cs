@@ -22,7 +22,13 @@ public sealed class TransacaoService(
 
         return new TransacaoPaginaModel
         {
-            Pagina = pagina,
+            Pagina = new PaginacaoResposta<TransacaoItemModel>
+            {
+                Itens = [.. pagina.Itens.Select(TransacaoItemModel.De)],
+                TotalItens = pagina.TotalItens,
+                PaginaAtual = pagina.PaginaAtual,
+                ItensPorPagina = pagina.ItensPorPagina,
+            },
             Mes = filtro.Mes.Value,
             Ano = filtro.Ano.Value,
             TotalReceitas = totais.Receitas,
@@ -32,12 +38,14 @@ public sealed class TransacaoService(
         };
     }
 
-    public Task<TransacaoModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken)
-        => transacaoRepositorio.BuscarPorCodigo(cdUsuario, cdTransacao, cancellationToken);
+    public async Task<TransacaoItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken)
+        => await transacaoRepositorio.BuscarPorCodigo(cdUsuario, cdTransacao, cancellationToken) is { } transacao
+            ? TransacaoItemModel.De(transacao)
+            : null;
 
     // Sem paginação, porque quem exporta quer o período inteiro num arquivo só.
-    public Task<List<TransacaoModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
-        => transacaoRepositorio.ListarTodas(cdUsuario, filtro, cancellationToken);
+    public async Task<List<TransacaoItemModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
+        => [.. (await transacaoRepositorio.ListarTodas(cdUsuario, filtro, cancellationToken)).Select(TransacaoItemModel.De)];
 
     public async Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken)
     {
@@ -128,8 +136,8 @@ public sealed class TransacaoService(
 public interface ITransacaoService
 {
     Task<TransacaoPaginaModel> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
-    Task<TransacaoModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);
-    Task<List<TransacaoModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
+    Task<TransacaoItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);
+    Task<List<TransacaoItemModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
     Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);
     Task<Resultado> Alterar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);
     Task<Resultado> Inativar(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);

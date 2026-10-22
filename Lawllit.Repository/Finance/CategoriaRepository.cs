@@ -1,5 +1,4 @@
 using Lawllit.Model.Common;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Common;
 using Microsoft.AspNetCore.WebUtilities;
@@ -12,7 +11,7 @@ public sealed class CategoriaRepository(IHttpClientFactory httpClientFactory) : 
 
     private const string Rota = "api/financas/categorias";
 
-    public async Task<List<CategoriaModel>> Listar(CategoriaFiltroModel filtro, CancellationToken cancellationToken)
+    public async Task<List<CategoriaItemModel>> Listar(CategoriaFiltroModel filtro, CancellationToken cancellationToken)
     {
         var query = new Dictionary<string, string?>();
 
@@ -21,11 +20,11 @@ public sealed class CategoriaRepository(IHttpClientFactory httpClientFactory) : 
 
         var url = QueryHelpers.AddQueryString(Rota, query);
 
-        return await httpClient.BuscarOuNulo<List<CategoriaModel>>(url, cancellationToken) ?? [];
+        return await httpClient.BuscarOuNulo<List<CategoriaItemModel>>(url, cancellationToken) ?? [];
     }
 
-    public Task<CategoriaModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
-        => httpClient.BuscarOuNulo<CategoriaModel>($"{Rota}/{codigo}", cancellationToken);
+    public Task<CategoriaItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
+        => httpClient.BuscarOuNulo<CategoriaItemModel>($"{Rota}/{codigo}", cancellationToken);
 
     public Task<Resultado> Criar(CategoriaSalvarModel categoria, CancellationToken cancellationToken)
         => httpClient.Enviar(HttpMethod.Post, Rota, categoria, cancellationToken);
@@ -41,9 +40,9 @@ public sealed class CategoriaRepository(IHttpClientFactory httpClientFactory) : 
 
 public interface ICategoriaRepository
 {
-    Task<List<CategoriaModel>> Listar(CategoriaFiltroModel filtro, CancellationToken cancellationToken);
+    Task<List<CategoriaItemModel>> Listar(CategoriaFiltroModel filtro, CancellationToken cancellationToken);
 
-    Task<CategoriaModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
+    Task<CategoriaItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
 
     // Falha quando já existe outra categoria com o mesmo nome e tipo.
     Task<Resultado> Criar(CategoriaSalvarModel categoria, CancellationToken cancellationToken);

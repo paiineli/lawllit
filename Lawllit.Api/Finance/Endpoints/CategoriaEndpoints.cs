@@ -2,7 +2,6 @@ using Lawllit.Api.Common;
 using Lawllit.Api.Finance.Services;
 using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Security.Claims;
@@ -36,7 +35,7 @@ public static class CategoriaEndpoints
         return builder;
     }
 
-    private static async Task<Ok<List<CategoriaModel>>> Listar(
+    private static async Task<Ok<List<CategoriaItemModel>>> Listar(
         ClaimsPrincipal usuario,
         ICategoriaService servico,
         CancellationToken cancellationToken,
@@ -47,7 +46,7 @@ public static class CategoriaEndpoints
         return TypedResults.Ok(await servico.Listar(usuario.ObterCodigoUsuario(), filtro, cancellationToken));
     }
 
-    private static async Task<Results<Ok<CategoriaModel>, NotFound>> BuscarPorCodigo(
+    private static async Task<Results<Ok<CategoriaItemModel>, NotFound>> BuscarPorCodigo(
         Guid codigo,
         ClaimsPrincipal usuario,
         ICategoriaService servico,

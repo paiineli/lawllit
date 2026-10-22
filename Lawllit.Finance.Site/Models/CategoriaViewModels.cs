@@ -1,12 +1,12 @@
 using Lawllit.Model.Common.Enums;
-using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contratos;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lawllit.Finance.Site.Models;
 
 public sealed class CategoriaListaViewModel
 {
-    public List<CategoriaModel> Categorias { get; set; } = [];
+    public List<CategoriaItemModel> Categorias { get; set; } = [];
     public TipoTransacaoEnum? FiltroTipo { get; set; }
     public string? FiltroBusca { get; set; }
 }

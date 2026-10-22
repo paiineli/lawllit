@@ -9,6 +9,20 @@ public sealed class CategoriaFiltroModel
     public string? Busca { get; set; }
 }
 
+public sealed class CategoriaItemModel
+{
+    public Guid Codigo { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public TipoTransacaoEnum Tipo { get; set; }
+
+    public static CategoriaItemModel De(CategoriaModel categoria) => new()
+    {
+        Codigo = categoria.CdCategoria,
+        Nome = categoria.NmCategoria,
+        Tipo = categoria.TxTipo,
+    };
+}
+
 public sealed class CategoriaSalvarModel
 {
     public Guid Codigo { get; set; }

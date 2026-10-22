@@ -1,5 +1,4 @@
 using Lawllit.Model.Common;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Common;
 
@@ -17,14 +16,14 @@ public sealed class TransacaoRepository(IHttpClientFactory httpClientFactory) : 
         return resultado.Valor!;
     }
 
-    public async Task<List<TransacaoModel>> ListarTodas(TransacaoFiltroModel filtro, CancellationToken cancellationToken)
+    public async Task<List<TransacaoItemModel>> ListarTodas(TransacaoFiltroModel filtro, CancellationToken cancellationToken)
     {
-        var resultado = await httpClient.Enviar<List<TransacaoModel>>(HttpMethod.Post, $"{Rota}/exportacao", filtro, cancellationToken);
+        var resultado = await httpClient.Enviar<List<TransacaoItemModel>>(HttpMethod.Post, $"{Rota}/exportacao", filtro, cancellationToken);
         return resultado.Valor!;
     }
 
-    public Task<TransacaoModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
-        => httpClient.BuscarOuNulo<TransacaoModel>($"{Rota}/{codigo}", cancellationToken);
+    public Task<TransacaoItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
+        => httpClient.BuscarOuNulo<TransacaoItemModel>($"{Rota}/{codigo}", cancellationToken);
 
     public Task<Resultado> Criar(TransacaoSalvarModel transacao, CancellationToken cancellationToken)
         => httpClient.Enviar(HttpMethod.Post, Rota, transacao, cancellationToken);
@@ -52,9 +51,9 @@ public interface ITransacaoRepository
     Task<TransacaoPaginaModel> Listar(TransacaoFiltroModel filtro, CancellationToken cancellationToken);
 
     // Sem paginação, porque a exportação precisa do filtro inteiro de uma vez.
-    Task<List<TransacaoModel>> ListarTodas(TransacaoFiltroModel filtro, CancellationToken cancellationToken);
+    Task<List<TransacaoItemModel>> ListarTodas(TransacaoFiltroModel filtro, CancellationToken cancellationToken);
 
-    Task<TransacaoModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
+    Task<TransacaoItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
 
     // Falha quando a categoria informada não pertence ao usuário.
     Task<Resultado> Criar(TransacaoSalvarModel transacao, CancellationToken cancellationToken);

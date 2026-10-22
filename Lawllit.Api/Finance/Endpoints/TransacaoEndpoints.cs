@@ -1,7 +1,6 @@
 using Lawllit.Api.Common;
 using Lawllit.Api.Finance.Services;
 using Lawllit.Model.Common;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Security.Claims;
@@ -50,14 +49,14 @@ public static class TransacaoEndpoints
         CancellationToken cancellationToken)
         => TypedResults.Ok(await servico.Listar(usuario.ObterCodigoUsuario(), filtro, cancellationToken));
 
-    private static async Task<Ok<List<TransacaoModel>>> ListarTodas(
+    private static async Task<Ok<List<TransacaoItemModel>>> ListarTodas(
         TransacaoFiltroModel filtro,
         ClaimsPrincipal usuario,
         ITransacaoService servico,
         CancellationToken cancellationToken)
         => TypedResults.Ok(await servico.ListarTodas(usuario.ObterCodigoUsuario(), filtro, cancellationToken));
 
-    private static async Task<Results<Ok<TransacaoModel>, NotFound>> BuscarPorCodigo(
+    private static async Task<Results<Ok<TransacaoItemModel>, NotFound>> BuscarPorCodigo(
         Guid codigo,
         ClaimsPrincipal usuario,
         ITransacaoService servico,

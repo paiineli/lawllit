@@ -7,11 +7,13 @@ namespace Lawllit.Api.Finance.Services;
 
 public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) : ICategoriaService
 {
-    public Task<List<CategoriaModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken)
-        => categoriaRepositorio.Listar(cdUsuario, filtro, cancellationToken);
+    public async Task<List<CategoriaItemModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken)
+        => [.. (await categoriaRepositorio.Listar(cdUsuario, filtro, cancellationToken)).Select(CategoriaItemModel.De)];
 
-    public Task<CategoriaModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken)
-        => categoriaRepositorio.BuscarPorCodigo(cdUsuario, cdCategoria, cancellationToken);
+    public async Task<CategoriaItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken)
+        => await categoriaRepositorio.BuscarPorCodigo(cdUsuario, cdCategoria, cancellationToken) is { } categoria
+            ? CategoriaItemModel.De(categoria)
+            : null;
 
     public async Task<Resultado> Criar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken)
     {
@@ -70,8 +72,8 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
 
 public interface ICategoriaService
 {
-    Task<List<CategoriaModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken);
-    Task<CategoriaModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);
+    Task<List<CategoriaItemModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken);
+    Task<CategoriaItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);
     Task<Resultado> Criar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken);
     Task<Resultado> Alterar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken);
     Task<Resultado> Inativar(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);

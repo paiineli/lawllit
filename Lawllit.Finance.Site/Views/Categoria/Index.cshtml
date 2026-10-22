@@ -50,20 +50,20 @@
                     @foreach (var categoria in Model.Categorias)
                     {
                         <tr data-linha-busca>
-                            <td class="fw-medium">@categoria.NmCategoria</td>
+                            <td class="fw-medium">@categoria.Nome</td>
                             <td>
-                                <span class="@categoria.TxTipo.ClasseBadge()">
-                                    @categoria.TxTipo.Rotulo()
+                                <span class="@categoria.Tipo.ClasseBadge()">
+                                    @categoria.Tipo.Rotulo()
                                 </span>
                             </td>
                             <td>
                                 <div class="d-flex gap-1 justify-content-end">
                                     <button class="btn btn-sm btn-outline-secondary py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@categoria.CdCategoria">
+                                            data-bs-toggle="modal" data-bs-target="#modal-editar-@categoria.Codigo">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <button class="btn btn-sm btn-outline-danger py-0 px-1"
-                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@categoria.CdCategoria">
+                                            data-bs-toggle="modal" data-bs-target="#modal-excluir-@categoria.Codigo">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </div>
@@ -115,26 +115,26 @@
 
 @foreach (var categoria in Model.Categorias)
 {
-    <div class="modal fade" id="modal-editar-@categoria.CdCategoria" tabindex="-1">
+    <div class="modal fade" id="modal-editar-@categoria.Codigo" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Editar categoria</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="post" asp-action="Alterar" asp-route-codigo="@categoria.CdCategoria">
+                <form method="post" asp-action="Alterar" asp-route-codigo="@categoria.Codigo">
                     @Html.AntiForgeryToken()
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label small">Nome <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="Nome" maxlength="100" value="@categoria.NmCategoria">
+                            <input type="text" class="form-control" name="Nome" maxlength="100" value="@categoria.Nome">
                         </div>
                         <div class="mb-1">
                             <label class="form-label small">Tipo</label>
                             <select class="form-select" name="Tipo">
-                                <option value="@TipoTransacaoEnum.DESPESA" selected="@(categoria.TxTipo == TipoTransacaoEnum.DESPESA ? "selected" : null)">Despesa</option>
-                                <option value="@TipoTransacaoEnum.RECEITA" selected="@(categoria.TxTipo == TipoTransacaoEnum.RECEITA ? "selected" : null)">Receita</option>
-                                <option value="@TipoTransacaoEnum.INVESTIMENTO" selected="@(categoria.TxTipo == TipoTransacaoEnum.INVESTIMENTO ? "selected" : null)">Investimento</option>
+                                <option value="@TipoTransacaoEnum.DESPESA" selected="@(categoria.Tipo == TipoTransacaoEnum.DESPESA ? "selected" : null)">Despesa</option>
+                                <option value="@TipoTransacaoEnum.RECEITA" selected="@(categoria.Tipo == TipoTransacaoEnum.RECEITA ? "selected" : null)">Receita</option>
+                                <option value="@TipoTransacaoEnum.INVESTIMENTO" selected="@(categoria.Tipo == TipoTransacaoEnum.INVESTIMENTO ? "selected" : null)">Investimento</option>
                             </select>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-excluir-@categoria.CdCategoria" tabindex="-1">
+    <div class="modal fade" id="modal-excluir-@categoria.Codigo" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -157,17 +157,17 @@
                 <div class="modal-body text-secondary small">
                     <p class="mb-1">Tem certeza que deseja excluir esta categoria?</p>
                     <div class="mt-2 p-2 rounded bg-body-tertiary">
-                        <p class="mb-1 fw-medium text-body">@categoria.NmCategoria</p>
+                        <p class="mb-1 fw-medium text-body">@categoria.Nome</p>
                         <p class="mb-0">
-                            <span class="@categoria.TxTipo.ClasseBadge()">
-                                @categoria.TxTipo.Rotulo()
+                            <span class="@categoria.Tipo.ClasseBadge()">
+                                @categoria.Tipo.Rotulo()
                             </span>
                         </p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <form method="post" asp-action="Inativar" asp-route-codigo="@categoria.CdCategoria">
+                    <form method="post" asp-action="Inativar" asp-route-codigo="@categoria.Codigo">
                         @Html.AntiForgeryToken()
                         <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
                     </form>

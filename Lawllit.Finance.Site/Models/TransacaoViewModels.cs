@@ -1,14 +1,14 @@
 using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
-using Lawllit.Model.Finance;
+using Lawllit.Model.Finance.Contratos;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lawllit.Finance.Site.Models;
 
 public sealed class TransacaoListaViewModel
 {
-    public PaginacaoResposta<TransacaoModel> Pagina { get; set; } = new();
-    public List<CategoriaModel> Categorias { get; set; } = [];
+    public PaginacaoResposta<TransacaoItemModel> Pagina { get; set; } = new();
+    public List<CategoriaItemModel> Categorias { get; set; } = [];
     public TipoTransacaoEnum? FiltroTipo { get; set; }
     public string? FiltroBusca { get; set; }
     public int FiltroMes { get; set; }
@@ -18,7 +18,7 @@ public sealed class TransacaoListaViewModel
     public decimal TotalInvestimentos { get; set; }
     public int RecorrentesPendentes { get; set; }
 
-    public List<TransacaoModel> Transacoes => Pagina.Itens;
+    public List<TransacaoItemModel> Transacoes => Pagina.Itens;
 
     public bool TemFiltroAtivo => FiltroTipo.HasValue || !string.IsNullOrEmpty(FiltroBusca);
 
