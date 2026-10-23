@@ -162,8 +162,6 @@
 .legal-links { display: flex; gap: 20px; max-width: 760px; margin-top: 16px; }
 .legal-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--texto-suave); }
 
-.erro-pagina { padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
-
 /* No celular a chamada das telas de conta some e o título do período encolhe para caber com as setas. */
 @media (max-width: 640px) {
     .acesso { padding-top: 16px; }

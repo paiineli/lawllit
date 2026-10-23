@@ -587,6 +587,10 @@ button.lista-item:hover, a.lista-item:hover { background: var(--superficie-2); }
 
 .estado-vazio .icone { width: 2rem; height: 2rem; opacity: 0.6; }
 
+/* ---------- página de erro ---------- */
+
+.erro-pagina { padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+
 /* ---------- avisos ---------- */
 
 .avisos {

@@ -169,7 +169,3 @@
 
 /* Fora da tela, mas no fluxo do formulário, para o preenchedor automático achar. */
 .form-isca { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-
-/* ---------- erro ---------- */
-
-.erro-pagina { padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
