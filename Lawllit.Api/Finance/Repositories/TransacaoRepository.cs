@@ -9,7 +9,7 @@ namespace Lawllit.Api.Finance.Repositories;
 public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransacaoRepository
 {
     // O Dapper mapeia por nome de coluna, então um record nomeado em vez de tupla.
-    private sealed record TotaisFiltro(decimal Receitas, decimal Despesas, decimal Investimentos);
+    private sealed record TotaisFiltro(int Quantidade, decimal Receitas, decimal Despesas, decimal Investimentos);
 
     // Corta em NM_CATEGORIA porque CD_CATEGORIA existe nas duas tabelas e cortaria cedo demais.
     private const string ColunaCorte = "NM_CATEGORIA";
@@ -79,7 +79,9 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
         return (where, parametros);
     }
 
-    public async Task<PaginacaoResposta<TransacaoModel>> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
+    // A contagem da paginação e os totais do filtro saem da mesma varredura.
+    public async Task<(PaginacaoResposta<TransacaoModel> Pagina, decimal Receitas, decimal Despesas, decimal Investimentos)> Listar(
+        Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
     {
         var (where, parametros) = MontarFiltro(cdUsuario, filtro);
 
@@ -90,8 +92,12 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             OFFSET @Offset ROWS FETCH NEXT @ItensPorPagina ROWS ONLY
             """;
 
-        var consultaTotal = $"""
-            SELECT COUNT(1)
+        var consultaTotais = $"""
+            SELECT
+                COUNT(1)::int                                                                       AS Quantidade,
+                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'RECEITA'      THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Receitas,
+                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'DESPESA'      THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Despesas,
+                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'INVESTIMENTO' THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Investimentos
             FROM TRANSACAO t
             WHERE t.SN_ATIVO = 'S'
             {where}
@@ -107,16 +113,18 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             Juntar,
             splitOn: ColunaCorte);
 
-        var totalItens = await conexao.ExecuteScalarAsync<int>(
-            new CommandDefinition(consultaTotal, parametros, cancellationToken: cancellationToken));
+        var totais = await conexao.QueryFirstAsync<TotaisFiltro>(
+            new CommandDefinition(consultaTotais, parametros, cancellationToken: cancellationToken));
 
-        return new PaginacaoResposta<TransacaoModel>
+        var pagina = new PaginacaoResposta<TransacaoModel>
         {
             Itens = itens.AsList(),
-            TotalItens = totalItens,
+            TotalItens = totais.Quantidade,
             PaginaAtual = filtro.Paginacao.PaginaAtual,
             ItensPorPagina = filtro.Paginacao.ItensPorPagina,
         };
+
+        return (pagina, totais.Receitas, totais.Despesas, totais.Investimentos);
     }
 
     public async Task<List<TransacaoModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
@@ -137,29 +145,6 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             splitOn: ColunaCorte);
 
         return transacoes.AsList();
-    }
-
-    public async Task<(decimal Receitas, decimal Despesas, decimal Investimentos)> TotaisDoFiltro(
-        Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
-    {
-        var (where, parametros) = MontarFiltro(cdUsuario, filtro);
-
-        var consulta = $"""
-            SELECT
-                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'RECEITA'      THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Receitas,
-                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'DESPESA'      THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Despesas,
-                COALESCE(SUM(CASE WHEN t.TX_TIPO = 'INVESTIMENTO' THEN t.VL_TRANSACAO ELSE 0 END), 0) AS Investimentos
-            FROM TRANSACAO t
-            WHERE t.SN_ATIVO = 'S'
-            {where}
-            """;
-
-        await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-
-        var totais = await conexao.QueryFirstAsync<TotaisFiltro>(
-            new CommandDefinition(consulta, parametros, cancellationToken: cancellationToken));
-
-        return (totais.Receitas, totais.Despesas, totais.Investimentos);
     }
 
     public async Task<TransacaoModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken)
@@ -515,9 +500,9 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
 
 public interface ITransacaoRepository
 {
-    Task<PaginacaoResposta<TransacaoModel>> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
+    Task<(PaginacaoResposta<TransacaoModel> Pagina, decimal Receitas, decimal Despesas, decimal Investimentos)> Listar(
+        Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
     Task<List<TransacaoModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
-    Task<(decimal Receitas, decimal Despesas, decimal Investimentos)> TotaisDoFiltro(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
     Task<TransacaoModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);
     Task<TotaisPeriodoModel> TotaisDoPeriodo(Guid cdUsuario, DateTime de, DateTime ate, DateTime deAnterior, CancellationToken cancellationToken);
     Task<List<GastoCategoriaModel>> GastoPorCategoria(Guid cdUsuario, DateTime de, DateTime ate, DateTime deReferencia, int mesesReferencia, CancellationToken cancellationToken);

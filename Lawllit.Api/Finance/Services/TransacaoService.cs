@@ -13,8 +13,7 @@ public sealed class TransacaoService(
     {
         var (mes, ano) = NormalizarPeriodo(filtro);
 
-        var pagina = await transacaoRepositorio.Listar(cdUsuario, filtro, cancellationToken);
-        var totais = await transacaoRepositorio.TotaisDoFiltro(cdUsuario, filtro, cancellationToken);
+        var (pagina, receitas, despesas, investimentos) = await transacaoRepositorio.Listar(cdUsuario, filtro, cancellationToken);
         var recorrentesPendentes = await transacaoRepositorio.RecorrentesPendentes(
             cdUsuario, mes, ano, cancellationToken);
 
@@ -29,9 +28,9 @@ public sealed class TransacaoService(
             },
             Mes = mes,
             Ano = ano,
-            TotalReceitas = totais.Receitas,
-            TotalDespesas = totais.Despesas,
-            TotalInvestimentos = totais.Investimentos,
+            TotalReceitas = receitas,
+            TotalDespesas = despesas,
+            TotalInvestimentos = investimentos,
             RecorrentesPendentes = recorrentesPendentes,
         };
     }
