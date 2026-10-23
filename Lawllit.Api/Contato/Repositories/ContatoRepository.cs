@@ -1,6 +1,5 @@
 using Npgsql;
 using Dapper;
-using Lawllit.Api.Common;
 using Lawllit.Model.Contato;
 
 namespace Lawllit.Api.Contato.Repositories;

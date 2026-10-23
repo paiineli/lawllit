@@ -36,11 +36,6 @@ public sealed class TransacaoService(
         };
     }
 
-    public async Task<TransacaoItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken)
-        => await transacaoRepositorio.BuscarPorCodigo(cdUsuario, cdTransacao, cancellationToken) is { } transacao
-            ? TransacaoItemModel.De(transacao)
-            : null;
-
     // Sem paginação, porque quem exporta quer o período inteiro num arquivo só.
     public async Task<List<TransacaoItemModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
     {
@@ -148,7 +143,6 @@ public sealed class TransacaoService(
 public interface ITransacaoService
 {
     Task<TransacaoPaginaModel> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
-    Task<TransacaoItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);
     Task<List<TransacaoItemModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken);
     Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);
     Task<Resultado> Alterar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);

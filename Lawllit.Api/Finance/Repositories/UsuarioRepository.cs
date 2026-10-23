@@ -1,6 +1,5 @@
 using Npgsql;
 using Dapper;
-using Lawllit.Api.Common;
 using Lawllit.Model.Finance;
 
 namespace Lawllit.Api.Finance.Repositories;

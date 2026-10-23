@@ -19,10 +19,6 @@ public static class TransacaoEndpoints
             .WithSummary("Retorna todas as transações do filtro, sem paginação, para exportação")
             .WithTags("Transações");
 
-        builder.MapGet("/{codigo:guid}", BuscarPorCodigo)
-            .WithSummary("Retorna uma transação do usuário")
-            .WithTags("Transações");
-
         builder.MapPost("/", Criar)
             .WithSummary("Cria uma transação")
             .WithTags("Transações");
@@ -55,19 +51,6 @@ public static class TransacaoEndpoints
         ITransacaoService servico,
         CancellationToken cancellationToken)
         => TypedResults.Ok(await servico.ListarTodas(usuario.ObterCodigoUsuario(), filtro, cancellationToken));
-
-    private static async Task<Results<Ok<TransacaoItemModel>, NotFound>> BuscarPorCodigo(
-        Guid codigo,
-        ClaimsPrincipal usuario,
-        ITransacaoService servico,
-        CancellationToken cancellationToken)
-    {
-        var transacao = await servico.BuscarPorCodigo(usuario.ObterCodigoUsuario(), codigo, cancellationToken);
-
-        return transacao is null
-            ? TypedResults.NotFound()
-            : TypedResults.Ok(transacao);
-    }
 
     private static async Task<Results<Ok, BadRequest<ErroApiModel>>> Criar(
         TransacaoSalvarModel transacao,

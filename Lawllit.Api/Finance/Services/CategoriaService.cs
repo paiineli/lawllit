@@ -10,11 +10,6 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
     public async Task<List<CategoriaItemModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken)
         => [.. (await categoriaRepositorio.Listar(cdUsuario, filtro, cancellationToken)).Select(CategoriaItemModel.De)];
 
-    public async Task<CategoriaItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken)
-        => await categoriaRepositorio.BuscarPorCodigo(cdUsuario, cdCategoria, cancellationToken) is { } categoria
-            ? CategoriaItemModel.De(categoria)
-            : null;
-
     public async Task<Resultado> Criar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken)
     {
         if (categoria.Validar() is { } erro)
@@ -74,7 +69,6 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
 public interface ICategoriaService
 {
     Task<List<CategoriaItemModel>> Listar(Guid cdUsuario, CategoriaFiltroModel filtro, CancellationToken cancellationToken);
-    Task<CategoriaItemModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);
     Task<Resultado> Criar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken);
     Task<Resultado> Alterar(Guid cdUsuario, CategoriaSalvarModel categoria, CancellationToken cancellationToken);
     Task<Resultado> Inativar(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);

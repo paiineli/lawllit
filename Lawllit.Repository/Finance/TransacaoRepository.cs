@@ -22,9 +22,6 @@ public sealed class TransacaoRepository(IHttpClientFactory httpClientFactory) : 
         return resultado.Valor!;
     }
 
-    public Task<TransacaoItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
-        => httpClient.BuscarOuNulo<TransacaoItemModel>($"{Rota}/{codigo}", cancellationToken);
-
     public Task<Resultado> Criar(TransacaoSalvarModel transacao, CancellationToken cancellationToken)
         => httpClient.Enviar(HttpMethod.Post, Rota, transacao, cancellationToken);
 
@@ -48,7 +45,6 @@ public interface ITransacaoRepository
     // Sem paginação, porque a exportação precisa do filtro inteiro de uma vez.
     Task<List<TransacaoItemModel>> ListarTodas(TransacaoFiltroModel filtro, CancellationToken cancellationToken);
 
-    Task<TransacaoItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
 
     // Falha quando a categoria informada não pertence ao usuário.
     Task<Resultado> Criar(TransacaoSalvarModel transacao, CancellationToken cancellationToken);

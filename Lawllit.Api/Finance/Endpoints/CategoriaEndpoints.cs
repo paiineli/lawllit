@@ -16,10 +16,6 @@ public static class CategoriaEndpoints
             .WithSummary("Lista as categorias ativas do usuário, com filtro opcional de tipo e nome")
             .WithTags("Categorias");
 
-        builder.MapGet("/{codigo:guid}", BuscarPorCodigo)
-            .WithSummary("Retorna uma categoria do usuário")
-            .WithTags("Categorias");
-
         builder.MapPost("/", Criar)
             .WithSummary("Cria uma categoria")
             .WithTags("Categorias");
@@ -44,19 +40,6 @@ public static class CategoriaEndpoints
     {
         var filtro = new CategoriaFiltroModel { Tipo = tipo, Busca = busca };
         return TypedResults.Ok(await servico.Listar(usuario.ObterCodigoUsuario(), filtro, cancellationToken));
-    }
-
-    private static async Task<Results<Ok<CategoriaItemModel>, NotFound>> BuscarPorCodigo(
-        Guid codigo,
-        ClaimsPrincipal usuario,
-        ICategoriaService servico,
-        CancellationToken cancellationToken)
-    {
-        var categoria = await servico.BuscarPorCodigo(usuario.ObterCodigoUsuario(), codigo, cancellationToken);
-
-        return categoria is null
-            ? TypedResults.NotFound()
-            : TypedResults.Ok(categoria);
     }
 
     private static async Task<Results<Ok, BadRequest<ErroApiModel>>> Criar(

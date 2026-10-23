@@ -23,9 +23,6 @@ public sealed class CategoriaRepository(IHttpClientFactory httpClientFactory) : 
         return await httpClient.BuscarOuNulo<List<CategoriaItemModel>>(url, cancellationToken) ?? [];
     }
 
-    public Task<CategoriaItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken)
-        => httpClient.BuscarOuNulo<CategoriaItemModel>($"{Rota}/{codigo}", cancellationToken);
-
     public Task<Resultado> Criar(CategoriaSalvarModel categoria, CancellationToken cancellationToken)
         => httpClient.Enviar(HttpMethod.Post, Rota, categoria, cancellationToken);
 
@@ -42,7 +39,6 @@ public interface ICategoriaRepository
 {
     Task<List<CategoriaItemModel>> Listar(CategoriaFiltroModel filtro, CancellationToken cancellationToken);
 
-    Task<CategoriaItemModel?> BuscarPorCodigo(Guid codigo, CancellationToken cancellationToken);
 
     // Falha quando já existe outra categoria com o mesmo nome e tipo.
     Task<Resultado> Criar(CategoriaSalvarModel categoria, CancellationToken cancellationToken);

@@ -83,7 +83,6 @@ public sealed record GastoCategoriaModel(string NomeCategoria, decimal Total, de
 public sealed record ComparativoCategoriaModel(
     string NomeCategoria,
     decimal Total,
-    decimal MediaReferencia,
     decimal? VariacaoPercentual);
 
 public sealed record TendenciaMensalModel(int Mes, int Ano, decimal Receitas, decimal Despesas, decimal Investimentos);

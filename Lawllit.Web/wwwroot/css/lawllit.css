@@ -680,8 +680,6 @@ button.lista-item:hover, a.lista-item:hover { background: var(--superficie-2); }
 .menu-pilula a:hover { color: var(--texto); }
 .menu-pilula a[aria-current="page"] { background: var(--texto); color: var(--fundo); }
 
-.link-topo { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--texto-suave); font-weight: 600; text-decoration: none; }
-.link-topo:hover, .link-topo[aria-current="page"] { color: var(--texto); }
 
 /* Barra fixa embaixo no celular, com a ação principal no meio. */
 .barra-inferior {

@@ -1,6 +1,5 @@
 using Npgsql;
 using Dapper;
-using Lawllit.Api.Common;
 using Lawllit.Model.Common.Enums;
 using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;

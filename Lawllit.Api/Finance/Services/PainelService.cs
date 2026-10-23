@@ -1,7 +1,6 @@
 using Lawllit.Api.Finance.Repositories;
 using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
-using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
 
 namespace Lawllit.Api.Finance.Services;
@@ -93,7 +92,6 @@ public sealed class PainelService(ITransacaoRepository transacaoRepositorio) : I
             .Select(categoria => new ComparativoCategoriaModel(
                 categoria.NomeCategoria,
                 categoria.Total,
-                categoria.MediaReferencia,
                 categoria.MediaReferencia > 0
                     ? (categoria.Total - categoria.MediaReferencia) / categoria.MediaReferencia * 100
                     : null))
