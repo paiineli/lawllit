@@ -94,24 +94,24 @@ public sealed class CategoriaRepository(NpgsqlDataSource fonteDados) : ICategori
         return total > 0;
     }
 
+    // Público porque o cadastro grava as categorias padrão na mesma transação do usuário.
+    public const string ComandoCriar = """
+        INSERT INTO CATEGORIA (CD_CATEGORIA, NM_CATEGORIA, TX_TIPO, CD_USUARIO)
+        VALUES (@CdCategoria, @NmCategoria, @TxTipo, @CdUsuario)
+        """;
+
+    public static object ParametrosCriar(CategoriaModel categoria) => new
+    {
+        categoria.CdCategoria,
+        categoria.NmCategoria,
+        TxTipo = categoria.TxTipo.ToString(),
+        categoria.CdUsuario,
+    };
+
     public async Task Criar(CategoriaModel categoria, CancellationToken cancellationToken)
     {
-        const string consulta = """
-            INSERT INTO CATEGORIA (CD_CATEGORIA, NM_CATEGORIA, TX_TIPO, CD_USUARIO)
-            VALUES (@CdCategoria, @NmCategoria, @TxTipo, @CdUsuario)
-            """;
-
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(
-            consulta,
-            new
-            {
-                categoria.CdCategoria,
-                categoria.NmCategoria,
-                TxTipo = categoria.TxTipo.ToString(),
-                categoria.CdUsuario,
-            },
-            cancellationToken: cancellationToken));
+        await conexao.ExecuteAsync(new CommandDefinition(ComandoCriar, ParametrosCriar(categoria), cancellationToken: cancellationToken));
     }
 
     public async Task Alterar(CategoriaModel categoria, CancellationToken cancellationToken)

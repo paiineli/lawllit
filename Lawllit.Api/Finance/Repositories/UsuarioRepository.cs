@@ -42,7 +42,9 @@ public sealed class UsuarioRepository(NpgsqlDataSource fonteDados) : IUsuarioRep
     public Task<UsuarioModel?> BuscarPorTokenSenha(string token, CancellationToken cancellationToken)
         => BuscarPorColuna("TX_TOKEN_SENHA", token, cancellationToken);
 
-    public async Task Criar(UsuarioModel usuario, CancellationToken cancellationToken)
+    // Usuário e categorias padrão entram juntos: conta sem categoria não consegue lançar nada.
+    // Devolve falso quando o e-mail já existe, o que acontece com dois cadastros simultâneos.
+    public async Task<bool> Criar(UsuarioModel usuario, IEnumerable<CategoriaModel> categorias, CancellationToken cancellationToken)
     {
         const string consulta = """
             INSERT INTO USUARIO (
@@ -59,7 +61,25 @@ public sealed class UsuarioRepository(NpgsqlDataSource fonteDados) : IUsuarioRep
             """;
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(consulta, usuario, cancellationToken: cancellationToken));
+        await using var transacao = await conexao.BeginTransactionAsync(cancellationToken);
+
+        try
+        {
+            await conexao.ExecuteAsync(new CommandDefinition(consulta, usuario, transacao, cancellationToken: cancellationToken));
+
+            foreach (var categoria in categorias)
+            {
+                await conexao.ExecuteAsync(new CommandDefinition(
+                    CategoriaRepository.ComandoCriar, CategoriaRepository.ParametrosCriar(categoria), transacao, cancellationToken: cancellationToken));
+            }
+        }
+        catch (PostgresException erro) when (erro.SqlState == PostgresErrorCodes.UniqueViolation)
+        {
+            return false;
+        }
+
+        await transacao.CommitAsync(cancellationToken);
+        return true;
     }
 
     public async Task Alterar(UsuarioModel usuario, CancellationToken cancellationToken)
@@ -113,7 +133,7 @@ public interface IUsuarioRepository
     Task<UsuarioModel?> BuscarPorEmail(string email, CancellationToken cancellationToken);
     Task<UsuarioModel?> BuscarPorTokenConfirmacao(string token, CancellationToken cancellationToken);
     Task<UsuarioModel?> BuscarPorTokenSenha(string token, CancellationToken cancellationToken);
-    Task Criar(UsuarioModel usuario, CancellationToken cancellationToken);
+    Task<bool> Criar(UsuarioModel usuario, IEnumerable<CategoriaModel> categorias, CancellationToken cancellationToken);
     Task Alterar(UsuarioModel usuario, CancellationToken cancellationToken);
     Task Excluir(Guid cdUsuario, CancellationToken cancellationToken);
 }

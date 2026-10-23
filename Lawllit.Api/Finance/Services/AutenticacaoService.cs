@@ -9,7 +9,6 @@ namespace Lawllit.Api.Finance.Services;
 
 public sealed class AutenticacaoService(
     IUsuarioRepository usuarioRepositorio,
-    ICategoriaRepository categoriaRepositorio,
     IEmailService emailService,
     GeradorToken geradorToken) : IAutenticacaoService
 {
@@ -49,8 +48,22 @@ public sealed class AutenticacaoService(
         var email = cadastro.Email.Trim().ToLower();
 
         var existente = await usuarioRepositorio.BuscarPorEmail(email, cancellationToken);
-        if (existente is not null)
+        if (existente is { EmailConfirmado: true })
             return Resultado.Falha("Este e-mail já está em uso.");
+
+        // Conta que nunca confirmou não trava o e-mail: vale o cadastro mais recente, com link novo.
+        // Assim um envio que falhou tem conserto, e ninguém bloqueia o e-mail alheio cadastrando antes.
+        if (existente is not null)
+        {
+            existente.NmUsuario = Textos.ParaTitulo(cadastro.Nome);
+            existente.TxSenha = Senha.Gerar(cadastro.Senha);
+            existente.TxTokenConfirmacao = Guid.NewGuid().ToString("N");
+            existente.DtExpiraConfirmacao = DateTime.UtcNow.AddHours(24);
+            await usuarioRepositorio.Alterar(existente, cancellationToken);
+
+            await EnviarConfirmacao(existente, cadastro, cancellationToken);
+            return Resultado.Ok();
+        }
 
         var usuario = new UsuarioModel
         {
@@ -65,26 +78,26 @@ public sealed class AutenticacaoService(
             DtCadastro = DateTime.UtcNow,
         };
 
-        await usuarioRepositorio.Criar(usuario, cancellationToken);
-
-        foreach (var (nome, tipo) in CategoriasPadrao)
+        var categorias = CategoriasPadrao.Select(padrao => new CategoriaModel
         {
-            await categoriaRepositorio.Criar(new CategoriaModel
-            {
-                CdCategoria = Guid.NewGuid(),
-                NmCategoria = nome,
-                TxTipo = tipo,
-                CdUsuario = usuario.CdUsuario,
-            }, cancellationToken);
-        }
+            CdCategoria = Guid.NewGuid(),
+            NmCategoria = padrao.Nome,
+            TxTipo = padrao.Tipo,
+            CdUsuario = usuario.CdUsuario,
+        });
 
-        await emailService.EnviarConfirmacao(
+        if (!await usuarioRepositorio.Criar(usuario, categorias, cancellationToken))
+            return Resultado.Falha("Este e-mail já está em uso.");
+
+        await EnviarConfirmacao(usuario, cadastro, cancellationToken);
+        return Resultado.Ok();
+    }
+
+    private Task EnviarConfirmacao(UsuarioModel usuario, CadastroModel cadastro, CancellationToken cancellationToken)
+        => emailService.EnviarConfirmacao(
             usuario,
             cadastro.MoldeUrlConfirmacao.Replace("{token}", usuario.TxTokenConfirmacao),
             cancellationToken);
-
-        return Resultado.Ok();
-    }
 
     public async Task<Resultado<AutenticacaoModel>> ConfirmarEmail(string token, CancellationToken cancellationToken)
     {
