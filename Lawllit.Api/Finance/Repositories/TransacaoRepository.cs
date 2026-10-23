@@ -463,7 +463,7 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             cancellationToken: cancellationToken));
     }
 
-    public async Task Alterar(TransacaoModel transacao, CancellationToken cancellationToken)
+    public async Task<bool> Alterar(TransacaoModel transacao, CancellationToken cancellationToken)
     {
         const string consulta = """
             UPDATE TRANSACAO SET
@@ -475,10 +475,11 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
                 CD_CATEGORIA  = @CdCategoria
             WHERE CD_TRANSACAO = @CdTransacao
               AND CD_USUARIO   = @CdUsuario
+              AND SN_ATIVO     = 'S'
             """;
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(
+        return await conexao.ExecuteAsync(new CommandDefinition(
             consulta,
             new
             {
@@ -491,10 +492,10 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
                 transacao.CdTransacao,
                 transacao.CdUsuario,
             },
-            cancellationToken: cancellationToken));
+            cancellationToken: cancellationToken)) > 0;
     }
 
-    public async Task AlternarAtivo(Guid cdUsuario, Guid cdTransacao, string snAtivo, CancellationToken cancellationToken)
+    public async Task<bool> AlternarAtivo(Guid cdUsuario, Guid cdTransacao, string snAtivo, CancellationToken cancellationToken)
     {
         const string consulta = """
             UPDATE TRANSACAO SET
@@ -504,10 +505,10 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             """;
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(
+        return await conexao.ExecuteAsync(new CommandDefinition(
             consulta,
             new { CdUsuario = cdUsuario, CdTransacao = cdTransacao, SnAtivo = snAtivo },
-            cancellationToken: cancellationToken));
+            cancellationToken: cancellationToken)) > 0;
     }
 }
 
@@ -527,8 +528,8 @@ public interface ITransacaoRepository
     Task<int> ImportarRecorrentes(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken);
     Task<List<TendenciaMensalModel>> TendenciaMensal(Guid cdUsuario, int ateMes, int ateAno, int quantidadeMeses, CancellationToken cancellationToken);
     Task Criar(TransacaoModel transacao, CancellationToken cancellationToken);
-    Task Alterar(TransacaoModel transacao, CancellationToken cancellationToken);
-    Task AlternarAtivo(Guid cdUsuario, Guid cdTransacao, string snAtivo, CancellationToken cancellationToken);
+    Task<bool> Alterar(TransacaoModel transacao, CancellationToken cancellationToken);
+    Task<bool> AlternarAtivo(Guid cdUsuario, Guid cdTransacao, string snAtivo, CancellationToken cancellationToken);
 }
 
 #endregion

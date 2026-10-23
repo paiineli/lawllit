@@ -114,7 +114,7 @@ public sealed class CategoriaRepository(NpgsqlDataSource fonteDados) : ICategori
         await conexao.ExecuteAsync(new CommandDefinition(ComandoCriar, ParametrosCriar(categoria), cancellationToken: cancellationToken));
     }
 
-    public async Task Alterar(CategoriaModel categoria, CancellationToken cancellationToken)
+    public async Task<bool> Alterar(CategoriaModel categoria, CancellationToken cancellationToken)
     {
         const string consulta = """
             UPDATE CATEGORIA SET
@@ -122,10 +122,11 @@ public sealed class CategoriaRepository(NpgsqlDataSource fonteDados) : ICategori
                 TX_TIPO      = @TxTipo
             WHERE CD_CATEGORIA = @CdCategoria
               AND CD_USUARIO   = @CdUsuario
+              AND SN_ATIVO     = 'S'
             """;
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(
+        return await conexao.ExecuteAsync(new CommandDefinition(
             consulta,
             new
             {
@@ -134,10 +135,10 @@ public sealed class CategoriaRepository(NpgsqlDataSource fonteDados) : ICategori
                 categoria.CdCategoria,
                 categoria.CdUsuario,
             },
-            cancellationToken: cancellationToken));
+            cancellationToken: cancellationToken)) > 0;
     }
 
-    public async Task AlternarAtivo(Guid cdUsuario, Guid cdCategoria, string snAtivo, CancellationToken cancellationToken)
+    public async Task<bool> AlternarAtivo(Guid cdUsuario, Guid cdCategoria, string snAtivo, CancellationToken cancellationToken)
     {
         const string consulta = """
             UPDATE CATEGORIA SET
@@ -147,10 +148,10 @@ public sealed class CategoriaRepository(NpgsqlDataSource fonteDados) : ICategori
             """;
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(
+        return await conexao.ExecuteAsync(new CommandDefinition(
             consulta,
             new { CdUsuario = cdUsuario, CdCategoria = cdCategoria, SnAtivo = snAtivo },
-            cancellationToken: cancellationToken));
+            cancellationToken: cancellationToken)) > 0;
     }
 }
 
@@ -162,8 +163,8 @@ public interface ICategoriaRepository
     Task<CategoriaModel?> BuscarPorCodigo(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken);
     Task<bool> Existe(Guid cdUsuario, string nome, TipoTransacaoEnum tipo, Guid? cdIgnorar, CancellationToken cancellationToken);
     Task Criar(CategoriaModel categoria, CancellationToken cancellationToken);
-    Task Alterar(CategoriaModel categoria, CancellationToken cancellationToken);
-    Task AlternarAtivo(Guid cdUsuario, Guid cdCategoria, string snAtivo, CancellationToken cancellationToken);
+    Task<bool> Alterar(CategoriaModel categoria, CancellationToken cancellationToken);
+    Task<bool> AlternarAtivo(Guid cdUsuario, Guid cdCategoria, string snAtivo, CancellationToken cancellationToken);
 }
 
 #endregion

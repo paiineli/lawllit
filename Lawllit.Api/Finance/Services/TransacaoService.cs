@@ -117,8 +117,9 @@ public sealed class TransacaoService(
         existente.CdCategoria = transacao.CodigoCategoria;
         existente.SnRecorrente = transacao.Recorrente ? Constantes.Sim : Constantes.Nao;
 
-        await transacaoRepositorio.Alterar(existente, cancellationToken);
-        return Resultado.Ok();
+        return await transacaoRepositorio.Alterar(existente, cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Transação não encontrada.");
     }
 
     public async Task<Resultado> Inativar(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken)
@@ -127,8 +128,9 @@ public sealed class TransacaoService(
         if (transacao is null)
             return Resultado.Falha("Transação não encontrada.");
 
-        await transacaoRepositorio.AlternarAtivo(cdUsuario, cdTransacao, Constantes.Nao, cancellationToken);
-        return Resultado.Ok();
+        return await transacaoRepositorio.AlternarAtivo(cdUsuario, cdTransacao, Constantes.Nao, cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Transação não encontrada.");
     }
 
     public async Task<Resultado<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(Guid cdUsuario, ImportarRecorrentesModel importar, CancellationToken cancellationToken)

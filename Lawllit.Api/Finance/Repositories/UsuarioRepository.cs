@@ -82,26 +82,56 @@ public sealed class UsuarioRepository(NpgsqlDataSource fonteDados) : IUsuarioRep
         return true;
     }
 
-    public async Task Alterar(UsuarioModel usuario, CancellationToken cancellationToken)
+    // Cada alteração mexe só nas próprias colunas. Regravar a linha inteira perdia o que outra requisição mudou no meio.
+    private async Task<bool> AlterarColunas(Guid cdUsuario, string colunas, object parametros, CancellationToken cancellationToken, string condicao = "")
     {
-        const string consulta = """
-            UPDATE USUARIO SET
-                NM_USUARIO            = @NmUsuario,
-                TX_EMAIL              = @TxEmail,
-                TX_SENHA              = @TxSenha,
-                SN_EMAIL_CONFIRMADO   = @SnEmailConfirmado,
-                TX_TOKEN_CONFIRMACAO  = @TxTokenConfirmacao,
-                DT_EXPIRA_CONFIRMACAO = @DtExpiraConfirmacao,
-                TX_TOKEN_SENHA        = @TxTokenSenha,
-                DT_EXPIRA_TOKEN_SENHA = @DtExpiraTokenSenha,
-                TX_TEMA               = @TxTema,
-                TX_TAMANHO_FONTE      = @TxTamanhoFonte
-            WHERE CD_USUARIO = @CdUsuario
-            """;
+        // As colunas e a condição vêm de constantes desta classe, nunca de entrada, então a interpolação é segura.
+        var consulta = $"UPDATE USUARIO SET {colunas} WHERE CD_USUARIO = @CdUsuario AND SN_ATIVO = 'S' {condicao}";
 
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        await conexao.ExecuteAsync(new CommandDefinition(consulta, usuario, cancellationToken: cancellationToken));
+        var argumentos = new DynamicParameters(parametros);
+        argumentos.Add("CdUsuario", cdUsuario);
+
+        return await conexao.ExecuteAsync(new CommandDefinition(consulta, argumentos, cancellationToken: cancellationToken)) > 0;
     }
+
+    public Task<bool> AlterarNome(Guid cdUsuario, string nome, CancellationToken cancellationToken)
+        => AlterarColunas(cdUsuario, "NM_USUARIO = @Nome", new { Nome = nome }, cancellationToken);
+
+    // Falso também quando outro cadastro pegou o e-mail entre a checagem e a gravação.
+    public async Task<bool> AlterarEmail(Guid cdUsuario, string email, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await AlterarColunas(cdUsuario, "TX_EMAIL = @Email", new { Email = email }, cancellationToken);
+        }
+        catch (PostgresException erro) when (erro.SqlState == PostgresErrorCodes.UniqueViolation)
+        {
+            return false;
+        }
+    }
+
+    // Senha nova invalida qualquer link de redefinição que ainda estivesse aberto.
+    public Task<bool> AlterarSenha(Guid cdUsuario, string senhaHash, CancellationToken cancellationToken)
+        => AlterarColunas(cdUsuario, "TX_SENHA = @Senha, TX_TOKEN_SENHA = NULL, DT_EXPIRA_TOKEN_SENHA = NULL", new { Senha = senhaHash }, cancellationToken);
+
+    public Task<bool> AlterarPreferencias(Guid cdUsuario, string tema, string tamanhoFonte, CancellationToken cancellationToken)
+        => AlterarColunas(cdUsuario, "TX_TEMA = @Tema, TX_TAMANHO_FONTE = @TamanhoFonte", new { Tema = tema, TamanhoFonte = tamanhoFonte }, cancellationToken);
+
+    public Task<bool> ConfirmarEmail(Guid cdUsuario, CancellationToken cancellationToken)
+        => AlterarColunas(cdUsuario, "SN_EMAIL_CONFIRMADO = 'S', TX_TOKEN_CONFIRMACAO = NULL, DT_EXPIRA_CONFIRMACAO = NULL", new { }, cancellationToken);
+
+    public Task<bool> GravarTokenSenha(Guid cdUsuario, string token, DateTime expiraEm, CancellationToken cancellationToken)
+        => AlterarColunas(cdUsuario, "TX_TOKEN_SENHA = @Token, DT_EXPIRA_TOKEN_SENHA = @ExpiraEm", new { Token = token, ExpiraEm = expiraEm }, cancellationToken);
+
+    // Só enquanto a conta não foi confirmada: depois disso o recadastro não pode mais trocar a senha de ninguém.
+    public Task<bool> RecadastrarPendente(UsuarioModel usuario, CancellationToken cancellationToken)
+        => AlterarColunas(
+            usuario.CdUsuario,
+            "NM_USUARIO = @NmUsuario, TX_SENHA = @TxSenha, TX_TOKEN_CONFIRMACAO = @TxTokenConfirmacao, DT_EXPIRA_CONFIRMACAO = @DtExpiraConfirmacao",
+            new { usuario.NmUsuario, usuario.TxSenha, usuario.TxTokenConfirmacao, usuario.DtExpiraConfirmacao },
+            cancellationToken,
+            condicao: "AND SN_EMAIL_CONFIRMADO = 'N'");
 
     // Exclusão física, única do sistema, porque a LGPD dá direito à eliminação de verdade.
     public async Task Excluir(Guid cdUsuario, CancellationToken cancellationToken)
@@ -134,7 +164,13 @@ public interface IUsuarioRepository
     Task<UsuarioModel?> BuscarPorTokenConfirmacao(string token, CancellationToken cancellationToken);
     Task<UsuarioModel?> BuscarPorTokenSenha(string token, CancellationToken cancellationToken);
     Task<bool> Criar(UsuarioModel usuario, IEnumerable<CategoriaModel> categorias, CancellationToken cancellationToken);
-    Task Alterar(UsuarioModel usuario, CancellationToken cancellationToken);
+    Task<bool> AlterarNome(Guid cdUsuario, string nome, CancellationToken cancellationToken);
+    Task<bool> AlterarEmail(Guid cdUsuario, string email, CancellationToken cancellationToken);
+    Task<bool> AlterarSenha(Guid cdUsuario, string senhaHash, CancellationToken cancellationToken);
+    Task<bool> AlterarPreferencias(Guid cdUsuario, string tema, string tamanhoFonte, CancellationToken cancellationToken);
+    Task<bool> ConfirmarEmail(Guid cdUsuario, CancellationToken cancellationToken);
+    Task<bool> GravarTokenSenha(Guid cdUsuario, string token, DateTime expiraEm, CancellationToken cancellationToken);
+    Task<bool> RecadastrarPendente(UsuarioModel usuario, CancellationToken cancellationToken);
     Task Excluir(Guid cdUsuario, CancellationToken cancellationToken);
 }
 

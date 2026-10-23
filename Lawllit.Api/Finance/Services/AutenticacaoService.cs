@@ -59,7 +59,9 @@ public sealed class AutenticacaoService(
             existente.TxSenha = Senha.Gerar(cadastro.Senha);
             existente.TxTokenConfirmacao = Guid.NewGuid().ToString("N");
             existente.DtExpiraConfirmacao = DateTime.UtcNow.AddHours(24);
-            await usuarioRepositorio.Alterar(existente, cancellationToken);
+            // Falso quando a conta foi confirmada entre a busca e a gravação.
+            if (!await usuarioRepositorio.RecadastrarPendente(existente, cancellationToken))
+                return Resultado.Falha("Este e-mail já está em uso.");
 
             await EnviarConfirmacao(existente, cadastro, cancellationToken);
             return Resultado.Ok();
@@ -106,10 +108,8 @@ public sealed class AutenticacaoService(
         if (usuario is null || usuario.DtExpiraConfirmacao < DateTime.UtcNow)
             return Resultado<AutenticacaoModel>.Falha("Link inválido ou expirado.");
 
-        usuario.SnEmailConfirmado = Constantes.Sim;
-        usuario.TxTokenConfirmacao = null;
-        usuario.DtExpiraConfirmacao = null;
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
+        if (!await usuarioRepositorio.ConfirmarEmail(usuario.CdUsuario, cancellationToken))
+            return Resultado<AutenticacaoModel>.Falha("Link inválido ou expirado.");
 
         return Resultado<AutenticacaoModel>.Ok(MontarAutenticacao(usuario));
     }
@@ -129,8 +129,7 @@ public sealed class AutenticacaoService(
             return Resultado.Falha("Não encontrado.");
 
         usuario.TxTokenSenha = Guid.NewGuid().ToString("N");
-        usuario.DtExpiraTokenSenha = DateTime.UtcNow.AddHours(1);
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
+        await usuarioRepositorio.GravarTokenSenha(usuario.CdUsuario, usuario.TxTokenSenha, DateTime.UtcNow.AddHours(1), cancellationToken);
 
         await emailService.EnviarRedefinicaoSenha(
             usuario,
@@ -150,12 +149,9 @@ public sealed class AutenticacaoService(
         if (usuario is null || usuario.DtExpiraTokenSenha < DateTime.UtcNow)
             return Resultado.Falha("Link inválido ou expirado.");
 
-        usuario.TxSenha = Senha.Gerar(redefinir.NovaSenha);
-        usuario.TxTokenSenha = null;
-        usuario.DtExpiraTokenSenha = null;
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
-
-        return Resultado.Ok();
+        return await usuarioRepositorio.AlterarSenha(usuario.CdUsuario, Senha.Gerar(redefinir.NovaSenha), cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Link inválido ou expirado.");
     }
 
     private AutenticacaoModel MontarAutenticacao(UsuarioModel usuario)

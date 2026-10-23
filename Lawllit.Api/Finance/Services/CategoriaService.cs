@@ -52,9 +52,9 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
 
         existente.NmCategoria = nome;
         existente.TxTipo = categoria.Tipo;
-        await categoriaRepositorio.Alterar(existente, cancellationToken);
-
-        return Resultado.Ok();
+        return await categoriaRepositorio.Alterar(existente, cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Categoria não encontrada.");
     }
 
     public async Task<Resultado> Inativar(Guid cdUsuario, Guid cdCategoria, CancellationToken cancellationToken)
@@ -63,8 +63,9 @@ public sealed class CategoriaService(ICategoriaRepository categoriaRepositorio) 
         if (categoria is null)
             return Resultado.Falha("Categoria não encontrada.");
 
-        await categoriaRepositorio.AlternarAtivo(cdUsuario, cdCategoria, Constantes.Nao, cancellationToken);
-        return Resultado.Ok();
+        return await categoriaRepositorio.AlternarAtivo(cdUsuario, cdCategoria, Constantes.Nao, cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Categoria não encontrada.");
     }
 }
 

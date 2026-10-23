@@ -41,7 +41,8 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
             return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         usuario.NmUsuario = Textos.ParaTitulo(alterar.Nome);
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
+        if (!await usuarioRepositorio.AlterarNome(cdUsuario, usuario.NmUsuario, cancellationToken))
+            return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
@@ -68,7 +69,8 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
             return Resultado<UsuarioSessaoModel>.Falha("Este e-mail já está em uso.");
 
         usuario.TxEmail = email;
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
+        if (!await usuarioRepositorio.AlterarEmail(cdUsuario, email, cancellationToken))
+            return Resultado<UsuarioSessaoModel>.Falha("Este e-mail já está em uso.");
 
         return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
@@ -85,10 +87,9 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
         if (!Senha.Confere(alterar.SenhaAtual, usuario.TxSenha))
             return Resultado.Falha("Senha atual incorreta.");
 
-        usuario.TxSenha = Senha.Gerar(alterar.NovaSenha);
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
-
-        return Resultado.Ok();
+        return await usuarioRepositorio.AlterarSenha(cdUsuario, Senha.Gerar(alterar.NovaSenha), cancellationToken)
+            ? Resultado.Ok()
+            : Resultado.Falha("Operação não permitida.");
     }
 
     public async Task<Resultado<UsuarioSessaoModel>> SalvarPreferencia(Guid cdUsuario, PreferenciaModel preferencia, CancellationToken cancellationToken)
@@ -101,7 +102,8 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
             return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         aceita.Aplicar(usuario, preferencia.Valor);
-        await usuarioRepositorio.Alterar(usuario, cancellationToken);
+        if (!await usuarioRepositorio.AlterarPreferencias(cdUsuario, usuario.TxTema, usuario.TxTamanhoFonte, cancellationToken))
+            return Resultado<UsuarioSessaoModel>.Falha("Operação não permitida.");
 
         return Resultado<UsuarioSessaoModel>.Ok(UsuarioSessaoModel.De(usuario));
     }
