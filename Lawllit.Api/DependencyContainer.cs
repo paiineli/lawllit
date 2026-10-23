@@ -12,7 +12,7 @@ public static class DependencyContainer
     public static IServiceCollection AddLawllitApi(this IServiceCollection services, IConfiguration configuration, bool desenvolvimento)
     {
         services.AddBanco(configuration);
-        services.AddClienteJogos();
+        services.AddClienteExterno();
 
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
         services.AddScoped<IContatoRepository, ContatoRepository>();

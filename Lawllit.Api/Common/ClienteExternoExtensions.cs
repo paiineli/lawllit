@@ -3,15 +3,15 @@ using System.Text.Json;
 
 namespace Lawllit.Api.Common;
 
-public static class ClienteJogosExtensions
+public static class ClienteExternoExtensions
 {
-    public const string NomeCliente = "Jogos";
+    public const string NomeCliente = "Externo";
 
     // A Liquipedia bloqueia User-Agent genérico e exige um com o projeto e o contato. As
-    // outras fontes de jogo não pedem, mas recebem o mesmo para saberem quem está chamando.
+    // outras fontes não pedem, mas recebem o mesmo para saberem quem está chamando.
     private const string UserAgent = "Lawllit/1.0 (https://lawllit.com; contato@lawllit.com)";
 
-    public static IServiceCollection AddClienteJogos(this IServiceCollection services)
+    public static IServiceCollection AddClienteExterno(this IServiceCollection services)
     {
         services.AddHttpClient(NomeCliente, httpClient =>
             {

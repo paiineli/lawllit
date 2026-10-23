@@ -1,8 +1,8 @@
+using Lawllit.Api.Common;
 using Lawllit.Model.Common;
 using Lawllit.Model.Finance.Contratos;
 using Microsoft.Extensions.Caching.Memory;
 using System.Globalization;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Lawllit.Api.Finance.Services;
@@ -13,14 +13,10 @@ public sealed class CotacaoService(
     IConfiguration configuration,
     ILogger<CotacaoService> logger) : ICotacaoService
 {
-    private const string ChaveCache = "cotacoes";
+    private const string ChaveCache = "financas:cotacoes";
     private const string MensagemErro = "Não foi possível carregar as cotações agora.";
 
-    private static readonly TimeSpan CacheSucesso = TimeSpan.FromMinutes(15);
-    private static readonly TimeSpan CacheFalha = TimeSpan.FromMinutes(3);
-    private static readonly TimeSpan TempoLimite = TimeSpan.FromSeconds(10);
-
-    private static readonly JsonSerializerOptions OpcoesLeitura = new() { PropertyNameCaseInsensitive = true };
+    private static readonly TimeSpan Validade = TimeSpan.FromMinutes(15);
 
     // Ordem e casas decimais de cada moeda exibida. A chave é a do retorno da AwesomeAPI.
     private static readonly (string ChaveApi, string Rotulo, string Bandeira, int CasasDecimais)[] Moedas =
@@ -33,18 +29,8 @@ public sealed class CotacaoService(
         ("ARSBRL", "Peso Argentino",  "\U0001F1E6\U0001F1F7", 4),
     ];
 
-    public async Task<Resultado<List<CotacaoModel>>> Listar(CancellationToken cancellationToken)
-    {
-        if (cache.TryGetValue(ChaveCache, out Resultado<List<CotacaoModel>>? emCache) && emCache is not null)
-            return emCache;
-
-        var resultado = await Consultar(cancellationToken);
-
-        // Falha fica menos tempo em cache, para tentar de novo sem martelar a API externa.
-        cache.Set(ChaveCache, resultado, resultado.Sucesso ? CacheSucesso : CacheFalha);
-
-        return resultado;
-    }
+    public Task<Resultado<List<CotacaoModel>>> Listar(CancellationToken cancellationToken)
+        => cache.BuscarComReserva(ChaveCache, Validade, Consultar, cancellationToken);
 
     private async Task<Resultado<List<CotacaoModel>>> Consultar(CancellationToken cancellationToken)
     {
@@ -56,22 +42,7 @@ public sealed class CotacaoService(
             return Resultado<List<CotacaoModel>>.Falha(MensagemErro);
         }
 
-        Dictionary<string, CotacaoApiModel>? retorno;
-
-        try
-        {
-            using var httpClient = httpClientFactory.CreateClient();
-            httpClient.Timeout = TempoLimite;
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("LawllitFinance/1.0");
-
-            var json = await httpClient.GetStringAsync(url, cancellationToken);
-            retorno = JsonSerializer.Deserialize<Dictionary<string, CotacaoApiModel>>(json, OpcoesLeitura);
-        }
-        catch (Exception excecao) when (excecao is HttpRequestException or TaskCanceledException or JsonException)
-        {
-            logger.LogError(excecao, "Falha ao consultar as cotações em {Url}", url);
-            return Resultado<List<CotacaoModel>>.Falha(MensagemErro);
-        }
+        var retorno = await httpClientFactory.LerJson<Dictionary<string, CotacaoApiModel>>(url, logger, cancellationToken);
 
         if (retorno is null || retorno.Count == 0)
         {
@@ -79,7 +50,6 @@ public sealed class CotacaoService(
             return Resultado<List<CotacaoModel>>.Falha(MensagemErro);
         }
 
-        var fusoBrasil = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
         var cotacoes = new List<CotacaoModel>(Moedas.Length);
 
         foreach (var moeda in Moedas)
@@ -96,10 +66,6 @@ public sealed class CotacaoService(
 
             TentarConverter(dados.PctChange, out var variacao);
 
-            var atualizadoUtc = long.TryParse(dados.Timestamp, out var segundosUnix)
-                ? DateTimeOffset.FromUnixTimeSeconds(segundosUnix).UtcDateTime
-                : DateTime.UtcNow;
-
             cotacoes.Add(new CotacaoModel
             {
                 Rotulo = moeda.Rotulo,
@@ -109,7 +75,7 @@ public sealed class CotacaoService(
                 MinimaDia = minimaDia,
                 VariacaoPercentual = variacao,
                 CasasDecimais = moeda.CasasDecimais,
-                AtualizadoEm = TimeZoneInfo.ConvertTimeFromUtc(atualizadoUtc, fusoBrasil),
+                AtualizadoEm = long.TryParse(dados.Timestamp, out var segundos) ? HorarioBrasil.DeUnix(segundos) : HorarioBrasil.Agora,
             });
         }
 

@@ -1,6 +1,6 @@
 namespace Lawllit.Model.Common;
 
-// Toda fonte de jogo entrega horário em UTC, e a página mostra tudo no horário de Brasília.
+// Toda fonte externa entrega horário em UTC, e a página mostra tudo no horário de Brasília.
 public static class HorarioBrasil
 {
     private static readonly TimeZoneInfo Fuso = TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo");
