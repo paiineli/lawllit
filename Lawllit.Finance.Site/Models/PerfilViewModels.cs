@@ -8,7 +8,6 @@ public sealed class PerfilViewModel
 {
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public bool TemSenha { get; set; }
     public DateTime MembroDesde { get; set; }
     public string AbaAtiva { get; set; } = "info";
     public string Tema { get; set; } = "dark";
@@ -29,7 +28,6 @@ public sealed class PerfilViewModel
     {
         Nome = perfil.Nome,
         Email = perfil.Email,
-        TemSenha = perfil.TemSenha,
         MembroDesde = perfil.MembroDesde,
         AbaAtiva = aba ?? "info",
         Tema = perfil.Tema,

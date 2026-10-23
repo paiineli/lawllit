@@ -24,7 +24,6 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
         {
             Nome = usuario.NmUsuario,
             Email = usuario.TxEmail,
-            TemSenha = usuario.TemSenha,
             MembroDesde = usuario.DtCadastro,
             Tema = usuario.TxTema,
             TamanhoFonte = usuario.TxTamanhoFonte,
@@ -81,7 +80,7 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
             return Resultado.Falha(erro);
 
         var usuario = await usuarioRepositorio.BuscarPorCodigo(cdUsuario, cancellationToken);
-        if (usuario is null || usuario.TxSenha is null)
+        if (usuario is null)
             return Resultado.Falha("Operação não permitida.");
 
         if (!Senha.Confere(alterar.SenhaAtual, usuario.TxSenha))
@@ -114,7 +113,7 @@ public sealed class PerfilService(IUsuarioRepository usuarioRepositorio) : IPerf
         if (usuario is null)
             return Resultado.Falha("Operação não permitida.");
 
-        if (usuario.TxSenha is not null && !Senha.Confere(excluir.Senha, usuario.TxSenha))
+        if (!Senha.Confere(excluir.Senha, usuario.TxSenha))
             return Resultado.Falha("Senha incorreta.");
 
         await usuarioRepositorio.Excluir(cdUsuario, cancellationToken);

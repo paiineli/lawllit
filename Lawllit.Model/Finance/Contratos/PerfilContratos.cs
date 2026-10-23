@@ -6,7 +6,6 @@ public sealed class PerfilModel
 {
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public bool TemSenha { get; set; }
     public DateTime MembroDesde { get; set; }
     public string Tema { get; set; } = "dark";
     public string TamanhoFonte { get; set; } = "normal";

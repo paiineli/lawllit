@@ -53,38 +53,32 @@
                     <label for="perfil-email">Endereço de e-mail</label>
                     <input id="perfil-email" type="email" name="Email" value="@Model.Email" class="entrada" required autocomplete="email" />
                 </div>
-                @if (Model.TemSenha)
-                {
-                    <div class="campo">
-                        <label for="senha-email">Sua senha, para confirmar</label>
-                        <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("Senha", "senha-email", "current-password"))" />
-                    </div>
-                }
+                <div class="campo">
+                    <label for="senha-email">Sua senha, para confirmar</label>
+                    <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("Senha", "senha-email", "current-password"))" />
+                </div>
                 <button type="submit" class="botao botao-escuro">Salvar e-mail</button>
             </form>
         </section>
 
-        @if (Model.TemSenha)
-        {
-            <section class="cartao perfil-secao">
-                <h2 class="titulo-cartao">Senha</h2>
-                <form method="post" asp-action="AlterarSenha" class="pilha">
-                    <div class="campo">
-                        <label for="senha-atual">Senha atual</label>
-                        <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("SenhaAtual", "senha-atual", "current-password"))" />
-                    </div>
-                    <div class="campo">
-                        <label for="senha-nova">Nova senha</label>
-                        <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("NovaSenha", "senha-nova", "new-password", "Mínimo 6 caracteres"))" />
-                    </div>
-                    <div class="campo">
-                        <label for="senha-confirmar">Confirmar nova senha</label>
-                        <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("ConfirmarNovaSenha", "senha-confirmar", "new-password"))" />
-                    </div>
-                    <button type="submit" class="botao botao-escuro">Trocar senha</button>
-                </form>
-            </section>
-        }
+        <section class="cartao perfil-secao">
+            <h2 class="titulo-cartao">Senha</h2>
+            <form method="post" asp-action="AlterarSenha" class="pilha">
+                <div class="campo">
+                    <label for="senha-atual">Senha atual</label>
+                    <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("SenhaAtual", "senha-atual", "current-password"))" />
+                </div>
+                <div class="campo">
+                    <label for="senha-nova">Nova senha</label>
+                    <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("NovaSenha", "senha-nova", "new-password", "Mínimo 6 caracteres"))" />
+                </div>
+                <div class="campo">
+                    <label for="senha-confirmar">Confirmar nova senha</label>
+                    <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("ConfirmarNovaSenha", "senha-confirmar", "new-password"))" />
+                </div>
+                <button type="submit" class="botao botao-escuro">Trocar senha</button>
+            </form>
+        </section>
     }
 
     @if (Model.AbaAtiva == "aparencia")
@@ -127,13 +121,10 @@
     <form method="post" asp-action="ExcluirConta" class="gaveta-corpo">
         <h2 class="gaveta-titulo" id="gaveta-excluir-conta-titulo">Excluir sua conta?</h2>
         <p class="texto-suave">Todos os lançamentos, categorias e dados da conta somem para sempre.</p>
-        @if (Model.TemSenha)
-        {
-            <div class="campo">
-                <label for="senha-excluir">Sua senha, para confirmar</label>
-                <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("Senha", "senha-excluir", "current-password"))" />
-            </div>
-        }
+        <div class="campo">
+            <label for="senha-excluir">Sua senha, para confirmar</label>
+            <partial name="_CampoSenha" model="@(new CampoSenhaViewModel("Senha", "senha-excluir", "current-password"))" />
+        </div>
         <div class="grade gaveta-par">
             <button type="button" class="botao botao-contorno" data-fechar>Cancelar</button>
             <button type="submit" class="botao botao-perigo">Excluir para sempre</button>

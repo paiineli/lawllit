@@ -19,5 +19,4 @@ public sealed class UsuarioModel
     public DateTime DtCadastro { get; set; }
 
     public bool EmailConfirmado => SnEmailConfirmado == Constantes.Sim;
-    public bool TemSenha => !string.IsNullOrEmpty(TxSenha);
 }
