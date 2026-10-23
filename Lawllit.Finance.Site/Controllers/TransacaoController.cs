@@ -65,7 +65,7 @@ public class TransacaoController(
         var filtro = new TransacaoFiltroModel { Tipo = tipo, Mes = mes, Ano = ano, Busca = busca };
         var transacoes = await transacaoRepositorio.ListarTodas(filtro, cancellationToken);
 
-        var nomeArquivo = $"lawllit-{ano ?? DateTime.Now.Year}-{(mes ?? DateTime.Now.Month):00}.csv";
+        var nomeArquivo = $"lawllit-{ano ?? HorarioBrasil.Agora.Year}-{(mes ?? HorarioBrasil.Agora.Month):00}.csv";
 
         return File(MontarCsv(transacoes), "text/csv", nomeArquivo);
     }

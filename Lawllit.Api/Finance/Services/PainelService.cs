@@ -1,4 +1,5 @@
 using Lawllit.Api.Finance.Repositories;
+using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
 using Lawllit.Model.Finance;
 using Lawllit.Model.Finance.Contratos;
@@ -21,7 +22,7 @@ public sealed class PainelService(ITransacaoRepository transacaoRepositorio) : I
         int? anoPedido,
         CancellationToken cancellationToken)
     {
-        var agora = DateTime.Now;
+        var agora = HorarioBrasil.Agora;
         var anoSelecionado = anoPedido ?? agora.Year;
         var mesSelecionado = periodo == PeriodoPainelEnum.ANO ? 1 : mesPedido ?? agora.Month;
 

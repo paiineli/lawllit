@@ -279,7 +279,7 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
 
     public async Task<decimal> DespesasAVencer(Guid cdUsuario, DateTime de, DateTime ate, CancellationToken cancellationToken)
     {
-        var hoje = DateTime.SpecifyKind(DateTime.Today, DateTimeKind.Utc);
+        var hoje = DateTime.SpecifyKind(HorarioBrasil.Agora.Date, DateTimeKind.Utc);
 
         const string consulta = """
             SELECT COALESCE(SUM(VL_TRANSACAO), 0)

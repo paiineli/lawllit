@@ -11,7 +11,7 @@ public sealed class TransacaoService(
 {
     public async Task<TransacaoPaginaModel> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
     {
-        var agora = DateTime.Now;
+        var agora = HorarioBrasil.Agora;
         filtro.Mes ??= agora.Month;
         filtro.Ano ??= agora.Year;
 

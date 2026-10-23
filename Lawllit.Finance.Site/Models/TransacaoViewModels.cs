@@ -64,7 +64,7 @@ public sealed class TransacaoFormViewModel
     public TipoTransacaoEnum Tipo { get; set; } = TipoTransacaoEnum.DESPESA;
 
     [Required(ErrorMessage = "Data é obrigatória")]
-    public DateTime Data { get; set; } = DateTime.Today;
+    public DateTime Data { get; set; } = HorarioBrasil.Agora.Date;
 
     [Required(ErrorMessage = "Categoria é obrigatória")]
     public Guid CodigoCategoria { get; set; }

@@ -4,7 +4,7 @@
 
     // O app é em real, então a formatação é sempre pt-BR.
     var cultura = System.Globalization.CultureInfo.GetCultureInfo("pt-BR");
-    var hoje = DateTime.Today;
+    var hoje = HorarioBrasil.Agora.Date;
     var nomeMes = cultura.DateTimeFormat.GetMonthName(Model.FiltroMes);
     nomeMes = char.ToUpper(nomeMes[0]) + nomeMes[1..];
 

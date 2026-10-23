@@ -71,7 +71,7 @@
         </div>
 
         <nav class="segmentado" aria-label="Período">
-            <a asp-action="Index" asp-route-periodo="@PeriodoPainelEnum.MES" asp-route-mes="@(modoAno ? DateTime.Now.Month : Model.Mes)"
+            <a asp-action="Index" asp-route-periodo="@PeriodoPainelEnum.MES" asp-route-mes="@(modoAno ? HorarioBrasil.Agora.Month : Model.Mes)"
                asp-route-ano="@Model.Ano" aria-current="@(modoAno ? null : "page")">Mês</a>
             <a asp-action="Index" asp-route-periodo="@PeriodoPainelEnum.ANO" asp-route-ano="@Model.Ano"
                aria-current="@(modoAno ? "page" : null)">Ano</a>
