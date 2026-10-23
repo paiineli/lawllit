@@ -145,7 +145,7 @@
 
         <section class="cartao painel-grafico">
             <div class="cartao-cabecalho">
-                <h2 class="titulo-cartao">Últimos 6 meses</h2>
+                <h2 class="titulo-cartao">Últimos @Model.TendenciaMensal.Count meses</h2>
                 <div class="linha">
                     <span class="legenda cor-receita">Entrou</span>
                     <span class="legenda cor-despesa">Saiu</span>
@@ -155,16 +155,18 @@
 
             @if (maiorDoGrafico > 0)
             {
-                <div class="grafico-colunas" role="img" aria-label="Entradas, saídas e investimentos dos últimos seis meses">
+                @* A barra só tem cor e altura, então cada mês leva os valores em texto para quem usa leitor de tela. *@
+                <div class="grafico-colunas">
                     @foreach (var mes in Model.TendenciaMensal)
                     {
                         <div class="grafico-coluna">
-                            <div class="grafico-barras">
+                            <span class="so-leitor">@nomesMeses[mes.Mes - 1]: entrou @Moeda(mes.Receitas), saiu @Moeda(mes.Despesas), investido @Moeda(mes.Investimentos).</span>
+                            <div class="grafico-barras" aria-hidden="true">
                                 <span class="grafico-barra cor-receita" data-altura="@Medida(mes.Receitas, maiorDoGrafico)" title="Entrou @Moeda(mes.Receitas)"></span>
                                 <span class="grafico-barra cor-despesa" data-altura="@Medida(mes.Despesas, maiorDoGrafico)" title="Saiu @Moeda(mes.Despesas)"></span>
                                 <span class="grafico-barra cor-investimento" data-altura="@Medida(mes.Investimentos, maiorDoGrafico)" title="Investido @Moeda(mes.Investimentos)"></span>
                             </div>
-                            <span class="grafico-rotulo">@nomesMeses[mes.Mes - 1][..3]</span>
+                            <span class="grafico-rotulo" aria-hidden="true">@nomesMeses[mes.Mes - 1][..3]</span>
                         </div>
                     }
                 </div>
