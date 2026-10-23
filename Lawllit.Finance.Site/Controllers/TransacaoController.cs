@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-public class TransacaoController(
+public sealed class TransacaoController(
     ITransacaoRepository transacaoRepositorio,
     ICategoriaRepository categoriaRepositorio) : BaseController
 {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lawllit.Finance.Site.Controllers;
 
 [AllowAnonymous]
-public class LegalController : Controller
+public sealed class LegalController : Controller
 {
     [HttpGet]
     public IActionResult Privacidade() => View();

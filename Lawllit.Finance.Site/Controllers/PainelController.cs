@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-public class PainelController(IPainelRepository painelRepositorio) : BaseController
+public sealed class PainelController(IPainelRepository painelRepositorio) : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> Index(

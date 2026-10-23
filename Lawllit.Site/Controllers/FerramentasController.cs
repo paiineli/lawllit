@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lawllit.Site.Controllers;
 
 // Toda ferramenta roda no navegador. O controller só entrega a página, nada é processado aqui.
-public class FerramentasController : Controller
+public sealed class FerramentasController : Controller
 {
     public IActionResult Index() => View();
 

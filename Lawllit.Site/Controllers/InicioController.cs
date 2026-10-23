@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Site.Controllers;
 
-public class InicioController : Controller
+public sealed class InicioController : Controller
 {
     public IActionResult Index() => View();
 

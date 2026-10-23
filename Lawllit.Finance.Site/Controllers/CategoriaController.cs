@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-public class CategoriaController(ICategoriaRepository categoriaRepositorio) : BaseController
+public sealed class CategoriaController(ICategoriaRepository categoriaRepositorio) : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> Index(TipoTransacaoEnum? tipo, string? busca, CancellationToken cancellationToken)

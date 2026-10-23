@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-public class CotacoesController(ICotacaoRepository cotacaoRepositorio) : BaseController
+public sealed class CotacoesController(ICotacaoRepository cotacaoRepositorio) : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Site.Controllers;
 
-public class JogosController(
+public sealed class JogosController(
     IAgendaRepository agendaRepositorio,
     IShrineRepository shrineRepositorio,
     IBaroRepository baroRepositorio,

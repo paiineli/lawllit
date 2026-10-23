@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-public class PerfilController(IPerfilRepository perfilRepositorio) : BaseController
+public sealed class PerfilController(IPerfilRepository perfilRepositorio) : BaseController
 {
     private const string AbaSeguranca = "seguranca";
     private const string AbaConta = "conta";

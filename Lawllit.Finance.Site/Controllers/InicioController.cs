@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lawllit.Finance.Site.Controllers;
 
 [AllowAnonymous]
-public class InicioController : Controller
+public sealed class InicioController : Controller
 {
     public IActionResult Index()
     {

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace Lawllit.Finance.Site.Controllers;
 
 [AllowAnonymous]
-public class ContaController(IAutenticacaoRepository autenticacaoRepositorio, EnderecoFinance endereco) : BaseController
+public sealed class ContaController(IAutenticacaoRepository autenticacaoRepositorio, EnderecoFinance endereco) : BaseController
 {
     [HttpGet]
     public IActionResult Entrar()

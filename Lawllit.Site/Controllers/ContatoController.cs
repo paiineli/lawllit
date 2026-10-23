@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace Lawllit.Site.Controllers;
 
-public class ContatoController(
+public sealed class ContatoController(
     IContatoRepository contatoRepositorio,
     ITurnstileValidador turnstileValidador) : Controller
 {
