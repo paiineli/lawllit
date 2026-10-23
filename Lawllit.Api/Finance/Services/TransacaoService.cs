@@ -105,29 +105,13 @@ public sealed class TransacaoService(
         return Resultado.Ok();
     }
 
-    public async Task<ImportarRecorrentesResultadoModel> ImportarRecorrentes(Guid cdUsuario, ImportarRecorrentesModel importar, CancellationToken cancellationToken)
+    public async Task<Resultado<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(Guid cdUsuario, ImportarRecorrentesModel importar, CancellationToken cancellationToken)
     {
-        var anteriores = await transacaoRepositorio.RecorrentesParaImportar(cdUsuario, importar.Mes, importar.Ano, cancellationToken);
+        if (importar.Validar() is { } erro)
+            return Resultado<ImportarRecorrentesResultadoModel>.Falha(erro);
 
-        foreach (var anterior in anteriores)
-        {
-            // Dia 31 virando fevereiro cai no último dia válido do mês de destino.
-            var dia = Math.Min(anterior.DtTransacao.Day, DateTime.DaysInMonth(importar.Ano, importar.Mes));
-
-            await transacaoRepositorio.Criar(new TransacaoModel
-            {
-                CdTransacao = Guid.NewGuid(),
-                TxDescricao = anterior.TxDescricao,
-                VlTransacao = anterior.VlTransacao,
-                TxTipo = anterior.TxTipo,
-                DtTransacao = DateTime.SpecifyKind(new DateTime(importar.Ano, importar.Mes, dia), DateTimeKind.Utc),
-                CdUsuario = cdUsuario,
-                CdCategoria = anterior.CdCategoria,
-                SnRecorrente = Constantes.Sim,
-            }, cancellationToken);
-        }
-
-        return new ImportarRecorrentesResultadoModel { QuantidadeImportada = anteriores.Count };
+        var importadas = await transacaoRepositorio.ImportarRecorrentes(cdUsuario, importar.Mes, importar.Ano, cancellationToken);
+        return Resultado<ImportarRecorrentesResultadoModel>.Ok(new ImportarRecorrentesResultadoModel { QuantidadeImportada = importadas });
     }
 }
 
@@ -141,7 +125,7 @@ public interface ITransacaoService
     Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);
     Task<Resultado> Alterar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken);
     Task<Resultado> Inativar(Guid cdUsuario, Guid cdTransacao, CancellationToken cancellationToken);
-    Task<ImportarRecorrentesResultadoModel> ImportarRecorrentes(Guid cdUsuario, ImportarRecorrentesModel importar, CancellationToken cancellationToken);
+    Task<Resultado<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(Guid cdUsuario, ImportarRecorrentesModel importar, CancellationToken cancellationToken);
 }
 
 #endregion

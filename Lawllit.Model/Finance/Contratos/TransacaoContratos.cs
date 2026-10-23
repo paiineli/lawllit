@@ -74,6 +74,8 @@ public sealed class ImportarRecorrentesModel
 {
     public int Mes { get; set; }
     public int Ano { get; set; }
+
+    public string? Validar() => Validacao.Periodo(Mes, Ano) ? null : "Período inválido.";
 }
 
 public sealed class ImportarRecorrentesResultadoModel

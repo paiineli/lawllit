@@ -166,12 +166,21 @@ public class TransacaoController(
         [Bind(Prefix = "filtro")] TransacaoFiltroRotaViewModel filtro,
         CancellationToken cancellationToken)
     {
-        var agora = DateTime.Now;
-        var quantidade = await transacaoRepositorio.ImportarRecorrentes(
+        var agora = HorarioBrasil.Agora;
+        var resultado = await transacaoRepositorio.ImportarRecorrentes(
             new ImportarRecorrentesModel { Mes = filtro.Mes ?? agora.Month, Ano = filtro.Ano ?? agora.Year },
             cancellationToken);
 
-        TempData["Sucesso"] = $"{quantidade} transação(ões) recorrente(s) importada(s).";
+        if (!resultado.Sucesso)
+            return VoltarComErro(resultado.Mensagem!, filtro);
+
+        var quantidade = resultado.Valor!.QuantidadeImportada;
+        TempData["Sucesso"] = quantidade switch
+        {
+            0 => "Os lançamentos que se repetem já tinham entrado neste mês.",
+            1 => "1 lançamento que se repete todo mês entrou.",
+            _ => $"{quantidade} lançamentos que se repetem todo mês entraram.",
+        };
         return RedirectToAction(nameof(Index), filtro.ParaValoresRota());
     }
 

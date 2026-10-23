@@ -90,10 +90,10 @@ public static class TransacaoEndpoints
         CancellationToken cancellationToken)
         => (await servico.Inativar(usuario.ObterCodigoUsuario(), codigo, cancellationToken)).ParaHttp();
 
-    private static async Task<Ok<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(
+    private static async Task<Results<Ok<ImportarRecorrentesResultadoModel>, BadRequest<ErroApiModel>>> ImportarRecorrentes(
         ImportarRecorrentesModel importar,
         ClaimsPrincipal usuario,
         ITransacaoService servico,
         CancellationToken cancellationToken)
-        => TypedResults.Ok(await servico.ImportarRecorrentes(usuario.ObterCodigoUsuario(), importar, cancellationToken));
+        => (await servico.ImportarRecorrentes(usuario.ObterCodigoUsuario(), importar, cancellationToken)).ParaHttp();
 }

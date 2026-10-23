@@ -17,5 +17,7 @@ public static class Validacao
             && MailAddress.TryCreate(valor.Trim(), out var endereco)
             && endereco.Address == valor.Trim();
 
+    public static bool Periodo(int mes, int ano) => mes is >= 1 and <= 12 && ano is >= 2000 and <= 2100;
+
     public const int SenhaMinima = 6;
 }

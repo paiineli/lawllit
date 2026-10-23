@@ -329,28 +329,61 @@ public sealed class TransacaoRepository(NpgsqlDataSource fonteDados) : ITransaca
             cancellationToken: cancellationToken));
     }
 
-    public async Task<List<TransacaoModel>> RecorrentesParaImportar(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken)
+    // Tudo numa transação travada por usuário: um clique duplo esperava a primeira cópia e copiava de novo.
+    public async Task<int> ImportarRecorrentes(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken)
     {
-        var mesAnterior = new DateTime(ano, mes, 1).AddMonths(-1);
+        const string travar = "SELECT pg_advisory_xact_lock(hashtextextended(@CdUsuario::text, 0))";
 
-        var consulta = $"""
-            {SelectComCategoria}
-              AND t.CD_USUARIO                       = @CdUsuario
-              AND t.SN_RECORRENTE                    = 'S'
-              AND EXTRACT(MONTH FROM t.DT_TRANSACAO) = @Mes
-              AND EXTRACT(YEAR  FROM t.DT_TRANSACAO) = @Ano
+        const string contarDoMes = """
+            SELECT COUNT(1)
+            FROM TRANSACAO
+            WHERE CD_USUARIO                       = @CdUsuario
+              AND SN_ATIVO                         = 'S'
+              AND SN_RECORRENTE                    = 'S'
+              AND EXTRACT(MONTH FROM DT_TRANSACAO) = @Mes
+              AND EXTRACT(YEAR  FROM DT_TRANSACAO) = @Ano
             """;
 
-        await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        var transacoes = await conexao.QueryAsync<TransacaoModel, CategoriaModel, TransacaoModel>(
-            new CommandDefinition(
-                consulta,
-                new { CdUsuario = cdUsuario, Mes = mesAnterior.Month, Ano = mesAnterior.Year },
-                cancellationToken: cancellationToken),
-            Juntar,
-            splitOn: ColunaCorte);
+        // Dia 31 virando fevereiro cai no último dia válido do mês de destino.
+        const string copiar = """
+            INSERT INTO TRANSACAO (
+                CD_TRANSACAO, TX_DESCRICAO, VL_TRANSACAO, TX_TIPO, DT_TRANSACAO,
+                SN_RECORRENTE, CD_USUARIO, CD_CATEGORIA
+            )
+            SELECT gen_random_uuid(), TX_DESCRICAO, VL_TRANSACAO, TX_TIPO,
+                   MAKE_DATE(@Ano, @Mes, LEAST(EXTRACT(DAY FROM DT_TRANSACAO AT TIME ZONE 'UTC')::INT, @DiasNoMes))::TIMESTAMP AT TIME ZONE 'UTC',
+                   'S', CD_USUARIO, CD_CATEGORIA
+            FROM TRANSACAO
+            WHERE CD_USUARIO                       = @CdUsuario
+              AND SN_ATIVO                         = 'S'
+              AND SN_RECORRENTE                    = 'S'
+              AND EXTRACT(MONTH FROM DT_TRANSACAO) = @MesAnterior
+              AND EXTRACT(YEAR  FROM DT_TRANSACAO) = @AnoAnterior
+            """;
 
-        return transacoes.AsList();
+        var mesAnterior = new DateTime(ano, mes, 1).AddMonths(-1);
+        var parametros = new
+        {
+            CdUsuario = cdUsuario,
+            Mes = mes,
+            Ano = ano,
+            DiasNoMes = DateTime.DaysInMonth(ano, mes),
+            MesAnterior = mesAnterior.Month,
+            AnoAnterior = mesAnterior.Year,
+        };
+
+        await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
+        await using var transacao = await conexao.BeginTransactionAsync(cancellationToken);
+
+        await conexao.ExecuteAsync(new CommandDefinition(travar, parametros, transacao, cancellationToken: cancellationToken));
+
+        if (await conexao.ExecuteScalarAsync<int>(new CommandDefinition(contarDoMes, parametros, transacao, cancellationToken: cancellationToken)) > 0)
+            return 0;
+
+        var importadas = await conexao.ExecuteAsync(new CommandDefinition(copiar, parametros, transacao, cancellationToken: cancellationToken));
+        await transacao.CommitAsync(cancellationToken);
+
+        return importadas;
     }
 
     public async Task<List<TendenciaMensalModel>> TendenciaMensal(Guid cdUsuario, int ateMes, int ateAno, int quantidadeMeses, CancellationToken cancellationToken)
@@ -491,7 +524,7 @@ public interface ITransacaoRepository
     Task<TotalInvestidoModel> TotalInvestido(Guid cdUsuario, DateTime ate, CancellationToken cancellationToken);
     Task<decimal> DespesasAVencer(Guid cdUsuario, DateTime de, DateTime ate, CancellationToken cancellationToken);
     Task<int> RecorrentesPendentes(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken);
-    Task<List<TransacaoModel>> RecorrentesParaImportar(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken);
+    Task<int> ImportarRecorrentes(Guid cdUsuario, int mes, int ano, CancellationToken cancellationToken);
     Task<List<TendenciaMensalModel>> TendenciaMensal(Guid cdUsuario, int ateMes, int ateAno, int quantidadeMeses, CancellationToken cancellationToken);
     Task Criar(TransacaoModel transacao, CancellationToken cancellationToken);
     Task Alterar(TransacaoModel transacao, CancellationToken cancellationToken);

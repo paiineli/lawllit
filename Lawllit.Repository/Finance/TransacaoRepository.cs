@@ -34,13 +34,8 @@ public sealed class TransacaoRepository(IHttpClientFactory httpClientFactory) : 
     public Task<Resultado> Inativar(Guid codigo, CancellationToken cancellationToken)
         => httpClient.Enviar(HttpMethod.Delete, $"{Rota}/{codigo}", corpo: null, cancellationToken);
 
-    public async Task<int> ImportarRecorrentes(ImportarRecorrentesModel importar, CancellationToken cancellationToken)
-    {
-        var resultado = await httpClient.Enviar<ImportarRecorrentesResultadoModel>(
-            HttpMethod.Post, $"{Rota}/importar-recorrentes", importar, cancellationToken);
-
-        return resultado.Valor!.QuantidadeImportada;
-    }
+    public Task<Resultado<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(ImportarRecorrentesModel importar, CancellationToken cancellationToken)
+        => httpClient.Enviar<ImportarRecorrentesResultadoModel>(HttpMethod.Post, $"{Rota}/importar-recorrentes", importar, cancellationToken);
 }
 
 #region Interfaces
@@ -63,7 +58,7 @@ public interface ITransacaoRepository
     Task<Resultado> Inativar(Guid codigo, CancellationToken cancellationToken);
 
     // Copia as recorrentes do mês anterior e devolve quantas foram criadas.
-    Task<int> ImportarRecorrentes(ImportarRecorrentesModel importar, CancellationToken cancellationToken);
+    Task<Resultado<ImportarRecorrentesResultadoModel>> ImportarRecorrentes(ImportarRecorrentesModel importar, CancellationToken cancellationToken);
 }
 
 #endregion
