@@ -64,16 +64,4 @@ public sealed class CategoriaController(ICategoriaRepository categoriaRepositori
             ? VoltarComSucesso("Categoria removida.")
             : VoltarComErro(resultado.Mensagem!);
     }
-
-    private IActionResult VoltarComSucesso(string mensagem)
-    {
-        TempData["Sucesso"] = mensagem;
-        return RedirectToAction(nameof(Index));
-    }
-
-    private IActionResult VoltarComErro(string mensagem)
-    {
-        TempData["Erro"] = mensagem;
-        return RedirectToAction(nameof(Index));
-    }
 }

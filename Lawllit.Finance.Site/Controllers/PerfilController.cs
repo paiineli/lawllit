@@ -1,6 +1,7 @@
 using Lawllit.Finance.Site.Models;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
+using Lawllit.Web.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -32,17 +33,17 @@ public sealed class PerfilController(IPerfilRepository perfilRepositorio) : Base
     public async Task<IActionResult> AlterarNome(AlterarNomeViewModel formulario, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return VoltarComErro(PrimeiroErro("Nome inválido."), aba: null);
+            return VoltarComErro(ModelState.PrimeiroErro("Nome inválido."));
 
         var resultado = await perfilRepositorio.AlterarNome(
             new AlterarNomeModel { Nome = formulario.Nome },
             cancellationToken);
 
         if (!resultado.Sucesso)
-            return VoltarComErro(resultado.Mensagem!, aba: null);
+            return VoltarComErro(resultado.Mensagem!);
 
         await Reautenticar(resultado.Valor!);
-        return VoltarComSucesso("Nome alterado.", aba: null);
+        return VoltarComSucesso("Nome alterado.");
     }
 
     [HttpPost]
@@ -50,17 +51,17 @@ public sealed class PerfilController(IPerfilRepository perfilRepositorio) : Base
     public async Task<IActionResult> AlterarEmail(AlterarEmailViewModel formulario, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return VoltarComErro(PrimeiroErro("E-mail inválido."), AbaSeguranca);
+            return VoltarComErro(ModelState.PrimeiroErro("E-mail inválido."), new { aba = AbaSeguranca });
 
         var resultado = await perfilRepositorio.AlterarEmail(
             new AlterarEmailModel { Email = formulario.Email, Senha = formulario.Senha },
             cancellationToken);
 
         if (!resultado.Sucesso)
-            return VoltarComErro(resultado.Mensagem!, AbaSeguranca);
+            return VoltarComErro(resultado.Mensagem!, new { aba = AbaSeguranca });
 
         await Reautenticar(resultado.Valor!);
-        return VoltarComSucesso("E-mail alterado.", AbaSeguranca);
+        return VoltarComSucesso("E-mail alterado.", new { aba = AbaSeguranca });
     }
 
     [HttpPost]
@@ -68,7 +69,7 @@ public sealed class PerfilController(IPerfilRepository perfilRepositorio) : Base
     public async Task<IActionResult> AlterarSenha(AlterarSenhaViewModel formulario, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return VoltarComErro(PrimeiroErro("Dados inválidos."), AbaSeguranca);
+            return VoltarComErro(ModelState.PrimeiroErro("Dados inválidos."), new { aba = AbaSeguranca });
 
         var resultado = await perfilRepositorio.AlterarSenha(new AlterarSenhaModel
         {
@@ -77,8 +78,8 @@ public sealed class PerfilController(IPerfilRepository perfilRepositorio) : Base
         }, cancellationToken);
 
         return resultado.Sucesso
-            ? VoltarComSucesso("Senha alterada.", AbaSeguranca)
-            : VoltarComErro(resultado.Mensagem!, AbaSeguranca);
+            ? VoltarComSucesso("Senha alterada.", new { aba = AbaSeguranca })
+            : VoltarComErro(resultado.Mensagem!, new { aba = AbaSeguranca });
     }
 
     [HttpPost]
@@ -110,27 +111,4 @@ public sealed class PerfilController(IPerfilRepository perfilRepositorio) : Base
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Inicio");
     }
-
-    private IActionResult VoltarComSucesso(string mensagem, string? aba)
-    {
-        TempData["Sucesso"] = mensagem;
-        return VoltarParaIndex(aba);
-    }
-
-    private IActionResult VoltarComErro(string mensagem, string? aba)
-    {
-        TempData["Erro"] = mensagem;
-        return VoltarParaIndex(aba);
-    }
-
-    private IActionResult VoltarParaIndex(string? aba)
-        => aba is null
-            ? RedirectToAction(nameof(Index))
-            : RedirectToAction(nameof(Index), new { aba });
-
-    // A mensagem já vem do DataAnnotations, a reserva só cobre o caso de não haver nenhuma.
-    private string PrimeiroErro(string reserva)
-        => ModelState.Values
-            .SelectMany(entrada => entrada.Errors)
-            .FirstOrDefault()?.ErrorMessage ?? reserva;
 }

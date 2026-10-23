@@ -40,4 +40,17 @@ public abstract class BaseController : Controller
             usuario,
             User.FindFirst(Constantes.ClaimTokenApi)?.Value ?? string.Empty,
             SessaoFinance.ExpiracaoDoToken(User) ?? DateTimeOffset.UtcNow);
+
+    // Todo POST do finance volta do mesmo jeito: mensagem para o aviso e redirect para a listagem.
+    protected IActionResult VoltarComSucesso(string mensagem, object? valoresRota = null)
+    {
+        TempData["Sucesso"] = mensagem;
+        return RedirectToAction("Index", valoresRota);
+    }
+
+    protected IActionResult VoltarComErro(string mensagem, object? valoresRota = null)
+    {
+        TempData["Erro"] = mensagem;
+        return RedirectToAction("Index", valoresRota);
+    }
 }

@@ -2,6 +2,7 @@ using Lawllit.Model.Contato.Contratos;
 using Lawllit.Repository.Contato;
 using Lawllit.Site.Common;
 using Lawllit.Site.Models;
+using Lawllit.Web.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -23,7 +24,7 @@ public sealed class ContatoController(
             return Enviado();
 
         if (!ModelState.IsValid)
-            return Voltar(formulario, PrimeiroErro());
+            return Voltar(formulario, ModelState.PrimeiroErro("Dados inválidos."));
 
         var ehGente = await turnstileValidador.Validar(
             Request.Form["cf-turnstile-response"],
@@ -65,11 +66,4 @@ public sealed class ContatoController(
 
     private IActionResult VoltarParaInicio()
         => RedirectToAction("Index", "Inicio", routeValues: null, fragment: Ancora);
-
-    private string PrimeiroErro()
-        => ModelState.Values
-            .SelectMany(entrada => entrada.Errors)
-            .Select(erro => erro.ErrorMessage)
-            .FirstOrDefault(mensagem => !string.IsNullOrWhiteSpace(mensagem))
-            ?? "Dados inválidos.";
 }

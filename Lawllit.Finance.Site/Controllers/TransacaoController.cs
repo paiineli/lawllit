@@ -115,13 +115,13 @@ public sealed class TransacaoController(
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return VoltarComErro("Dados inválidos.", filtro);
+            return VoltarComErro("Dados inválidos.", filtro.ParaValoresRota());
 
         var resultado = await transacaoRepositorio.Criar(ParaSalvar(formulario), cancellationToken);
 
         return resultado.Sucesso
-            ? VoltarComSucesso("Transação criada.", filtro)
-            : VoltarComErro(resultado.Mensagem!, filtro);
+            ? VoltarComSucesso("Transação criada.", filtro.ParaValoresRota())
+            : VoltarComErro(resultado.Mensagem!, filtro.ParaValoresRota());
     }
 
     [HttpPost]
@@ -133,14 +133,14 @@ public sealed class TransacaoController(
         CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)
-            return VoltarComErro("Dados inválidos.", filtro);
+            return VoltarComErro("Dados inválidos.", filtro.ParaValoresRota());
 
         formulario.Codigo = codigo;
         var resultado = await transacaoRepositorio.Alterar(ParaSalvar(formulario), cancellationToken);
 
         return resultado.Sucesso
-            ? VoltarComSucesso("Transação alterada.", filtro)
-            : VoltarComErro(resultado.Mensagem!, filtro);
+            ? VoltarComSucesso("Transação alterada.", filtro.ParaValoresRota())
+            : VoltarComErro(resultado.Mensagem!, filtro.ParaValoresRota());
     }
 
     [HttpPost]
@@ -153,8 +153,8 @@ public sealed class TransacaoController(
         var resultado = await transacaoRepositorio.Inativar(codigo, cancellationToken);
 
         return resultado.Sucesso
-            ? VoltarComSucesso("Transação removida.", filtro)
-            : VoltarComErro(resultado.Mensagem!, filtro);
+            ? VoltarComSucesso("Transação removida.", filtro.ParaValoresRota())
+            : VoltarComErro(resultado.Mensagem!, filtro.ParaValoresRota());
     }
 
     // Importa no mês que está em tela, que é o do aviso de pendência, e não no mês corrente.
@@ -170,7 +170,7 @@ public sealed class TransacaoController(
             cancellationToken);
 
         if (!resultado.Sucesso)
-            return VoltarComErro(resultado.Mensagem!, filtro);
+            return VoltarComErro(resultado.Mensagem!, filtro.ParaValoresRota());
 
         var quantidade = resultado.Valor!.QuantidadeImportada;
         TempData["Sucesso"] = quantidade switch
@@ -192,16 +192,4 @@ public sealed class TransacaoController(
         CodigoCategoria = formulario.CodigoCategoria,
         Recorrente = formulario.Recorrente,
     };
-
-    private IActionResult VoltarComSucesso(string mensagem, TransacaoFiltroRotaViewModel filtro)
-    {
-        TempData["Sucesso"] = mensagem;
-        return RedirectToAction(nameof(Index), filtro.ParaValoresRota());
-    }
-
-    private IActionResult VoltarComErro(string mensagem, TransacaoFiltroRotaViewModel filtro)
-    {
-        TempData["Erro"] = mensagem;
-        return RedirectToAction(nameof(Index), filtro.ParaValoresRota());
-    }
 }
