@@ -98,7 +98,12 @@
 
     function salvarPreferencia(chave, valor) {
         var formulario = document.getElementById('form-preferencia');
-        if (formulario) Lawllit.enviar(formulario.action, { chave: chave, valor: valor });
+        if (!formulario) return;
+
+        // A tela já mudou na hora; se o servidor recusar, a pessoa precisa saber que não ficou salvo.
+        Lawllit.enviar(formulario.action, { chave: chave, valor: valor }).catch(function (erro) {
+            if (erro.message !== 'sessao' && erro.message !== 'offline') Lawllit.avisar('Não deu para salvar a preferência. Tente de novo.', 'erro');
+        });
     }
 
     // O banco fala dark, light e high-contrast. O CSS fala escuro, claro e alto-contraste.

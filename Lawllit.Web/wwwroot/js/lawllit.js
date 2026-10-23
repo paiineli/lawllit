@@ -69,6 +69,9 @@ window.Lawllit = (function () {
                 throw new Error('sessao');
             }
 
+            // Erro do servidor rejeita a promessa, senão quem chamou tratava 400 e 500 como sucesso.
+            if (!resposta.ok) throw new Error('status ' + resposta.status);
+
             return resposta;
         });
     }
