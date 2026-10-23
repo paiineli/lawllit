@@ -71,7 +71,13 @@ public static class ApiClient
         CancellationToken cancellationToken)
     {
         using var resposta = await httpClient.GetAsync(url, cancellationToken);
-        return resposta.IsSuccessStatusCode;
+
+        // Só 404 e 400 querem dizer "não existe". API fora do ar estoura, senão virava "link expirado".
+        if (resposta.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.BadRequest)
+            return false;
+
+        resposta.EnsureSuccessStatusCode();
+        return true;
     }
 
     private static Task<HttpResponseMessage> Requisitar(
