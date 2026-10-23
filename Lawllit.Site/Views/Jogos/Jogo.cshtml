@@ -12,7 +12,7 @@
 }
 
 @* A classe do jogo fica em volta de tudo, e é ela que pinta a página com as cores dele. *@
-<div class="jogo-pagina @Model.Jogo.Classe">
+<main class="jogo-pagina @Model.Jogo.Classe">
     <div class="conteiner">
         <header class="jogo-capa">
             <img class="jogo-capa-arte" src="@Url.Content(Model.Jogo.Arte)" alt="" />
@@ -210,4 +210,4 @@
     <div class="conteiner jogo-rodape">
         <partial name="_Fontes" />
     </div>
-</div>
+</main>
