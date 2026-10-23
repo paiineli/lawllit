@@ -25,9 +25,9 @@ public static class Seguranca
         "script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com; " +
         "frame-src https://challenges.cloudflare.com; " +
 
-        // Worker de outra origem é recusado, então o pdf.js embrulha o do jsdelivr num blob.
+        // Worker de outra origem é recusado, então o worker do pdf.js entra como blob.
         "worker-src blob:; " +
 
-        // A consulta de CEP é a única chamada do navegador para fora.
-        "connect-src 'self' https://viacep.com.br";
+        // A consulta de CEP, e o worker do pdf.js, baixado por fetch para poder conferir o hash.
+        "connect-src 'self' https://viacep.com.br https://cdn.jsdelivr.net";
 }

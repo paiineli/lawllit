@@ -16,9 +16,13 @@
     var rotulo = document.getElementById('progresso-rotulo');
     var barra = document.getElementById('progresso-barra');
 
-    // A versão sai da própria biblioteca carregada, assim a página e o worker nunca divergem.
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + pdfjsLib.version + '/build/pdf.worker.min.js';
+    // O worker não aceita integrity no Worker(), então vem por fetch conferido e entra no pdf.js como blob.
+    // A versão fica fixa junto com o hash: trocar uma exige trocar a outra.
+    var worker = fetch('https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js', {
+        integrity: 'sha384-SnzOobpRMLXZ52iJvZm/C0fYw0OQemTXzTjIsdsfMcrCtCEe9qgzxTd3RSklO5x2'
+    })
+        .then(function (resposta) { return resposta.blob(); })
+        .then(function (conteudo) { pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(conteudo); });
 
     // Escala 1 é 72 dpi. Abaixo disso o texto da página já fica ilegível.
     var niveis = {
@@ -168,6 +172,7 @@
 
         try {
             // Sem isto o pdf.js testa eval, que a CSP bloqueia, e suja o console a cada arquivo.
+            await worker;
             documento = await pdfjsLib.getDocument({
                 data: await arquivo.arrayBuffer(),
                 isEvalSupported: false,
