@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.IO.Compression;
 using System.Threading.RateLimiting;
+using Lawllit.Model.Common;
 using Lawllit.Web.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -138,7 +139,7 @@ public static class WebExtensions
     public static WebApplication MapSeoLawllit(this WebApplication app, string[] caminhosIndexaveis, string[] caminhosBloqueados)
     {
         // Anônimos de propósito: a Railway checa o /health sem login, e buscador não tem conta.
-        app.MapGet("/health", () => TypedResults.Ok(new { status = "ok" })).AllowAnonymous();
+        app.MapGet("/health", () => TypedResults.Ok(new { status = "ok", versao = Versao.Atual })).AllowAnonymous();
 
         app.MapGet("/robots.txt", (HttpRequest request) =>
             TypedResults.Text(SeoConteudo.Robots(request, caminhosBloqueados), "text/plain")).AllowAnonymous();

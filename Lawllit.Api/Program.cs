@@ -4,6 +4,7 @@ using Lawllit.Api.Common;
 using Lawllit.Api.Contato.Endpoints;
 using Lawllit.Api.Finance.Endpoints;
 using Lawllit.Api.Jogos.Endpoints;
+using Lawllit.Model.Common;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -91,7 +92,7 @@ app.MapGet("/health", async Task<Results<Ok<object>, StatusCodeHttpResult>> (Npg
         {
             await using var comando = banco.CreateCommand("SELECT 1");
             await comando.ExecuteScalarAsync(cancellationToken);
-            return TypedResults.Ok<object>(new { status = "ok" });
+            return TypedResults.Ok<object>(new { status = "ok", versao = Versao.Atual });
         }
         catch (NpgsqlException)
         {
