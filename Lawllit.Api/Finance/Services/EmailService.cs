@@ -34,13 +34,13 @@ public sealed class EmailService(IEnviadorEmail enviador) : IEmailService
         string rodape2)
     {
         var card = $"""
-            <h2 style="margin:0 0 8px 0;font-size:18px;font-weight:600;color:#e5e7eb;">{titulo}</h2>
-                          <p style="margin:0 0 32px 0;font-size:14px;color:#6b7280;line-height:1.6;">{saudacao}</p>
+            <h2 style="margin:0 0 8px 0;font-size:24px;font-weight:800;letter-spacing:-0.5px;color:{ModeloEmail.CorTexto};">{titulo}</h2>
+                          <p style="margin:0 0 32px 0;font-size:15px;color:{ModeloEmail.CorSuave};line-height:1.6;">{saudacao}</p>
                           <table width="100%" cellpadding="0" cellspacing="0">
                             <tr>
                               <td align="center">
                                 <a href="{WebUtility.HtmlEncode(urlAcao)}"
-                                   style="display:inline-block;padding:13px 36px;background-color:#4ade80;color:#000000;font-weight:700;font-size:14px;text-decoration:none;border-radius:6px;letter-spacing:-0.2px;">
+                                   style="display:inline-block;padding:15px 36px;background-color:{ModeloEmail.CorDestaque};color:{ModeloEmail.CorSobreDestaque};font-weight:700;font-size:15px;text-decoration:none;border-radius:999px;">
                                   {rotuloAcao}
                                 </a>
                               </td>

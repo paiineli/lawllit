@@ -68,16 +68,16 @@ public sealed class ContatoService(
         var texto = WebUtility.HtmlEncode(contato.TxMensagem).Replace("\n", "<br>");
 
         var card = $"""
-            <h2 style="margin:0 0 24px 0;font-size:16px;font-weight:600;color:#e5e7eb;">Nova mensagem pelo site</h2>
+            <h2 style="margin:0 0 24px 0;font-size:22px;font-weight:800;letter-spacing:-0.5px;color:{ModeloEmail.CorTexto};">Nova mensagem pelo site</h2>
 
-                          <p style="margin:0 0 4px 0;font-size:11px;color:#6b7280;letter-spacing:0.06em;">DE</p>
-                          <p style="margin:0 0 18px 0;font-size:14px;color:#e5e7eb;">{nome}</p>
+                          <p style="margin:0 0 4px 0;font-size:11px;font-weight:700;color:{ModeloEmail.CorSuave};letter-spacing:0.08em;">DE</p>
+                          <p style="margin:0 0 18px 0;font-size:15px;color:{ModeloEmail.CorTexto};">{nome}</p>
 
-                          <p style="margin:0 0 4px 0;font-size:11px;color:#6b7280;letter-spacing:0.06em;">E-MAIL</p>
-                          <p style="margin:0 0 18px 0;font-size:14px;color:#4ade80;">{email}</p>
+                          <p style="margin:0 0 4px 0;font-size:11px;font-weight:700;color:{ModeloEmail.CorSuave};letter-spacing:0.08em;">E-MAIL</p>
+                          <p style="margin:0 0 18px 0;font-size:15px;color:#b83a0c;">{email}</p>
 
-                          <p style="margin:0 0 4px 0;font-size:11px;color:#6b7280;letter-spacing:0.06em;">MENSAGEM</p>
-                          <p style="margin:0;font-size:14px;color:#e5e7eb;line-height:1.7;">{texto}</p>
+                          <p style="margin:0 0 4px 0;font-size:11px;font-weight:700;color:{ModeloEmail.CorSuave};letter-spacing:0.08em;">MENSAGEM</p>
+                          <p style="margin:0;font-size:15px;color:{ModeloEmail.CorTexto};line-height:1.7;">{texto}</p>
             """;
 
         return ModeloEmail.Montar(ModeloEmail.MarcaLawllit, card);
