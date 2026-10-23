@@ -23,6 +23,14 @@ public sealed class PainelService(ITransacaoRepository transacaoRepositorio) : I
         CancellationToken cancellationToken)
     {
         var agora = HorarioBrasil.Agora;
+
+        // Mês ou ano que não existem, vindos da URL, viram o período atual em vez de estourar ao montar a data.
+        if (!Validacao.Periodo(mesPedido ?? agora.Month, anoPedido ?? agora.Year))
+        {
+            mesPedido = null;
+            anoPedido = null;
+        }
+
         var anoSelecionado = anoPedido ?? agora.Year;
         var mesSelecionado = periodo == PeriodoPainelEnum.ANO ? 1 : mesPedido ?? agora.Month;
 

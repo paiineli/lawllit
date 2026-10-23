@@ -11,14 +11,12 @@ public sealed class TransacaoService(
 {
     public async Task<TransacaoPaginaModel> Listar(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
     {
-        var agora = HorarioBrasil.Agora;
-        filtro.Mes ??= agora.Month;
-        filtro.Ano ??= agora.Year;
+        var (mes, ano) = NormalizarPeriodo(filtro);
 
         var pagina = await transacaoRepositorio.Listar(cdUsuario, filtro, cancellationToken);
         var totais = await transacaoRepositorio.TotaisDoFiltro(cdUsuario, filtro, cancellationToken);
         var recorrentesPendentes = await transacaoRepositorio.RecorrentesPendentes(
-            cdUsuario, filtro.Mes.Value, filtro.Ano.Value, cancellationToken);
+            cdUsuario, mes, ano, cancellationToken);
 
         return new TransacaoPaginaModel
         {
@@ -29,8 +27,8 @@ public sealed class TransacaoService(
                 PaginaAtual = pagina.PaginaAtual,
                 ItensPorPagina = pagina.ItensPorPagina,
             },
-            Mes = filtro.Mes.Value,
-            Ano = filtro.Ano.Value,
+            Mes = mes,
+            Ano = ano,
             TotalReceitas = totais.Receitas,
             TotalDespesas = totais.Despesas,
             TotalInvestimentos = totais.Investimentos,
@@ -45,7 +43,27 @@ public sealed class TransacaoService(
 
     // Sem paginação, porque quem exporta quer o período inteiro num arquivo só.
     public async Task<List<TransacaoItemModel>> ListarTodas(Guid cdUsuario, TransacaoFiltroModel filtro, CancellationToken cancellationToken)
-        => [.. (await transacaoRepositorio.ListarTodas(cdUsuario, filtro, cancellationToken)).Select(TransacaoItemModel.De)];
+    {
+        NormalizarPeriodo(filtro);
+        return [.. (await transacaoRepositorio.ListarTodas(cdUsuario, filtro, cancellationToken)).Select(TransacaoItemModel.De)];
+    }
+
+    // Mês ou ano que não existem, vindos da URL, viram o mês atual em vez de estourar ao montar a data.
+    private static (int Mes, int Ano) NormalizarPeriodo(TransacaoFiltroModel filtro)
+    {
+        var agora = HorarioBrasil.Agora;
+
+        if (!Validacao.Periodo(filtro.Mes ?? agora.Month, filtro.Ano ?? agora.Year))
+        {
+            filtro.Mes = null;
+            filtro.Ano = null;
+        }
+
+        filtro.Mes ??= agora.Month;
+        filtro.Ano ??= agora.Year;
+
+        return (filtro.Mes.Value, filtro.Ano.Value);
+    }
 
     public async Task<Resultado> Criar(Guid cdUsuario, TransacaoSalvarModel transacao, CancellationToken cancellationToken)
     {
