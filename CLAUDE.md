@@ -125,6 +125,9 @@ Segredo **nunca** em `appsettings.json` nem em código.
 - Valor de desenvolvimento mora no `Properties/launchSettings.json`, que o `dotnet publish`
   não copia para a imagem.
 - `appsettings.json` guarda só o que, faltando a variável, não causa dano nenhum.
+- **Chave do Data Protection é fixa, em `DataProtection__Chave`**, uma por site. É o XML de uma
+  chave com validade de dez anos. Volume não serve porque a Railway monta como root e o contêiner
+  roda sem root. Sem a chave, cada deploy deslogava todo mundo. Trocar a chave desloga todos uma vez.
 
 ## Segurança
 

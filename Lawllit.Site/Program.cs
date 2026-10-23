@@ -3,7 +3,7 @@ using Lawllit.Site.Common;
 using Lawllit.Web;
 using System.Text.Json.Serialization;
 
-var builder = WebApplication.CreateBuilder(args).UseHospedagemLawllit();
+var builder = WebApplication.CreateBuilder(args).UseHospedagemLawllit().AddChavesDeProtecao("lawllit.site");
 
 // Explícito porque a descoberta automática não pega as views compiladas do Lawllit.Web.
 builder.Services.AddControllersWithViews()

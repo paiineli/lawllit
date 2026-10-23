@@ -3,6 +3,8 @@ using System.IO.Compression;
 using System.Threading.RateLimiting;
 using Lawllit.Web.Common;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -26,6 +28,23 @@ public static class WebExtensions
         // Bind em [::] atende IPv4 e IPv6, o que a rede privada da Railway exige.
         var porta = Environment.GetEnvironmentVariable("PORT") ?? "8080";
         builder.WebHost.UseUrls($"http://[::]:{porta}");
+
+        return builder;
+    }
+
+    // Sem chave fixa, cada deploy gerava chave nova: todo mundo era deslogado e formulário aberto falhava no antiforgery.
+    public static WebApplicationBuilder AddChavesDeProtecao(this WebApplicationBuilder builder, string nomeAplicacao)
+    {
+        var protecao = builder.Services.AddDataProtection().SetApplicationName(nomeAplicacao);
+
+        if (builder.Environment.IsDevelopment())
+            return builder;
+
+        var chave = builder.Configuration["DataProtection:Chave"]
+            ?? throw new InvalidOperationException("DataProtection__Chave não configurada no ambiente.");
+
+        protecao.DisableAutomaticKeyGeneration();
+        builder.Services.Configure<KeyManagementOptions>(options => options.XmlRepository = new ChaveFixaRepository(chave));
 
         return builder;
     }
