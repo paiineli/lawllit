@@ -31,7 +31,7 @@ builder.WebHost.UseUrls($"http://[::]:{port}");
 builder.Services.AddProblemDetails();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient();
-builder.Services.AddLawllitApi(builder.Configuration);
+builder.Services.AddLawllitApi(builder.Configuration, builder.Environment.IsDevelopment());
 
 if (builder.Environment.IsDevelopment())
     builder.Services.AddOpenApi();

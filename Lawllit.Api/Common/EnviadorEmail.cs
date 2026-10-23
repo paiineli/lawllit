@@ -5,7 +5,7 @@ namespace Lawllit.Api.Common;
 
 // Fora de Finance porque o contato do portfólio usa o mesmo envio.
 public sealed class EnviadorEmail(
-    IConfiguration configuration,
+    ConfiguracaoEmail configuracao,
     ILogger<EnviadorEmail> logger,
     IHttpClientFactory httpClientFactory) : IEnviadorEmail
 {
@@ -18,15 +18,9 @@ public sealed class EnviadorEmail(
         CancellationToken cancellationToken,
         string? responderPara = null)
     {
-        var remetente = configuration["Email:From"]
-            ?? throw new InvalidOperationException("Email__From não configurado no ambiente.");
-
-        var chaveApi = configuration["Email:ApiKey"]
-            ?? throw new InvalidOperationException("Email__ApiKey não configurada no ambiente.");
-
         var corpo = new Dictionary<string, object>
         {
-            ["from"] = remetente,
+            ["from"] = configuracao.Remetente,
             ["to"] = new[] { destinatario },
             ["subject"] = assunto,
             ["html"] = corpoHtml,
@@ -37,7 +31,7 @@ public sealed class EnviadorEmail(
             corpo["reply_to"] = responderPara;
 
         using var httpClient = httpClientFactory.CreateClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", chaveApi);
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", configuracao.ChaveApi);
 
         using var resposta = await httpClient.PostAsJsonAsync(EndpointResend, corpo, cancellationToken);
 
@@ -48,6 +42,18 @@ public sealed class EnviadorEmail(
             destinatario, (int)resposta.StatusCode, erro);
 
         throw new InvalidOperationException($"Resend respondeu {(int)resposta.StatusCode} ao enviar o e-mail.");
+    }
+}
+
+public sealed record ConfiguracaoEmail(string Remetente, string ChaveApi);
+
+// Só em desenvolvimento sem Resend configurado: o link de confirmação aparece no log em vez de sair por e-mail.
+public sealed class EnviadorEmailLocal(ILogger<EnviadorEmailLocal> logger) : IEnviadorEmail
+{
+    public Task Enviar(string destinatario, string assunto, string corpoHtml, CancellationToken cancellationToken, string? responderPara = null)
+    {
+        logger.LogWarning("E-mail não enviado, só registrado. Para {Destinatario}, assunto {Assunto}: {Corpo}", destinatario, assunto, corpoHtml);
+        return Task.CompletedTask;
     }
 }
 
