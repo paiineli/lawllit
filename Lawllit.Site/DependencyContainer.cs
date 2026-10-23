@@ -12,7 +12,6 @@ public static class DependencyContainer
     {
         services.AddLawllitRepository(configuration).AddRepositoriosContato().AddRepositoriosJogos();
 
-        services.AddHttpClient();
         services.AddSingleton<ITurnstileValidador, TurnstileValidador>();
 
         services.AddLawllitWeb();
