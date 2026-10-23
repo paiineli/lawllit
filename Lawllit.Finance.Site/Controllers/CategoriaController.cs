@@ -2,12 +2,10 @@ using Lawllit.Finance.Site.Models;
 using Lawllit.Model.Common.Enums;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-[Authorize]
 public class CategoriaController(ICategoriaRepository categoriaRepositorio) : BaseController
 {
     [HttpGet]

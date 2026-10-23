@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Lawllit.Finance.Site.Common;
 using Lawllit.Repository;
 using Lawllit.Web;
@@ -51,7 +52,9 @@ public static class DependencyContainer
                 options.Cookie.SecurePolicy = exigenciaHttps;
             });
 
-        services.AddAuthorization();
+        // Tudo exige login por padrão, e o que é público diz isso com [AllowAnonymous]. Controller novo nasce fechado.
+        services.AddAuthorization(options =>
+            options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build());
 
         services.AddAntiforgery(options =>
         {

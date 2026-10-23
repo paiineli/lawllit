@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Lawllit.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
+[AllowAnonymous]
 public class ErroController : Controller
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

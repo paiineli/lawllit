@@ -4,14 +4,12 @@ using Lawllit.Model.Common;
 using Lawllit.Model.Common.Enums;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using System.Text;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-[Authorize]
 public class TransacaoController(
     ITransacaoRepository transacaoRepositorio,
     ICategoriaRepository categoriaRepositorio) : BaseController

@@ -3,12 +3,10 @@ using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lawllit.Finance.Site.Controllers;
 
-[Authorize]
 public class PerfilController(IPerfilRepository perfilRepositorio) : BaseController
 {
     private const string AbaSeguranca = "seguranca";

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Lawllit.Finance.Site.Models;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace Lawllit.Finance.Site.Controllers;
 
+[AllowAnonymous]
 public class ContaController(IAutenticacaoRepository autenticacaoRepositorio) : BaseController
 {
     [HttpGet]

@@ -137,13 +137,14 @@ public static class WebExtensions
 
     public static WebApplication MapSeoLawllit(this WebApplication app, string[] caminhosIndexaveis, string[] caminhosBloqueados)
     {
-        app.MapGet("/health", () => TypedResults.Ok(new { status = "ok" }));
+        // Anônimos de propósito: a Railway checa o /health sem login, e buscador não tem conta.
+        app.MapGet("/health", () => TypedResults.Ok(new { status = "ok" })).AllowAnonymous();
 
         app.MapGet("/robots.txt", (HttpRequest request) =>
-            TypedResults.Text(SeoConteudo.Robots(request, caminhosBloqueados), "text/plain"));
+            TypedResults.Text(SeoConteudo.Robots(request, caminhosBloqueados), "text/plain")).AllowAnonymous();
 
         app.MapGet("/sitemap.xml", (HttpRequest request) =>
-            TypedResults.Text(SeoConteudo.Sitemap(request, caminhosIndexaveis), "application/xml"));
+            TypedResults.Text(SeoConteudo.Sitemap(request, caminhosIndexaveis), "application/xml")).AllowAnonymous();
 
         return app;
     }
