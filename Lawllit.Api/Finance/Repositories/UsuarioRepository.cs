@@ -86,9 +86,9 @@ public sealed class UsuarioRepository(NpgsqlDataSource fonteDados) : IUsuarioRep
     // Exclusão física, única do sistema, porque a LGPD dá direito à eliminação de verdade.
     public async Task Excluir(Guid cdUsuario, CancellationToken cancellationToken)
     {
+        // O OpenConnectionAsync já entrega a conexão aberta. Um Open() aqui lançava e a exclusão nunca rodava.
         await using var conexao = await fonteDados.OpenConnectionAsync(cancellationToken);
-        conexao.Open();
-        using var transacao = conexao.BeginTransaction();
+        await using var transacao = await conexao.BeginTransactionAsync(cancellationToken);
 
         foreach (var consulta in new[]
                  {
@@ -101,7 +101,7 @@ public sealed class UsuarioRepository(NpgsqlDataSource fonteDados) : IUsuarioRep
                 consulta, new { CdUsuario = cdUsuario }, transacao, cancellationToken: cancellationToken));
         }
 
-        transacao.Commit();
+        await transacao.CommitAsync(cancellationToken);
     }
 }
 
