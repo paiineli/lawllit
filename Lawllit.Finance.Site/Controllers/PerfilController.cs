@@ -17,8 +17,12 @@ public class PerfilController(IPerfilRepository perfilRepositorio) : BaseControl
     {
         var perfil = await perfilRepositorio.Consultar(cancellationToken);
 
+        // Conta que sumiu com a sessão aberta: encerra aqui, porque o Sair da Conta só aceita POST.
         if (perfil is null)
-            return RedirectToAction("Sair", "Conta");
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Entrar", "Conta");
+        }
 
         return View(PerfilViewModel.De(perfil, aba));
     }
