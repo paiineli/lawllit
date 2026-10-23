@@ -1,3 +1,4 @@
+using Lawllit.Finance.Site.Common;
 using Lawllit.Repository;
 using Lawllit.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -37,8 +38,10 @@ public static class DependencyContainer
                 options.LoginPath = "/Conta/Entrar";
                 options.LogoutPath = "/Conta/Sair";
                 options.AccessDeniedPath = "/Conta/Entrar";
+                // Sem renovação deslizante: o cookie vence quando o token da API vence, nem antes nem depois.
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
-                options.SlidingExpiration = true;
+                options.SlidingExpiration = false;
+                options.Events.OnValidatePrincipal = SessaoFinance.Validar;
 
                 // Lax e não Strict: o link de confirmação chega de fora, e com Strict a sessão
                 // recém-criada não acompanharia a navegação vinda do e-mail.

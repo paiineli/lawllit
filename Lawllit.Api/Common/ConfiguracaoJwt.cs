@@ -6,7 +6,7 @@ public static class ConfiguracaoJwt
     public const string Audiencia = "lawllit.site";
     public const string ClaimAssunto = "sub";
 
-    // Igual à do cookie dos sites, senão sobra sessão viva com token morto.
+    // O cookie do finance vence junto, pela claim api_token_expira, então só existe um prazo.
     public static readonly TimeSpan Validade = TimeSpan.FromDays(7);
 
     public static string LerChaveSecreta(IConfiguration configuration)

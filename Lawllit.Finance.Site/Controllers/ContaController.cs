@@ -152,7 +152,7 @@ public class ContaController(IAutenticacaoRepository autenticacaoRepositorio) : 
 
     private async Task<IActionResult> AutenticarERedirecionar(AutenticacaoModel autenticacao)
     {
-        await Autenticar(autenticacao.Usuario, autenticacao.Token);
+        await Autenticar(autenticacao.Usuario, autenticacao.Token, new DateTimeOffset(DateTime.SpecifyKind(autenticacao.ExpiraEm, DateTimeKind.Utc)));
         return RedirectToAction("Index", "Painel");
     }
 

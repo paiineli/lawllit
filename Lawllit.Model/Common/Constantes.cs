@@ -11,4 +11,5 @@ public static class Constantes
 
     public const string CabecalhoChaveApi = "X-Api-Key";
     public const string ClaimTokenApi = "api_token";
+    public const string ClaimTokenApiExpira = "api_token_expira";
 }
