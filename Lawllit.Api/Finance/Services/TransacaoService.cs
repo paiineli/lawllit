@@ -74,6 +74,10 @@ public sealed class TransacaoService(
         if (categoria is null)
             return Resultado.Falha("Categoria não encontrada.");
 
+        // A tela só oferece categoria do tipo escolhido, mas a API não pode depender disso.
+        if (categoria.TxTipo != transacao.Tipo)
+            return Resultado.Falha("A categoria escolhida não é desse tipo de lançamento.");
+
         await transacaoRepositorio.Criar(new TransacaoModel
         {
             CdTransacao = Guid.NewGuid(),
@@ -101,6 +105,10 @@ public sealed class TransacaoService(
         var categoria = await categoriaRepositorio.BuscarPorCodigo(cdUsuario, transacao.CodigoCategoria, cancellationToken);
         if (categoria is null)
             return Resultado.Falha("Categoria não encontrada.");
+
+        // A tela só oferece categoria do tipo escolhido, mas a API não pode depender disso.
+        if (categoria.TxTipo != transacao.Tipo)
+            return Resultado.Falha("A categoria escolhida não é desse tipo de lançamento.");
 
         existente.TxDescricao = transacao.Descricao?.Trim() ?? string.Empty;
         existente.VlTransacao = transacao.Valor;
