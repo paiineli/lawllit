@@ -85,10 +85,14 @@
     </div>
 
     <div class="filtros">
-        <label class="busca">
+        @* Digitando filtra a página na hora; o Enter manda para o servidor, que procura em todas as páginas do mês. *@
+        <form class="busca" method="get" asp-action="Index" role="search">
             <icone nome="lupa" />
-            <input type="search" placeholder="Buscar" aria-label="Buscar transação" value="@Model.FiltroBusca" data-busca-viva />
-        </label>
+            <input type="hidden" name="tipo" value="@Model.FiltroTipo" />
+            <input type="hidden" name="mes" value="@Model.FiltroMes" />
+            <input type="hidden" name="ano" value="@Model.FiltroAno" />
+            <input type="search" name="busca" placeholder="Buscar" aria-label="Buscar transação" value="@Model.FiltroBusca" data-busca-viva />
+        </form>
         <nav class="chips chips-rolagem" aria-label="Filtrar por tipo">
             @foreach (var filtro in filtros)
             {

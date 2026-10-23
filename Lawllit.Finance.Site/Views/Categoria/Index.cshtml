@@ -29,10 +29,11 @@
     </div>
 
     <div class="filtros">
-        <label class="busca">
+        <form class="busca" method="get" asp-action="Index" role="search">
             <icone nome="lupa" />
-            <input type="search" placeholder="Buscar" aria-label="Buscar categoria" value="@Model.FiltroBusca" data-busca-viva />
-        </label>
+            <input type="hidden" name="tipo" value="@Model.FiltroTipo" />
+            <input type="search" name="busca" placeholder="Buscar" aria-label="Buscar categoria" value="@Model.FiltroBusca" data-busca-viva />
+        </form>
         <nav class="chips chips-rolagem" aria-label="Filtrar por tipo">
             @foreach (var filtro in filtros)
             {

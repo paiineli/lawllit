@@ -7,7 +7,7 @@
         return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
     }
 
-    // Filtra a lista já renderizada, sem ida ao servidor, porque a página inteira já está na tela.
+    // Filtra na hora o que já está na tela. O Enter envia o formulário, e o servidor procura nas outras páginas.
     function buscar(campo) {
         var termo = normalizar(campo.value.trim());
         var linhas = document.querySelectorAll('[data-linha-busca]');
