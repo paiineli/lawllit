@@ -1,16 +1,17 @@
-using Microsoft.AspNetCore.Authorization;
+using Lawllit.Finance.Site.Common;
 using Lawllit.Finance.Site.Models;
 using Lawllit.Model.Finance.Contratos;
 using Lawllit.Repository.Finance;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
 namespace Lawllit.Finance.Site.Controllers;
 
 [AllowAnonymous]
-public class ContaController(IAutenticacaoRepository autenticacaoRepositorio) : BaseController
+public class ContaController(IAutenticacaoRepository autenticacaoRepositorio, EnderecoFinance endereco) : BaseController
 {
     [HttpGet]
     public IActionResult Entrar()
@@ -159,7 +160,8 @@ public class ContaController(IAutenticacaoRepository autenticacaoRepositorio) : 
     }
 
     // Só o Site conhece as próprias rotas. O {token} é substituído do outro lado.
+    // A origem vem da configuração, e não do Host da requisição, que quem chama controla.
     private string MontarUrlAbsoluta(string action)
-        => Url.Action(action, "Conta", new { token = "__TOKEN__" }, Request.Scheme)!
+        => endereco.Origem + Url.Action(action, "Conta", new { token = "__TOKEN__" })!
             .Replace("__TOKEN__", "{token}");
 }

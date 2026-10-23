@@ -17,6 +17,10 @@ public static class DependencyContainer
     {
         services.AddLawllitRepository(configuration).AddRepositoriosFinance();
 
+        var origem = configuration["Finance:Url"]
+            ?? throw new InvalidOperationException("Finance__Url não configurada no ambiente.");
+        services.AddSingleton(new EnderecoFinance(origem.TrimEnd('/')));
+
         AddAutenticacao(services, desenvolvimento);
 
         services.AddLawllitWeb();
