@@ -82,6 +82,8 @@
     --raio-pequeno: 14px;
     --largura: 1200px;
     --respiro: 20px;
+    --espaco-topo: clamp(24px, 4vw, 44px);
+    --espaco-rodape: clamp(48px, 7vw, 80px);
     --transicao: 160ms ease;
 }
 
@@ -192,9 +194,13 @@
 
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
+/* Coluna da altura da tela com o main esticando, para o rodapé ficar no fim mesmo em página curta. */
 body {
     margin: 0;
     min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
     background: var(--fundo);
     color: var(--texto);
     font-family: var(--fonte-texto);
@@ -233,6 +239,8 @@ code, pre, kbd { font-family: var(--fonte-codigo); font-size: 0.92em; }
 
 /* ---------- layout ---------- */
 
+body > main { flex: 1 0 auto; width: 100%; }
+
 .conteiner {
     width: 100%;
     max-width: var(--largura);
@@ -252,9 +260,20 @@ code, pre, kbd { font-family: var(--fonte-codigo); font-size: 0.92em; }
 
 .so-celular { display: none !important; }
 
+/* Título da página com a ação ao lado, que continua na mesma linha no celular. */
+.cabecalho-pagina { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cabecalho-pagina > :first-child { min-width: 0; }
+.cabecalho-pagina > :last-child { flex: none; }
+
+.conteiner-estreito { max-width: calc(760px + 2 * var(--respiro)); }
+
 @media (max-width: 640px) {
     .so-celular { display: flex !important; }
     .so-computador { display: none !important; }
+
+    /* Botão de ação do cabeçalho fica só com o ícone, o nome segue no aria-label. */
+    .botao.botao-recolhe { width: 44px; min-height: 44px; height: 44px; padding: 0; }
+    .botao-recolhe > span { display: none; }
     .secao { padding-block: 56px; }
 }
 
@@ -382,8 +401,6 @@ code, pre, kbd { font-family: var(--fonte-codigo); font-size: 0.92em; }
 /* ---------- chips e controle segmentado ---------- */
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips-rolagem { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
-.chips-rolagem::-webkit-scrollbar { display: none; }
 
 .chip {
     flex: none;
@@ -406,6 +423,12 @@ code, pre, kbd { font-family: var(--fonte-codigo); font-size: 0.92em; }
 .chip[aria-pressed="true"], .chip[aria-current="page"], .chip:has(input:checked) { background: var(--texto); border-color: var(--texto); color: var(--fundo); }
 .chip input { position: absolute; opacity: 0; pointer-events: none; }
 .chip-pequeno { min-height: 40px; padding: 0 14px; }
+
+/* No celular as pílulas quebram linha e repartem a largura, então nenhuma fica cortada na borda. Quatro longas vão de duas em duas. */
+@media (max-width: 640px) {
+    .chips > .chip { flex: 1 1 auto; justify-content: center; }
+    .chips-par { display: grid; grid-template-columns: 1fr 1fr; }
+}
 
 .segmentado { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--superficie-2); }
 
@@ -589,7 +612,7 @@ button.lista-item:hover, a.lista-item:hover { background: var(--superficie-2); }
 
 /* ---------- página de erro ---------- */
 
-.erro-pagina { padding-block: 96px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.erro-pagina { padding-block: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
 
 /* ---------- avisos ---------- */
 
@@ -663,7 +686,7 @@ button.lista-item:hover, a.lista-item:hover { background: var(--superficie-2); }
 
 /* ---------- topo e navegação ---------- */
 
-.topo { position: relative; z-index: 20; }
+.topo { position: relative; z-index: 20; margin-bottom: var(--espaco-topo); }
 .topo-linha { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 14px; }
 .topo-acoes { display: flex; align-items: center; gap: 8px; }
 
@@ -731,10 +754,64 @@ button.lista-item:hover, a.lista-item:hover { background: var(--superficie-2); }
 
 .botao-flutuante .icone { width: 26px; height: 26px; stroke-width: 2.6; }
 
-.rodape { padding-block: 28px; color: var(--texto-suave); font-size: 0.875rem; }
-.rodape-links { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-.rodape-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--texto-suave); }
-.rodape-links a:hover { color: var(--texto); }
+.rodape {
+    margin-top: var(--espaco-rodape);
+    padding-block: 40px calc(28px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--borda);
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+/* Página que termina numa seção de fundo próprio, como a home, já se separa do rodapé por ela. */
+body:has(> main > .secao:last-child) .rodape { margin-top: 0; }
+
+.rodape-conteudo { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 32px 64px; }
+.rodape-marca { display: flex; flex-direction: column; gap: 6px; max-width: 320px; }
+.marca-rodape { font-size: 1.25rem; }
+.rodape-grupos { display: flex; flex-wrap: wrap; gap: 24px 64px; }
+.rodape-grupo { display: flex; flex-direction: column; }
+.rodape-grupo-titulo { margin-bottom: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto); }
+.rodape-grupo a { display: inline-flex; align-items: center; min-height: 40px; color: var(--texto-suave); text-decoration: none; }
+.rodape-grupo a:hover { color: var(--texto); text-decoration: underline; }
+.rodape-grupo-linha { flex-direction: row; flex-wrap: wrap; gap: 0 24px; }
+.rodape-direitos { font-size: 0.8125rem; opacity: 0.8; }
+
+/* No celular tudo fica no eixo do meio, com os grupos lado a lado. */
+@media (max-width: 640px) {
+    .rodape-conteudo, .rodape-marca, .rodape-grupo { align-items: center; text-align: center; }
+    .rodape-grupo-linha { justify-content: center; }
+    .rodape-conteudo { flex-direction: column; }
+    .rodape-marca { max-width: none; }
+    .rodape-grupos { width: 100%; justify-content: space-evenly; gap: 24px; }
+}
+
+/* ---------- voltar ao topo ---------- */
+
+.voltar-topo {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 40;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--borda-forte);
+    border-radius: 50%;
+    background: var(--superficie);
+    color: var(--texto);
+    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity var(--transicao), transform var(--transicao), visibility var(--transicao);
+}
+
+.voltar-topo.visivel { opacity: 1; visibility: visible; transform: none; }
+.voltar-topo:hover { border-color: var(--texto); }
+.voltar-topo .icone { width: 22px; height: 22px; stroke-width: 2.4; }
 
 /* ---------- paginação ---------- */
 

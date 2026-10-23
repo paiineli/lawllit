@@ -13,7 +13,7 @@
         <h1 class="titulo-gigante">Ferramentas<span class="destaque">.</span></h1>
         <p class="texto-grande texto-suave ferramentas-sub">Tarefas chatas do dia a dia, resolvidas em um toque. Tudo acontece no seu aparelho, nenhum arquivo é enviado para lugar nenhum.</p>
 
-        <nav class="chips chips-rolagem ferramentas-atalhos" aria-label="Grupos de ferramentas">
+        <nav class="chips chips-par ferramentas-atalhos" aria-label="Grupos de ferramentas">
             @foreach (var grupo in Ferramentas.Grupos)
             {
                 <a class="chip" href="#@grupo.Ancora">@grupo.Categoria</a>
@@ -52,6 +52,6 @@
             <h2 class="titulo-cartao">Seus arquivos não saem do seu aparelho.</h2>
             <p class="texto-suave">Tudo é feito no próprio navegador. A única exceção é a consulta de CEP, que manda só o CEP digitado para um serviço público de endereços.</p>
         </div>
-        <a class="botao botao-primario" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">Precisa de algo sob medida? <icone nome="seta-direita" /></a>
+        <a class="botao botao-primario" asp-controller="Inicio" asp-action="Index" asp-fragment="contato">Precisa de algo sob medida?</a>
     </section>
 </main>

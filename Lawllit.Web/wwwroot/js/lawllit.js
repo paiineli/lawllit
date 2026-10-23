@@ -125,7 +125,31 @@ window.Lawllit = (function () {
         });
     }
 
+    function vigiarVoltarTopo() {
+        var botao = document.querySelector('[data-voltar-topo]');
+        if (!botao) return;
+
+        var agendado = false;
+        var atualizar = function () {
+            agendado = false;
+            botao.classList.toggle('visivel', window.scrollY > window.innerHeight);
+        };
+
+        window.addEventListener('scroll', function () {
+            if (agendado) return;
+            agendado = true;
+            requestAnimationFrame(atualizar);
+        }, { passive: true });
+
+        atualizar();
+    }
+
     document.addEventListener('click', function (evento) {
+        if (evento.target.closest('[data-voltar-topo]')) {
+            window.scrollTo({ top: 0 });
+            return;
+        }
+
         var abrir = evento.target.closest('[data-abrir]');
         if (abrir) {
             var gaveta = document.getElementById(abrir.getAttribute('data-abrir'));
@@ -156,6 +180,7 @@ window.Lawllit = (function () {
     document.addEventListener('DOMContentLoaded', function () {
         aplicarMedidas(document);
         revelar();
+        vigiarVoltarTopo();
 
         // Aviso que veio pronto do servidor some no mesmo tempo do que nasce em JS.
         document.querySelectorAll('.aviso').forEach(function (aviso) {

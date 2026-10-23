@@ -1,7 +1,5 @@
 /* O que é só do lawllit.com. Tokens e componentes vêm do lawllit.css do Lawllit.Web. */
 
-.marca-rodape { font-size: 1.25rem; }
-
 /* O menu do portfólio marca a página atual com fundo suave, para não competir com o pedido de orçamento. */
 .menu-site { align-items: center; }
 .menu-site a[aria-current="page"] { background: var(--superficie-2); color: var(--texto); }
@@ -20,7 +18,7 @@
 
 /* ---------- home: abertura ---------- */
 
-.inicio-topo { padding-top: 40px; padding-bottom: 24px; }
+.inicio-topo { padding-bottom: 24px; }
 .inicio-topo h1 { max-width: 900px; }
 .inicio-sub { margin-top: 20px; max-width: 560px; }
 .inicio-cenarios { margin-top: 28px; }
@@ -134,6 +132,13 @@
 .prova-chamada { font-weight: 700; }
 .prova-sub { margin: 14px 0 24px; font-weight: 500; }
 
+/* No celular as chamadas da home ficam no eixo do meio, com o botão centralizado. */
+@media (max-width: 640px) {
+    .prova-texto, .transformacao-rodape { text-align: center; }
+    .transformacao-rodape { justify-content: center; }
+    .inicio-ideias-acao { display: flex; width: fit-content; margin-inline: auto; }
+}
+
 .botao-escuro-destaque { background: var(--sobre-destaque); color: var(--destaque); }
 
 /* O desenho do celular é sempre claro por dentro, como a tela do app aberta. */
@@ -155,7 +160,6 @@
 .atalho-numero .icone { width: 28px; height: 28px; }
 .atalho-texto { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 
-.barra-acao { position: sticky; bottom: 0; z-index: 25; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--borda); background: var(--fundo); }
 
 /* ---------- contato ---------- */
 

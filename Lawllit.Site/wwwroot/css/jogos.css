@@ -85,9 +85,8 @@ body:has(> .jogo-pagina) { background: var(--fundo-pagina-jogo); }
 
 /* ---------- hub ---------- */
 
-.jogos-topo { padding-top: 40px; padding-bottom: 32px; }
+.jogos-topo { padding-bottom: 32px; }
 .jogos-sub { margin-top: 20px; max-width: 600px; }
-.jogos-conteudo { padding-bottom: 32px; }
 
 .jogos-grade { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
 
@@ -327,7 +326,6 @@ img.confronto-escudo { padding: 3px; border-radius: 8px; background: var(--fundo
 .jogo-secao { padding-top: 56px; }
 .jogo-secao-topo { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; margin-bottom: 24px; }
 .jogo-secao-sub { max-width: 60ch; margin: -8px 0 20px; }
-.jogo-rodape { padding-bottom: 32px; }
 
 /* ---------- agenda ---------- */
 

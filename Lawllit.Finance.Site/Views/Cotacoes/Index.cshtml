@@ -5,12 +5,12 @@
 }
 
 <main class="conteiner pagina">
-    <div class="linha-espacada">
+    <div class="cabecalho-pagina">
         <div>
             <p class="texto-pequeno texto-suave">Quanto vale cada moeda em real, agora</p>
             <h1 class="titulo-grande">Cotações</h1>
         </div>
-        <a asp-action="Index" class="botao botao-contorno"><icone nome="atualizar" />Atualizar</a>
+        <a asp-action="Index" class="botao botao-contorno botao-recolhe" aria-label="Atualizar"><icone nome="atualizar" /><span>Atualizar</span></a>
     </div>
 
     @if (!Model.Any())
@@ -26,17 +26,17 @@
         <div class="grade cotacoes">
             @foreach (var cotacao in Model)
             {
-                var formato = "F" + cotacao.CasasDecimais;
+                var formato = "N" + cotacao.CasasDecimais;
                 var subiu = cotacao.VariacaoPercentual >= 0;
                 <section class="cartao cotacao">
-                    <div class="linha-espacada">
+                    <div class="cotacao-topo">
                         <p class="cotacao-moeda"><span class="cotacao-bandeira" aria-hidden="true">@cotacao.Bandeira</span>@cotacao.Rotulo</p>
                         <span class="selo @(subiu ? "selo-ok" : "selo-erro")">
                             <icone nome="@(subiu ? "grafico-sobe" : "grafico-desce")" />@((subiu ? "+" : "") + cotacao.VariacaoPercentual.ToString("F2", cultura))%
                         </span>
                     </div>
                     <p class="numero cotacao-valor">R$ @cotacao.ValorCompra.ToString(formato, cultura)</p>
-                    <div class="linha texto-pequeno texto-suave tabular">
+                    <div class="cotacao-faixa texto-pequeno texto-suave tabular">
                         <span>Máxima @cotacao.MaximaDia.ToString(formato, cultura)</span>
                         <span>Mínima @cotacao.MinimaDia.ToString(formato, cultura)</span>
                     </div>

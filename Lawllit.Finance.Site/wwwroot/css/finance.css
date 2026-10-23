@@ -1,8 +1,6 @@
 /* O que é só do finance. Tokens e componentes vêm do lawllit.css do Lawllit.Web. */
 
-.marca-rodape { font-size: 1.25rem; }
-
-.pagina { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; padding-bottom: 48px; }
+.pagina { display: flex; flex-direction: column; gap: 16px; }
 
 .periodo { display: flex; align-items: center; gap: 4px; }
 .periodo .titulo-grande { line-height: 1.05; }
@@ -12,7 +10,7 @@
 
 /* ---------- entrada pública ---------- */
 
-.boas-vindas { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding-block: 48px 24px; }
+.boas-vindas { display: flex; flex-wrap: wrap; align-items: center; gap: 48px; }
 .boas-vindas-texto { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
 .boas-vindas-beneficios { --grade-minimo: 260px; }
 .boas-vindas-beneficios .titulo-cartao { margin: 16px 0 6px; }
@@ -25,7 +23,7 @@
 
 /* ---------- conta ---------- */
 
-.acesso { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; padding-block: 40px 64px; }
+.acesso { display: flex; flex-wrap: wrap; align-items: center; gap: 56px; }
 .acesso-chamada { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .acesso-cartao { flex: 1 1 380px; max-width: 480px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; padding: clamp(22px, 4vw, 36px); }
 .acesso-link { align-self: flex-start; font-size: 0.875rem; font-weight: 600; color: var(--destaque-texto); }
@@ -75,6 +73,11 @@
 .ranking-corpo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
 .ranking-linha { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; }
 .ranking-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ranking-valor { flex: none; white-space: nowrap; }
+.ranking-mais { margin-top: 16px; }
+.ranking-mais summary { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.875rem; font-weight: 700; color: var(--invertido-suave); cursor: pointer; }
+.ranking-mais summary:hover { color: var(--sobre-invertido); }
+.ranking-mais .ranking { margin-top: 8px; }
 .ranking-variacao { flex: 0 0 56px; text-align: right; font-size: 0.8125rem; font-weight: 700; }
 .cartao-invertido .barra-trilho { background: var(--invertido-superficie); }
 
@@ -89,8 +92,18 @@
 
 /* ---------- transações e categorias ---------- */
 
-.totais { gap: 8px; }
-.totais b { font-weight: 700; }
+/* Os três totais repartem a linha por igual, nome em cima e valor embaixo. */
+.totais { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+.total { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid var(--borda); border-radius: var(--raio-medio); background: var(--superficie); }
+.total .legenda-solta { font-size: 0.8125rem; }
+.total b { font-weight: 700; white-space: nowrap; }
+
+/* No celular três colunas cortavam o valor, então cada total vira uma linha com o nome à esquerda. */
+@media (max-width: 640px) {
+    .totais { grid-auto-flow: row; gap: 0; border: 1px solid var(--borda); border-radius: var(--raio-medio); background: var(--superficie); }
+    .total { flex-direction: row; align-items: center; justify-content: space-between; border: 0; border-radius: 0; background: none; }
+    .total + .total { border-top: 1px solid var(--borda); }
+}
 
 .dia { display: flex; flex-direction: column; gap: 8px; }
 .dia-titulo { display: flex; justify-content: space-between; gap: 12px; padding-inline: 4px; font-family: var(--fonte-texto); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0; color: var(--texto-suave); }
@@ -140,7 +153,11 @@
 
 .cotacoes { --grade-minimo: 260px; }
 .cotacao { display: flex; flex-direction: column; gap: 10px; }
-.cotacao-moeda { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.cotacao-topo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cotacao-topo .selo { flex: none; }
+.cotacao-moeda { min-width: 0; display: flex; align-items: center; gap: 10px; font-weight: 700; line-height: 1.2; }
+.cotacao-faixa { display: flex; flex-wrap: wrap; gap: 2px 14px; }
+.cotacao-faixa span { white-space: nowrap; }
 .cotacao-bandeira { font-size: 1.5rem; line-height: 1; }
 .cotacao-valor { font-size: 2rem; }
 
@@ -148,22 +165,29 @@
 
 .perfil-cabecalho { display: flex; align-items: center; gap: 18px; }
 .perfil-avatar { width: 72px; height: 72px; flex: none; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--destaque); color: var(--sobre-destaque); font-family: var(--fonte-titulo); font-size: 2rem; font-weight: 800; }
-.perfil-secao { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
+.perfil-secao { display: flex; flex-direction: column; gap: 16px; }
 .perfil-secao .botao { align-self: flex-start; }
 .perfil-perigo { border-color: color-mix(in srgb, var(--erro) 40%, transparent); }
 
 /* ---------- legal e erro ---------- */
 
-.legal { padding-block: 24px 48px; }
-.legal-texto { max-width: 760px; display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 5vw, 48px); }
+.legal-texto { max-width: 760px; margin-inline: auto; display: flex; flex-direction: column; gap: 14px; padding: clamp(22px, 5vw, 48px); }
 .legal-texto .titulo-cartao { margin-top: 12px; }
 .legal-texto ul { margin: 0; padding-left: 20px; }
 .legal-texto a { color: var(--destaque-texto); font-weight: 600; }
-.legal-links { display: flex; gap: 20px; max-width: 760px; margin-top: 16px; }
-.legal-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--texto-suave); }
 
-/* No celular a chamada das telas de conta some e o título do período encolhe para caber com as setas. */
+/* No celular o título do período encolhe para caber com as setas, e a chamada das telas de conta fica no eixo do meio. */
 @media (max-width: 640px) {
-    .acesso { padding-top: 16px; }
     .periodo .titulo-grande { font-size: 2rem; }
+
+    .painel-cabecalho { flex-direction: column; justify-content: center; }
+    .ranking-linha { flex-direction: column; gap: 0; }
+    .painel-cabecalho .periodo { text-align: center; }
+
+    .acesso { gap: 24px; }
+    .acesso-chamada { flex-basis: 100%; align-items: center; gap: 0; text-align: center; }
+    .acesso-chamada .titulo-gigante { font-size: 2.25rem; }
+    .acesso-chamada p { display: none; }
+
+    .boas-vindas-texto .linha > .botao { flex: 1 1 auto; }
 }

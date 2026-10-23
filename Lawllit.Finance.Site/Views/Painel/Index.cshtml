@@ -42,6 +42,24 @@
 
     var maiorCategoria = Model.DespesasPorCategoria.Select(categoria => categoria.Total).DefaultIfEmpty(0).Max();
 
+    void ItemRanking(ComparativoCategoriaModel categoria)
+    {
+        var participacao = Model.TotalRanking > 0 ? categoria.Total / Model.TotalRanking * 100 : 0;
+        var variacao = Variacao(categoria.VariacaoPercentual, false);
+
+        <li class="ranking-item">
+            <span class="ranking-percentual">@participacao.ToString("F0", cultura)%</span>
+            <span class="ranking-corpo">
+                <span class="ranking-linha">
+                    <span class="ranking-nome">@categoria.NomeCategoria</span>
+                    <span class="ranking-valor tabular">@Moeda(categoria.Total)</span>
+                </span>
+                <span class="barra-trilho"><span class="barra-preenchimento" data-largura="@Medida(categoria.Total, maiorCategoria)"></span></span>
+            </span>
+            <span class="ranking-variacao @(variacao?.Classe ?? "texto-suave")">@(variacao?.Texto ?? "novo")</span>
+        </li>
+    }
+
     // Linha zerada fica de fora, senão quase todo mês sobraria um "aporte variável" de R$ 0,00.
     var linhasSaida = new[]
     {
@@ -53,7 +71,7 @@
 }
 
 <main class="conteiner pagina">
-    <div class="linha-espacada">
+    <div class="linha-espacada painel-cabecalho">
         <div class="periodo">
             <a class="botao botao-icone botao-icone-plano" asp-action="Index" asp-route-periodo="@Model.Periodo"
                asp-route-mes="@Model.MesAnterior" asp-route-ano="@Model.AnoAnterior"
@@ -113,29 +131,26 @@
             @if (Model.DespesasPorCategoria.Any())
             {
                 <ol class="ranking">
-                    @foreach (var categoria in Model.DespesasPorCategoria)
+                    @foreach (var categoria in Model.DespesasPorCategoria.Take(RankingVisivel))
                     {
-                        var participacao = Model.TotalRanking > 0 ? categoria.Total / Model.TotalRanking * 100 : 0;
-                        <li class="ranking-item">
-                            <span class="ranking-percentual">@participacao.ToString("F0", cultura)%</span>
-                            <span class="ranking-corpo">
-                                <span class="ranking-linha">
-                                    <span class="ranking-nome">@categoria.NomeCategoria</span>
-                                    <span class="tabular">@Moeda(categoria.Total)</span>
-                                </span>
-                                <span class="barra-trilho"><span class="barra-preenchimento" data-largura="@Medida(categoria.Total, maiorCategoria)"></span></span>
-                            </span>
-                            @if (Variacao(categoria.VariacaoPercentual, false) is { } variacao)
-                            {
-                                <span class="ranking-variacao @variacao.Classe">@variacao.Texto</span>
-                            }
-                            else
-                            {
-                                <span class="ranking-variacao texto-suave">novo</span>
-                            }
-                        </li>
+                        ItemRanking(categoria);
                     }
                 </ol>
+
+                @* Com muita categoria a lista esticava o cartão e o gráfico ao lado junto, então o resto fica recolhido. *@
+                var restantes = Model.DespesasPorCategoria.Skip(RankingVisivel).ToList();
+                if (restantes.Count > 0)
+                {
+                    <details class="ranking-mais">
+                        <summary>Ver mais @restantes.Count @(restantes.Count == 1 ? "categoria" : "categorias")</summary>
+                        <ol class="ranking" start="@(RankingVisivel + 1)">
+                            @foreach (var categoria in restantes)
+                            {
+                                ItemRanking(categoria);
+                            }
+                        </ol>
+                    </details>
+                }
             }
             else
             {
@@ -276,5 +291,7 @@
 </main>
 
 @functions {
+    private const int RankingVisivel = 6;
+
     private static string Maiuscula(string texto) => texto.Length == 0 ? texto : char.ToUpper(texto[0]) + texto[1..];
 }

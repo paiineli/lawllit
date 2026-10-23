@@ -78,13 +78,19 @@
     @RenderBody()
 
     <footer class="rodape">
-        <div class="conteiner linha-espacada">
-            <a class="marca marca-rodape" href="@Configuracao["Site:Url"]">lawllit<span class="marca-ponto">.</span></a>
-            <nav class="rodape-links" aria-label="Rodapé">
-                <a asp-controller="Legal" asp-action="Privacidade">Privacidade</a>
-                <a asp-controller="Legal" asp-action="Termos">Termos</a>
-                <a href="@Configuracao["Site:Url"]">lawllit.com</a>
-            </nav>
+        <div class="conteiner">
+            <div class="rodape-conteudo">
+                <div class="rodape-marca">
+                    <a class="marca marca-rodape" href="@Configuracao["Site:Url"]">lawllit<span class="marca-ponto">.</span><span class="marca-sufixo">finance</span></a>
+                    <p>Suas finanças. Simples assim.</p>
+                    <p class="rodape-direitos">© @HorarioBrasil.Agora.Year lawllit.</p>
+                </div>
+                <nav class="rodape-grupo rodape-grupo-linha" aria-label="Rodapé">
+                    <a asp-controller="Legal" asp-action="Privacidade">Privacidade</a>
+                    <a asp-controller="Legal" asp-action="Termos">Termos de uso</a>
+                    <a href="@Configuracao["Site:Url"]">lawllit.com</a>
+                </nav>
+            </div>
         </div>
     </footer>
 

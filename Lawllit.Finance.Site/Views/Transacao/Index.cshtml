@@ -57,7 +57,7 @@
 }
 
 <main class="conteiner pagina">
-    <div class="linha-espacada">
+    <div class="cabecalho-pagina">
         <div class="periodo">
             <a class="botao botao-icone botao-icone-plano" asp-action="Index" asp-route-tipo="@Model.FiltroTipo"
                asp-route-mes="@mesAnterior.Month" asp-route-ano="@mesAnterior.Year" aria-label="Mês anterior"><icone nome="chevron-esquerda" /></a>
@@ -72,8 +72,8 @@
         <div class="linha">
             @if (Model.Transacoes.Any())
             {
-                <a class="botao botao-contorno" asp-action="Exportar" asp-route-tipo="@Model.FiltroTipo" asp-route-mes="@Model.FiltroMes"
-                   asp-route-ano="@Model.FiltroAno" asp-route-busca="@Model.FiltroBusca"><icone nome="download" />Exportar</a>
+                <a class="botao botao-contorno botao-recolhe" asp-action="Exportar" asp-route-tipo="@Model.FiltroTipo" asp-route-mes="@Model.FiltroMes"
+                   asp-route-ano="@Model.FiltroAno" asp-route-busca="@Model.FiltroBusca" aria-label="Exportar"><icone nome="download" /><span>Exportar</span></a>
             }
             @if (Model.Categorias.Any())
             {
@@ -93,7 +93,7 @@
             <input type="hidden" name="ano" value="@Model.FiltroAno" />
             <input type="search" name="busca" placeholder="Buscar" aria-label="Buscar transação" value="@Model.FiltroBusca" data-busca-viva />
         </form>
-        <nav class="chips chips-rolagem" aria-label="Filtrar por tipo">
+        <nav class="chips" aria-label="Filtrar por tipo">
             @foreach (var filtro in filtros)
             {
                 <a class="chip" asp-action="Index" asp-route-tipo="@filtro.Tipo" asp-route-mes="@Model.FiltroMes" asp-route-ano="@Model.FiltroAno"
@@ -116,12 +116,12 @@
 
     @if (Model.Transacoes.Any())
     {
-        <div class="linha totais">
-            <span class="legenda cor-receita">Entrou <b class="tabular">@Moeda(Model.TotalReceitas)</b></span>
-            <span class="legenda cor-despesa">Saiu <b class="tabular">@Moeda(Model.TotalDespesas)</b></span>
+        <div class="totais">
+            <p class="total"><span class="legenda-solta cor-receita">Entrou</span><b class="tabular">@Moeda(Model.TotalReceitas)</b></p>
+            <p class="total"><span class="legenda-solta cor-despesa">Saiu</span><b class="tabular">@Moeda(Model.TotalDespesas)</b></p>
             @if (Model.TotalInvestimentos > 0)
             {
-                <span class="legenda cor-investimento">Investido <b class="tabular">@Moeda(Model.TotalInvestimentos)</b></span>
+                <p class="total"><span class="legenda-solta cor-investimento">Investido</span><b class="tabular">@Moeda(Model.TotalInvestimentos)</b></p>
             }
         </div>
 

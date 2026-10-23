@@ -40,7 +40,7 @@
         <div class="conteiner topo-linha">
             <a class="marca" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
 
-            @* No celular os nomes viram ícone e o pedido de orçamento sai, porque a home tem o botão fixo embaixo. *@
+            @* No celular os nomes viram ícone e o pedido de orçamento sai, para o menu caber numa linha só. *@
             <nav class="menu-pilula menu-site" aria-label="Principal">
                 <a asp-controller="Inicio" asp-action="Index" aria-current="@(controller == "Inicio" ? "page" : null)" aria-label="Home">
                     <icone nome="casa" class="so-celular" /><span class="so-computador">Home</span>
@@ -66,19 +66,34 @@
     @RenderBody()
 
     <footer class="rodape">
-        <div class="conteiner linha-espacada">
-            <a class="marca marca-rodape" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
-            <nav class="rodape-links" aria-label="Rodapé">
-                <a href="@Configuration["Finance:Url"]">Finance</a>
-                <a asp-controller="Ferramentas" asp-action="Index">Ferramentas</a>
-                <a asp-controller="Jogos" asp-action="Index">Jogos</a>
-                <a href="@Perfil.CurriculoPdf" target="_blank">Currículo</a>
-                <a href="https://@Perfil.LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                <a href="https://@Perfil.GitHub" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="mailto:@Perfil.Email">@Perfil.Email</a>
-            </nav>
+        <div class="conteiner">
+            <div class="rodape-conteudo">
+                <div class="rodape-marca">
+                    <a class="marca marca-rodape" asp-controller="Inicio" asp-action="Index">lawllit<span class="marca-ponto">.</span></a>
+                    <p>Sistemas sob medida, do orçamento à entrega.</p>
+                    <p class="rodape-direitos">© @HorarioBrasil.Agora.Year lawllit.</p>
+                </div>
+                <div class="rodape-grupos">
+                    <nav class="rodape-grupo" aria-label="Páginas">
+                        <span class="rodape-grupo-titulo">Páginas</span>
+                        <a href="@Configuration["Finance:Url"]">Finance</a>
+                        <a asp-controller="Ferramentas" asp-action="Index">Ferramentas</a>
+                        <a asp-controller="Jogos" asp-action="Index">Jogos</a>
+                    </nav>
+                    <nav class="rodape-grupo" aria-label="Contato">
+                        <span class="rodape-grupo-titulo">Contato</span>
+                        <a href="mailto:@Perfil.Email">E-mail</a>
+                        <a href="https://@Perfil.LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a href="https://@Perfil.GitHub" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="@Perfil.CurriculoPdf" target="_blank">Currículo</a>
+                    </nav>
+                </div>
+            </div>
         </div>
     </footer>
+
+    @* Aparece depois que a pessoa desce uma tela, quem controla é o lawllit.js. *@
+    <button type="button" class="voltar-topo" data-voltar-topo aria-label="Voltar ao topo"><icone nome="chevron-cima" /></button>
 
     <script src="~/_content/Lawllit.Web/js/lawllit.js" asp-append-version="true" defer></script>
     @await RenderSectionAsync("Scripts", required: false)

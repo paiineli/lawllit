@@ -9,6 +9,7 @@ public static class Icones
         ["seta-diagonal"] = "M7 17 17 7M8 7h9v9",
         ["chevron-esquerda"] = "m15 6-6 6 6 6",
         ["chevron-direita"] = "m9 6 6 6-6 6",
+        ["chevron-cima"] = "m6 15 6-6 6 6",
         ["mais"] = "M12 5v14M5 12h14",
         ["fechar"] = "M6 6l12 12M18 6 6 18",
         ["check"] = "M20 6 9 17l-5-5",

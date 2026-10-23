@@ -19,7 +19,7 @@
 }
 
 <main class="conteiner pagina">
-    <div class="linha-espacada">
+    <div class="cabecalho-pagina">
         <div>
             <p class="texto-pequeno texto-suave">@Model.Categorias.Count @(Model.Categorias.Count == 1 ? "categoria" : "categorias")</p>
             <h1 class="titulo-grande">Categorias</h1>
@@ -34,7 +34,7 @@
             <input type="hidden" name="tipo" value="@Model.FiltroTipo" />
             <input type="search" name="busca" placeholder="Buscar" aria-label="Buscar categoria" value="@Model.FiltroBusca" data-busca-viva />
         </form>
-        <nav class="chips chips-rolagem" aria-label="Filtrar por tipo">
+        <nav class="chips chips-par" aria-label="Filtrar por tipo">
             @foreach (var filtro in filtros)
             {
                 <a class="chip" asp-action="Index" asp-route-tipo="@filtro.Tipo" asp-route-busca="@Model.FiltroBusca"

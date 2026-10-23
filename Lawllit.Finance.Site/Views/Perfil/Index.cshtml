@@ -14,7 +14,7 @@
     var tamanhos = new (string Valor, string Rotulo)[] { ("normal", "Normal"), ("large", "Grande"), ("xlarge", "Muito grande") };
 }
 
-<main class="conteiner pagina">
+<main class="conteiner conteiner-estreito pagina">
     <section class="perfil-cabecalho">
         <span class="perfil-avatar" aria-hidden="true">@Model.Nome[..1].ToUpper()</span>
         <div>
@@ -23,7 +23,7 @@
         </div>
     </section>
 
-    <nav class="chips chips-rolagem" aria-label="Seções do perfil">
+    <nav class="chips chips-par" aria-label="Seções do perfil">
         @foreach (var aba in abas)
         {
             <a class="chip" asp-action="Index" asp-route-aba="@aba.Rota" aria-current="@(Model.AbaAtiva == aba.Chave ? "page" : null)">@aba.Rotulo</a>

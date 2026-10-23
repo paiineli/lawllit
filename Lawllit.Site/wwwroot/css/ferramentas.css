@@ -2,7 +2,6 @@
 
 /* ---------- índice ---------- */
 
-.ferramentas-topo { padding-top: 40px; }
 .ferramentas-topo h1 { max-width: 900px; }
 .ferramentas-sub { margin-top: 20px; max-width: 600px; }
 .ferramentas-atalhos { margin-top: 28px; }
@@ -25,7 +24,6 @@
 
 /* ---------- página de uma ferramenta ---------- */
 
-.ferramenta-pagina { padding-top: 24px; padding-bottom: 72px; }
 .ferramenta-titulo { display: flex; align-items: center; gap: 16px; margin-top: 28px; }
 .ferramenta-titulo .icone-quadro { width: 56px; height: 56px; }
 .ferramenta-titulo .icone { width: 26px; height: 26px; }
